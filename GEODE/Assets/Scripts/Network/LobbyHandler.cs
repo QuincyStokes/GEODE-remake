@@ -26,8 +26,12 @@ public class LobbyHandler : MonoBehaviour
     [SerializeField] private YourLobby yourLobby;
     private Lobby hostLobby;
     private float heartbeatTimer;
+    private float lobbyUpdateTimer;
+    public static event Action<Lobby> onLobbyUpdated;
 
-    private async void Start()
+
+
+    private void Start()
     {
         //initialize the unity services
         //dont need this since we're claing it in the menu before this now.
@@ -50,6 +54,7 @@ public class LobbyHandler : MonoBehaviour
         if(hostLobby != null)
         {
             HeartbeatTimer();
+            HandleLobbyUpdatePoll();
         }        
     }
     /// <summary>
@@ -84,7 +89,7 @@ public class LobbyHandler : MonoBehaviour
             if(lobbyNameField.text != "")
             {
                 Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, createLobbyOptions);
-                Debug.Log("Created lobby " + lobby.Name + " with max players: " + lobby.MaxPlayers);
+                Debug.Log("Created lobby " + lobby.Name + " with max players: " + lobby.MaxPlayers + "CODE: " + lobby.LobbyCode);
                 hostLobby = lobby;
             }
             else
@@ -94,7 +99,7 @@ public class LobbyHandler : MonoBehaviour
            
             PrintCurrentPlayers();
             yourLobby.SetLobby(hostLobby);
-            yourLobby.UpdatePlayerList();
+            //yourLobby.UpdatePlayerList();
         }
         catch (LobbyServiceException e)
         {
@@ -122,6 +127,22 @@ public class LobbyHandler : MonoBehaviour
             float heartbeatTimerMax = 15;
             heartbeatTimer = heartbeatTimerMax;
             await LobbyService.Instance.SendHeartbeatPingAsync(hostLobby.Id);
+            Debug.Log("Sent heartbeat to " + hostLobby.Name);
+        }
+    
+    }
+
+    private async void HandleLobbyUpdatePoll()
+    {
+       
+        lobbyUpdateTimer -= Time.deltaTime;
+        if(lobbyUpdateTimer < 0f)
+        {
+            float updateLobbyMaxTime = 2;
+            lobbyUpdateTimer = updateLobbyMaxTime;
+            await LobbyService.Instance.GetLobbyAsync(hostLobby.Id);
+            Debug.Log("Updating " + hostLobby.Name);
+            onLobbyUpdated?.Invoke(hostLobby);
         }
     
     }
@@ -130,7 +151,7 @@ public class LobbyHandler : MonoBehaviour
     {
         if(hostLobby != null)
         {
-            Debug.Log("Players in Lobby " + hostLobby.Name);
+            Debug.Log("Players in Lobby " + hostLobby.Name + " Players( " + hostLobby.Players.Count + " )");
             foreach (Player player in hostLobby.Players)
             {
                 Debug.Log(player.Id + " " + player.Data["PlayerName"].Value);

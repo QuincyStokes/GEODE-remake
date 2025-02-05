@@ -1,46 +1,50 @@
+using System;
+using System.Collections.Generic;
+using TMPro;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LobbyDisplay : MonoBehaviour
+public class JoinLobbyScreen : MonoBehaviour
 {
-    [SerializeField] private Transform contentParent;
     [SerializeField] private GameObject lobbyCardPrefab;
-    [SerializeField] private Button refreshButton;
+    [SerializeField] private Button joinButton;
+    [SerializeField] private TMP_InputField lobbyCodeField;
+    [SerializeField] private TMP_InputField playerName;
 
+    
     void Start()
     {
-        refreshButton.onClick.AddListener(RefreshLobbyMenu);
+        joinButton.onClick.AddListener(JoinLobby);
+        
     }
 
-    private async void RefreshLobbyMenu()
+    private async void JoinLobby()
     {
-        for(int i = 0; i < contentParent.childCount; i++)
-        {
-            Destroy(contentParent.transform.GetChild(0).gameObject);
-        }
-
         try
         {
-            //HERE WILL CREATE A QUERYLOBBIESOPTIONS TO FILTER RESULTS
-
-            QueryResponse queryResponse = await LobbyService.Instance.QueryLobbiesAsync();
-            Debug.Log("Lobbies found: " + queryResponse.Results.Count);
-            foreach(Lobby lobby in queryResponse.Results)
+            JoinLobbyByCodeOptions joinLobbyByCodeOptions = new JoinLobbyByCodeOptions 
             {
-                Debug.Log(lobby.Name + " " + lobby.MaxPlayers);
-                GameObject lobbyCard = Instantiate(lobbyCardPrefab);
-                LobbyCard lc = lobbyCard.GetComponent<LobbyCard>();
-                lc.InitializeLobbyCard(lobby);
-                lc.transform.SetParent(contentParent, false);
-                
-            }
+               Player = new Player
+                {
+                    Data = new Dictionary<string, PlayerDataObject> 
+                    {
+                        //Set the player's name! visibility = member means only other members of the server can see the player's name
+                        //this also now means we can access the players in the lobby. :eyes:
+                        { "PlayerName", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, playerName.text) }
+                        //I believe here is where we would store other player data that we want to define, unsure of what exactly to put here for now.
+                    }
+                }
+            };
+            Lobby lobby = await LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCodeField.text, joinLobbyByCodeOptions);
+            Debug.Log("Joined lobby " + lobby.Name);
         }
         catch (LobbyServiceException e)
         {
             Debug.Log(e);
         }
-    
+        
     }
 }
