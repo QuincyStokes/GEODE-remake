@@ -20,6 +20,14 @@ public class YourLobby : MonoBehaviour
         private set => lobby = value;
     }
 
+    private void Awake()
+    {
+        startButton.onClick.AddListener( () => 
+        {
+            LobbyHandler.Instance.StartGame();
+        });
+    }
+
     private void Start()
     {
         LobbyHandler.onLobbyUpdated += UpdatePlayerList;

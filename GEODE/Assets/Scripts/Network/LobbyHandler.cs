@@ -13,6 +13,7 @@ using UnityEngine.UI;
 
 public class LobbyHandler : MonoBehaviour
 {
+    public static LobbyHandler Instance;
 
     [SerializeField] private TMP_InputField lobbyNameField;
     [SerializeField] private Slider maxPlayersSlider;
@@ -25,11 +26,24 @@ public class LobbyHandler : MonoBehaviour
     [SerializeField] private GameObject yourLobbyScreen;
     [SerializeField] private YourLobby yourLobby;
     private Lobby hostLobby;
+    private Lobby joinedLobby;
     private float heartbeatTimer;
     private float lobbyUpdateTimer;
     public static event Action<Lobby> onLobbyUpdated;
+    const string KEY_START_GAME = "StartGame_RelayCode";
 
 
+    void Awake()
+    {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void Start()
     {
@@ -51,11 +65,10 @@ public class LobbyHandler : MonoBehaviour
 
     private void Update()
     {
-        if(hostLobby != null)
-        {
-            HeartbeatTimer();
-            HandleLobbyUpdatePoll();
-        }        
+       
+        HeartbeatTimer();
+        HandleLobbyUpdatePoll();
+               
     }
     /// <summary>
     /// Create a lobby.
@@ -80,8 +93,13 @@ public class LobbyHandler : MonoBehaviour
                         //Set the player's name! visibility = member means only other members of the server can see the player's name
                         //this also now means we can access the players in the lobby. :eyes:
                         { "PlayerName", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, playerName.text) }
+                        
                         //I believe here is where we would store other player data that we want to define, unsure of what exactly to put here for now.
                     }
+                },
+                Data = new Dictionary<string, DataObject>
+                {
+                    { KEY_START_GAME, new DataObject(DataObject.VisibilityOptions.Member, "0")}
                 }
             };
 
@@ -96,9 +114,9 @@ public class LobbyHandler : MonoBehaviour
             {
                 Debug.Log("Error, cannot have a blank lobby name.");
             }
-           
             PrintCurrentPlayers();
             yourLobby.SetLobby(hostLobby);
+            joinedLobby = hostLobby;
             //yourLobby.UpdatePlayerList();
         }
         catch (LobbyServiceException e)
@@ -121,30 +139,47 @@ public class LobbyHandler : MonoBehaviour
     /// </summary>
     private async void HeartbeatTimer()
     {
-        heartbeatTimer -= Time.deltaTime;
-        if(heartbeatTimer < 0f)
-        {
-            float heartbeatTimerMax = 15;
-            heartbeatTimer = heartbeatTimerMax;
-            await LobbyService.Instance.SendHeartbeatPingAsync(hostLobby.Id);
-            Debug.Log("Sent heartbeat to " + hostLobby.Name);
+        if(hostLobby != null)
+            {
+            heartbeatTimer -= Time.deltaTime;
+            if(heartbeatTimer < 0f)
+            {
+                float heartbeatTimerMax = 15;
+                heartbeatTimer = heartbeatTimerMax;
+                await LobbyService.Instance.SendHeartbeatPingAsync(hostLobby.Id);
+                Debug.Log("Sent heartbeat to " + hostLobby.Name);
+            }
         }
     
     }
 
     private async void HandleLobbyUpdatePoll()
     {
-       
-        lobbyUpdateTimer -= Time.deltaTime;
-        if(lobbyUpdateTimer < 0f)
+        if(joinedLobby != null)
         {
-            float updateLobbyMaxTime = 2;
-            lobbyUpdateTimer = updateLobbyMaxTime;
-            await LobbyService.Instance.GetLobbyAsync(hostLobby.Id);
-            Debug.Log("Updating " + hostLobby.Name);
-            onLobbyUpdated?.Invoke(hostLobby);
+            lobbyUpdateTimer -= Time.deltaTime;
+            if(lobbyUpdateTimer < 0f)
+            {
+                float updateLobbyMaxTime = 2;
+                lobbyUpdateTimer = updateLobbyMaxTime;
+                await LobbyService.Instance.GetLobbyAsync(joinedLobby.Id);
+                Debug.Log("Updating " + joinedLobby.Name);
+                onLobbyUpdated?.Invoke(joinedLobby);
+
+                if(joinedLobby.Data[KEY_START_GAME].Value != "0")
+                {
+                    //start game!
+                    if(!IsLobbyHost())
+                    {
+                        RelayHandler.Instance.JoinRelay(joinedLobby.Data[KEY_START_GAME].Value);
+                    }
+                    joinedLobby = null;
+                    //here invoke some event to start the game.
+
+                }
+            }
         }
-    
+
     }
 
     private void PrintCurrentPlayers()
@@ -158,5 +193,37 @@ public class LobbyHandler : MonoBehaviour
             }    
         }
         
+    }
+
+    public async void StartGame()
+    {
+        try
+        {
+            Debug.Log("Game Started!");
+            string relayCode = await RelayHandler.Instance.CreateRelay(hostLobby.MaxPlayers-1);
+
+            Lobby lobby = await LobbyService.Instance.UpdateLobbyAsync(hostLobby.Id, new UpdateLobbyOptions
+            {
+                Data = new Dictionary<string, DataObject> 
+                {
+                    { KEY_START_GAME, new DataObject(DataObject.VisibilityOptions.Member, relayCode)}
+                }
+            });
+        }
+        catch (LobbyServiceException e) 
+        {
+            Debug.Log(e);
+        }
+
+    }
+
+    private bool IsLobbyHost()
+    {
+        return hostLobby.HostId == AuthenticationService.Instance.PlayerId;
+    }
+
+    public void SetJoinedLobby(Lobby lobby)
+    {
+        joinedLobby = lobby;
     }
 }

@@ -40,6 +40,7 @@ public class JoinLobbyScreen : MonoBehaviour
             };
             Lobby lobby = await LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCodeField.text, joinLobbyByCodeOptions);
             Debug.Log("Joined lobby " + lobby.Name);
+            LobbyHandler.Instance.SetJoinedLobby(lobby);
         }
         catch (LobbyServiceException e)
         {
