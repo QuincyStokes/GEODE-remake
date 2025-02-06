@@ -1792,6 +1792,7 @@ GameObject:
   m_Component:
   - component: {fileID: 377488808}
   - component: {fileID: 377488809}
+  - component: {fileID: 377488810}
   m_Layer: 0
   m_Name: HostOrJoin
   m_TagString: Untagged
@@ -1832,6 +1833,28 @@ MonoBehaviour:
   HostOrJoinButtons: {fileID: 1066403423}
   HostScreen: {fileID: 647471580}
   JoinScreen: {fileID: 178098244}
+--- !u!114 &377488810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 377488807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 603a4f819a971a84c9b8810f4bae85a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lobbyNameField: {fileID: 1938673687}
+  maxPlayersSlider: {fileID: 2099271864}
+  createLobbyButton: {fileID: 1957817160}
+  maxPlayersText: {fileID: 260865265}
+  privateToggle: {fileID: 359593509}
+  playerName: {fileID: 1337846424}
+  createALobbyScreen: {fileID: 339884893}
+  customizeLobbyScreen: {fileID: 1394115223}
+  yourLobbyScreen: {fileID: 1494695903}
+  yourLobby: {fileID: 1494695905}
 --- !u!1 &392399214
 GameObject:
   m_ObjectHideFlags: 0
@@ -1862,7 +1885,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6960e84d07fb87f47956e7a81d71c4e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ProtocolType: 0
+  m_ProtocolType: 1
   m_UseWebSockets: 0
   m_UseEncryption: 0
   m_MaxPacketQueueSize: 128
@@ -2927,7 +2950,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 647471582}
-  - component: {fileID: 647471581}
   m_Layer: 0
   m_Name: LobbyCreationMenu
   m_TagString: Untagged
@@ -2935,28 +2957,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &647471581
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 647471580}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 603a4f819a971a84c9b8810f4bae85a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lobbyNameField: {fileID: 1938673687}
-  maxPlayersSlider: {fileID: 2099271864}
-  createLobbyButton: {fileID: 1957817160}
-  maxPlayersText: {fileID: 260865265}
-  privateToggle: {fileID: 359593509}
-  playerName: {fileID: 1337846424}
-  createALobbyScreen: {fileID: 339884893}
-  customizeLobbyScreen: {fileID: 1394115223}
-  yourLobbyScreen: {fileID: 1494695903}
-  yourLobby: {fileID: 1494695905}
 --- !u!4 &647471582
 Transform:
   m_ObjectHideFlags: 0

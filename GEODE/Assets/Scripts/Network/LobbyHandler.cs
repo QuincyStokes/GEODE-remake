@@ -219,7 +219,7 @@ public class LobbyHandler : MonoBehaviour
 
     private bool IsLobbyHost()
     {
-        return hostLobby.HostId == AuthenticationService.Instance.PlayerId;
+        return joinedLobby.HostId == AuthenticationService.Instance.PlayerId;
     }
 
     public void SetJoinedLobby(Lobby lobby)
