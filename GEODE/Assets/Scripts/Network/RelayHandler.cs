@@ -16,6 +16,7 @@ public class RelayHandler : MonoBehaviour
         if(Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -57,6 +58,8 @@ public class RelayHandler : MonoBehaviour
 
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
             NetworkManager.Singleton.StartClient();
+
+            ConnectionManager.Instance.RelayCode = joinCode;
         }
         catch(RelayServiceException e)
         {

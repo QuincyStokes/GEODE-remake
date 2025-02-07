@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using NUnit.Compatibility;
 using TMPro;
+using Unity.Services.Authentication;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
 using Unity.VisualScripting;
@@ -22,10 +23,15 @@ public class YourLobby : MonoBehaviour
 
     private void Awake()
     {
+        
+    
+        startButton.gameObject.SetActive(true);
         startButton.onClick.AddListener( () => 
         {
             LobbyHandler.Instance.StartGame();
         });
+        
+        
     }
 
     private void Start()
@@ -37,11 +43,17 @@ public class YourLobby : MonoBehaviour
     {   
         Lobby = lobby;
         lobbyCode.text = Lobby.LobbyCode;
+        if(!IsLobbyHost())
+        {
+            startButton.gameObject.SetActive(false);
+        }
     }
     public void UpdatePlayerList(Lobby lobby)
     {   
         Debug.Log("Updating Player List for Lobby "+ lobby.Name);
-        Lobby = lobby;
+        SetLobby(lobby);
+
+       
 
         foreach (Transform transform in contentParent)
         {
@@ -61,6 +73,12 @@ public class YourLobby : MonoBehaviour
                 plc.transform.SetParent(contentParent, false);
             }    
         }
+    }
+
+    private bool IsLobbyHost()
+    {
+        Debug.Log("Checking whether this is the host" + Lobby.HostId == AuthenticationService.Instance.PlayerId);
+        return Lobby.HostId == AuthenticationService.Instance.PlayerId;
     }
 
 

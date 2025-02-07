@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
+using Unity.Netcode;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Lobbies;
@@ -102,7 +103,7 @@ public class LobbyHandler : MonoBehaviour
                     { KEY_START_GAME, new DataObject(DataObject.VisibilityOptions.Member, "0")}
                 }
             };
-
+           
             //create the lobby!
             if(lobbyNameField.text != "")
             {
@@ -117,6 +118,8 @@ public class LobbyHandler : MonoBehaviour
             PrintCurrentPlayers();
             yourLobby.SetLobby(hostLobby);
             joinedLobby = hostLobby;
+
+
             //yourLobby.UpdatePlayerList();
         }
         catch (LobbyServiceException e)
@@ -209,6 +212,13 @@ public class LobbyHandler : MonoBehaviour
                     { KEY_START_GAME, new DataObject(DataObject.VisibilityOptions.Member, relayCode)}
                 }
             });
+            //load the gameplay scene!
+
+
+            ConnectionManager.Instance.LobbyCode = joinedLobby.LobbyCode;
+            ConnectionManager.Instance.PlayerID = AuthenticationService.Instance.PlayerId;
+            ConnectionManager.Instance.PlayerID = AuthenticationService.Instance.PlayerName;
+            NetworkManager.Singleton.SceneManager.LoadScene("GameplayTest", UnityEngine.SceneManagement.LoadSceneMode.Single);
         }
         catch (LobbyServiceException e) 
         {
