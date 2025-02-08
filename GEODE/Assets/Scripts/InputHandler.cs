@@ -1,7 +1,8 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.TextCore;
 
-public class InputHandler : MonoBehaviour
+public class InputHandler : NetworkBehaviour
 {
     [HideInInspector] public float Horizontal;
     [HideInInspector] public float Vertical;
@@ -11,8 +12,15 @@ public class InputHandler : MonoBehaviour
 
     public void Update()
     {
+        
+        if(!IsOwner)
+        {
+            return;
+        }
         Horizontal = Input.GetAxisRaw("Horizontal");
         Vertical = Input.GetAxisRaw("Vertical");
+        
+        
     }
     
 }

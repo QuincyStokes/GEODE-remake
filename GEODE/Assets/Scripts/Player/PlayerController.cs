@@ -1,10 +1,11 @@
 using System;
+using Unity.Netcode;
 using Unity.Services.Matchmaker.Models;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Scripting.APIUpdating;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : NetworkBehaviour
 {
 
     [Header("Movement Settings")]
@@ -39,6 +40,10 @@ public class PlayerController : MonoBehaviour
     
     private void Update()
     {
+        if(!IsOwner)
+        {
+            return;
+        }
         HandleEvents();
     }
 
@@ -76,6 +81,7 @@ public class PlayerController : MonoBehaviour
     {
         if(Input.GetKeyDown(inputHandler.inventoryBind))
         {
+            Debug.Log("Inventory toggled!");
             inventoryToggled?.Invoke();
         }
     }

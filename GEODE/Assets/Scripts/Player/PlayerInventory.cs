@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerInventory : MonoBehaviour, IContainer
+public class PlayerInventory : NetworkBehaviour, IContainer
 {
 
     
@@ -30,14 +31,23 @@ public class PlayerInventory : MonoBehaviour, IContainer
     private List<Slot> HotbarSlots;
 
 
-    private void Awake()
+       
+
+    public override void OnNetworkSpawn()
     {
+        if(!IsOwner)
+        {
+            enabled = false;
+            return;
+        }
         InitializeInventorySlots();
         InitializeHotbarSlots();
+    
     }
 
     private void Start()
     {
+        
         PlayerController.inventoryToggled += ToggleInventory;
         inventoryObject.SetActive(false);
         hotbarObject.SetActive(true);
@@ -69,7 +79,8 @@ public class PlayerInventory : MonoBehaviour, IContainer
 
     public void ToggleInventory()
     {
-       inventoryObject.SetActive(!inventoryObject.activeSelf);
+        Debug.Log($"Toggled from PlayerInventory! Setting inventory to {!inventoryObject.activeSelf}");
+        inventoryObject.SetActive(!inventoryObject.activeSelf);
     }
     public int FindItem(BaseItem item)
     {
