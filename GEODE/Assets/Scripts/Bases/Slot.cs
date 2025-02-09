@@ -21,7 +21,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         if(newItem != null)
         {
             item = newItem;
-            itemSprite.sprite = newItem.Icon();
+            itemSprite.sprite = newItem.Icon;
             itemSprite.color = new Color(1, 1, 1, 1);
         }
         else

@@ -3,50 +3,50 @@ using System.Linq.Expressions;
 using Unity.Burst.Intrinsics;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements.Experimental;
+
 
 public abstract class BaseItem : ScriptableObject
 {
-    public enum ItemType{
-        Tool,
-        Weapon,
-        Structure,
-        Consumable
-    }
-
-    private new string name;
-    private string description;
-    private ItemType type;
-    private Sprite icon;
-
-
-    public void Use()
-    {
-        //define use action for object here. ie swing, consume, place
-    }
-
-    public string Name()
-    {
-        return name;
-    }
-
-    public string Description()
-    {
-        return description;
-    }
-
-    public ItemType Type()
-    {
-       return type;
-    }
-
-    public Sprite Icon()
-    {
-        return icon;
-    }
-
-
-
     
+
+    [SerializeField]private new string name;
+    [SerializeField]private string description;
+    [SerializeField]private ItemType type;
+    [SerializeField]private Sprite icon;
+    [SerializeField]private int id;
+
+    public string Name 
+    {
+        get => name;
+        private set => name = value;
+    }
+
+    public string Description 
+    {
+        get => description;
+        private set => description = value;
+    }
+
+    public ItemType Type 
+    {
+        get => type;
+        private set => type = value;
+    }
+
+    public Sprite Icon 
+    {
+        get => icon;
+        private set => icon = value;
+    }
+
+    public int Id
+    {
+        get => id;
+        private set => id = value;
+    }
+
+    public abstract void Use();
 
 
 }

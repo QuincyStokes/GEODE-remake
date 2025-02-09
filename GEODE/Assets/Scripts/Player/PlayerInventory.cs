@@ -40,11 +40,15 @@ public class PlayerInventory : NetworkBehaviour, IContainer
             enabled = false;
             return;
         }
+        
+    }
+
+    private void Awake()
+    {
         InitializeInventorySlots();
         InitializeHotbarSlots();
     
     }
-
     private void Start()
     {
         

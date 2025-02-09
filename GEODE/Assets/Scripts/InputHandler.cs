@@ -10,17 +10,19 @@ public class InputHandler : NetworkBehaviour
     public KeyCode spaceKeybind = KeyCode.Space;
     public KeyCode inventoryBind = KeyCode.E;
 
+    public override void OnNetworkSpawn()
+    {
+        if(!IsOwner)
+        {
+            enabled = false;
+        }
+    }
+
     public void Update()
     {
         
-        if(!IsOwner)
-        {
-            return;
-        }
         Horizontal = Input.GetAxisRaw("Horizontal");
         Vertical = Input.GetAxisRaw("Vertical");
-        
-        
     }
     
 }
