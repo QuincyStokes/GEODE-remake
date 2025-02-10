@@ -1,16 +1,16 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using Unity.Cinemachine;
 using Unity.Netcode;
 using UnityEngine;
 
 public class PlayerInventory : NetworkBehaviour, IContainer
 {
-
-    
-
     [Header("Settings")]
     [SerializeField] private int numSlots;
     //hotbar slots will always be 9
+    [SerializeField] private List<BaseItem> startingItems;
+    [SerializeField] private int maxItemStack;
 
     [Header("UI References")]
     [SerializeField] private GameObject inventoryObject;
@@ -18,6 +18,7 @@ public class PlayerInventory : NetworkBehaviour, IContainer
 
     [SerializeField] private GameObject hotbarObject;
     [SerializeField] private Transform hotbarSlotHolder;
+    [SerializeField] private InventoryHandUI hand;
 
     [Header("Audio" )]
     [SerializeField] private AudioClip inventoryOpenSFX;
@@ -27,8 +28,9 @@ public class PlayerInventory : NetworkBehaviour, IContainer
     [SerializeField] private GameObject slotPrefab;
 
     //private tings
-    private List<Slot> InventorySlots;
-    private List<Slot> HotbarSlots;
+    private List<Slot> inventorySlots;
+    private List<Slot> hotbarSlots;
+    private int selectedSlotIndex;
 
 
        
@@ -37,6 +39,11 @@ public class PlayerInventory : NetworkBehaviour, IContainer
     {
         if(!IsOwner)
         {
+            //this crashes the game.
+            //Destroy(inventoryObject);
+            //Destroy(hotbarObject);
+            //Destroy(hand.gameObject);
+
             enabled = false;
             return;
         }
@@ -47,8 +54,9 @@ public class PlayerInventory : NetworkBehaviour, IContainer
     {
         InitializeInventorySlots();
         InitializeHotbarSlots();
-    
+        ChangeSelectedSlot(0);
     }
+    
     private void Start()
     {
         
@@ -56,28 +64,34 @@ public class PlayerInventory : NetworkBehaviour, IContainer
         inventoryObject.SetActive(false);
         hotbarObject.SetActive(true);
     }
+    public int GetSelectedSlotIndex()
+    {
+        return selectedSlotIndex;
+    }
 
     private void InitializeInventorySlots()
     {
-        InventorySlots = new List<Slot>(numSlots);
+        inventorySlots = new List<Slot>(numSlots);
         for(int i = 0; i < numSlots; i++)
         {
             Slot currSlot = Instantiate(slotPrefab).GetComponent<Slot>();
             currSlot.SetItem();
             currSlot.gameObject.transform.SetParent(inventorySlotHolder, false);
-            InventorySlots.Add(currSlot);
+            currSlot.InitializeHand(hand);
+            inventorySlots.Add(currSlot);
         }
     }
 
     private void InitializeHotbarSlots()
     {
-        HotbarSlots = new List<Slot>(numSlots);
+        hotbarSlots = new List<Slot>(numSlots);
         for(int i = 0; i < 9; i++)
         {
             Slot currSlot = Instantiate(slotPrefab).GetComponent<Slot>();
             currSlot.SetItem();
             currSlot.gameObject.transform.SetParent(hotbarSlotHolder, false);
-            HotbarSlots.Add(currSlot);
+            currSlot.InitializeHand(hand);
+            hotbarSlots.Add(currSlot);
         }
     }
 
@@ -86,6 +100,153 @@ public class PlayerInventory : NetworkBehaviour, IContainer
         Debug.Log($"Toggled from PlayerInventory! Setting inventory to {!inventoryObject.activeSelf}");
         inventoryObject.SetActive(!inventoryObject.activeSelf);
     }
+
+
+    public void ChangeSelectedSlot(int newValue) {
+        if(selectedSlotIndex >= 0) {
+            hotbarSlots[selectedSlotIndex].Deselect();
+        }
+        if(newValue > 8) {
+            hotbarSlots[0].Select();
+            selectedSlotIndex = 0;
+        } else if (newValue < 0) {
+            hotbarSlots[8].Select();
+            selectedSlotIndex = 8;
+        } else {
+            hotbarSlots[newValue].Select();
+            selectedSlotIndex = newValue;
+        }
+    }
+
+
+    public bool AddItem(int id, int count) {
+
+        //first, search hotbar
+        foreach(Slot slot in inventorySlots)
+        {
+            //if the current slot isn't holding an item, don't check it.
+            if(slot.GetItemInSlot() == null)
+            {
+                continue;
+            }
+            //first check if we can stack it on top of anything.
+            //in order for it to be a valid slot, we need:
+            if(slot.GetItemInSlot().Id == id  //item in this slot needs to be the same as the newly added one
+                && slot.GetItemInSlot() != null  //slot needs to *not* be empty
+                && slot.GetItemInSlot().IsStackable  //item in slot needs to be stackable
+                && slot.GetCount()+count <= maxItemStack ) //slot + new count needs to *not* be at the max count
+            {
+                //if these are true, we can add to this slot!
+                slot.AddCount(count);
+                return true;
+            }
+        }
+        
+        //then, search inventory
+        foreach(Slot slot in inventorySlots)
+        {
+
+            if(slot.GetItemInSlot() == null)
+            {
+                continue;
+            }
+            //first check if we can stack it on top of anything.
+            //in order for it to be a valid slot,  we need:
+            if(slot.GetItemInSlot().Id == id  //item in this slot needs to be the same as the newly added one
+                && slot.GetItemInSlot() != null  //slot needs to *not* be empty
+                && slot.GetItemInSlot().IsStackable  //item in slot needs to be stackable
+                && slot.GetCount()+count <= maxItemStack ) //slot + new count needs to *not* be at the max count
+            {
+                //if these are true, we can add to this slot!
+                slot.AddCount(count);
+                return true;
+            }
+        }
+
+
+        //look for new *empty* slot in hotbar
+        foreach(Slot slot in hotbarSlots)
+        {
+            if(slot.GetItemInSlot() == null)
+            {
+                //we've found an empty slot!
+                slot.SetItem(id, count, true);
+                return true;
+            }
+        }
+        //look for new *empty* slot in inventory
+        foreach(Slot slot in inventorySlots)
+        {
+            if(slot.GetItemInSlot() == null)
+            {
+                //we've found an empty slot!
+                slot.SetItem(id, count, true);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void UseSelectedItem()
+    {
+        //attempt to use the item
+        BaseItem heldItem = hotbarSlots[selectedSlotIndex].GetItemInSlot();
+        if(heldItem == null)
+        {
+            return;
+        }
+        if(heldItem.Use())
+        {
+            //if the item was successfully used, *and* if the item is.. consumable?
+            //can we check for type being Structure or COnsumable? other ones don't decrease count (tool, material, weapon)
+            if (heldItem.ConsumeOnUse)
+            {
+                hotbarSlots[selectedSlotIndex].SubtractCount();
+            }
+        } 
+    }
+
+    public bool ContainsItem(BaseItem item) {
+        //check inventory
+        foreach(Slot slot in inventorySlots)
+        {
+            if(slot.GetItemInSlot() == item)
+            {
+                return true;
+            }
+        }
+        //check hotbar
+        foreach(Slot slot in hotbarSlots)
+        {
+            if(slot.GetItemInSlot() == item)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int GetItemCount(BaseItem item)
+    {
+        int count = 0;
+        foreach (Slot slot in inventorySlots)
+        {
+            if(slot.GetItemInSlot() == item)
+            {
+                count += slot.GetCount();
+            }
+        }
+        foreach (Slot slot in hotbarSlots)
+        {
+            if(slot.GetItemInSlot() == item)
+            {
+                count += slot.GetCount();
+            }
+        }
+        return count;
+    }
+
     public int FindItem(BaseItem item)
     {
         return -1;

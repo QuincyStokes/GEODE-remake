@@ -171,7 +171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 887769123
+  GlobalObjectIdHash: 1113928558
   InScenePlacedSourceGlobalObjectIdHash: 1113928558
   DeferredDespawnTick: 0
   Ownership: 1
@@ -197,9 +197,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  itemId:
+    m_InternalValue: 0
+  count:
+    m_InternalValue: 0
   sr: {fileID: 6927848955901099657}
   col: {fileID: 8100281337956636407}
-  moveSpeed: 0
+  moveSpeed: 25
 --- !u!114 &3980576923376180894
 MonoBehaviour:
   m_ObjectHideFlags: 0

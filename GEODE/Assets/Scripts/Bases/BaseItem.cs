@@ -15,6 +15,8 @@ public abstract class BaseItem : ScriptableObject
     [SerializeField]private ItemType type;
     [SerializeField]private Sprite icon;
     [SerializeField]private int id;
+    [SerializeField]private bool isStackable;
+    [SerializeField]private bool consumeOnUse;
 
     public string Name 
     {
@@ -46,7 +48,18 @@ public abstract class BaseItem : ScriptableObject
         private set => id = value;
     }
 
-    public abstract void Use();
+    public bool IsStackable
+    {
+        get=>isStackable;
+        private set => isStackable = value;
+    }
+
+    public bool ConsumeOnUse
+    {
+        get=>consumeOnUse;
+        private set => consumeOnUse = value;
+    }
+    public abstract bool Use();
 
 
 }

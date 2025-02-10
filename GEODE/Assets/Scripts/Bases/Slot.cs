@@ -1,27 +1,59 @@
+using System;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
+public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     [Header("UI References")]
     [SerializeField] private Image backgroundSprite;
     [SerializeField] private Image itemSprite;
     [SerializeField] private TMP_Text itemCount; 
+    [SerializeField] private InventoryHandUI inventoryHand;
 
+    [Header("Background Images")]
+    [SerializeField] private Sprite selectedBackgroundImage;
+    [SerializeField] private Sprite deselectedBackgroundImage;
+
+
+    [Header("Settings")]
+    [SerializeField] private int maxStackSize;
     private BaseItem item; //item this slot is holding
     private Sprite icon;
     private int count;
     private bool canInteract;
+    private bool isFollowingMouse;
+    [HideInInspector] public Transform parentAfterDrag;
 
-    public void SetItem(BaseItem newItem = null, int newCount = 1, bool interactable=true)
+    //----------
+    //PLAYERS "HAND"
+    //----------
+
+    private static BaseItem heldItem = null;
+    private static int heldCount = 0;
+    
+
+    private void Update()
+    {
+        if(isFollowingMouse)
+        {
+            itemSprite.transform.position = Input.mousePosition;
+        }
+    }
+
+    public void InitializeHand(InventoryHandUI hand)
+    {
+        inventoryHand = hand;
+    }
+
+    public void SetItem(int id=-1, int newCount = 1, bool interactable=true)
     {
         //set the internal item data
-        if(newItem != null)
+        if(id != -1)
         {
-            item = newItem;
-            itemSprite.sprite = newItem.Icon;
+            item = ItemDatabase.Instance.GetItem(id);
+            itemSprite.sprite = item.Icon;
             itemSprite.color = new Color(1, 1, 1, 1);
         }
         else
@@ -55,15 +87,16 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         itemCount.text = count.ToString();
     }
 
-    public void AddCount(int newCount)
+    public void AddCount(int newCount=1)
     {
         count += newCount;
         UpdateCountUI();
     }
 
-    public void SubtractCount(int newCount)
+    public void SubtractCount(int newCount=1)
     {
         count -= newCount;
+        CheckItemDepleted();
         UpdateCountUI();
     }
 
@@ -71,6 +104,10 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     {
         count = newCount;
         UpdateCountUI();
+    }
+    public int GetCount()
+    {
+        return count;
     }
 
     private void CheckItemDepleted()
@@ -86,35 +123,104 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     {
         item = null;
         itemSprite.sprite = null;
-        itemSprite.color = new Color(1, 1, 1, 0);
+        itemSprite.color = new
+        Color(1, 1, 1, 0);
         itemCount.text = "";
     }
-
-
-
-    //todo later
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void OnDrag(PointerEventData eventData)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        throw new System.NotImplementedException();
-    }
+    //todo
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        throw new System.NotImplementedException();
+        
+    }
+
+
+    internal void Deselect()
+    {
+        backgroundSprite.sprite = deselectedBackgroundImage;
+    }
+
+    internal void Select()
+    {
+        backgroundSprite.sprite = selectedBackgroundImage;
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if(eventData.button == PointerEventData.InputButton.Left)
+        {
+            HandleLeftClick();
+        }
+    }
+
+    private void HandleLeftClick()
+    {   
+        //if the item is null, this means we need to pick up the slot item
+        
+        //PICK UP AN ITEM
+        if(heldItem == null)
+        {
+            if(item != null)
+            {
+                //set the "hand" information
+                heldItem = item;
+                heldCount = count;
+                inventoryHand.SetHandData(item.Icon, count);
+
+                //clear the "slot" information
+                EmptySlot();
+            }
+           
+        }
+        else 
+        {
+            //PLACE YOUR ITEM
+            if(item == null)
+            {
+                SetItem(heldItem.Id, heldCount, true);
+
+                heldItem = null;
+                heldCount = 0;
+
+                inventoryHand.SetHandData(null, 0);
+            }
+            //SWAP ITEMS
+            else
+            {   if(item == heldItem)
+                {
+                    if(count + heldCount <= maxStackSize)
+                    {
+                        AddCount(heldCount);
+                        inventoryHand.SetHandData(null);
+                        heldItem = null;
+                        heldCount = 0;
+                    }
+                    else
+                    {
+                        heldCount = count + heldCount - maxStackSize;
+                        SetCount(maxStackSize);
+                        inventoryHand.SetHandData(heldItem.Icon, heldCount);
+                        
+                    }
+                }
+                else
+                {
+                    BaseItem tempItem = heldItem;
+                    int tempCount = heldCount;
+
+                    heldItem = item;
+                    heldCount = count;
+                    inventoryHand.SetHandData(item.Icon, count);
+
+                    SetItem(tempItem.Id, tempCount, true);
+                }
+                
+            }
+        }
     }
 }

@@ -9,6 +9,8 @@ using UnityEngine.Scripting.APIUpdating;
 
 public class PlayerController : NetworkBehaviour
 {
+    [Header("References")]
+    [SerializeField] private PlayerInventory playerInventory;
 
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed;
@@ -21,8 +23,6 @@ public class PlayerController : NetworkBehaviour
 
     //EVENTS -----------------------
     public static event Action inventoryToggled;
-
-
 
     [Header("Internal Use")]
     private Vector2 externalVelocity;
@@ -105,7 +105,12 @@ public class PlayerController : NetworkBehaviour
 
     private void HandleEvents()
     {
-        if(Input.GetKeyDown(inputHandler.inventoryBind))
+        if(Input.GetKeyDown(inputHandler.useKeybind))
+        {
+            playerInventory.UseSelectedItem();
+        }
+
+        if(Input.GetKeyDown(inputHandler.inventoryKeybind))
         {
             Debug.Log("Inventory toggled!");
             inventoryToggled?.Invoke();
@@ -114,6 +119,33 @@ public class PlayerController : NetworkBehaviour
         {
             ApplyKnockbackServerRpc();
         }
+        if(inputHandler.InputString != null)
+        {
+            bool isNumber = int.TryParse(inputHandler.InputString, out int number);
+            if(isNumber && number > 0 && number < 10)
+            {
+                if(playerInventory != null)
+                {
+                    playerInventory.ChangeSelectedSlot(number-1);
+                }
+               
+            }
+        }
+        if(inputHandler.ScrollY > 0)
+        {
+            if(playerInventory != null)
+            {
+                playerInventory.ChangeSelectedSlot(playerInventory.GetSelectedSlotIndex()-1);
+            }
+        }
+        else if(inputHandler.ScrollY < 0)
+        {
+            if(playerInventory != null)
+            {
+                playerInventory.ChangeSelectedSlot(playerInventory.GetSelectedSlotIndex()+1);
+            }
+        }
+
     }
 
     

@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3ad9a592d7b7a744ad801821cad2896, type: 3}
-  m_Name: Wood
+  m_Name: Stone
   m_EditorClassIdentifier: 
-  name: Wood
-  description: It's... made of wood!
+  name: Stone
+  description: Its a rock!
   type: 4
-  icon: {fileID: 4682517107831167289, guid: a5b761982e172f54d8bb191f041855f8, type: 3}
-  id: 1
+  icon: {fileID: -6600870632750358377, guid: a5b761982e172f54d8bb191f041855f8, type: 3}
+  id: 2
   isStackable: 1
   consumeOnUse: 0

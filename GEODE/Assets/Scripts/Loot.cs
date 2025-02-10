@@ -36,10 +36,10 @@ public class Loot : NetworkBehaviour
             //check if it *can* be added to the player's inventory
             //if it can, call MoveAndCollect
 
-            // bool canAdd = InventoryManager.instance.AddItem(item);
-            // if(canAdd) {
-            //     StartCoroutine(MoveAndCollect(other.transform));
-            // }
+            bool canAdd = other.gameObject.GetComponent<PlayerInventory>().AddItem(itemId.Value, count.Value);
+            if(canAdd) {
+                StartCoroutine(MoveAndCollect(other.transform));
+            }
 
         }
     }
