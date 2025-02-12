@@ -15,6 +15,10 @@ public class PlayerController : NetworkBehaviour
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed;
     [SerializeField] private float knockbackDecay;
+    [SerializeField] public PlayerInputActionMap playerInput; //this is the input action map, essentially there are a bunch of actions we can grab and assign
+    private InputAction movementInput; //for example, moveAction!
+
+    private Vector2 inputVelocity;
 
     
     [Header("Health Settings")]
@@ -51,7 +55,26 @@ public class PlayerController : NetworkBehaviour
     {
        
         rb = GetComponentInChildren<Rigidbody2D>();
+        playerInput = new PlayerInputActionMap();
+
     }
+
+    private void OnEnable()
+    {
+        //We handle constant inputs like this
+        movementInput = playerInput.Player.Move;
+        movementInput.Enable();
+
+        //since onetime events don't need to be checked constantly, we don't *need* to reference them.
+        //can instead do this from wherever needed
+        //playerInput.Player.InventoryToggle.performed += InventoryOpen
+    }
+
+    private void OnDisable()
+    {
+        movementInput.Disable();
+    }
+
     
     private void Start()
     {
@@ -64,29 +87,31 @@ public class PlayerController : NetworkBehaviour
         HandleEvents();
     }
 
-    
-
     private void FixedUpdate()
     {
-        Move();
+        MovementUpdate();
     }
-   
 
-    private void Move()
+    private void MovementUpdate()
     {
-        //movement direction input
-        float horizontal = inputHandler.Horizontal;
-        float vertical = inputHandler.Vertical;
-        
-        //normalize the direction input to keep speed consistent, then apply movemetn speed
-        Vector2 inputVelocity = new Vector2(horizontal, vertical).normalized * moveSpeed;
-
-        //add input velocity to external velocity, this ensures things like knockback aren't overwritten by inputvelocity.
+        inputVelocity = movementInput.ReadValue<Vector2>().normalized * moveSpeed;
         Vector2 finalVelocity = inputVelocity + externalVelocity;
-        
-
         rb.linearVelocity = finalVelocity;
+
         externalVelocity = Vector2.Lerp(externalVelocity, Vector2.zero, knockbackDecay * Time.fixedDeltaTime);
+    }
+
+
+
+    private void OnMoveDown(InputAction.CallbackContext context)
+    {
+        //this is the same as doing the horizontal = Input.GetAxis...
+        inputVelocity = context.ReadValue<Vector2>().normalized;
+    }
+    
+    private void OnMoveUp(InputAction.CallbackContext context)
+    {
+        inputVelocity = Vector2.zero;
     }
 
     //this works pretty well

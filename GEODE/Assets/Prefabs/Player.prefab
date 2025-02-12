@@ -830,9 +830,9 @@ GameObject:
   - component: {fileID: 8419501764596933443}
   - component: {fileID: 5847752706677793350}
   - component: {fileID: 5170530430319516246}
+  - component: {fileID: 2285968976491174105}
   - component: {fileID: 7391063462178417633}
   - component: {fileID: 4482953590385110752}
-  - component: {fileID: 2285968976491174105}
   - component: {fileID: 5127342270165492026}
   - component: {fileID: 7797876280817481097}
   - component: {fileID: 4512977395983589908}
@@ -873,7 +873,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 4091180567
+  GlobalObjectIdHash: 3572059205
   InScenePlacedSourceGlobalObjectIdHash: 4091180567
   DeferredDespawnTick: 0
   Ownership: 1
@@ -907,6 +907,31 @@ MonoBehaviour:
   lootPrefab: {fileID: 3017425558445644788, guid: c785024a7fc199b40a029102dffabd6d, type: 3}
   wood: {fileID: 11400000, guid: 7ce5eb3e969b3624ba325ef6b0d78341, type: 2}
   itemDatabase: {fileID: 11400000, guid: 0a58dca2e5972ce40a34720b6bce51ee, type: 2}
+--- !u!114 &2285968976491174105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8265714030686749453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25bf6a9669658f64bb92cf5f352f2e81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  numSlots: 27
+  startingItems: []
+  maxItemStack: 0
+  inventoryObject: {fileID: 3774294273146469442}
+  inventorySlotHolder: {fileID: 7945631100879103693}
+  hotbarObject: {fileID: 3669146933921313452}
+  hotbarSlotHolder: {fileID: 134886822277299764}
+  hand: {fileID: 3858074651786051154}
+  playerController: {fileID: 5170530430319516246}
+  inventoryOpenSFX: {fileID: 0}
+  inventoryCloseSFX: {fileID: 0}
+  slotPrefab: {fileID: 6343713965445539214, guid: fba2035405594244d86b130da5a462ca, type: 3}
 --- !u!61 &7391063462178417633
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -980,30 +1005,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &2285968976491174105
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8265714030686749453}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bf6a9669658f64bb92cf5f352f2e81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  numSlots: 27
-  startingItems: []
-  maxItemStack: 0
-  inventoryObject: {fileID: 3774294273146469442}
-  inventorySlotHolder: {fileID: 7945631100879103693}
-  hotbarObject: {fileID: 3669146933921313452}
-  hotbarSlotHolder: {fileID: 134886822277299764}
-  hand: {fileID: 3858074651786051154}
-  inventoryOpenSFX: {fileID: 0}
-  inventoryCloseSFX: {fileID: 0}
-  slotPrefab: {fileID: 6343713965445539214, guid: fba2035405594244d86b130da5a462ca, type: 3}
 --- !u!114 &5127342270165492026
 MonoBehaviour:
   m_ObjectHideFlags: 0

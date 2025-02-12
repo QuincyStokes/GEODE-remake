@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Unity.Cinemachine;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerInventory : NetworkBehaviour, IContainer
 {
@@ -12,13 +14,14 @@ public class PlayerInventory : NetworkBehaviour, IContainer
     [SerializeField] private List<BaseItem> startingItems;
     [SerializeField] private int maxItemStack;
 
-    [Header("UI References")]
+    [Header("References")]
     [SerializeField] private GameObject inventoryObject;
     [SerializeField] private Transform inventorySlotHolder;
 
     [SerializeField] private GameObject hotbarObject;
     [SerializeField] private Transform hotbarSlotHolder;
     [SerializeField] private InventoryHandUI hand;
+    [SerializeField] private PlayerController playerController;
 
     [Header("Audio" )]
     [SerializeField] private AudioClip inventoryOpenSFX;
@@ -60,10 +63,13 @@ public class PlayerInventory : NetworkBehaviour, IContainer
     private void Start()
     {
         
-        PlayerController.inventoryToggled += ToggleInventory;
+        playerController.playerInput.Player.InventoryToggle.performed += ToggleInventory;
+        playerController.playerInput.Player.InventoryToggle.Enable();
+
         inventoryObject.SetActive(false);
         hotbarObject.SetActive(true);
     }
+
     public int GetSelectedSlotIndex()
     {
         return selectedSlotIndex;
@@ -95,7 +101,7 @@ public class PlayerInventory : NetworkBehaviour, IContainer
         }
     }
 
-    public void ToggleInventory()
+    public void ToggleInventory(InputAction.CallbackContext context)
     {
         Debug.Log($"Toggled from PlayerInventory! Setting inventory to {!inventoryObject.activeSelf}");
         inventoryObject.SetActive(!inventoryObject.activeSelf);
@@ -119,10 +125,10 @@ public class PlayerInventory : NetworkBehaviour, IContainer
     }
 
 
-    public bool AddItem(int id, int count) {
-
+    public bool AddItem(int id, int count) 
+    {
         //first, search hotbar
-        foreach(Slot slot in inventorySlots)
+        foreach(Slot slot in hotbarSlots)
         {
             //if the current slot isn't holding an item, don't check it.
             if(slot.GetItemInSlot() == null)
@@ -134,7 +140,7 @@ public class PlayerInventory : NetworkBehaviour, IContainer
             if(slot.GetItemInSlot().Id == id  //item in this slot needs to be the same as the newly added one
                 && slot.GetItemInSlot() != null  //slot needs to *not* be empty
                 && slot.GetItemInSlot().IsStackable  //item in slot needs to be stackable
-                && slot.GetCount()+count <= maxItemStack ) //slot + new count needs to *not* be at the max count
+                ) //slot + new count needs to *not* be at the max count
             {
                 //if these are true, we can add to this slot!
                 slot.AddCount(count);
@@ -155,7 +161,7 @@ public class PlayerInventory : NetworkBehaviour, IContainer
             if(slot.GetItemInSlot().Id == id  //item in this slot needs to be the same as the newly added one
                 && slot.GetItemInSlot() != null  //slot needs to *not* be empty
                 && slot.GetItemInSlot().IsStackable  //item in slot needs to be stackable
-                && slot.GetCount()+count <= maxItemStack ) //slot + new count needs to *not* be at the max count
+                ) //slot + new count needs to *not* be at the max count
             {
                 //if these are true, we can add to this slot!
                 slot.AddCount(count);

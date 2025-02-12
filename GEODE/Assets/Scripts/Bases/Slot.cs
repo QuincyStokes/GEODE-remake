@@ -23,7 +23,6 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     private Sprite icon;
     private int count;
     private bool canInteract;
-    private bool isFollowingMouse;
     [HideInInspector] public Transform parentAfterDrag;
 
     //----------
@@ -36,10 +35,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     private void Update()
     {
-        if(isFollowingMouse)
-        {
-            itemSprite.transform.position = Input.mousePosition;
-        }
+        
     }
 
     public void InitializeHand(InventoryHandUI hand)

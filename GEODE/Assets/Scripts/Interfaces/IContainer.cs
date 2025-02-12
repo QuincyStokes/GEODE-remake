@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public interface IContainer 
 {
@@ -9,7 +10,7 @@ public interface IContainer
         set{slots = value;}
     }
 
-    public void ToggleInventory();
+    public void ToggleInventory(InputAction.CallbackContext context);
 
     public BaseItem GetItemAtPosition();
 
