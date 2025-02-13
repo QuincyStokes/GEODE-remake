@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a5b761982e172f54d8bb191f041855f8
+guid: 7b48a797533bbf94aac8453336444e1e
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -98,7 +98,7 @@ ScriptedImporter:
     addSortingGroup: 1
     addShadowCasters: 0
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638746840132104991
+  platformSettingsDirtyTick: 638749795312124865
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -123,9 +123,9 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: ItemSprites
+  - name: UITiles
     originalName: 
-    pivot: {x: 20, y: -21.5}
+    pivot: {x: 2, y: -7}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -133,9 +133,9 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 16
-      height: 16
-    spriteID: d54f149e482381045aa3d46ed5f79464
+      width: 64
+      height: 32
+    spriteID: 27f825c650710dd41b0973ed97926a27
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -145,7 +145,7 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 4, y: 4}
   spriteSheetImportData:
-  - name: ItemSprites_0
+  - name: UITiles_0
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
@@ -154,10 +154,10 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 4
-      y: 52
-      width: 16
-      height: 16
-    spriteID: 8a019cc027f3c1841b1461c1e8dd78ac
+      y: 4
+      width: 32
+      height: 32
+    spriteID: 069978e1081091c4ca9391eedd0fbb7b
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -166,28 +166,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
-  - name: ItemSprites_1
-    originalName: 
-    pivot: {x: 0.5, y: 0.5}
-    alignment: 0
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 20
-      y: 52
-      width: 16
-      height: 12
-    spriteID: 6fdb2c9a23a79b6489e9df1879f0fca9
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 0, y: 0}
-  - name: ItemSprites_2
+  - name: UITiles_1
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
@@ -196,94 +175,10 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 36
-      y: 36
+      y: 4
       width: 32
       height: 32
-    spriteID: 719850bbe5911fc45845b409ec87753c
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 0, y: 0}
-  - name: ItemSprites_3
-    originalName: 
-    pivot: {x: 0.5, y: 0.5}
-    alignment: 0
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 68
-      y: 52
-      width: 16
-      height: 16
-    spriteID: 0153a7c3fcb5f35438d6016eb495778b
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 0, y: 0}
-  - name: ItemSprites_4
-    originalName: 
-    pivot: {x: 0, y: 0}
-    alignment: 6
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 84
-      y: 4
-      width: 64
-      height: 64
-    spriteID: 9b25f6d81af1c154ab092becff32e05b
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 0, y: 0}
-  - name: ItemSprites_5
-    originalName: 
-    pivot: {x: 0.5, y: 0.5}
-    alignment: 0
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 201
-      y: 11
-      width: 48
-      height: 54
-    spriteID: 7afa79d076bb986409503e82efe489f6
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 0, y: 0}
-  - name: ItemSprites_6
-    originalName: 
-    pivot: {x: 0.5, y: 0.5}
-    alignment: 0
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 265
-      y: 11
-      width: 48
-      height: 54
-    spriteID: 9657829d66ac37342a05d6e4db0a5198
+    spriteID: 44af3dacde5415a4483a0cb6695bc6b3
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -294,21 +189,21 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   asepriteLayers:
   - layerIndex: 0
-    guid: -841870705
-    name: ItemSprites
+    guid: 1393867771
+    name: UITiles
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: ItemSprites
+    - name: UITiles
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
         x: 0
-        y: 296
-        width: 309
-        height: 64
-      spriteId: d54f149e482381045aa3d46ed5f79464
+        y: 224
+        width: 64
+        height: 32
+      spriteId: 27f825c650710dd41b0973ed97926a27
     linkedCells: []
     parentIndex: -1
   platformSettings:
@@ -351,5 +246,5 @@ ScriptedImporter:
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 640, y: 360}
-  previousTextureSize: {x: 512, y: 128}
+  canvasSize: {x: 256, y: 256}
+  previousTextureSize: {x: 128, y: 64}

@@ -35,39 +35,31 @@ public class PlayerInventory : NetworkBehaviour, IContainer
     private List<Slot> hotbarSlots;
     private int selectedSlotIndex;
 
-
-       
-
-    public override void OnNetworkSpawn()
-    {
-        if(!IsOwner)
-        {
-            //this crashes the game.
-            //Destroy(inventoryObject);
-            //Destroy(hotbarObject);
-            //Destroy(hand.gameObject);
-
-            enabled = false;
-            return;
-        }
-        
-    }
-
     private void Awake()
     {
         InitializeInventorySlots();
         InitializeHotbarSlots();
-        ChangeSelectedSlot(0);
+        
     }
     
     private void Start()
     {
-        
-        playerController.playerInput.Player.InventoryToggle.performed += ToggleInventory;
-        playerController.playerInput.Player.InventoryToggle.Enable();
-
         inventoryObject.SetActive(false);
         hotbarObject.SetActive(true);
+        
+        ChangeSelectedSlot(0);
+    }
+
+     public override void OnNetworkSpawn()
+    {
+        if(!IsOwner)
+        {
+            enabled = false;
+            return;
+        }
+        
+        AddItem(3, 10);
+        AddItem(1, 10);
     }
 
     public int GetSelectedSlotIndex()
@@ -103,7 +95,6 @@ public class PlayerInventory : NetworkBehaviour, IContainer
 
     public void ToggleInventory(InputAction.CallbackContext context)
     {
-        Debug.Log($"Toggled from PlayerInventory! Setting inventory to {!inventoryObject.activeSelf}");
         inventoryObject.SetActive(!inventoryObject.activeSelf);
     }
 
@@ -122,8 +113,39 @@ public class PlayerInventory : NetworkBehaviour, IContainer
             hotbarSlots[newValue].Select();
             selectedSlotIndex = newValue;
         }
+        if(hotbarSlots[selectedSlotIndex].GetItemInSlot() != null && hotbarSlots[selectedSlotIndex].GetItemInSlot().Type == ItemType.Structure)
+        {
+            if(GridManager.Instance != null)
+            {
+                GridManager.Instance.holdingStructure = true;
+            }
+            
+        }
+        else
+        {
+            if(GridManager.Instance != null)
+            {
+            GridManager.Instance.holdingStructure = false;
+            }
+        }
     }
 
+    public void OnNumberPressed(InputAction.CallbackContext context)
+    {
+        ChangeSelectedSlot((int)context.ReadValue<float>()-1);
+    }
+
+    public void OnScroll(InputAction.CallbackContext context)
+    {
+        if(context.ReadValue<float>() < 0)
+        {
+            ChangeSelectedSlot(selectedSlotIndex+1);
+        }
+        else if (context.ReadValue<float>() > 0)
+        {
+            ChangeSelectedSlot(selectedSlotIndex-1);
+        }   
+    }
 
     public bool AddItem(int id, int count) 
     {
@@ -194,7 +216,7 @@ public class PlayerInventory : NetworkBehaviour, IContainer
         return false;
     }
 
-    public void UseSelectedItem()
+    public void UseSelectedItem(Vector3 mousePos)
     {
         //attempt to use the item
         BaseItem heldItem = hotbarSlots[selectedSlotIndex].GetItemInSlot();
@@ -202,7 +224,7 @@ public class PlayerInventory : NetworkBehaviour, IContainer
         {
             return;
         }
-        if(heldItem.Use())
+        if(heldItem.Use(mousePos))
         {
             //if the item was successfully used, *and* if the item is.. consumable?
             //can we check for type being Structure or COnsumable? other ones don't decrease count (tool, material, weapon)

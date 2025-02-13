@@ -1,20 +1,26 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewMaterial", menuName = "Items/MaterialItem")]
+[CreateAssetMenu(fileName = "NewStructure", menuName = "Items/StructureItem")]
 public class StructureItem : BaseItem
 {
-    [SerializeField] private GameObject prefab;
-    public override bool Use()
+    [SerializeField] public GameObject prefab;
+    [SerializeField] private int width;
+    [SerializeField] private int height;
+    public override bool Use(Vector3 position)
     {
-    //we need 3 things to send to the gridmanager
-        //1. the object we are going to spawn <- easy
-        //2. where we are going to (want to) spawn it <- medium
-            //get the mouse's position.
-            //turn it into world coordinates. (is this the same as grid coords?)
-            //turn *that* into grid position, profit.
-        //3  rotation.  <- ???
-        //Vector2 mousePos = InputHandler.
-        return false;
+        for(int x = 0; x < width; x++)
+        {
+            for(int y = 0; y < height; y++)
+            {
+                if(GridManager.Instance.IsPositionOccupied(new Vector3Int((int)position.x+(1*x), (int)position.y +(1*y), 0)))
+                {
+                    Debug.Log($"Collided with something at {position.x} + {1*x}, {position.y} + {1*y}");
+                    return false;
+                }
+            }
+        }
+        GridManager.Instance.PlaceObjectServerRpc(Id, new Vector3Int((int)position.x, (int)position.y, 0));
+        return true;
     }
 
 }

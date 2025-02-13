@@ -59,7 +59,7 @@ public abstract class BaseItem : ScriptableObject
         get=>consumeOnUse;
         private set => consumeOnUse = value;
     }
-    public abstract bool Use();
+    public abstract bool Use(Vector3 position);
 
 
 }

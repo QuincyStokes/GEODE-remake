@@ -80,7 +80,15 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public void UpdateCountUI()
     {
-        itemCount.text = count.ToString();
+        if(count > 1)
+        {
+            itemCount.text = count.ToString();
+        }
+        else
+        {
+            itemCount.text = "";
+        }
+       
     }
 
     public void AddCount(int newCount=1)

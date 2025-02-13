@@ -15,8 +15,7 @@ public class PlayerController : NetworkBehaviour
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed;
     [SerializeField] private float knockbackDecay;
-    [SerializeField] public PlayerInputActionMap playerInput; //this is the input action map, essentially there are a bunch of actions we can grab and assign
-    private InputAction movementInput; //for example, moveAction!
+    
 
     private Vector2 inputVelocity;
 
@@ -25,15 +24,17 @@ public class PlayerController : NetworkBehaviour
     [SerializeField] private float maxHealth;
 
 
-    //EVENTS -----------------------
-    public static event Action inventoryToggled;
+    //INPUTS  -----------------------
+
+    [SerializeField] public PlayerInputActionMap playerInput; //this is the input action map, essentially there are a bunch of actions we can grab and assign
+    private InputAction movementInput; 
+    private InputAction mouseInput;
 
     [Header("Internal Use")]
     private Vector2 externalVelocity;
     private float currentHealth;
-    [SerializeField] private InputHandler inputHandler;
-    [SerializeField] private GameObject lootPrefab;
-    [SerializeField] private BaseItem wood;
+    private Vector3 mousePos;
+    private Vector3Int previousMousePosInt;
 
     //WEIRD THING, just going to create a field to the ItemDatabase so it loads.. kindof a hack but it works?
     [SerializeField]private ItemDatabase itemDatabase;
@@ -61,18 +62,59 @@ public class PlayerController : NetworkBehaviour
 
     private void OnEnable()
     {
-        //We handle constant inputs like this
+        //ENABLE CALLBACKS
+        
+        //Movement
         movementInput = playerInput.Player.Move;
         movementInput.Enable();
 
-        //since onetime events don't need to be checked constantly, we don't *need* to reference them.
-        //can instead do this from wherever needed
-        //playerInput.Player.InventoryToggle.performed += InventoryOpen
+        //Inventory
+        playerInput.Player.InventoryToggle.performed += playerInventory.ToggleInventory;
+        playerInput.Player.InventoryToggle.Enable();
+
+        //Numbers
+        playerInput.Player.Numbers.performed += playerInventory.OnNumberPressed;
+        playerInput.Player.Numbers.Enable();
+
+        //PrimaryFire
+        playerInput.Player.PrimaryFire.performed += OnPrimaryFire;
+        playerInput.Player.PrimaryFire.Enable();
+        
+        //Scroll
+        playerInput.Player.Scroll.performed += playerInventory.OnScroll;
+        playerInput.Player.Scroll.Enable();
+
+        //Mouse position
+        mouseInput = playerInput.Player.Mouse;
+        mouseInput.Enable();
     }
 
     private void OnDisable()
     {
+        //DISABLE CALLBACKS
+
+        //Movement
         movementInput.Disable();
+
+        //Mouse input
+        mouseInput.Disable();
+
+        //Inventory
+        playerInput.Player.InventoryToggle.performed -= playerInventory.ToggleInventory;
+        playerInput.Player.InventoryToggle.Disable();
+
+        //Numbers
+        playerInput.Player.Numbers.performed -= playerInventory.OnNumberPressed;
+        playerInput.Player.Numbers.Disable();
+
+        //PrimaryFire
+        playerInput.Player.PrimaryFire.performed -= OnPrimaryFire;
+        playerInput.Player.PrimaryFire.Disable();
+
+        //Scroll
+        playerInput.Player.Scroll.performed -= playerInventory.OnScroll;
+        playerInput.Player.Scroll.Disable();
+
     }
 
     
@@ -83,8 +125,7 @@ public class PlayerController : NetworkBehaviour
 
     private void Update()
     {
-        
-        HandleEvents();
+        MousePositionHandler();
     }
 
     private void FixedUpdate()
@@ -101,19 +142,6 @@ public class PlayerController : NetworkBehaviour
         externalVelocity = Vector2.Lerp(externalVelocity, Vector2.zero, knockbackDecay * Time.fixedDeltaTime);
     }
 
-
-
-    private void OnMoveDown(InputAction.CallbackContext context)
-    {
-        //this is the same as doing the horizontal = Input.GetAxis...
-        inputVelocity = context.ReadValue<Vector2>().normalized;
-    }
-    
-    private void OnMoveUp(InputAction.CallbackContext context)
-    {
-        inputVelocity = Vector2.zero;
-    }
-
     //this works pretty well
     [ServerRpc]
     public void ApplyKnockbackServerRpc()
@@ -121,56 +149,27 @@ public class PlayerController : NetworkBehaviour
     {
         // Normalize the direction to ensure consistent behavior, then add the knockback force.
         //externalVelocity += direction.normalized * force;
-        GameObject loot = Instantiate(lootPrefab, transform.position, Quaternion.identity);
+        //GameObject loot = Instantiate(lootPrefab, transform.position, Quaternion.identity);
        
-        loot.GetComponent<NetworkObject>().Spawn();
-        loot.GetComponent<Loot>().itemId.Value = 1;
+        // loot.GetComponent<NetworkObject>().Spawn();
+        // loot.GetComponent<Loot>().itemId.Value = 1;
 
     }
 
-    private void HandleEvents()
+
+    private void OnPrimaryFire(InputAction.CallbackContext context)
     {
-        if(Input.GetKeyDown(inputHandler.useKeybind))
-        {
-            playerInventory.UseSelectedItem();
-        }
+        playerInventory.UseSelectedItem(Camera.main.ScreenToWorldPoint(mouseInput.ReadValue<Vector2>()));
+    }
 
-        if(Input.GetKeyDown(inputHandler.inventoryKeybind))
+    private void MousePositionHandler()
+    {
+        mousePos = Camera.main.ScreenToWorldPoint(mouseInput.ReadValue<Vector2>());
+        Vector3Int mousePosInt = new Vector3Int((int)mousePos.x, (int)mousePos.y, 0);
+        if(mousePosInt != previousMousePosInt)
         {
-            Debug.Log("Inventory toggled!");
-            inventoryToggled?.Invoke();
+            GridManager.Instance.UpdateMousePos(mousePosInt);
         }
-        if(Input.GetKeyDown(inputHandler.spaceKeybind))
-        {
-            ApplyKnockbackServerRpc();
-        }
-        if(inputHandler.InputString != null)
-        {
-            bool isNumber = int.TryParse(inputHandler.InputString, out int number);
-            if(isNumber && number > 0 && number < 10)
-            {
-                if(playerInventory != null)
-                {
-                    playerInventory.ChangeSelectedSlot(number-1);
-                }
-               
-            }
-        }
-        if(inputHandler.ScrollY > 0)
-        {
-            if(playerInventory != null)
-            {
-                playerInventory.ChangeSelectedSlot(playerInventory.GetSelectedSlotIndex()-1);
-            }
-        }
-        else if(inputHandler.ScrollY < 0)
-        {
-            if(playerInventory != null)
-            {
-                playerInventory.ChangeSelectedSlot(playerInventory.GetSelectedSlotIndex()+1);
-            }
-        }
-
     }
 
     

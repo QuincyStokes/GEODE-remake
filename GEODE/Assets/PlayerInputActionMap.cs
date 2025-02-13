@@ -120,21 +120,21 @@ public partial class @PlayerInputActionMap: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Scroll"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""2776c80d-3c14-4091-8c56-d04ced07a2b0"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""Numbers"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""b7230bb6-fc9b-4f52-8b25-f5e19cb2c2ba"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""InventoryToggle"",
@@ -149,6 +149,15 @@ public partial class @PlayerInputActionMap: IInputActionCollection2, IDisposable
                     ""name"": ""Menu"",
                     ""type"": ""Button"",
                     ""id"": ""5639a250-847f-4183-ab29-ce6eefe2f0bb"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Mouse"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""e2a380d4-11ff-416f-a0b0-a612836332a0"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -377,44 +386,11 @@ public partial class @PlayerInputActionMap: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""1D Axis"",
-                    ""id"": ""4fa0a7a5-705c-45f7-a2aa-06a3c2305f81"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Scroll"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""68682d08-7a6a-4aea-91fd-9dfbcd5a6534"",
-                    ""path"": ""<Mouse>/scroll/down"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Scroll"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""ef6e44e1-1209-416b-b35f-b8edd0dd9762"",
-                    ""path"": ""<Mouse>/scroll/up"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Scroll"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": """",
                     ""id"": ""8c0de01b-3f74-4b38-a7ae-994fafdce8d2"",
                     ""path"": ""<Keyboard>/1"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""Scale"",
                     ""groups"": """",
                     ""action"": ""Numbers"",
                     ""isComposite"": false,
@@ -425,7 +401,7 @@ public partial class @PlayerInputActionMap: IInputActionCollection2, IDisposable
                     ""id"": ""3b8a1ed2-6023-41f0-907e-db04387bc4a4"",
                     ""path"": ""<Keyboard>/2"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""Scale(factor=2)"",
                     ""groups"": """",
                     ""action"": ""Numbers"",
                     ""isComposite"": false,
@@ -436,7 +412,7 @@ public partial class @PlayerInputActionMap: IInputActionCollection2, IDisposable
                     ""id"": ""6ff49861-022e-4a86-a107-01699bf86101"",
                     ""path"": ""<Keyboard>/3"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""Scale(factor=3)"",
                     ""groups"": """",
                     ""action"": ""Numbers"",
                     ""isComposite"": false,
@@ -447,7 +423,7 @@ public partial class @PlayerInputActionMap: IInputActionCollection2, IDisposable
                     ""id"": ""e25ca560-f370-4bb6-a7d6-306f1e0d59a3"",
                     ""path"": ""<Keyboard>/4"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""Scale(factor=4)"",
                     ""groups"": """",
                     ""action"": ""Numbers"",
                     ""isComposite"": false,
@@ -458,7 +434,7 @@ public partial class @PlayerInputActionMap: IInputActionCollection2, IDisposable
                     ""id"": ""43311485-57c4-40c8-95e7-021bbbeeb05a"",
                     ""path"": ""<Keyboard>/5"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""Scale(factor=5)"",
                     ""groups"": """",
                     ""action"": ""Numbers"",
                     ""isComposite"": false,
@@ -469,7 +445,7 @@ public partial class @PlayerInputActionMap: IInputActionCollection2, IDisposable
                     ""id"": ""277f4a2c-9f2f-41fa-b13b-23bd4447df1c"",
                     ""path"": ""<Keyboard>/6"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""Scale(factor=6)"",
                     ""groups"": """",
                     ""action"": ""Numbers"",
                     ""isComposite"": false,
@@ -480,7 +456,7 @@ public partial class @PlayerInputActionMap: IInputActionCollection2, IDisposable
                     ""id"": ""c9d7fcd4-b4d9-4a29-8b59-b61133f80bc7"",
                     ""path"": ""<Keyboard>/7"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""Scale(factor=7)"",
                     ""groups"": """",
                     ""action"": ""Numbers"",
                     ""isComposite"": false,
@@ -491,7 +467,7 @@ public partial class @PlayerInputActionMap: IInputActionCollection2, IDisposable
                     ""id"": ""04669ef0-630a-465e-9252-e21f620dd9d2"",
                     ""path"": ""<Keyboard>/8"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""Scale(factor=8)"",
                     ""groups"": """",
                     ""action"": ""Numbers"",
                     ""isComposite"": false,
@@ -502,7 +478,7 @@ public partial class @PlayerInputActionMap: IInputActionCollection2, IDisposable
                     ""id"": ""d176005f-754d-4123-982c-edd250ba75a1"",
                     ""path"": ""<Keyboard>/9"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""Scale(factor=9)"",
                     ""groups"": """",
                     ""action"": ""Numbers"",
                     ""isComposite"": false,
@@ -513,7 +489,7 @@ public partial class @PlayerInputActionMap: IInputActionCollection2, IDisposable
                     ""id"": ""a1786b30-05b2-44ae-abd8-c03e38438287"",
                     ""path"": ""<Keyboard>/0"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""Scale(factor=10)"",
                     ""groups"": """",
                     ""action"": ""Numbers"",
                     ""isComposite"": false,
@@ -538,6 +514,50 @@ public partial class @PlayerInputActionMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Menu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""17f5d123-2f96-4068-ad3c-a4e0608f0b3b"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Scroll"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""551eefc5-1fb2-4105-b90d-9f718937b7ed"",
+                    ""path"": ""<Mouse>/scroll/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Scroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""1e0fdfa5-b72e-42ac-aa91-1b7a6439d1ee"",
+                    ""path"": ""<Mouse>/scroll/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Scroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9cbe984a-6201-49ea-898e-f47c106861f7"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Mouse"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1132,6 +1152,7 @@ public partial class @PlayerInputActionMap: IInputActionCollection2, IDisposable
         m_Player_Numbers = m_Player.FindAction("Numbers", throwIfNotFound: true);
         m_Player_InventoryToggle = m_Player.FindAction("InventoryToggle", throwIfNotFound: true);
         m_Player_Menu = m_Player.FindAction("Menu", throwIfNotFound: true);
+        m_Player_Mouse = m_Player.FindAction("Mouse", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1232,6 +1253,7 @@ public partial class @PlayerInputActionMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Numbers;
     private readonly InputAction m_Player_InventoryToggle;
     private readonly InputAction m_Player_Menu;
+    private readonly InputAction m_Player_Mouse;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1271,6 +1293,10 @@ public partial class @PlayerInputActionMap: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Menu".
         /// </summary>
         public InputAction @Menu => m_Wrapper.m_Player_Menu;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Mouse".
+        /// </summary>
+        public InputAction @Mouse => m_Wrapper.m_Player_Mouse;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1318,6 +1344,9 @@ public partial class @PlayerInputActionMap: IInputActionCollection2, IDisposable
             @Menu.started += instance.OnMenu;
             @Menu.performed += instance.OnMenu;
             @Menu.canceled += instance.OnMenu;
+            @Mouse.started += instance.OnMouse;
+            @Mouse.performed += instance.OnMouse;
+            @Mouse.canceled += instance.OnMouse;
         }
 
         /// <summary>
@@ -1350,6 +1379,9 @@ public partial class @PlayerInputActionMap: IInputActionCollection2, IDisposable
             @Menu.started -= instance.OnMenu;
             @Menu.performed -= instance.OnMenu;
             @Menu.canceled -= instance.OnMenu;
+            @Mouse.started -= instance.OnMouse;
+            @Mouse.performed -= instance.OnMouse;
+            @Mouse.canceled -= instance.OnMouse;
         }
 
         /// <summary>
@@ -1699,6 +1731,13 @@ public partial class @PlayerInputActionMap: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMenu(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Mouse" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnMouse(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
