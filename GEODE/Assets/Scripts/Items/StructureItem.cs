@@ -3,9 +3,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewStructure", menuName = "Items/StructureItem")]
 public class StructureItem : BaseItem
 {
-    [SerializeField] public GameObject prefab;
-    [SerializeField] private int width;
-    [SerializeField] private int height;
+    public GameObject prefab;
+    public int width;
+    public int height;
     public override bool Use(Vector3 position)
     {
         for(int x = 0; x < width; x++)

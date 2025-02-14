@@ -60,6 +60,8 @@ public class PlayerInventory : NetworkBehaviour, IContainer
         
         AddItem(3, 10);
         AddItem(1, 10);
+        AddItem(4, 10);
+        AddItem(5, 10);
     }
 
     public int GetSelectedSlotIndex()
@@ -118,6 +120,7 @@ public class PlayerInventory : NetworkBehaviour, IContainer
             if(GridManager.Instance != null)
             {
                 GridManager.Instance.holdingStructure = true;
+                GridManager.Instance.currentItemId = hotbarSlots[selectedSlotIndex].GetItemInSlot().Id;
             }
             
         }
@@ -125,7 +128,8 @@ public class PlayerInventory : NetworkBehaviour, IContainer
         {
             if(GridManager.Instance != null)
             {
-            GridManager.Instance.holdingStructure = false;
+                GridManager.Instance.holdingStructure = false;
+                GridManager.Instance.currentItemId = -1;
             }
         }
     }
@@ -231,6 +235,10 @@ public class PlayerInventory : NetworkBehaviour, IContainer
             if (heldItem.ConsumeOnUse)
             {
                 hotbarSlots[selectedSlotIndex].SubtractCount();
+                if(hotbarSlots[selectedSlotIndex].GetCount() <= 0)
+                {
+                    GridManager.Instance.holdingStructure = false;
+                }
             }
         } 
     }

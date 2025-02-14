@@ -166,7 +166,7 @@ public class PlayerController : NetworkBehaviour
     {
         mousePos = Camera.main.ScreenToWorldPoint(mouseInput.ReadValue<Vector2>());
         Vector3Int mousePosInt = new Vector3Int((int)mousePos.x, (int)mousePos.y, 0);
-        if(mousePosInt != previousMousePosInt)
+        if(mousePosInt != previousMousePosInt && GridManager.Instance != null)
         {
             GridManager.Instance.UpdateMousePos(mousePosInt);
         }

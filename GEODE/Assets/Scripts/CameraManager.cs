@@ -7,8 +7,6 @@ public class CameraManager : MonoBehaviour
 {
     public static CameraManager Instance;
     [SerializeField] private CinemachineCamera cinemachineCamera;
-    public event Action CameraReady;
-
     public void Awake()
     {
         if(Instance == null)
