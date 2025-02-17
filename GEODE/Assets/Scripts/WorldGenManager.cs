@@ -12,8 +12,8 @@ public class WorldGenManager : NetworkBehaviour
     ///
     public static WorldGenManager Instance;
 
-    [SerializeField] private const int worldSizeX = 200;
-    [SerializeField] private const int worldSizeY = 200;
+    [SerializeField] private const int worldSizeX = 100;
+    [SerializeField] private const int worldSizeY = 100;
     [SerializeField] float noiseScale = 20f;
     [SerializeField] Vector2 offset = new Vector2(10, 10);
     [SerializeField] Tilemap backgroundTilemap;
@@ -30,6 +30,18 @@ public class WorldGenManager : NetworkBehaviour
     }
 
 
+    private void Awake()
+    {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        
+    }
     public void OnNetworkSpawned()
     {
         if(!IsServer)
