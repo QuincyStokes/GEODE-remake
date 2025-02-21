@@ -28,6 +28,7 @@ public class StructureItem : BaseItem
             foreach (Vector3 pos in positionsToBlock)
             {
                 FlowFieldManager.Instance.SetWalkable(pos, false);
+                Debug.Log($"Marking  {pos} as non-walkable");
             }
             FlowFieldManager.Instance.CalculateFlowField();
         }

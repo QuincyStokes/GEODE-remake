@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Simple Wall
   description: Its a simple wall
   type: 2
-  icon: {fileID: -2947997422373418083, guid: a5b761982e172f54d8bb191f041855f8, type: 3}
+  icon: {fileID: 7075466253502155572, guid: 01bbede6e3b95ef48ba0fe915f04c614, type: 3}
   id: 4
   isStackable: 1
   consumeOnUse: 1

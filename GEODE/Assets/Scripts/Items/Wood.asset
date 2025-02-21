@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Wood
   description: It's... made of wood!
   type: 4
-  icon: {fileID: 4682517107831167289, guid: a5b761982e172f54d8bb191f041855f8, type: 3}
+  icon: {fileID: 8373824616558318250, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
   id: 1
   isStackable: 1
   consumeOnUse: 0

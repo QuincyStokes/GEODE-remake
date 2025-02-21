@@ -15,11 +15,6 @@ public class PathToCore : BaseEnemyState
 
     public override void FixedUpdateState(BaseEnemy owner, EnemyStateMachine stateMachine)
     {
-        Debug.Log("Fixed Update for PathToCoreState");
-    }
-
-    public override void UpdateState(BaseEnemy owner, EnemyStateMachine stateMachine)
-    {
         Debug.Log("Update for PathToCore");
         if(!DayCycleManager.Instance.IsNighttime())
         {
@@ -30,12 +25,22 @@ public class PathToCore : BaseEnemyState
         {
             if(FlowFieldManager.Instance != null && !FlowFieldManager.Instance.IsOnFlowField(owner.transform.position))
             {
+                Debug.Log("Unit is not on FlowField");
                 owner.rb.linearVelocity = (owner.coreTransform.position - owner.transform.position).normalized;
             }
-
-            if(FlowFieldManager.Instance != null && FlowFieldManager.Instance.IsOnFlowField(owner.transform.position))
+            else if(FlowFieldManager.Instance != null && FlowFieldManager.Instance.IsOnFlowField(owner.transform.position))
             {
-                owner.rb.linearVelocity = FlowFieldManager.Instance.GetFlowDirection(owner.transform.position);
+                if(FlowFieldManager.Instance.GetFlowDirection(owner.transform.position) == Vector2.zero)
+                {
+                    //this means there is no path to the core from our current location, set state to PathToObstructing
+                    stateMachine.ChangeState(new PathToObstructing());
+                }
+                else
+                {
+                    Debug.Log("Unit is on FlowField, and is on top of a nonzero flow");
+                    owner.rb.linearVelocity = FlowFieldManager.Instance.GetFlowDirection(owner.transform.position);
+                }
+                
             }
         }
         else
@@ -43,9 +48,10 @@ public class PathToCore : BaseEnemyState
             Debug.Log("Core is null, cannot path to it.");
         }
         
+    }
 
-        
-
-
+    public override void UpdateState(BaseEnemy owner, EnemyStateMachine stateMachine)
+    {
+    
     }
 }

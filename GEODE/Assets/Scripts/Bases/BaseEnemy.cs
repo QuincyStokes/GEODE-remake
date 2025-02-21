@@ -16,12 +16,15 @@ public abstract class BaseEnemy : NetworkBehaviour
 
     [Header("Enemy Settings")]
     [SerializeField] private float maxHealth;
-    private float currentHealth;
+   
     [SerializeField] private float attackDamage;
     [SerializeField] private float attackRange;
+    public float movementSpeed;
     [SerializeField] private List<DroppedItem> droppedItems;
+    public LayerMask structureLayerMask;
 
 
+    private float currentHealth;
 
     [SerializeField] struct DroppedItem
     {
@@ -54,6 +57,11 @@ public abstract class BaseEnemy : NetworkBehaviour
     private void Update()
     {
         stateMachine.CurrentState?.UpdateState(this, stateMachine);
+    }
+
+    private void FixedUpdate()
+    {
+        stateMachine.CurrentState?.FixedUpdateState(this, stateMachine);   
     }
 
     public void TakeDamage(float amount)

@@ -82,11 +82,15 @@ public class FlowFieldManager : NetworkBehaviour
 
     public Vector2Int WorldToFlowFieldPositionRaw(Vector3 worldPos)
     {
-        float localX = worldPos.x - corePosition.x; //could divide by cell size here, but we are using 1x1 so no need
-        float localY = worldPos.y - corePosition.y;
+        int wx = Mathf.FloorToInt(worldPos.x);
+        int wy = Mathf.FloorToInt(worldPos.y);
 
-        int x = Mathf.FloorToInt(localX);
-        int y = Mathf.FloorToInt(localY);
+
+        int x = wx - corePosition.x; //could divide by cell size here, but we are using 1x1 so no need
+        int y = wy - corePosition.y;
+
+        //int x = Mathf.FloorToInt(localX);
+        //int y = Mathf.FloorToInt(localY);
 
         //THIS IS NOT CLAMPED, meaning if we use these coords directly in the grid they may not be in bounds
         return new Vector2Int(x, y);
@@ -120,6 +124,7 @@ public class FlowFieldManager : NetworkBehaviour
         //First check if this position is actually on the flowfield
         if(IsInBounds(flowFieldPosition))
         {
+            Debug.Log($"Marking  {flowFieldPosition} as non-walkable");
             //if we're here, we have a valid position, set the walkable
             flowField[flowFieldPosition.x, flowFieldPosition.y].isWalkable = walkable;
         }
@@ -132,14 +137,14 @@ public class FlowFieldManager : NetworkBehaviour
         return pos.x >= 0 && pos.x < fieldWidth && pos.y >= 0 && pos.y < fieldHeight;
     }
 
-    public void SetCorePosition(Transform transform)
+    public void SetCorePosition(Transform transfo)
     {
-        Vector2Int newCorePos = new Vector2Int((int)transform.position.x-fieldWidth/2, (int)transform.position.y-fieldHeight/2);
+        Vector2Int newCorePos = new Vector2Int((int)transfo.position.x-fieldWidth/2, (int)transfo.position.y-fieldHeight/2);
         corePosition = newCorePos;
         Debug.Log($"New Core position at {newCorePos}");
         hasCoreBeenPlaced = true;
-        coreTransform = transform;
-        corePlaced?.Invoke(transform);
+        coreTransform = transfo;
+        corePlaced?.Invoke(transfo);
     }
 
     public bool HasCoreBeenPlaced()
@@ -173,17 +178,17 @@ public class FlowFieldManager : NetworkBehaviour
         }
 
         //now we run BFS
-         Queue<Vector2Int> queue = new Queue<Vector2Int>();
+        Queue<Vector2Int> queue = new Queue<Vector2Int>();
 
         Vector2Int centerPosition = new Vector2Int(fieldWidth/2, fieldHeight/2);
         //initialize goal cell
         flowField[centerPosition.x, centerPosition.y].integrationCost = 0;
-        queue.Enqueue(centerPosition);
+        //queue.Enqueue(centerPosition);
 
-        // //chatgpt says to try this
-        // Vector2Int coreCell = WorldToFlowFieldPositionClamped(new Vector3(corePosition.x, corePosition.y));
-        // flowField[coreCell.x, coreCell.y].integrationCost = 0;
-        // queue.Enqueue(coreCell);
+        //chatgpt says to try this
+        //Vector2Int coreCell = WorldToFlowFieldPositionClamped(new Vector3(corePosition.x, corePosition.y));
+        //flowField[coreCell.x, coreCell.y].integrationCost = 0;
+        queue.Enqueue(centerPosition);
 
         //BFS from the goal outward
         while(queue.Count > 0)

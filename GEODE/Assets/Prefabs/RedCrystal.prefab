@@ -66,7 +66,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 1, y: 0.25}
+  m_Offset: {x: 1, y: 0.4369852}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -76,8 +76,117 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.34, y: 0.48}
+  m_Size: {x: 1.3400002, y: 0.8539704}
   m_EdgeRadius: 0
+--- !u!1 &7857131579831043483
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 342921055366697814}
+  - component: {fileID: 3965489576987516197}
+  m_Layer: 0
+  m_Name: Light 2D (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &342921055366697814
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7857131579831043483}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.025, y: 0.935, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8045205515108008951}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3965489576987516197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7857131579831043483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ComponentVersion: 2
+  m_LightType: 1
+  m_BlendStyleIndex: 0
+  m_FalloffIntensity: 0.842
+  m_Color: {r: 0.9245283, g: 0.18752226, b: 0.18752226, a: 1}
+  m_Intensity: 0.91
+  m_LightVolumeIntensity: 1
+  m_LightVolumeEnabled: 0
+  m_ApplyToSortingLayers: 2f1377f300000000e7bcb112
+  m_LightCookieSprite: {fileID: 0}
+  m_DeprecatedPointLightCookieSprite: {fileID: 0}
+  m_LightOrder: 0
+  m_AlphaBlendOnOverlap: 0
+  m_OverlapOperation: 0
+  m_NormalMapDistance: 3
+  m_NormalMapQuality: 2
+  m_UseNormalMap: 0
+  m_ShadowsEnabled: 1
+  m_ShadowIntensity: 0.75
+  m_ShadowSoftness: 0.3
+  m_ShadowSoftnessFalloffIntensity: 0.5
+  m_ShadowVolumeIntensityEnabled: 0
+  m_ShadowVolumeIntensity: 0.75
+  m_LocalBounds:
+    m_Center: {x: -0.034150124, y: 0.058250427, z: 0}
+    m_Extent: {x: 11.30505, y: 11.25175, z: 0}
+  m_PointLightInnerAngle: 360
+  m_PointLightOuterAngle: 360
+  m_PointLightInnerRadius: 1.48
+  m_PointLightOuterRadius: 3
+  m_ShapeLightParametricSides: 5
+  m_ShapeLightParametricAngleOffset: 0
+  m_ShapeLightParametricRadius: 1
+  m_ShapeLightFalloffSize: 10.23
+  m_ShapeLightFalloffOffset: {x: 0, y: 0}
+  m_ShapePath:
+  - {x: -0.63910985, y: -0.9625404, z: 0}
+  - {x: 0.73433405, y: -0.96019876, z: 0}
+  - {x: 0.9160628, y: -0.83093953, z: 0}
+  - {x: 0.99398935, y: -0.6617939, z: 0}
+  - {x: 0.93877316, y: -0.4829115, z: 0}
+  - {x: 0.86940956, y: -0.39170074, z: 0}
+  - {x: 1.0400732, y: -0.09186897, z: 0}
+  - {x: 1.0409343, y: 0.19943768, z: 0}
+  - {x: 0.963289, y: 0.34185964, z: 0}
+  - {x: 0.6075853, y: 0.20829767, z: 0}
+  - {x: 0.6214294, y: 0.49376035, z: 0}
+  - {x: 0.615401, y: 0.68258685, z: 0}
+  - {x: 0.34224355, y: 0.66503817, z: 0}
+  - {x: 0.35365266, y: 0.83195925, z: 0}
+  - {x: 0.007254958, y: 1.0818876, z: 0}
+  - {x: -0.43576306, y: 0.67290026, z: 0}
+  - {x: -0.42383492, y: 0.2901742, z: 0}
+  - {x: -0.6792706, y: 0.34855205, z: 0}
+  - {x: -0.7889683, y: 0.27411944, z: 0}
+  - {x: -0.87013817, y: 0.18335038, z: 0}
+  - {x: -0.910473, y: 0.07087517, z: 0}
+  - {x: -1.1100848, y: -0.016783178, z: 0}
+  - {x: -1.089669, y: -0.3885313, z: 0}
+  - {x: -0.98731196, y: -0.47608107, z: 0}
+  - {x: -0.93412215, y: -0.55615723, z: 0}
+  - {x: -1.0068016, y: -0.62717074, z: 0}
+  - {x: -0.9093491, y: -0.8199877, z: 0}
+  - {x: -0.85848236, y: -0.87916344, z: 0}
+  - {x: -0.78932613, y: -0.9303967, z: 0}
 --- !u!1 &8039156519530699757
 GameObject:
   m_ObjectHideFlags: 0
@@ -168,6 +277,7 @@ GameObject:
   - component: {fileID: 4730815865388357885}
   - component: {fileID: 7359029905104181308}
   - component: {fileID: -5197024450714403594}
+  - component: {fileID: 7155335561222885596}
   m_Layer: 7
   m_Name: RedCrystal
   m_TagString: Untagged
@@ -184,12 +294,13 @@ Transform:
   m_GameObject: {fileID: 8370947462149780993}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.1379234, y: 0.41051087, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4061266094706242322}
   - {fileID: 4362482351808134440}
+  - {fileID: 342921055366697814}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4730815865388357885
@@ -236,7 +347,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 4713751956996512174, guid: a5b761982e172f54d8bb191f041855f8, type: 3}
+  m_Sprite: {fileID: 2833242549449789950, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -259,8 +370,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3220729341
-  InScenePlacedSourceGlobalObjectIdHash: 0
+  GlobalObjectIdHash: 3292385974
+  InScenePlacedSourceGlobalObjectIdHash: 3220729341
   DeferredDespawnTick: 0
   Ownership: 1
   AlwaysReplicateAsRoot: 0
@@ -308,3 +419,85 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &7155335561222885596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8370947462149780993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_Priority: 0
+  m_ComponentVersion: 5
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_AlphaCutoff: 0.1
+  m_ApplyToSortingLayers: 2f1377f300000000e7bcb112
+  m_ShapePath:
+  - {x: 0.42730987, y: 1.1998345, z: 0}
+  - {x: 0.65617716, y: 1.145182, z: 0}
+  - {x: 0.6795236, y: 1.5809824, z: 0}
+  - {x: 1.0199443, y: 1.939655, z: 0}
+  - {x: 1.2558832, y: 1.7355069, z: 0}
+  - {x: 1.2630516, y: 1.5342586, z: 0}
+  - {x: 1.5646985, y: 1.5569524, z: 0}
+  - {x: 1.5409489, y: 1.0322033, z: 0}
+  - {x: 1.9974506, y: 1.1566687, z: 0}
+  - {x: 1.9752799, y: 0.90921605, z: 0}
+  - {x: 1.700163, y: 0.28696445, z: 0}
+  - {x: 1.9110771, y: 0.36447302, z: 0}
+  - {x: 1.9215853, y: 0.15399888, z: 0}
+  - {x: 1.7532907, y: 0.01171574, z: 0}
+  - {x: 0.35175645, y: -0.0077032745, z: 0}
+  - {x: 0.34895015, y: 0.02089104, z: 0}
+  - {x: 0.2882496, y: 0.022695392, z: 0}
+  - {x: 0.28826034, y: 0.052786738, z: 0}
+  - {x: 0.2571026, y: 0.050088674, z: 0}
+  - {x: 0.25495374, y: 0.114553005, z: 0}
+  - {x: 0.28719127, y: 0.116176635, z: 0}
+  - {x: 0.28669178, y: 0.14673159, z: 0}
+  - {x: 0.3486241, y: 0.1478087, z: 0}
+  - {x: 0.35023975, y: 0.1763514, z: 0}
+  - {x: 0.25761068, y: 0.17581287, z: 0}
+  - {x: 0.2570721, y: 0.2048941, z: 0}
+  - {x: 0.16656059, y: 0.20791098, z: 0}
+  - {x: 0.056952238, y: 0.36696723, z: 0}
+  - {x: 0.2631787, y: 0.4331155, z: 0}
+  - {x: 0.025823832, y: 0.6977085, z: 0}
+  - {x: 0.021932602, y: 0.9428462, z: 0}
+  - {x: 0.27485204, y: 0.92728186, z: 0}
+  - {x: 0.46162355, y: 0.8144407, z: 0}
+  - {x: 0.3526734, y: 1.0323409, z: 0}
+  m_ShapePathHash: 1771435832
+  m_InstanceId: 0
+  m_ShadowShape2DComponent: {fileID: 0}
+  m_ShadowShape2DProvider:
+    rid: -2
+  m_ShadowCastingSource: 1
+  m_ShadowMesh:
+    m_Mesh: {fileID: 0}
+    m_LocalBounds:
+      m_Center: {x: 1.0096916, y: 0.9659759, z: 0}
+      m_Extent: {x: 0.987759, y: 0.9736791, z: 0}
+    m_EdgeProcessing: 1
+    m_TrimEdge: 0
+    m_FlipX: 0
+    m_FlipY: 0
+    m_InitialTrim: 0
+  m_CastingOption: 1
+  m_PreviousTrimEdge: 0
+  m_PreviousEdgeProcessing: 1
+  m_PreviousShadowCastingSource: 1
+  m_PreviousShadowShape2DSource: {fileID: 4730815865388357885}
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

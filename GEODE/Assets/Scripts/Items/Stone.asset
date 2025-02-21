@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Stone
   description: Its a rock!
   type: 4
-  icon: {fileID: -6600870632750358377, guid: a5b761982e172f54d8bb191f041855f8, type: 3}
+  icon: {fileID: -1385477891314993134, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
   id: 2
   isStackable: 1
   consumeOnUse: 0

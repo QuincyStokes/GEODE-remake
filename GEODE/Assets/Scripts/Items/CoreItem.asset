@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Core
   description: You must protect it
   type: 2
-  icon: {fileID: 4713751956996512174, guid: a5b761982e172f54d8bb191f041855f8, type: 3}
+  icon: {fileID: -3158003992202558021, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
   id: 6
   isStackable: 0
   consumeOnUse: 1
