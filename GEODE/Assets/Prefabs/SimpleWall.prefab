@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4362482351808134440}
-  - component: {fileID: 3792986849769939562}
+  - component: {fileID: 4120678448555162002}
   m_Layer: 0
   m_Name: CollisionHitbox
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8045205515108008951}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &3792986849769939562
+--- !u!61 &4120678448555162002
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

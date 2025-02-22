@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class FlowFieldManager : NetworkBehaviour
 {
@@ -16,11 +17,14 @@ public class FlowFieldManager : NetworkBehaviour
 
     //  INTERNAL
 
-    private Vector2Int corePosition = Vector2Int.zero;
+    private Vector2Int flowFieldOrigin = Vector2Int.zero;
     private FlowCell[,] flowField;
     private bool hasCoreBeenPlaced;
     public event Action<Transform> corePlaced;
     public Transform coreTransform;
+
+    public Tilemap debugTilemap;
+    public Tile[] debugTiles;
 
 
     //precalculating these to save overhead
@@ -30,10 +34,10 @@ public class FlowFieldManager : NetworkBehaviour
         new Vector2Int(1, 0),   //right
         new Vector2Int(0, -1),  //down
         new Vector2Int(0, 1),   //up
-        //new Vector2Int(-1, -1), //down left
-        //new Vector2Int(-1, 1),  //up left
-        //new Vector2Int(1, -1),  //down right
-        //new Vector2Int(1, 1)    //up right
+        // new Vector2Int(-1, -1), //down left
+        // new Vector2Int(-1, 1),  //up left
+        // new Vector2Int(1, -1),  //down right
+        // new Vector2Int(1, 1)    //up right
     };
 
     private void Awake()
@@ -61,12 +65,21 @@ public class FlowFieldManager : NetworkBehaviour
             }
         }
     }
-    
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+
+        if(!IsServer)
+        {
+            this.enabled = false;
+        }
+    }
 
     public Vector2Int WorldToFlowFieldPositionClamped(Vector3 worldPos)
     {
-        float localX = worldPos.x - corePosition.x; //could divide by cell size here, but we are using 1x1 so no need
-        float localY = worldPos.y - corePosition.y;
+        float localX = worldPos.x - flowFieldOrigin.x; //could divide by cell size here, but we are using 1x1 so no need
+        float localY = worldPos.y - flowFieldOrigin.y;
 
         int x = Mathf.FloorToInt(localX);
         int y = Mathf.FloorToInt(localY);
@@ -86,8 +99,8 @@ public class FlowFieldManager : NetworkBehaviour
         int wy = Mathf.FloorToInt(worldPos.y);
 
 
-        int x = wx - corePosition.x; //could divide by cell size here, but we are using 1x1 so no need
-        int y = wy - corePosition.y;
+        int x = wx - flowFieldOrigin.x; //could divide by cell size here, but we are using 1x1 so no need
+        int y = wy - flowFieldOrigin.y;
 
         //int x = Mathf.FloorToInt(localX);
         //int y = Mathf.FloorToInt(localY);
@@ -107,8 +120,8 @@ public class FlowFieldManager : NetworkBehaviour
 
     public bool IsOnFlowField(Vector3 position)
     {
-        float localX = position.x - corePosition.x; //could divide by cell size here, but we are using 1x1 so no need
-        float localY = position.y - corePosition.y;
+        float localX = position.x - flowFieldOrigin.x; //could divide by cell size here, but we are using 1x1 so no need
+        float localY = position.y - flowFieldOrigin.y;
 
         int x = Mathf.FloorToInt(localX);
         int y = Mathf.FloorToInt(localY);
@@ -139,9 +152,9 @@ public class FlowFieldManager : NetworkBehaviour
 
     public void SetCorePosition(Transform transfo)
     {
-        Vector2Int newCorePos = new Vector2Int((int)transfo.position.x-fieldWidth/2, (int)transfo.position.y-fieldHeight/2);
-        corePosition = newCorePos;
-        Debug.Log($"New Core position at {newCorePos}");
+        Vector2Int flowFieldOriginPos = new Vector2Int((int)transfo.position.x-fieldWidth/2, (int)transfo.position.y-fieldHeight/2);
+        flowFieldOrigin = flowFieldOriginPos;
+        Debug.Log($"New Core position at {flowFieldOriginPos}");
         hasCoreBeenPlaced = true;
         coreTransform = transfo;
         corePlaced?.Invoke(transfo);
@@ -157,10 +170,9 @@ public class FlowFieldManager : NetworkBehaviour
     /// This function takes in a core position, and calculates the flow field around it in our given width/height
     /// This will need to be re-called every time the player places a structure. Might sound yucky, but better than A* for 200 units every update :thumbs_up:
     /// </summary>
-    /// <param name="corePos">the position of our core. Not sure what to do about the fact that it's 2x2. Maybe we make it 3x3</param>
     public void CalculateFlowField()
     {
-        if(corePosition == Vector2Int.zero)
+        if(!hasCoreBeenPlaced)
         {
             Debug.Log("Cannot calculate flow field, core position has not been set.");
             return;
@@ -227,7 +239,7 @@ public class FlowFieldManager : NetworkBehaviour
 
         //now we have the integration cost for every cell.
         //now we need to compute all of their flow directions
-
+        debugTilemap.ClearAllTiles();
         for(int x = 0; x < fieldWidth; x++)
         {
             for(int y = 0; y < fieldHeight; y++)
@@ -267,6 +279,22 @@ public class FlowFieldManager : NetworkBehaviour
                 //finally, set our current position's flow direction towards the cheapest neighbor
                 Debug.Log($"Placing flow direction at ({x}, {y}) with direction {bestDir}");
                 flowField[x, y].flowDirection = bestDir;
+                if(bestDir == neighborOffsets[0])
+                {
+                    debugTilemap.SetTile(new Vector3Int(x + flowFieldOrigin.x, y + flowFieldOrigin.y, 0), debugTiles[0]);
+                }
+                if(bestDir == neighborOffsets[1])
+                {
+                    debugTilemap.SetTile(new Vector3Int(x + flowFieldOrigin.x, y + flowFieldOrigin.y, 0), debugTiles[1]);
+                }
+                if(bestDir == neighborOffsets[2])
+                {
+                    debugTilemap.SetTile(new Vector3Int(x + flowFieldOrigin.x, y + flowFieldOrigin.y, 0), debugTiles[2]);
+                }
+                if(bestDir == neighborOffsets[3])
+                {
+                    debugTilemap.SetTile(new Vector3Int(x + flowFieldOrigin.x, y + flowFieldOrigin.y, 0), debugTiles[3]);
+                }
             }
         }
     }

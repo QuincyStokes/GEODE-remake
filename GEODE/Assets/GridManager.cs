@@ -100,7 +100,7 @@ public class GridManager : NetworkBehaviour
     }   
 
     [ServerRpc(RequireOwnership = false)]
-    public void PlaceObjectServerRpc(int itemId, Vector3Int position)
+    public void PlaceObjectServerRpc(int itemId, Vector3Int position, Vector3[] positionsToBlock)
     {
         
         BaseItem baseItem = ItemDatabase.Instance.GetItem(itemId);
@@ -110,6 +110,11 @@ public class GridManager : NetworkBehaviour
             //Vector3 placePos = new Vector3(position.x-structureItem.width/2, position.y-structureItem.height/2, 0);
             //GameObject newObject = Instantiate(structureItem.prefab, placePos, Quaternion.identity);
             GameObject newObject = Instantiate(structureItem.prefab, position, Quaternion.identity);
+            foreach (Vector3 pos in positionsToBlock)
+            {
+                FlowFieldManager.Instance.SetWalkable(pos, false);
+            } 
+            FlowFieldManager.Instance.CalculateFlowField();
             newObject.GetComponent<NetworkObject>().Spawn();
             
         }

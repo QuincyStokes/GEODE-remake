@@ -38,15 +38,16 @@ public class PathToObstructing : BaseEnemyState
                     //first thing we hit, we shall target and attack
                 if(obstructingObject == null)
                 {
-                    RaycastHit hit;
+                    
                     Vector3 dir = (owner.coreTransform.position - owner.transform.position).normalized;
                     float distance = Vector3.Distance(owner.transform.position, owner.coreTransform.position);
 
-                    Physics.Raycast(owner.transform.position, dir, out hit, distance, owner.structureLayerMask);
+                    RaycastHit2D hit = Physics2D.Raycast(owner.transform.position, dir, distance, owner.structureLayerMask);
                     if(hit.collider != null)
                     {
                         //we have found a target to attack
                         obstructingObject = hit.transform.gameObject;
+                        Debug.Log(obstructingObject.transform.position);
                     }
                     else
                     {

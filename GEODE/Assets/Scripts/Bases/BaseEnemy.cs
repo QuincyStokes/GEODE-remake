@@ -22,6 +22,8 @@ public abstract class BaseEnemy : NetworkBehaviour
     public float movementSpeed;
     [SerializeField] private List<DroppedItem> droppedItems;
     public LayerMask structureLayerMask;
+    public EnemySteering steering;
+
 
 
     private float currentHealth;
@@ -45,8 +47,19 @@ public abstract class BaseEnemy : NetworkBehaviour
         stateMachine = new EnemyStateMachine(this);
         
     }
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+
+        if(!IsServer)
+        {
+            this.enabled = false;
+        }
+    }
     private void Start()
     {
+        
         if(FlowFieldManager.Instance != null)
         {
             FlowFieldManager.Instance.corePlaced += SetCorePosition;
@@ -56,11 +69,13 @@ public abstract class BaseEnemy : NetworkBehaviour
 
     private void Update()
     {
+       
         stateMachine.CurrentState?.UpdateState(this, stateMachine);
     }
 
     private void FixedUpdate()
     {
+        
         stateMachine.CurrentState?.FixedUpdateState(this, stateMachine);   
     }
 

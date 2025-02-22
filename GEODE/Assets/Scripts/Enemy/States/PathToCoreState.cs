@@ -38,7 +38,14 @@ public class PathToCore : BaseEnemyState
                 else
                 {
                     Debug.Log("Unit is on FlowField, and is on top of a nonzero flow");
-                    owner.rb.linearVelocity = FlowFieldManager.Instance.GetFlowDirection(owner.transform.position);
+                    //owner.rb.linearVelocity = FlowFieldManager.Instance.GetFlowDirection(owner.transform.position) * owner.movementSpeed;
+                    //now with steering!
+                    Vector2 flowDir = FlowFieldManager.Instance.GetFlowDirection(owner.transform.position) * owner.movementSpeed;
+
+                    Vector2 finalDir = owner.steering.GetSteeredDirection(owner,  flowDir);
+
+                    owner.rb.linearVelocity = finalDir;
+
                 }
                 
             }
