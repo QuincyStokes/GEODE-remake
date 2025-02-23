@@ -1,11 +1,19 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class AttackState : BaseEnemyState
 {
+    public bool isInAnimation = true;
+    public bool doAttack = false;
+    public bool readyToLeave = false;
+    //public float attackTimer;
     public override void EnterState(BaseEnemy owner, EnemyStateMachine stateMachine)
     {
-        Debug.Log("Entering AttackState");
-        //set running animation?
+        //start attack animation
+            //trigger attack through animation event
+        //FOR NOW FAKE ANIMATINO TIME
+        doAttack = true;
+        readyToLeave = true;
     }
 
     public override void ExitState(BaseEnemy owner, EnemyStateMachine stateMachine)
@@ -20,7 +28,23 @@ public class AttackState : BaseEnemyState
 
     public override void UpdateState(BaseEnemy owner, EnemyStateMachine stateMachine)
     {
-        Debug.Log("Update for AttackState");
+       
+        if(doAttack)
+        {
+            Debug.Log("Attacking from AttackState!");
+            owner.Attack();
+            
+            readyToLeave = true;
+
+        }
+        if(readyToLeave)
+        {
+            stateMachine.ChangeState(new PathToCoreState());
+        }
+
+        
+        
+
     }
 
     

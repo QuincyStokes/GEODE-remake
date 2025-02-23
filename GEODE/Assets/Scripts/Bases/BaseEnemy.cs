@@ -8,39 +8,32 @@ public abstract class BaseEnemy : NetworkBehaviour
 {
     ///state machine controlled enemy base class
 
-     
-    private EnemyStateMachine stateMachine;
-
-    [HideInInspector] public Transform coreTransform;
-    [HideInInspector] public Transform playerTransform;
-
     [Header("Enemy Settings")]
-    [SerializeField] private float maxHealth;
-   
-    [SerializeField] private float attackDamage;
-    [SerializeField] private float attackRange;
+    public float maxHealth;
+    public float attackDamage;
+    public float attackRange;
+    public float attackCooldown;
     public float movementSpeed;
     [SerializeField] private List<DroppedItem> droppedItems;
     public LayerMask structureLayerMask;
     public EnemySteering steering;
 
 
-
-    private float currentHealth;
-
-    [SerializeField] struct DroppedItem
-    {
-        int itemId;
-        int amount;
-    }
-
     [Header("References")]
     public Animator animator;
     public Rigidbody2D rb;
+    [HideInInspector] public Transform coreTransform;
+    [HideInInspector] public Transform playerTransform;
+    [HideInInspector] public IDamageable currentTarget;
+    
 
 
     //EVENTS
     public static event Action OnDeath;
+
+    //INTERNAL
+    private float currentHealth;
+    private EnemyStateMachine stateMachine;
 
     private void Awake()
     {
@@ -107,6 +100,11 @@ public abstract class BaseEnemy : NetworkBehaviour
         {
             this.coreTransform = coreTransform;
         }
+    }
+
+    public virtual void Attack()
+    {
+        //we have currentTarget
     }
 
 }

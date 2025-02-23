@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 801184ae3a0d9d2479257a43cc174ad5, type: 3}
-  m_Name: SimpleWall
+  m_Name: LargeWoodenWall
   m_EditorClassIdentifier: 
-  name: Simple Wall
-  description: Its a simple wall
+  name: Large Wooden Wall
+  description: iot sbig
   type: 2
-  icon: {fileID: -6615133372943127429, guid: 01bbede6e3b95ef48ba0fe915f04c614, type: 3}
-  id: 4
+  icon: {fileID: -1547942300781208690, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
+  id: 7
   isStackable: 1
   consumeOnUse: 1
-  prefab: {fileID: 8370947462149780993, guid: eadbd1b7c7a14d44a98c3f6b5dd80174, type: 3}
-  width: 1
-  height: 1
+  prefab: {fileID: 8370947462149780993, guid: 7095b115fda1fc04dba54cf5b60e2420, type: 3}
+  width: 2
+  height: 2

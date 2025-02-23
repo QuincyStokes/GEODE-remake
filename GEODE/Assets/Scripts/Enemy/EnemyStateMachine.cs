@@ -4,6 +4,7 @@ public class EnemyStateMachine
 {
     public BaseEnemyState CurrentState { get; private set;}
     private BaseEnemy owner;
+    public BaseEnemyState PreviousState {get; private set;}
 
     public EnemyStateMachine(BaseEnemy owner)
     {
@@ -15,9 +16,8 @@ public class EnemyStateMachine
     public void ChangeState(BaseEnemyState newState)
     {
         CurrentState.ExitState(owner, this);
-
+        PreviousState = CurrentState;
         CurrentState = newState;
-
         CurrentState.EnterState(owner, this);
     }
 }

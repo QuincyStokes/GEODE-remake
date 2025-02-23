@@ -341,6 +341,27 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 1
     uvTransform: {x: 0, y: 0}
+  - name: 64x64Sprites_3
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 6
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 64
+      y: 0
+      width: 64
+      height: 64
+    spriteID: 0071c704d71421c4ebf81910996bd0a7
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
   asepriteLayers:
   - layerIndex: 0
     guid: 1066965640
@@ -355,7 +376,7 @@ ScriptedImporter:
       cellRect:
         x: 0
         y: 232
-        width: 125
+        width: 128
         height: 128
       spriteId: 9bdb4201716a88e43bcd623209a67237
     linkedCells: []

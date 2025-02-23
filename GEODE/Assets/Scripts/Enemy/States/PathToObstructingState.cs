@@ -1,7 +1,8 @@
 using UnityEngine;
 
-public class PathToObstructing : BaseEnemyState
+public class PathToObstructingState : BaseEnemyState
 {
+    private float attackTimer;
     //maybe store a reference to the object in our way
     private GameObject obstructingObject;
     public override void EnterState(BaseEnemy owner, EnemyStateMachine stateMachine)
@@ -29,7 +30,7 @@ public class PathToObstructing : BaseEnemyState
             if(FlowFieldManager.Instance.GetFlowDirection(owner.transform.position) != Vector2.zero)
             {
                 //this means there is now a path to the core, lets switch states
-                stateMachine.ChangeState(new PathToCore());
+                stateMachine.ChangeState(new PathToCoreState());
             }
             else
             {
@@ -47,6 +48,7 @@ public class PathToObstructing : BaseEnemyState
                     {
                         //we have found a target to attack
                         obstructingObject = hit.transform.gameObject;
+                        owner.currentTarget = obstructingObject.transform.GetComponent<BaseStructure>();
                         Debug.Log(obstructingObject.transform.position);
                     }
                     else
@@ -71,7 +73,21 @@ public class PathToObstructing : BaseEnemyState
 
     public override void UpdateState(BaseEnemy owner, EnemyStateMachine stateMachine)
     {
-        Debug.Log("Update for PathToObstructing");
+        if(attackTimer >= owner.attackCooldown)
+        {
+            // if current target is in range, attack!
+            if(Vector3.Distance(owner.coreTransform.position, owner.transform.position) <= owner.attackRange)
+            {
+                //Switch to attack state
+                stateMachine.ChangeState(new AttackState());
+            }
+            //else, we are ready to attack but the core is not in range 
+          
+        }
+        else
+        {
+            attackTimer += Time.deltaTime;
+        }
 
     }
 

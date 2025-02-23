@@ -174,7 +174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3736220657
-  InScenePlacedSourceGlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 3736220657
   DeferredDespawnTick: 0
   Ownership: 1
   AlwaysReplicateAsRoot: 0
@@ -199,11 +199,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  coreTransform: {fileID: 0}
-  playerTransform: {fileID: 0}
   maxHealth: 10
   attackDamage: 10
-  attackRange: 1
+  attackRange: 3
+  attackCooldown: 3
   movementSpeed: 2
   structureLayerMask:
     serializedVersion: 2
@@ -214,6 +213,8 @@ MonoBehaviour:
     steeringAngle: 30
   animator: {fileID: 0}
   rb: {fileID: 7670961486429863952}
+  coreTransform: {fileID: 0}
+  playerTransform: {fileID: 0}
 --- !u!50 &7670961486429863952
 Rigidbody2D:
   serializedVersion: 5

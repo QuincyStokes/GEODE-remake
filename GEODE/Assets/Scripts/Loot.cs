@@ -11,7 +11,7 @@ public class Loot : NetworkBehaviour
         NetworkVariableWritePermission.Server
     );
 
-    public NetworkVariable<int> count = new NetworkVariable<int>(
+    public NetworkVariable<int> amount = new NetworkVariable<int>(
         0,
         NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Server
@@ -36,7 +36,7 @@ public class Loot : NetworkBehaviour
             //check if it *can* be added to the player's inventory
             //if it can, call MoveAndCollect
 
-            bool canAdd = other.gameObject.GetComponent<PlayerInventory>().AddItem(itemId.Value, count.Value);
+            bool canAdd = other.gameObject.GetComponent<PlayerInventory>().AddItem(itemId.Value, amount.Value);
             if(canAdd) {
                 StartCoroutine(MoveAndCollect(other.transform));
             }
@@ -67,5 +67,11 @@ public class Loot : NetworkBehaviour
         {
             sr.sprite = null;
         }
+    }
+
+    public void Initialize(int Id, int amount)
+    {
+        this.itemId = Id;
+        this.amount = amount;
     }
 }
