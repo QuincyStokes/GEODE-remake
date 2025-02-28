@@ -58,6 +58,12 @@ public abstract class BaseEnemy : NetworkBehaviour
             FlowFieldManager.Instance.corePlaced += SetCorePosition;
         }
         OnDeath += SetDeathState;
+        PostStart();
+    }
+
+    public virtual void PostStart()
+    {
+
     }
 
     private void Update()

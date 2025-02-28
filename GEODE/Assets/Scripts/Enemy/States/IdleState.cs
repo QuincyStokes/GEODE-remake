@@ -8,6 +8,7 @@ public class IdleState : BaseEnemyState
 
         //logic here for starting idle state
            //play idle animation
+        //animation should actually default to idle..?
     }
 
     public override void ExitState(BaseEnemy owner, EnemyStateMachine stateMachine)

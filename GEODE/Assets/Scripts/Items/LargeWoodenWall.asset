@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Large Wooden Wall
   description: iot sbig
   type: 2
-  icon: {fileID: -1547942300781208690, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
+  icon: {fileID: 1545021824684939692, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
   id: 7
   isStackable: 1
   consumeOnUse: 1

@@ -8,12 +8,14 @@ public class PathToCoreState : BaseEnemyState
     {
         Debug.Log("Entering PathToCoreState");
         //set running animation?
+        owner.animator.SetBool("Move", true);
         owner.currentTarget = owner.coreTransform.GetComponent<BaseStructure>();
     }
 
     public override void ExitState(BaseEnemy owner, EnemyStateMachine stateMachine)
     {
         Debug.Log("Exiting PathToCoreState");
+        owner.animator.SetBool("Move", false);
     }
 
     public override void FixedUpdateState(BaseEnemy owner, EnemyStateMachine stateMachine)
@@ -41,14 +43,23 @@ public class PathToCoreState : BaseEnemyState
                 }
                 else
                 {
-                    Debug.Log("Unit is on FlowField, and is on top of a nonzero flow");
-                    //owner.rb.linearVelocity = FlowFieldManager.Instance.GetFlowDirection(owner.transform.position) * owner.movementSpeed;
-                    //now with steering!
-                    Vector2 flowDir = FlowFieldManager.Instance.GetFlowDirection(owner.transform.position) * owner.movementSpeed;
+                    if(Vector3.Distance(owner.coreTransform.position, owner.transform.position) <= owner.attackRange)
+                    {
+                        //just stand there for now
+                        owner.rb.linearVelocity = Vector3.zero;
+                    }
+                    else
+                    {
+                        Debug.Log("Unit is on FlowField, and is on top of a nonzero flow");
+                        //owner.rb.linearVelocity = FlowFieldManager.Instance.GetFlowDirection(owner.transform.position) * owner.movementSpeed;
+                        //now with steering!
+                        Vector2 flowDir = FlowFieldManager.Instance.GetFlowDirection(owner.transform.position) * owner.movementSpeed;
 
-                    Vector2 finalDir = owner.steering.GetSteeredDirection(owner,  flowDir);
+                        Vector2 finalDir = owner.steering.GetSteeredDirection(owner,  flowDir);
 
-                    owner.rb.linearVelocity = finalDir;
+                        owner.rb.linearVelocity = finalDir;
+                    }
+                    
 
                 }
                 

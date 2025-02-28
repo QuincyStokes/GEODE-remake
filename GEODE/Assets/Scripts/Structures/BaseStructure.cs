@@ -10,11 +10,11 @@ public abstract class BaseStructure : NetworkBehaviour, IDamageable
         NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Server
     );
-    [SerializeField] private NetworkVariable<string> structureName = new NetworkVariable<string>(
-        "NO_NAME",
-        NetworkVariableReadPermission.Everyone,
-        NetworkVariableWritePermission.Server
-    );
+    // [SerializeField] private NetworkVariable<string> structureName = new NetworkVariable<string>(
+    //     "NO_NAME",
+    //     NetworkVariableReadPermission.Everyone,
+    //     NetworkVariableWritePermission.Server
+    // );
 
     [SerializeField] private NetworkVariable<float> currentHealth = new NetworkVariable<float>(
         1,
@@ -25,7 +25,7 @@ public abstract class BaseStructure : NetworkBehaviour, IDamageable
 
     public float MaxHealth { get => maxHealth.Value; set => maxHealth.Value = value; }
     public float CurrentHealth { get => currentHealth.Value; set => currentHealth.Value = value; }
-
+    Transform IDamageable.objectTransform { get => transform;}
 
     public void DestroyThis(bool dropItems)
     {
@@ -44,7 +44,7 @@ public abstract class BaseStructure : NetworkBehaviour, IDamageable
         GetComponent<NetworkObject>().Despawn(true);
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     public void RestoreHealthServerRpc(float amount)
     {
         if(!IsServer)
@@ -58,8 +58,8 @@ public abstract class BaseStructure : NetworkBehaviour, IDamageable
         }
     }
 
-    [ServerRpc]
-    public void TakeDamageServerRpc(float amount, bool dropItems)
+    [ServerRpc(RequireOwnership = false)]
+    public void TakeDamageServerRpc(float amount, bool dropItems=false)
     {
         if(!IsServer)
         {
@@ -69,7 +69,9 @@ public abstract class BaseStructure : NetworkBehaviour, IDamageable
         {
             return;
         }
+        Debug.Log($"{name} took {amount} damage");
         currentHealth.Value -= amount;
+        OnTakeDamage(amount);
         if(currentHealth.Value <= 0)
         {
             DestroyThis(dropItems);

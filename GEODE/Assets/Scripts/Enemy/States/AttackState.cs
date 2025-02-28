@@ -12,6 +12,7 @@ public class AttackState : BaseEnemyState
         //start attack animation
             //trigger attack through animation event
         //FOR NOW FAKE ANIMATINO TIME
+        
         doAttack = true;
         readyToLeave = true;
     }
@@ -32,6 +33,7 @@ public class AttackState : BaseEnemyState
         if(doAttack)
         {
             Debug.Log("Attacking from AttackState!");
+            owner.animator.SetTrigger("Attack");
             owner.Attack();
             
             readyToLeave = true;
@@ -39,7 +41,7 @@ public class AttackState : BaseEnemyState
         }
         if(readyToLeave)
         {
-            stateMachine.ChangeState(new PathToCoreState());
+            stateMachine.ChangeState(new IdleState());
         }
 
         

@@ -9,11 +9,12 @@ public class PathToObstructingState : BaseEnemyState
     {
         Debug.Log("Entering PathToObstructing");
         //set running animation?
+        owner.animator.SetBool("Move", true);
     }
 
     public override void ExitState(BaseEnemy owner, EnemyStateMachine stateMachine)
     {
-        Debug.Log("Exiting PathToObstructing");
+       owner.animator.SetBool("Move", false);
     }
 
     public override void FixedUpdateState(BaseEnemy owner, EnemyStateMachine stateMachine)

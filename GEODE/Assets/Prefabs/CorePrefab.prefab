@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3792986849769939562}
   m_Layer: 0
   m_Name: CollisionHitbox
-  m_TagString: Untagged
+  m_TagString: Structure
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -126,7 +126,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 768
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -247,7 +247,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!114 &7359029905104181308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,3 +321,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a0b48f8472fd2f438df85e329ec3fc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth:
+    m_InternalValue: 100
+  currentHealth:
+    m_InternalValue: 100

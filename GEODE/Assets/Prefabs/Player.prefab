@@ -377,7 +377,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!1 &3669146933921313452
 GameObject:
   m_ObjectHideFlags: 0
@@ -836,7 +836,7 @@ GameObject:
   - component: {fileID: 5127342270165492026}
   - component: {fileID: 7797876280817481097}
   - component: {fileID: 4512977395983589908}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}

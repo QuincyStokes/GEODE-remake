@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Core : MonoBehaviour
+public class Core : BaseStructure
 {
     private void Start()
     {

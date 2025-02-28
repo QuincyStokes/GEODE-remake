@@ -37,14 +37,20 @@ public class EnemySteering
 
         //Raycast forward
         Vector2 origin = owner.transform.position;
-        Vector2 forward = desiredDir.normalized;
 
-        RaycastHit2D hit = Physics2D.Raycast(origin, forward, rayDistance, owner.structureLayerMask);
-        Debug.DrawLine(origin, origin+forward * rayDistance, Color.red, checkInterval);
+        Vector2 forward = desiredDir.normalized;
+        Vector2 slightLeft = Rotate(forward, steeringAngle/2);
+        Vector2 slightRight = Rotate(forward, -steeringAngle/2);
+
+        RaycastHit2D slightLeftHit = Physics2D.Raycast(origin, slightLeft, rayDistance, owner.structureLayerMask);
+        RaycastHit2D slightRightHit = Physics2D.Raycast(origin, slightRight, rayDistance, owner.structureLayerMask);
+        Debug.DrawLine(origin, origin+slightLeft * rayDistance, Color.red, checkInterval);
+        Debug.DrawLine(origin, origin+slightRight * rayDistance, Color.red, checkInterval);
 
         //this means there is no obstacle infront of us, just go straight
-        if(hit.collider == null)
+        if(slightLeftHit.collider == null && slightRightHit.collider == null)
         {
+            Debug.Log("No obstacle found.");
             return desiredDir;
         }
 
