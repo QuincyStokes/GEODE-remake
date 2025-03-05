@@ -3,12 +3,14 @@ using Unity.Mathematics;
 using Unity.Netcode;
 using Unity.Services.Matchmaker.Models;
 using Unity.VisualScripting;
+using UnityEditor.U2D.Aseprite;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Scripting.APIUpdating;
 
 public class PlayerController : NetworkBehaviour
 {
+    public static PlayerController Instance;
     [Header("References")]
     [SerializeField] private PlayerInventory playerInventory;
     [SerializeField] private Animator animator;
@@ -62,6 +64,36 @@ public class PlayerController : NetworkBehaviour
         
         networkDirection.OnValueChanged += OnNetworkDirectionChanged;
         networkVelocity.OnValueChanged += OnNetworkVelocityChanged;
+        //ENABLE CALLBACKS
+        //Movement
+        if(IsOwner)
+        {
+             movementInput = playerInput.Player.Move;
+            movementInput.Enable();
+
+            //Inventory
+            playerInput.Player.InventoryToggle.performed += playerInventory.ToggleInventory;
+            playerInput.Player.InventoryToggle.Enable();
+
+            //Numbers
+            playerInput.Player.Numbers.performed += playerInventory.OnNumberPressed;
+            playerInput.Player.Numbers.Enable();
+
+            //PrimaryFire
+            playerInput.Player.PrimaryFire.performed += OnPrimaryFire;
+            playerInput.Player.PrimaryFire.Enable();
+            
+            //Scroll
+            playerInput.Player.Scroll.performed += playerInventory.OnScroll;
+            playerInput.Player.Scroll.Enable();
+
+            //Mouse position
+            mouseInput = playerInput.Player.Mouse;
+            mouseInput.Enable();
+
+            Instance = this;
+        }
+       
         
     }
     private void Awake()
@@ -77,30 +109,7 @@ public class PlayerController : NetworkBehaviour
         {
             return;
         }
-        //ENABLE CALLBACKS
-        //Movement
-        movementInput = playerInput.Player.Move;
-        movementInput.Enable();
-
-        //Inventory
-        playerInput.Player.InventoryToggle.performed += playerInventory.ToggleInventory;
-        playerInput.Player.InventoryToggle.Enable();
-
-        //Numbers
-        playerInput.Player.Numbers.performed += playerInventory.OnNumberPressed;
-        playerInput.Player.Numbers.Enable();
-
-        //PrimaryFire
-        playerInput.Player.PrimaryFire.performed += OnPrimaryFire;
-        playerInput.Player.PrimaryFire.Enable();
         
-        //Scroll
-        playerInput.Player.Scroll.performed += playerInventory.OnScroll;
-        playerInput.Player.Scroll.Enable();
-
-        //Mouse position
-        mouseInput = playerInput.Player.Mouse;
-        mouseInput.Enable();
     }
 
     private void OnDisable()
@@ -138,10 +147,12 @@ public class PlayerController : NetworkBehaviour
     
     private void Start()
     {
+        
         if(!IsOwner)
         {
             return;
         }
+        CameraManager.Instance.FollowPlayer(transform);
         
     }
 
@@ -240,11 +251,6 @@ public class PlayerController : NetworkBehaviour
 
     private void MousePositionHandler()
     {
-        if(!IsOwner)
-        {
-            return;
-        }
-
         Debug.Log("Camera.main: " + Camera.main);
         Debug.Log("mouseInput: " + mouseInput);
 

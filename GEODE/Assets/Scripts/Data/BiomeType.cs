@@ -3,5 +3,6 @@ using UnityEngine;
 public enum BiomeType
 {
     Forest,
-    Desert
+    Desert,
+    None
 }

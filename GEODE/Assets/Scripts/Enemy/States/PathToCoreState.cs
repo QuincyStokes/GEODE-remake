@@ -8,6 +8,10 @@ public class PathToCoreState : BaseEnemyState
     {
         Debug.Log("Entering PathToCoreState");
         //set running animation?
+        if(owner.coreTransform == null)
+        {
+            stateMachine.ChangeState(new IdleState());
+        }
         owner.animator.SetBool("Move", true);
         owner.currentTarget = owner.coreTransform.GetComponent<BaseStructure>();
     }

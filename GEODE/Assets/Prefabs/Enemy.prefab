@@ -136,7 +136,7 @@ Animator:
   m_GameObject: {fileID: 231187584238529139}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 4601486441124981927, guid: f3940991fae395543ae0c04739d06e7e, type: 3}
+  m_Controller: {fileID: 9100000, guid: a67348c3a21e27040b0416aaeed2366d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -161,7 +161,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  TransitionStateInfoList: []
+  TransitionStateInfoList:
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 1326225478
+    DestinationState: 1080829965
+    TransitionDuration: 0.25
+    TriggerNameHash: 1080829965
+    TransitionIndex: 0
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 2081823275
+    DestinationState: 1080829965
+    TransitionDuration: 0.25
+    TriggerNameHash: 1080829965
+    TransitionIndex: 0
   m_Animator: {fileID: 6878477634410811571}
 --- !u!1 &1160243913533736849
 GameObject:
@@ -213,7 +227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3736220657
+  GlobalObjectIdHash: 393037945
   InScenePlacedSourceGlobalObjectIdHash: 3736220657
   DeferredDespawnTick: 0
   Ownership: 1

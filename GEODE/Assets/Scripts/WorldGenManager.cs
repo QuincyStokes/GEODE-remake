@@ -89,4 +89,24 @@ public class WorldGenManager : NetworkBehaviour
 
     }
 
+    public BiomeType GetBiomeAtPosition(Vector3Int pos)
+    {
+        TileBase tile = backgroundTilemap.GetTile(pos);
+        if (tile != null){
+            BiomeTile biomeTile = tile as BiomeTile;
+            if(biomeTile != null)
+            {
+                return biomeTile.biomeType;
+            }
+            else
+            {
+                return BiomeType.None;
+            }
+        } 
+        else
+        {
+            return BiomeType.None;
+        }
+    }
+
 }

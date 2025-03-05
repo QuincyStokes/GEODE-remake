@@ -30,7 +30,7 @@ public class IdleState : BaseEnemyState
         Debug.Log("Entering Update State!");
 
         //logic here for Update, logic here likely for constantly checking external things like playerPosition, corePosition, and whatnot.
-        if(DayCycleManager.Instance != null && DayCycleManager.Instance.IsNighttime())
+        if(DayCycleManager.Instance != null && DayCycleManager.Instance.IsNighttime() && owner.coreTransform != null)
         {
             stateMachine.ChangeState(new PathToCoreState());
         }
