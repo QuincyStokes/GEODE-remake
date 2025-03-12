@@ -475,7 +475,7 @@ GameObject:
   - component: {fileID: 498300637}
   - component: {fileID: 498300638}
   m_Layer: 0
-  m_Name: DayCycleManager
+  m_Name: Managers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -551,18 +551,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 595310f1ad773ea48b55e2ec9c815ea2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   forestEnemies:
-  - enemyPrefab: {fileID: 1160243913533736849, guid: ca1a2a1ad0af40d4d9304ecdc907170f, type: 3}
+  - enemyId: 1
     weight: 10
   desertEnemies:
-  - enemyPrefab: {fileID: 1160243913533736849, guid: ca1a2a1ad0af40d4d9304ecdc907170f, type: 3}
+  - enemyId: 1
     weight: 10
   spawnPosWidthOffset: 5
   spawnPosHeightOffset: 5
   dayMaxSpawns: 10
   nightMaxSpawns: 100
-  daySpawnRate: 500
-  nightSpawnRate: 50
+  daySpawnRate: 1000
+  nightSpawnRate: 200
   dayMaxSpawnsModifier: 1
   nightMaxSpawnsModifier: 1
   daySpawnRateModifier: 1

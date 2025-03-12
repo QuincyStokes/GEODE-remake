@@ -7,6 +7,9 @@ using UnityEngine;
 public abstract class BaseEnemy : NetworkBehaviour
 {
     ///state machine controlled enemy base class
+    ///
+    [Header("ID")]
+    public int Id;
 
     [Header("Enemy Settings")]
     public float maxHealth;
@@ -52,10 +55,13 @@ public abstract class BaseEnemy : NetworkBehaviour
     }
     private void Start()
     {
-        
-        if(FlowFieldManager.Instance != null)
+        if(FlowFieldManager.Instance != null && coreTransform == null && FlowFieldManager.Instance.coreTransform == null)
         {
             FlowFieldManager.Instance.corePlaced += SetCorePosition;
+        }
+        else if (FlowFieldManager.Instance != null && coreTransform == null && FlowFieldManager.Instance.coreTransform != null)
+        {
+            coreTransform = FlowFieldManager.Instance.coreTransform;
         }
         OnDeath += SetDeathState;
         PostStart();

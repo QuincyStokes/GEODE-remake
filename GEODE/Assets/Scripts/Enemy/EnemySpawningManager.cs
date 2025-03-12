@@ -4,7 +4,7 @@ using Unity.Netcode;
 using UnityEditor;
 using UnityEngine;
 
-public class EnemySpawningManager : MonoBehaviour
+public class EnemySpawningManager : NetworkBehaviour
 {
     #region Settings
     public static EnemySpawningManager Instance;
@@ -45,7 +45,10 @@ public class EnemySpawningManager : MonoBehaviour
 
     private void OnNetworkSpawned()
     {
-        
+        if(!IsServer)
+        {
+            enabled = false;
+        }
     }
     private void OnEnable()
     {
@@ -72,11 +75,10 @@ public class EnemySpawningManager : MonoBehaviour
 
     private void Update()
     {
-        DoEnemySpawningServerRpc();
+        DoEnemySpawning();
     }
 
-    [ServerRpc]
-    private void DoEnemySpawningServerRpc()
+    private void DoEnemySpawning()
     {
         if(currentNumSpawns < currentMaxSpawns)
         {
@@ -88,6 +90,9 @@ public class EnemySpawningManager : MonoBehaviour
                 Vector3Int spawnPos;
                 int xPos;
                 int yPos;
+                int randomPlayer = Random.Range(0, NetworkManager.Singleton.ConnectedClientsList.Count);
+                Vector3 randomPlayerPos = NetworkManager.Singleton.ConnectedClientsList[randomPlayer].PlayerObject.transform.position;
+
                 //! Generate direction to spawn enemy, random between up/left/right/down
                 switch(directionRoll){
                     case 1: //! up
@@ -160,8 +165,8 @@ public class EnemySpawningManager : MonoBehaviour
 
             if(enemies != null)
             {
-                GameObject enemyToSpawn = PickEnemyByWeight(enemies);
-                SpawnEnemyServerRpc(enemyToSpawn, spawnPos);
+                int enemyToSpawnId = PickEnemyByWeight(enemies);
+                SpawnEnemyServerRpc(enemyToSpawnId, spawnPos);
                 Debug.Log($"Spawning an enemy at {spawnPos} in the {biomeType}");
             }
             else
@@ -175,7 +180,7 @@ public class EnemySpawningManager : MonoBehaviour
         
     }
 
-    private GameObject PickEnemyByWeight(List<EnemySpawnWeight> enemies)
+    private int PickEnemyByWeight(List<EnemySpawnWeight> enemies)
     {
         int totalWeights = 0;
         //add up all of the weights
@@ -186,26 +191,35 @@ public class EnemySpawningManager : MonoBehaviour
         
         //now generate a random number from 1 - count, and go through the list til we find a winner
         int chosenWeight = Random.Range(1, totalWeights+1);
-        int counter= 0;
+        int counter = 0;
         foreach(EnemySpawnWeight enemy in enemies)
         {
             counter += enemy.weight;
             if(counter >= chosenWeight)
             {
                 //we found our guy. 
-                return enemy.enemyPrefab;
+                return enemy.enemyId;
             }
         }
         //we shouldnt technically be able to get here, but just incase we do return null
-        return null;
+        return -1;
         
     }
 
-    [ServerRpc]
-    public void SpawnEnemyServerRpc(GameObject enemy, Vector3Int pos)
+    [ServerRpc (RequireOwnership = false)]
+    public void SpawnEnemyServerRpc(int enemyId, Vector3Int pos)
     {
-        GameObject spawnedEnemys = Instantiate(enemy, pos, Quaternion.identity);
-        spawnedEnemys.GetComponent<NetworkObject>().Spawn();
+        GameObject enemyToSpawn = EnemyDatabase.Instance.GetEnemy(enemyId);
+        if (enemyToSpawn != null)
+        {
+            GameObject spawnedEnemy = Instantiate(EnemyDatabase.Instance.GetEnemy(enemyId), pos, Quaternion.identity);
+            spawnedEnemy.GetComponent<NetworkObject>().Spawn();
+        }
+        else
+        {
+            Debug.Log($"Error spawning enemy {enemyId}. Check EnemyDatabase and enemy IDs");
+        }
+       
     }
 
     private void ChangeToDaySettings()
@@ -223,7 +237,7 @@ public class EnemySpawningManager : MonoBehaviour
 
     [System.Serializable]
     public struct EnemySpawnWeight{
-        public GameObject enemyPrefab;
+        public int enemyId;
         public int weight;
 
     }

@@ -15,14 +15,20 @@ public class RatEnemy : BaseEnemy
     public override void Attack()
     {
         Debug.Log("RAT ATTACK");
-        
-        Vector3 dir = (currentTarget.objectTransform.position - transform.position).normalized;
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        attackHitbox.transform.rotation = Quaternion.Euler(0f, 0f, angle);
+        if(currentTarget != null)
+        {
+            Vector3 dir = (currentTarget.objectTransform.position - transform.position).normalized;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            attackHitbox.transform.rotation = Quaternion.Euler(0f, 0f, angle);
 
-        //should probably have an event in the animation that does this instead, same with disabling.
-        attackHitbox.enabled = true;
-        StartCoroutine(DisableHitbox());
+            //should probably have an event in the animation that does this instead, same with disabling.
+            attackHitbox.enabled = true;
+            StartCoroutine(DisableHitbox());
+        }
+        else
+        {
+            Debug.Log("Could not attack, target is null");
+        }
     }
 
 
