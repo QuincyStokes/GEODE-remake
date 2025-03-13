@@ -3,6 +3,7 @@ using NUnit.Framework.Api;
 using Unity.Netcode;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemySpawningManager : NetworkBehaviour
 {
@@ -15,8 +16,8 @@ public class EnemySpawningManager : NetworkBehaviour
     [SerializeField] private List<EnemySpawnWeight> desertEnemies;
 
     [Header("Settings")]
-    [SerializeField] private int spawnPosWidthOffset;
-    [SerializeField] private int spawnPosHeightOffset;
+    [SerializeField] private int minSpawnDistanceFromPlayer;
+    [SerializeField] private int maxSpawnDistanceFromPlayer;
     [SerializeField] private int dayMaxSpawns; //maximum number of enemies during the day
     [SerializeField] private int nightMaxSpawns; //maximum number of enemies during the night
     [SerializeField] private float daySpawnRate; //chance each frame to spawn an enemy during the day
@@ -31,7 +32,7 @@ public class EnemySpawningManager : NetworkBehaviour
     public float nightMaxSpawnsModifier = 1f;
     public float daySpawnRateModifier = 1f; //default is one, we will multiply this by our mxSpawns to modify
     public float nightSpawnRateModifier = 1f;
-
+    public bool activated = false;
 
     //! INTERNAL
     private int currentMaxSpawns;
@@ -39,11 +40,24 @@ public class EnemySpawningManager : NetworkBehaviour
     private float currentSpawnRate;
     private List<EnemySpawnWeight> enemies;
     private float halfHeight;
-    private float halfWidth; 
+    private float halfWidth;
 
     #endregion
 
-    private void OnNetworkSpawned()
+    private void Awake()
+    {
+        if(Instance == null)
+        {
+            Instance = this;
+        }   
+        else
+        {
+            Destroy(gameObject);
+        }
+
+    }
+
+    public override void OnNetworkSpawn()
     {
         if(!IsServer)
         {
@@ -75,7 +89,11 @@ public class EnemySpawningManager : NetworkBehaviour
 
     private void Update()
     {
-        DoEnemySpawning();
+        if(activated)
+        {
+            DoEnemySpawning();  
+        }
+       
     }
 
     private void DoEnemySpawning()
@@ -85,69 +103,39 @@ public class EnemySpawningManager : NetworkBehaviour
             float spawnRoll = Random.Range(1,(int)currentSpawnRate);
             if(spawnRoll == 1)
             {
-                //pick a direction
-                int directionRoll = Random.Range(1, 5);
+                
                 Vector3Int spawnPos;
-                int xPos;
-                int yPos;
+                Debug.Log($"Connected player amount:  {NetworkManager.Singleton.ConnectedClientsList.Count} | Players: {NetworkManager.Singleton.ConnectedClientsList}");
                 int randomPlayer = Random.Range(0, NetworkManager.Singleton.ConnectedClientsList.Count);
-                Vector3 randomPlayerPos = NetworkManager.Singleton.ConnectedClientsList[randomPlayer].PlayerObject.transform.position;
-
-                //! Generate direction to spawn enemy, random between up/left/right/down
-                switch(directionRoll){
-                    case 1: //! up
-            
-                        xPos = Random.Range(
-                            (int)(PlayerController.Instance.transform.position.x - halfWidth - spawnPosWidthOffset), //left x boundary
-                            (int)(PlayerController.Instance.transform.position.x + halfWidth + spawnPosWidthOffset) //right x boundary
-                        ); 
-                        yPos = Random.Range(
-                            (int)(PlayerController.Instance.transform.position.y + halfHeight), //lower y boundary
-                            (int)(PlayerController.Instance.transform.position.y + halfHeight + spawnPosHeightOffset) //upper y boundary
-                        ); //right x boundary
-
-                        spawnPos = new Vector3Int(xPos, yPos, 0);
-                        break;
-                    case 2: //! down
-                        xPos = Random.Range(
-                            (int)(PlayerController.Instance.transform.position.x - halfWidth - spawnPosWidthOffset), //left x boundary
-                            (int)(PlayerController.Instance.transform.position.x + halfWidth + spawnPosWidthOffset) //right x boundary
-                        ); 
-                        yPos = Random.Range(
-                            (int)(PlayerController.Instance.transform.position.y - halfHeight - spawnPosHeightOffset), //lower y boundary
-                            (int)(PlayerController.Instance.transform.position.y - halfHeight) //upper y boundary
-                        ); //right x boundary
-
-                        spawnPos = new Vector3Int(xPos, yPos, 0);
-                        break;
-                    case 3: //! left
-                        xPos = Random.Range(
-                            (int)(PlayerController.Instance.transform.position.x - halfWidth - spawnPosWidthOffset), //left x boundary
-                            (int)(PlayerController.Instance.transform.position.x - halfWidth) //right x boundary
-                        ); 
-                        yPos = Random.Range(
-                            (int)(PlayerController.Instance.transform.position.y - halfHeight - spawnPosHeightOffset), //lower y boundary
-                            (int)(PlayerController.Instance.transform.position.y + halfHeight + spawnPosHeightOffset) //upper y boundary
-                        ); //right x boundary
-
-                        spawnPos = new Vector3Int(xPos, yPos, 0);
-                        break;
-                     default: //! right
-                        xPos = Random.Range(
-                            (int)(PlayerController.Instance.transform.position.x + halfWidth), //left x boundary
-                            (int)(PlayerController.Instance.transform.position.x + halfWidth + spawnPosWidthOffset) //right x boundary
-                        ); 
-                        yPos = Random.Range(
-                            (int)(PlayerController.Instance.transform.position.y - halfHeight - spawnPosHeightOffset), //lower y boundary
-                            (int)(PlayerController.Instance.transform.position.y + halfHeight + spawnPosHeightOffset) //upper y boundary
-                        ); //right x boundary
-                        
-                        spawnPos = new Vector3Int(xPos, yPos, 0);
-                        break;
+                Debug.Log($"Player # {randomPlayer} {NetworkManager.Singleton.ConnectedClientsList[randomPlayer].PlayerObject}");
+                
+                var client = NetworkManager.Singleton.ConnectedClientsList[randomPlayer];
+                if(client.PlayerObject == null || client.PlayerObject.transform == null)
+                {
+                    return;
                 }
+
+                Vector3 randomPlayerPos = NetworkManager.Singleton.ConnectedClientsList[randomPlayer].PlayerObject.transform.position;
+                Vector3Int randomPlayerPosInt = new Vector3Int((int)randomPlayerPos.x, (int)randomPlayerPos.y, 0);
+                //instead of doing the positional way, lets pick a random 360 direction from the player chosen, and then a random distance
+
+                Vector3Int spawnPosOffset = new Vector3Int(Random.Range(-1, 1) * Random.Range(minSpawnDistanceFromPlayer, maxSpawnDistanceFromPlayer), Random.Range(-1, 1) * Random.Range(minSpawnDistanceFromPlayer, maxSpawnDistanceFromPlayer));
+                spawnPos = randomPlayerPosInt + spawnPosOffset;
+
+
                 //we have the position of the enemy spawn now
                     //check biome at that position
                     //choose an enemy based on weights
+                    //but first, make sure it isnt within a certain range from any of the players
+
+                foreach(NetworkClient networkClient in NetworkManager.Singleton.ConnectedClientsList)
+                {
+                    //if the distance to any player is under a ertain range
+                    if(Vector3.Distance(networkClient.PlayerObject.transform.position, spawnPos) < 10)
+                    {
+                        return; //don't spawn an enemy here, its too close to a player.
+                    }
+                }
                 //! Get biome at chosen position
                 BiomeType biomeType = WorldGenManager.Instance.GetBiomeAtPosition(spawnPos);
                 switch(biomeType)

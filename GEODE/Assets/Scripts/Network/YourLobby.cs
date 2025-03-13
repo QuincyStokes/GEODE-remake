@@ -39,6 +39,11 @@ public class YourLobby : MonoBehaviour
         LobbyHandler.onLobbyUpdated += UpdatePlayerList;
     }
 
+    private void OnDisable()
+    {
+        LobbyHandler.onLobbyUpdated -= UpdatePlayerList;
+    }
+
     public void SetLobby(Lobby lobby)
     {   
         Lobby = lobby;

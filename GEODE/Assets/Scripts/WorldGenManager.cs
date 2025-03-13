@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Unity.Collections;
 using Unity.Netcode;
@@ -11,6 +12,7 @@ public class WorldGenManager : NetworkBehaviour
     ///all things dealing with world generation (tiles, obstacles, ..idk) SHALL be generated through this script.
     ///
     public static WorldGenManager Instance;
+    [SerializeField] private GameObject playerPrefab;
 
     [SerializeField] private const int worldSizeX = 100;
     [SerializeField] private const int worldSizeY = 100;
@@ -19,6 +21,12 @@ public class WorldGenManager : NetworkBehaviour
     [SerializeField] Tilemap backgroundTilemap;
     [SerializeField] Tile[] desertTiles;
     [SerializeField] Tile[] forestTiles;
+
+    //[Header("Environment Fluff")]
+    
+    public event Action OnWorldGenerated;
+
+    public bool IsWorldGenerating;
 
     public int WorldSizeX
     {
@@ -31,7 +39,8 @@ public class WorldGenManager : NetworkBehaviour
 
 
     private void Awake()
-    {
+    {   
+        IsWorldGenerating = true;
         if(Instance == null)
         {
             Instance = this;
@@ -40,24 +49,35 @@ public class WorldGenManager : NetworkBehaviour
         {
             Destroy(gameObject);
         }
+       
         
     }
-    public void OnNetworkSpawned()
+    public override void OnNetworkSpawn()
     {
+        base.OnNetworkSpawn();
         if(!IsServer)
         {
             enabled = false;
         }
         //here can continue to do magical spawn things
+
     }
 
     private void Start()
     {
-        InitializeBiomeTiles();
+        //always at the end 
+       
     }
 
-    private void InitializeBiomeTiles()
+    public void InitializeWorldGen(int newseed)
     {
+        InitializeBiomeTiles(newseed);
+    }
+
+    public void InitializeBiomeTiles(int newseed)
+    {
+        IsWorldGenerating = true;
+        UnityEngine.Random.InitState(newseed);
         if(noiseScale <= 0f)
         {
             noiseScale = .0001f; //this will just prevent division by zero error
@@ -76,19 +96,20 @@ public class WorldGenManager : NetworkBehaviour
                 Tile tileToPlace;
                 if(noiseValue <= .5f)
                 {
-                    tileToPlace = desertTiles[Random.Range(0, desertTiles.Length)];
+                    tileToPlace = desertTiles[UnityEngine.Random.Range(0, desertTiles.Length)];
                 }
                 else //in the future this will be more else ifs for different biomes
                 {
-                    tileToPlace = forestTiles[Random.Range(0, forestTiles.Length)];
+                    tileToPlace = forestTiles[UnityEngine.Random.Range(0, forestTiles.Length)];
                 }
                 backgroundTilemap.SetTile(new Vector3Int(x, y), tileToPlace);
 
             }
         }
+        IsWorldGenerating = false;
 
     }
-
+    
     public BiomeType GetBiomeAtPosition(Vector3Int pos)
     {
         TileBase tile = backgroundTilemap.GetTile(pos);
@@ -108,5 +129,16 @@ public class WorldGenManager : NetworkBehaviour
             return BiomeType.None;
         }
     }
+
+    public void SpawnEnvironmentFluff()
+    {
+
+    }
+
+    public void SpawnEnvironmentInteractables()
+    {
+
+    }
+
 
 }

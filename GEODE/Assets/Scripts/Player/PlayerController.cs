@@ -62,14 +62,14 @@ public class PlayerController : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        
+        base.OnNetworkSpawn();
         networkDirection.OnValueChanged += OnNetworkDirectionChanged;
         networkVelocity.OnValueChanged += OnNetworkVelocityChanged;
         //ENABLE CALLBACKS
         //Movement
         if(IsOwner)
         {
-             movementInput = playerInput.Player.Move;
+            movementInput = playerInput.Player.Move;
             movementInput.Enable();
 
             //Inventory
@@ -92,7 +92,11 @@ public class PlayerController : NetworkBehaviour
             mouseInput = playerInput.Player.Mouse;
             mouseInput.Enable();
 
+        
+
             Instance = this;
+
+           
         }
        
         
@@ -143,6 +147,8 @@ public class PlayerController : NetworkBehaviour
         playerInput.Player.Scroll.performed -= playerInventory.OnScroll;
         playerInput.Player.Scroll.Disable();
 
+        
+
     }
 
     
@@ -153,7 +159,17 @@ public class PlayerController : NetworkBehaviour
         {
             return;
         }
+        
+        if(WorldGenManager.Instance != null)
+        {
+            transform.position = new Vector3Int(WorldGenManager.Instance.WorldSizeX/2, WorldGenManager.Instance.WorldSizeY/2);
+        }
+        else
+        {
+            Debug.Log("WorldGenManager is null, cannot place player.");
+        }
         CameraManager.Instance.FollowPlayer(transform);
+        
         
     }
 
@@ -244,6 +260,10 @@ public class PlayerController : NetworkBehaviour
 
     }
 
+    private void SetPositionCenterWorld()
+    {
+        transform.position = new Vector3Int(WorldGenManager.Instance.WorldSizeX/2, WorldGenManager.Instance.WorldSizeY/2);
+    }
 
     private void OnPrimaryFire(InputAction.CallbackContext context)
     {
