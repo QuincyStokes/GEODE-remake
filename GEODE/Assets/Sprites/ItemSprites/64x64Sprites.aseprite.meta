@@ -370,10 +370,10 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 128
-      y: 0
+      x: 132
+      y: 42
       width: 64
-      height: 82
+      height: 83
     spriteID: f635a3152bdce5847866249a8ec8a295
     spriteBone: []
     spriteOutline: []
@@ -396,8 +396,8 @@ ScriptedImporter:
       additiveSortOrder: 0
       cellRect:
         x: 0
-        y: 232
-        width: 192
+        y: 231
+        width: 196
         height: 128
       spriteId: 9bdb4201716a88e43bcd623209a67237
     linkedCells: []

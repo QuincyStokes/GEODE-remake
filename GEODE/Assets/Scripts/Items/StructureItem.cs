@@ -23,7 +23,7 @@ public class StructureItem : BaseItem
                 positionsToBlock.Add(new Vector3(position.x+1*x, position.y+1*y));
             }
         }
-        GridManager.Instance.PlaceObjectServerRpc(Id, new Vector3Int((int)position.x, (int)position.y, 0), positionsToBlock.ToArray());
+        GridManager.Instance.PlaceObjectOnGridServerRpc(Id, new Vector3Int((int)position.x, (int)position.y, 0), positionsToBlock.ToArray());
         return true;
     }
 
