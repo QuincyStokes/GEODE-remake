@@ -80,6 +80,7 @@ GameObject:
   - component: {fileID: 6682896468861731631}
   - component: {fileID: 5552353466574763551}
   - component: {fileID: -1728568318042555414}
+  - component: {fileID: 8301967978179943089}
   m_Layer: 7
   m_Name: DeadForestTree
   m_TagString: Untagged
@@ -184,6 +185,28 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &8301967978179943089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5294732903785832720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93756521e94389f4a8685ec32d7b2293, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightSource: {fileID: 0}
+  shadowSprite: {fileID: 0}
+  shadowMaterial: {fileID: 0}
+  shadowColor: {r: 0, g: 0, b: 0, a: 1}
+  shadowAlpha: 0.5
+  shadowLength: 1
+  verticalScale: 1
+  autoSetSortingLayer: 1
+  shadowSortingLayerName: 
+  shadowSortingOrderOffset: -1
 --- !u!1 &7384950776458695469
 GameObject:
   m_ObjectHideFlags: 0

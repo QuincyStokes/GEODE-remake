@@ -13,9 +13,9 @@ public class WorldGenManager : NetworkBehaviour
     public static WorldGenManager Instance;
     [SerializeField] private GameObject playerPrefab;
 
-    [SerializeField] private const int worldSizeX = 100;
-    [SerializeField] private const int worldSizeY = 100;
-    [SerializeField] float noiseScale = 20f;
+    [SerializeField] private const int worldSizeX = 200;
+    [SerializeField] private const int worldSizeY = 200;
+    [SerializeField] float noiseScale = 5f;
     [SerializeField] Vector2 offset = new Vector2(10, 10);
     [SerializeField] Tilemap backgroundTilemap;
 
@@ -24,8 +24,9 @@ public class WorldGenManager : NetworkBehaviour
     [SerializeField] Tile[] forestTiles;
 
     [Header("Biome Objects")]
-    [SerializeField] private List<GameObject> ForestObjects;
-    [SerializeField] private List<GameObject> ForestShrubbies;
+    [SerializeField] private BiomeSpawnTable forestSpawnTable;
+    private int totalWeight;
+    //[SerializeField] private BiomeSpawnTable desertSpawnTable;
     
     
     public event Action OnWorldGenerated;
@@ -53,8 +54,6 @@ public class WorldGenManager : NetworkBehaviour
         {
             Destroy(gameObject);
         }
-       
-        
     }
     public override void OnNetworkSpawn()
     {
@@ -143,40 +142,86 @@ public class WorldGenManager : NetworkBehaviour
         {
             for (int y = 0; y < worldSizeY; y++)
             {
-                float sampleX = (x + offset.x) / noiseScale;
-                float sampleY = (y + offset.y) / noiseScale;
-
-                float noiseValue = Mathf.PerlinNoise(sampleX, sampleY);
-                if(noiseValue <= .2f)
+                Vector3Int currentPos = new Vector3Int(x, y);
+                BiomeType currType = GetBiomeAtPosition(currentPos);
+                int toSpawn = -1;
+                switch(currType)
                 {
-                    BaseItem baseItem = ItemDatabase.Instance.GetItem(8);
-                    StructureItem structureItem = baseItem as StructureItem;
-                    if(structureItem != null)
-                    {
-                        for(int i = 0; x < structureItem.width; x++)
-                        {
-                            for(int j = 0; j < structureItem.height; j++)
-                            {
-                               if(GridManager.Instance.IsPositionOccupied(new Vector3Int((int)x+(1*i), (int)y +(1*j), 0)))
-                                {
-                                    Debug.Log($"Collided with something at {x} + {1*i}, {y} + {1*j}");
-                                    break;
-                                }
-                                positionsToBlock.Add(new Vector3(x+1*i, y+1*j)); 
-                            }
-                        }
-                        PlaceObjectOffGridServerRpc(8, new Vector3(x+UnityEngine.Random.Range(.3f , .8f), y+UnityEngine.Random.Range(.3f, .8f), 0), positionsToBlock.ToArray());
-                    }
-                    else
-                    {
-                        Debug.Log("Cannot place tree, structureitem is null");
-                    }
+                    case BiomeType.Forest:
+                        toSpawn = GetRandomSpawn(forestSpawnTable);
+
+                        break;
+
+                    default:
+                        break;
                 }
+                    
+                if(!GridManager.Instance.IsPositionOccupied(currentPos) && toSpawn != -1)
+                {
+                    PlaceObjectOffGridServerRpc(toSpawn, new Vector3(x+UnityEngine.Random.Range(-.2f , .2f), y+UnityEngine.Random.Range(-.2f, .2f), 0), positionsToBlock.ToArray());
+                    //PlaceObjectOffGridServerRpc(toSpawn, new Vector3(x, y, 0), positionsToBlock.ToArray());
+                }
+                
+                
+                
+                
+        
+                // BaseItem baseItem = ItemDatabase.Instance.GetItem(8);
+                // StructureItem structureItem = baseItem as StructureItem;
+                // if(structureItem != null)
+                // {
+                //     for(int i = 0; x < structureItem.width; x++)
+                //     {
+                //         for(int j = 0; j < structureItem.height; j++)
+                //         {
+                //             if(GridManager.Instance.IsPositionOccupied(new Vector3Int((int)x+(1*i), (int)y +(1*j), 0)))
+                //             {
+                //                 Debug.Log($"Collided with something at {x} + {1*i}, {y} + {1*j}");
+                //                 break;
+                //             }
+                //             positionsToBlock.Add(new Vector3(x+1*i, y+1*j)); 
+                //         }
+                //     }
+                //     PlaceObjectOffGridServerRpc(8, new Vector3(x+UnityEngine.Random.Range(.3f , .8f), y+UnityEngine.Random.Range(.3f, .8f), 0), positionsToBlock.ToArray());
+                   
+                // }
                 
             }
             
         }
         
+    }
+
+    private int GetRandomSpawn(BiomeSpawnTable bst)
+    {
+        if(bst == null || bst.spawnEntries == null || bst.spawnEntries.Count == 0)
+        {
+            Debug.Log($"Error | Biome Entry Table for {bst.name} is null");
+            return -1;
+        }
+        float randomValue = UnityEngine.Random.value * bst.totalWeight;
+
+        foreach(var entry in bst.spawnEntries)
+        {
+            if(randomValue < entry.weight)
+            {
+                if(entry.baseItem != null)
+                {
+                    return entry.baseItem.Id;
+                }
+                else
+                {
+                    return -1;
+                }
+                
+            }
+            else
+            {
+                randomValue -= entry.weight;
+            }
+        }
+        //should never get here, but gotta put this
+        return -1;
     }
 
     
@@ -196,14 +241,16 @@ public class WorldGenManager : NetworkBehaviour
         {
             //Vector3 placePos = new Vector3(position.x-structureItem.width/2, position.y-structureItem.height/2, 0);
             //GameObject newObject = Instantiate(structureItem.prefab, placePos, Quaternion.identity);
-            GameObject newObject = Instantiate(structureItem.prefab, position, Quaternion.identity);
-            foreach (Vector3 pos in positionsToBlock)
+            if(structureItem.prefab != null)
             {
-                FlowFieldManager.Instance.SetWalkable(pos, false);
-            } 
-            FlowFieldManager.Instance.CalculateFlowField();
-            newObject.GetComponent<NetworkObject>().Spawn();
-            
+                GameObject newObject = Instantiate(structureItem.prefab, position, Quaternion.identity);
+                foreach (Vector3 pos in positionsToBlock)
+                {
+                    FlowFieldManager.Instance.SetWalkable(pos, false);
+                } 
+                FlowFieldManager.Instance.CalculateFlowField();
+                newObject.GetComponent<NetworkObject>().Spawn();
+            }
         }
         else
         {

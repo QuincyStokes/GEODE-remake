@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 24666575525327246}
   - component: {fileID: 1782641716518158989}
   - component: {fileID: 5758026136932027742}
+  - component: {fileID: 7827002458054335611}
   m_Layer: 7
   m_Name: LargeForestTree
   m_TagString: Untagged
@@ -115,6 +116,28 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &7827002458054335611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2928207964876413474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93756521e94389f4a8685ec32d7b2293, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightSource: {fileID: 0}
+  shadowSprite: {fileID: 0}
+  shadowMaterial: {fileID: 0}
+  shadowColor: {r: 0, g: 0, b: 0, a: 1}
+  shadowAlpha: 0.5
+  shadowLength: 1
+  verticalScale: 1
+  autoSetSortingLayer: 1
+  shadowSortingLayerName: 
+  shadowSortingOrderOffset: -1
 --- !u!1 &4250049842612172757
 GameObject:
   m_ObjectHideFlags: 0

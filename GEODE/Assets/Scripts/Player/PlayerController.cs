@@ -3,7 +3,6 @@ using Unity.Mathematics;
 using Unity.Netcode;
 using Unity.Services.Matchmaker.Models;
 using Unity.VisualScripting;
-using UnityEditor.U2D.Aseprite;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Scripting.APIUpdating;

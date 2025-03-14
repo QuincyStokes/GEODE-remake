@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 801184ae3a0d9d2479257a43cc174ad5, type: 3}
+  m_Name: ForestFern
+  m_EditorClassIdentifier: 
+  name: ForestFern
+  description: Big Forest Rock
+  type: 2
+  icon: {fileID: -4754014550515790816, guid: 72d14c2e801892147bf0400942e6d753, type: 3}
+  id: 19
+  isStackable: 1
+  consumeOnUse: 1
+  prefab: {fileID: 9045860118768967617, guid: 92353664a2a0ba94cbc1e8e49794929d, type: 3}
+  width: 0
+  height: 0

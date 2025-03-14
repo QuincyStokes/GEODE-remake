@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7ee3e4d394713b4494deaa023bd1441, type: 3}
+  m_Name: ForestBiome
+  m_EditorClassIdentifier: 
+  biomeName: Forest
+  spawnEntries:
+  - entryName: ForestTree
+    baseItem: {fileID: 11400000, guid: 01dd4bbb0ea1ba1448077fa66c98c7fb, type: 2}
+    weight: 10
+  - entryName: ForestTreeLarge
+    baseItem: {fileID: 11400000, guid: e08dc6e0bb6b13244917a3089950437a, type: 2}
+    weight: 7
+  - entryName: ForestTreeFallen
+    baseItem: {fileID: 11400000, guid: 01d0242a2e97e8c49a9851ff9e628ce2, type: 2}
+    weight: 4
+  - entryName: ForestTreeStump
+    baseItem: {fileID: 11400000, guid: 3d18cd742cc63534497ad138717b1385, type: 2}
+    weight: 4
+  - entryName: ForestFernLarge
+    baseItem: {fileID: 11400000, guid: e1d03dc17d6a40e40aa3b44fcc2e9448, type: 2}
+    weight: 4
+  - entryName: ForestFlower
+    baseItem: {fileID: 11400000, guid: 65a166a5aa0698241a5f4829a0298876, type: 2}
+    weight: 4
+  - entryName: ForestGrassFlat
+    baseItem: {fileID: 11400000, guid: 48fcb05f222f0eb458a02f3c48e40ec6, type: 2}
+    weight: 10
+  - entryName: ForestGrassTall
+    baseItem: {fileID: 11400000, guid: dc0d0d53899c9504aa4a23f0ee9655fd, type: 2}
+    weight: 10
+  - entryName: ForestMushroomsL
+    baseItem: {fileID: 11400000, guid: 6ce9937f229753444bc26efa3ea23d84, type: 2}
+    weight: 3
+  - entryName: ForestRockLarge
+    baseItem: {fileID: 11400000, guid: 8203145e33f412240bda835ac4ac54ad, type: 2}
+    weight: 3
+  - entryName: ForestRockSmall
+    baseItem: {fileID: 11400000, guid: 74957ea4f9b64814ab61466a2c6582b0, type: 2}
+    weight: 6
+  - entryName: ForestMushroomsS
+    baseItem: {fileID: 11400000, guid: bffa4bb3d0401ce43af3807ceb88d2bc, type: 2}
+    weight: 6
+  - entryName: ForestRockSmall
+    baseItem: {fileID: 11400000, guid: 74957ea4f9b64814ab61466a2c6582b0, type: 2}
+    weight: 6
+  - entryName: Nothing
+    baseItem: {fileID: 11400000, guid: 1caf887cd127e3b42b6167adfe82a6f5, type: 2}
+    weight: 50
+  totalWeight: 270
