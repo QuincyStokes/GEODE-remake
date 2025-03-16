@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Collections;
@@ -72,13 +73,13 @@ public class WorldGenManager : NetworkBehaviour
        
     }
 
-    public void InitializeWorldGen(int newseed)
+    public IEnumerator InitializeWorldGen(int newseed)
     {
-        InitializeBiomeTiles(newseed);
-        SpawnEnvironmentFluff();
+        yield return StartCoroutine(InitializeBiomeTiles(newseed));
+        yield return StartCoroutine(SpawnEnvironmentFluff());
     }
 
-    public void InitializeBiomeTiles(int newseed)
+    private IEnumerator InitializeBiomeTiles(int newseed)
     {
         IsWorldGenerating = true;
         UnityEngine.Random.InitState(newseed);
@@ -86,7 +87,11 @@ public class WorldGenManager : NetworkBehaviour
         {
             noiseScale = .0001f; //this will just prevent division by zero error
         }
-       
+
+        int chunkSize = 5000;
+        int totalTiles = WorldSizeX * WorldSizeY;
+        int processedCount = 0;
+
         //now the fun part
         for (int x = 0; x < worldSizeX; x++)
         {
@@ -107,6 +112,16 @@ public class WorldGenManager : NetworkBehaviour
                     tileToPlace = forestTiles[UnityEngine.Random.Range(0, forestTiles.Length)];
                 }
                 backgroundTilemap.SetTile(new Vector3Int(x, y), tileToPlace);
+
+                processedCount++;
+
+                if(processedCount % chunkSize == 0)
+                {
+                    float progress = (float)processedCount / (float)totalTiles;
+                    Debug.Log($"Generation Progress: {progress:P2}");
+
+                    yield return null;
+                }
 
             }
         }
@@ -134,9 +149,14 @@ public class WorldGenManager : NetworkBehaviour
         }
     }
 
-    public void SpawnEnvironmentFluff()
+    private IEnumerator SpawnEnvironmentFluff()
     {
         List<Vector3> positionsToBlock = new List<Vector3>();;
+
+
+        int chunkSize = 5000;
+        int totalTiles = WorldSizeX * WorldSizeY;
+        int processedCount = 0;
 
         for (int x = 0; x < worldSizeX; x++)
         {
@@ -160,32 +180,17 @@ public class WorldGenManager : NetworkBehaviour
                 {
                     PlaceObjectOffGridServerRpc(toSpawn, new Vector3(x+UnityEngine.Random.Range(-.2f , .2f), y+UnityEngine.Random.Range(-.2f, .2f), 0), positionsToBlock.ToArray());
                     //PlaceObjectOffGridServerRpc(toSpawn, new Vector3(x, y, 0), positionsToBlock.ToArray());
+                    
                 }
-                
-                
-                
-                
-        
-                // BaseItem baseItem = ItemDatabase.Instance.GetItem(8);
-                // StructureItem structureItem = baseItem as StructureItem;
-                // if(structureItem != null)
-                // {
-                //     for(int i = 0; x < structureItem.width; x++)
-                //     {
-                //         for(int j = 0; j < structureItem.height; j++)
-                //         {
-                //             if(GridManager.Instance.IsPositionOccupied(new Vector3Int((int)x+(1*i), (int)y +(1*j), 0)))
-                //             {
-                //                 Debug.Log($"Collided with something at {x} + {1*i}, {y} + {1*j}");
-                //                 break;
-                //             }
-                //             positionsToBlock.Add(new Vector3(x+1*i, y+1*j)); 
-                //         }
-                //     }
-                //     PlaceObjectOffGridServerRpc(8, new Vector3(x+UnityEngine.Random.Range(.3f , .8f), y+UnityEngine.Random.Range(.3f, .8f), 0), positionsToBlock.ToArray());
-                   
-                // }
-                
+                processedCount++;
+
+                if(processedCount % chunkSize == 0)
+                {
+                    float progress = (float)processedCount / (float)totalTiles;
+                    Debug.Log($"Generation Progress: {progress:P2}");
+
+                    yield return null;
+                }
             }
             
         }

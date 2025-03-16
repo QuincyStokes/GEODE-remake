@@ -146,6 +146,7 @@ public class SkewedSpriteShadow2D : MonoBehaviour
     private void LateUpdate()
     {
         // Update geometry each frame if light or sprite moves
+        //lets try only having the sprite update every 50 frames or something
         UpdateShadowMesh();
     }
 

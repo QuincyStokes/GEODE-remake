@@ -4,11 +4,13 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using System.Collections;
 
 public class GameManager : NetworkBehaviour
 {
     public static GameManager Instance; 
     private int seed;
+    private AudioListener audioListener;
     private void Awake()
     {
         if(Instance == null)
@@ -20,6 +22,8 @@ public class GameManager : NetworkBehaviour
             Destroy(gameObject);
         }
 
+        audioListener = Camera.main.gameObject.GetComponent<AudioListener>();
+        audioListener.enabled = false;
     }
 
     public override void OnNetworkSpawn()
@@ -31,19 +35,20 @@ public class GameManager : NetworkBehaviour
             enabled = false;
         }
         
-        GenerateWorld();
+        StartCoroutine(GenerateWorld());
    
     }
 
     
-    private void GenerateWorld()
+    private IEnumerator GenerateWorld()
     {
         Debug.Log("Generating world from GameManager!");
         seed = UnityEngine.Random.Range(0, 1000000);  
 
-        WorldGenManager.Instance.InitializeWorldGen(seed);  
+        yield return StartCoroutine(WorldGenManager.Instance.InitializeWorldGen(seed));  
         EnemySpawningManager.Instance.activated = true;
         ConnectionManager.Instance.OnWorldReady();
+        audioListener.enabled = true;
     }
 
 }

@@ -60,8 +60,8 @@ public class ConnectionManager : MonoBehaviour
         {
             SpawnPlayerForClient(clientId);
         }
-        //SceneManager.UnloadSceneAsync("LoadingScreen");
         waitingClientIds.Clear();
+        SceneManager.UnloadSceneAsync("LoadingScreen");
     }
 
     private void OnClientConnected(ulong clientId)
@@ -95,7 +95,7 @@ public class ConnectionManager : MonoBehaviour
         playerInstance.transform.position = new Vector3(centerX, centerY, 0);
 
         NetworkObject netObj = playerInstance.GetComponent<NetworkObject>();
-        netObj.SpawnAsPlayerObject(clientId, false);
+        netObj.SpawnAsPlayerObject(clientId, destroyWithScene: false);
     }
 
     public void ResetData()

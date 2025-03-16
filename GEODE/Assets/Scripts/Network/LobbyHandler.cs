@@ -218,7 +218,7 @@ public class LobbyHandler : MonoBehaviour
             ConnectionManager.Instance.LobbyCode = joinedLobby.LobbyCode;
             ConnectionManager.Instance.PlayerID = AuthenticationService.Instance.PlayerId;
             ConnectionManager.Instance.PlayerID = AuthenticationService.Instance.PlayerName;
-            NetworkManager.Singleton.SceneManager.LoadScene("GameplayTest", UnityEngine.SceneManagement.LoadSceneMode.Single);
+            NetworkManager.Singleton.SceneManager.LoadScene("LoadingScreen", UnityEngine.SceneManagement.LoadSceneMode.Single);
         }
         catch (LobbyServiceException e) 
         {
