@@ -23,6 +23,9 @@ MonoBehaviour:
   - entryName: ForestTreeFallen
     baseItem: {fileID: 11400000, guid: 01d0242a2e97e8c49a9851ff9e628ce2, type: 2}
     weight: 4
+  - entryName: ForestTreeDead
+    baseItem: {fileID: 11400000, guid: e84fee3bc1edc864881e4adf06cb2880, type: 2}
+    weight: 6
   - entryName: ForestTreeStump
     baseItem: {fileID: 11400000, guid: 3d18cd742cc63534497ad138717b1385, type: 2}
     weight: 4
@@ -50,10 +53,7 @@ MonoBehaviour:
   - entryName: ForestMushroomsS
     baseItem: {fileID: 11400000, guid: bffa4bb3d0401ce43af3807ceb88d2bc, type: 2}
     weight: 6
-  - entryName: ForestRockSmall
-    baseItem: {fileID: 11400000, guid: 74957ea4f9b64814ab61466a2c6582b0, type: 2}
-    weight: 6
   - entryName: Nothing
     baseItem: {fileID: 11400000, guid: 1caf887cd127e3b42b6167adfe82a6f5, type: 2}
     weight: 50
-  totalWeight: 270
+  totalWeight: 397

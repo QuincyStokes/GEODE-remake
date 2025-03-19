@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -58,10 +59,10 @@ public class ConnectionManager : MonoBehaviour
         isWorldReady = true;
         foreach(ulong clientId in waitingClientIds)
         {
-            SpawnPlayerForClient(clientId);
+            StartCoroutine(DoClientConnectedThings(clientId));
         }
         waitingClientIds.Clear();
-        SceneManager.UnloadSceneAsync("LoadingScreen");
+        
     }
 
     private void OnClientConnected(ulong clientId)
@@ -73,12 +74,24 @@ public class ConnectionManager : MonoBehaviour
 
         if(isWorldReady)
         {
-            SpawnPlayerForClient(clientId);
+            Debug.Log($"Doing Client Connected Things for {clientId}");
+            StartCoroutine(DoClientConnectedThings(clientId));
         }
         else
         {
+            Debug.Log($"Adding client {clientId} to waiting list.");
             waitingClientIds.Add(clientId);
         }
+    }
+
+    private IEnumerator DoClientConnectedThings(ulong clientId)
+    {
+       
+        yield return StartCoroutine(GameManager.Instance.GenerateWorld(clientId));
+        SpawnPlayerForClient(clientId);
+
+        //the last ting we do for the client is unload the loading screen, this should make a clean transition into game.
+        //SceneManager.UnloadSceneAsync("LoadingScreen");
     }
 
     private void SpawnPlayerForClient(ulong clientId)

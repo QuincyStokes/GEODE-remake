@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEditor.EditorTools;
 using UnityEngine;
 
@@ -18,6 +19,7 @@ public class ChunkCuller : MonoBehaviour
 
     //PRIVATE
     private float chunkUpdateCounter = 0f;
+
 
 
     private void Update()
@@ -53,7 +55,8 @@ public class ChunkCuller : MonoBehaviour
             {
                 if(!chunksToActivate.Contains(chunk))
                 {
-                    SetChunkActive(chunk, false);
+                    ChunkManager.Instance.PlayerLeavesChunk(chunk);
+                    //SetChunkActive(chunk, false);
                 }
             }
 
@@ -62,7 +65,8 @@ public class ChunkCuller : MonoBehaviour
             {
                 if(!currentlyActiveChunks.Contains(chunk))
                 {
-                    SetChunkActive(chunk, true);
+                    ChunkManager.Instance.PlayerEntersChunk(chunk);
+                    //SetChunkActive(chunk, true);
                 }
             }
 
@@ -72,22 +76,11 @@ public class ChunkCuller : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Sets all objects within a chunk to true/false
-    /// </summary>
-    /// <param name="chunkCoord">Vector2 coordinate of the chunk</param>
-    /// <param name="active">set the chunk true/false</param>
-    private void SetChunkActive(Vector2Int chunkCoord, bool active)
+    private void OnDisable()
     {
-        if(ChunkManager.Instance.chunkMap.TryGetValue(chunkCoord, out var objList))
+        foreach(Vector2Int chunk in currentlyActiveChunks)
         {
-            foreach(GameObject go in objList)
-            {
-                //for now fully disabling objects not in the chunks, this may need to change later down the road if things need to update. 
-                go.SetActive(active);
-            }
+            ChunkManager.Instance.PlayerLeavesChunk(chunk);
         }
     }
-
-
 }

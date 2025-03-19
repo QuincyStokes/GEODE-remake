@@ -16,8 +16,7 @@ public class WorldGenManager : NetworkBehaviour
 
     [SerializeField] private const int worldSizeX = 200;
     [SerializeField] private const int worldSizeY = 200;
-    [SerializeField] float noiseScale = 5f;
-    [SerializeField] Vector2 offset = new Vector2(10, 10);
+   
     [SerializeField] Tilemap backgroundTilemap;
 
     [Header("Tiles")]
@@ -59,27 +58,31 @@ public class WorldGenManager : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        if(!IsServer)
+    }
+
+
+    public IEnumerator InitializeWorldGen(int newseed, float noiseScale, Vector2 offset, ulong clientId)
+    {
+        InitializeBiomeTilesSeededClientRpc(newseed, noiseScale, offset, new ClientRpcParams
         {
-            enabled = false;
-        }
-        //here can continue to do magical spawn things
-
-    }
-
-    private void Start()
-    {
-        //always at the end 
-       
-    }
-
-    public IEnumerator InitializeWorldGen(int newseed)
-    {
-        yield return StartCoroutine(InitializeBiomeTiles(newseed));
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = new [] { clientId }
+            }
+        });
+        //yield return StartCoroutine(InitializeBiomeTiles(newseed, noiseScale, offset));
         yield return StartCoroutine(SpawnEnvironmentFluff());
+
+        
     }
 
-    private IEnumerator InitializeBiomeTiles(int newseed)
+    [ClientRpc]
+    private void InitializeBiomeTilesSeededClientRpc(int seed, float noiseScale, Vector2 offset, ClientRpcParams clientRpcParams = default)
+    {
+        StartCoroutine(InitializeBiomeTiles(seed, noiseScale, offset));
+    }
+
+    private IEnumerator InitializeBiomeTiles(int newseed, float noiseScale, Vector2 offset)
     {
         IsWorldGenerating = true;
         UnityEngine.Random.InitState(newseed);
@@ -229,12 +232,6 @@ public class WorldGenManager : NetworkBehaviour
         return -1;
     }
 
-    
-    public void SpawnEnvironmentInteractables()
-    {
-
-    }
-
 
     [ServerRpc(RequireOwnership = false)]
     public void PlaceObjectOffGridServerRpc(int itemId, Vector3 position, Vector3[] positionsToBlock)
@@ -254,7 +251,7 @@ public class WorldGenManager : NetworkBehaviour
                     FlowFieldManager.Instance.SetWalkable(pos, false);
                 } 
                 FlowFieldManager.Instance.CalculateFlowField();
-                newObject.GetComponent<NetworkObject>().Spawn();
+                newObject.GetComponent<NetworkObject>().Spawn(destroyWithScene:false);
             }
         }
         else
