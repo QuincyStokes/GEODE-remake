@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6022691812926236275}
   - component: {fileID: 8834165816360457178}
   - component: {fileID: -6537804086708817182}
+  - component: {fileID: 675920844120530123}
   m_Layer: 0
   m_Name: ForestRockL
   m_TagString: Untagged
@@ -113,3 +114,15 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &675920844120530123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4674171916601700319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 985f7328bdd600d4c903515442c9073c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

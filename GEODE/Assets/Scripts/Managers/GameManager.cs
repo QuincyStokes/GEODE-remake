@@ -9,7 +9,7 @@ using System.Collections;
 public class GameManager : NetworkBehaviour
 {
     public static GameManager Instance; 
-    private int seed;
+    public int seed;
     private AudioListener audioListener;
     private void Awake()
     {
@@ -24,6 +24,7 @@ public class GameManager : NetworkBehaviour
 
         audioListener = Camera.main.gameObject.GetComponent<AudioListener>();
         audioListener.enabled = false;
+        seed = UnityEngine.Random.Range(0, 1000000);
     }
 
     public override void OnNetworkSpawn()
@@ -33,6 +34,7 @@ public class GameManager : NetworkBehaviour
         {
             Debug.Log("NOT THE SERVER. Disabling GameManager");
             enabled = false;
+            return;
         }
         
         StartCoroutine(GenerateWorld());
@@ -43,7 +45,6 @@ public class GameManager : NetworkBehaviour
     private IEnumerator GenerateWorld()
     {
         Debug.Log("Generating world from GameManager!");
-        seed = UnityEngine.Random.Range(0, 1000000);  
 
         yield return StartCoroutine(WorldGenManager.Instance.InitializeWorldGen(seed));  
         EnemySpawningManager.Instance.activated = true;

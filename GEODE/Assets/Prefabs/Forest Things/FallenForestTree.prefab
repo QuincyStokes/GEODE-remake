@@ -159,6 +159,7 @@ GameObject:
   - component: {fileID: 1039887143471275222}
   - component: {fileID: -2123978293659210889}
   - component: {fileID: 1597582258657433652}
+  - component: {fileID: 3486107488009609630}
   m_Layer: 7
   m_Name: FallenForestTree
   m_TagString: Untagged
@@ -285,3 +286,15 @@ MonoBehaviour:
   autoSetSortingLayer: 1
   shadowSortingLayerName: 
   shadowSortingOrderOffset: -1
+--- !u!114 &3486107488009609630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4569716455414417005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 985f7328bdd600d4c903515442c9073c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

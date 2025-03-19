@@ -9,7 +9,8 @@ public class ChunkManager : NetworkBehaviour
     public int chunkSize = 16;
 
 
-    private Dictionary<Vector2Int, List<GameObject>> chunkMap = new Dictionary<Vector2Int, List<GameObject>>();
+    public Dictionary<Vector2Int, List<GameObject>> chunkMap = new Dictionary<Vector2Int, List<GameObject>>();
+    public Dictionary<Vector2Int, ulong> chunkPlayers = new Dictionary<Vector2Int, ulong>();
 
     private void Awake()
     {

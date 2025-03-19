@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6884557409619282499}
   - component: {fileID: 3978660104964836163}
   - component: {fileID: -3167702502243664231}
+  - component: {fileID: 6865932100600533532}
   m_Layer: 0
   m_Name: ForestMushroomsL
   m_TagString: Untagged
@@ -113,3 +114,15 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &6865932100600533532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6170721216139416327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 985f7328bdd600d4c903515442c9073c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
