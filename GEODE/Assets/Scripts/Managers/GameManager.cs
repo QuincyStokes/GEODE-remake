@@ -1,9 +1,6 @@
-using System;
-using System.Runtime.CompilerServices;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
 using System.Collections;
 
 public class GameManager : NetworkBehaviour
@@ -28,29 +25,32 @@ public class GameManager : NetworkBehaviour
         audioListener = Camera.main.gameObject.GetComponent<AudioListener>();
         audioListener.enabled = false;
         seed = UnityEngine.Random.Range(0, 1000000);
+        
+        
     }
 
     private void Start()
     {
-        //since this script is loaded locally, OnNetworkSpawn() WILL NOT be called/
         Debug.Log("Checking whether GAMEMANAGER is server");  
-        // if(!IsServer)
-        // {
-        //     Debug.Log("NOT THE SERVER. Disabling GameManager");
-        //     enabled = false;
-        //     return;
-        // }
+        if(!IsServer)
+        {
+            Debug.Log("NOT THE SERVER. Disabling GameManager");
+            enabled = false;
+            return;
+        }
         Debug.Log("GameManager calling OnWorldReady!");
         ConnectionManager.Instance.OnWorldReady();
-        //StartCoroutine(GenerateWorld());
         
-   
     }
 
     public override void OnNetworkSpawn()
     {
-        base.OnNetworkSpawn();   
+        base.OnNetworkSpawn();  
         
+        //Once this scene is fully loaded, set it to be the active scene
+            //This is so newly created gameobjects belong to Game, not Loading
+        Scene gameplay = SceneManager.GetSceneByName("Game");
+        SceneManager.SetActiveScene(gameplay);
     }
 
     
@@ -62,11 +62,6 @@ public class GameManager : NetworkBehaviour
         EnemySpawningManager.Instance.activated = true;
         
         audioListener.enabled = true;
-
-        //when we're here, world is done generating
-        Scene gameplayScene = SceneManager.GetSceneByName("GameplayTest");
-        SceneManager.SetActiveScene(gameplayScene);
-        SceneManager.UnloadSceneAsync("LoadingScreen");
     }
 
 }

@@ -55,13 +55,20 @@ public class ConnectionManager : MonoBehaviour
 
     public void OnWorldReady()
     {
+       
         Debug.Log("World is ready!");
         isWorldReady = true;
+
+        
+        //Spawn the player's for each client in the waiting list
         foreach(ulong clientId in waitingClientIds)
         {
             StartCoroutine(DoClientConnectedThings(clientId));
         }
         waitingClientIds.Clear();
+
+       StartCoroutine(DoClientConnectedThings(NetworkManager.Singleton.LocalClientId));
+
         
     }
 
@@ -72,6 +79,22 @@ public class ConnectionManager : MonoBehaviour
             return;
         }
 
+        if (clientId == NetworkManager.Singleton.LocalClientId && NetworkManager.Singleton.IsHost)
+        {
+            Debug.Log($"[ConnectionManager] OnClientConnected: Host local client {clientId}, skipping RPC calls.");
+            return;
+        }
+
+
+        LoadLoadingSceneClientRpc(new ClientRpcParams 
+        {
+            Send = new ClientRpcSendParams 
+            {
+                TargetClientIds = new[] {clientId}
+            }
+        });
+
+        
         if(isWorldReady)
         {
             Debug.Log($"Doing Client Connected Things for {clientId}");
@@ -92,6 +115,40 @@ public class ConnectionManager : MonoBehaviour
 
         //the last ting we do for the client is unload the loading screen, this should make a clean transition into game.
         //SceneManager.UnloadSceneAsync("LoadingScreen");
+        UnloadLoadingSceneClientRpc(new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = new[] {clientId}
+            }
+        });
+    }
+
+    [ClientRpc]
+    private void LoadLoadingSceneClientRpc(ClientRpcParams clientRpcParams = default)
+    {
+        SceneManager.LoadScene("Loading", LoadSceneMode.Additive);
+    }
+
+    [ClientRpc]
+    private void UnloadLoadingSceneClientRpc(ClientRpcParams clientRpcParams = default)
+    {
+        SceneManager.UnloadSceneAsync("Loading");
+    }
+
+    private void SpawnPlayerForHost()
+    {
+        GameObject playerInstance = Instantiate(playerPrefab);
+        
+        //can assume worldgenmanager.instance exists because this will only trigger
+        //after recieving a message from it
+        int centerX = WorldGenManager.Instance.WorldSizeX/2;
+        int centerY = WorldGenManager.Instance.WorldSizeY/2;
+
+        playerInstance.transform.position = new Vector3(centerX, centerY, 0);
+
+        NetworkObject netObj = playerInstance.GetComponent<NetworkObject>();
+        netObj.SpawnAsPlayerObject(NetworkManager.Singleton.LocalClientId, destroyWithScene: false);
     }
 
     private void SpawnPlayerForClient(ulong clientId)

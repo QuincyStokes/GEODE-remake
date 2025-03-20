@@ -1,15 +1,12 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using TMPro;
 using Unity.Netcode;
 using Unity.Services.Authentication;
-using Unity.Services.Core;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
-using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LobbyHandler : MonoBehaviour
@@ -57,7 +54,7 @@ public class LobbyHandler : MonoBehaviour
         
         createLobbyButton.onClick.AddListener(CreateLobby);
         maxPlayersSlider.onValueChanged.AddListener(delegate {UpdateMaxPlayersText();});
-        maxPlayersSlider.value = maxPlayersSlider.minValue;
+        maxPlayersSlider.value = maxPlayersSlider.minValue+1;
 
         createALobbyScreen.SetActive(true);
         customizeLobbyScreen.SetActive(true);
@@ -217,8 +214,22 @@ public class LobbyHandler : MonoBehaviour
 
             ConnectionManager.Instance.LobbyCode = joinedLobby.LobbyCode;
             ConnectionManager.Instance.PlayerID = AuthenticationService.Instance.PlayerId;
-            ConnectionManager.Instance.PlayerID = AuthenticationService.Instance.PlayerName;
-            NetworkManager.Singleton.SceneManager.LoadScene("LoadingScreen", UnityEngine.SceneManagement.LoadSceneMode.Single);
+            ConnectionManager.Instance.PlayerName = AuthenticationService.Instance.PlayerName;
+
+            NetworkManager.Singleton.StartHost();
+
+           
+            
+
+            //Load the game in the background as the primary scene, we need to set this as the active scene
+            NetworkManager.Singleton.SceneManager.LoadScene("Game", LoadSceneMode.Single);
+
+             //Then, load the Loading Screen to hide loading
+            SceneManager.LoadScene("Loading", LoadSceneMode.Additive);
+           
+            
+
+            // could maybe Load the loading screen here for clients?
         }
         catch (LobbyServiceException e) 
         {
@@ -226,6 +237,8 @@ public class LobbyHandler : MonoBehaviour
         }
 
     }
+
+    
 
     private bool IsLobbyHost()
     {

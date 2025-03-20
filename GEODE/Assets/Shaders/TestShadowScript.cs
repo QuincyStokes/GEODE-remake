@@ -18,7 +18,7 @@ public class SkewedSpriteShadow2D : MonoBehaviour
 {
     [Header("References")]
     [Tooltip("The transform of the light source in the scene. Shadow is cast away from it.")]
-    public Transform lightSource;
+    public GameObject lightSource;
 
     [Tooltip("The sprite to use for building the shadow mesh. Typically the same as the main SpriteRenderer.")]
     public Sprite shadowSprite;
@@ -79,7 +79,7 @@ public class SkewedSpriteShadow2D : MonoBehaviour
 
         if(lightSource == null)
         {
-            lightSource = GameObject.Find("Sunlight").transform;
+            lightSource = GameObject.Find("Sunlight");
         }
 
         // Grab the sprite's "tight" mesh data:
@@ -212,7 +212,7 @@ public class SkewedSpriteShadow2D : MonoBehaviour
         // 2. Calculate direction in world space: from light -> sprite is (spritePos - lightPos).
         //    But we want the shadow to extend AWAY from the light, so that's dir = (spritePos - lightPos).normalized.
         Vector2 spritePos = transform.position;
-        Vector2 lightPos  = lightSource.position;
+        Vector2 lightPos  = lightSource.transform.position;
         Vector2 dirWorld  = (spritePos - lightPos).normalized;
 
         // 3. Convert that direction to local space of the shadow's parent

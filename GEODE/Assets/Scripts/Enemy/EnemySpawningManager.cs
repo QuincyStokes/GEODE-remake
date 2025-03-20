@@ -1,9 +1,6 @@
 using System.Collections.Generic;
-using NUnit.Framework.Api;
 using Unity.Netcode;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class EnemySpawningManager : NetworkBehaviour
 {
@@ -89,7 +86,7 @@ public class EnemySpawningManager : NetworkBehaviour
 
     private void Update()
     {
-        if(activated)
+        if(activated && NetworkManager.Singleton.ConnectedClientsList.Count > 0)
         {
             DoEnemySpawning();  
         }
