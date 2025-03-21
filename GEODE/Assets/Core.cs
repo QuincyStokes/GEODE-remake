@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Core : BaseStructure
+public class Core : BaseObject
 {
     private void Start()
     {

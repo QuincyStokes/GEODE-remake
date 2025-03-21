@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 6822388524260746846}
   - component: {fileID: -6531102184260720500}
   - component: {fileID: -691942783128334435}
-  m_Layer: 7
+  - component: {fileID: 7201298494626830855}
+  m_Layer: 0
   m_Name: StumpForestTree
-  m_TagString: Untagged
+  m_TagString: EnvironmentObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -151,6 +152,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985f7328bdd600d4c903515442c9073c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  registerd: 0
+--- !u!114 &7201298494626830855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 924637941774536388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 468fcc394db2ac342a3ace6fee009f19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth:
+    m_InternalValue: 1
+  currentHealth:
+    m_InternalValue: 1
+  droppedItems:
+  - Id: 1
+    amount: 5
+  objectName: 
 --- !u!1 &7843015234756447887
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,9 +184,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8557539643668064751}
   - component: {fileID: 2599149756902360051}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RaycastHitbox
-  m_TagString: Structure
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -239,9 +262,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7536089406789385537}
   - component: {fileID: 2203301059727297429}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: CollisionHitbox
-  m_TagString: Untagged
+  m_TagString: EnvironmentObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

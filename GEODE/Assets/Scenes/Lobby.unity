@@ -3290,12 +3290,12 @@ MonoBehaviour:
       Size: {x: 0.8, y: 0.8}
       Offset: {x: 0, y: 0}
   CenterOnActivate: 1
-  TargetOffset: {x: 0, y: 0.75, z: 0}
-  Damping: {x: 0.05, y: 0.05, z: 1}
+  TargetOffset: {x: 0, y: 0, z: 0}
+  Damping: {x: 0, y: 0, z: 1}
   Lookahead:
     Enabled: 1
-    Time: 0.025
-    Smoothing: 10
+    Time: 0
+    Smoothing: 0
     IgnoreY: 0
 --- !u!1 &716593930
 GameObject:

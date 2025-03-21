@@ -69,9 +69,10 @@ public class Loot : NetworkBehaviour
         }
     }
 
-    public void Initialize(int Id, int amount)
+    public void Initialize(int Id, int itemAmount)
     {
-        this.itemId = Id;
-        this.amount = amount;
+        itemId.Value = Id;
+        amount.Value = itemAmount;
+        OnItemIdChanged(Id, Id);
     }
 }

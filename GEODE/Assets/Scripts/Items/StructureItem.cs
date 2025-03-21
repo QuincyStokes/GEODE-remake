@@ -8,7 +8,7 @@ public class StructureItem : BaseItem
     public int width;
     public int height;
     List<Vector3> positionsToBlock;
-    public override bool Use(Vector3 position)
+    public override bool Use(Vector3 position, bool snapToGrid=true)
     {
         positionsToBlock = new List<Vector3>();
         for(int x = 0; x < width; x++)
@@ -23,8 +23,17 @@ public class StructureItem : BaseItem
                 positionsToBlock.Add(new Vector3(position.x+1*x, position.y+1*y));
             }
         }
-        GridManager.Instance.PlaceObjectOnGridServerRpc(Id, new Vector3Int((int)position.x, (int)position.y, 0), positionsToBlock.ToArray());
-        return true;
+        if(snapToGrid)
+        {
+            GridManager.Instance.PlaceObjectOnGridServerRpc(Id, new Vector3Int((int)position.x, (int)position.y, 0), positionsToBlock.ToArray());
+            return true;
+        }
+        else
+        {
+            WorldGenManager.Instance.PlaceObjectOffGridServerRpc(Id, position, positionsToBlock.ToArray());
+            return true;
+        }
+        
     }
 
 }

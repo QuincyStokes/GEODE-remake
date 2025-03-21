@@ -13,7 +13,7 @@ public class PathToCoreState : BaseEnemyState
             stateMachine.ChangeState(new IdleState());
         }
         owner.animator.SetBool("Move", true);
-        owner.currentTarget = owner.coreTransform.GetComponent<BaseStructure>();
+        owner.currentTarget = owner.coreTransform.GetComponent<BaseObject>();
     }
 
     public override void ExitState(BaseEnemy owner, EnemyStateMachine stateMachine)

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Unity.Mathematics;
 using Unity.Netcode;
 using Unity.Services.Matchmaker.Models;
@@ -14,6 +15,7 @@ public class PlayerController : NetworkBehaviour
     [SerializeField] private PlayerInventory playerInventory;
     [SerializeField] private Animator animator;
     private Rigidbody2D rb;
+    [SerializeField] public BoxCollider2D attackHitbox; //TEMP
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed;
@@ -282,5 +284,31 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-    
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.CompareTag("EnvironmentObject"))
+        {
+            EnvironmentObject envObj = collision.gameObject.GetComponentInParent<EnvironmentObject>();
+            if(envObj != null)
+            {
+                envObj.TakeDamageServerRpc(4, true);
+                Debug.Log($"Hit {collision.name} for 4 damage");
+            }
+        }
+    }
+
+    public void Attack()
+    {
+        StartCoroutine(DoAttack());
+    }
+
+    private IEnumerator DoAttack()
+    {
+        Instance.attackHitbox.enabled = true;
+        yield return new WaitForSeconds(.1f);
+        Instance.attackHitbox.enabled = false;
+    }
+
+
 }

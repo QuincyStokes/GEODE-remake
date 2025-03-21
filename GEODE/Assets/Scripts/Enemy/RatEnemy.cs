@@ -17,7 +17,7 @@ public class RatEnemy : BaseEnemy
         Debug.Log("RAT ATTACK");
         if(currentTarget != null)
         {
-            Vector3 dir = (currentTarget.objectTransform.position - transform.position).normalized;
+            Vector3 dir = (currentTarget.ObjectTransform.position - transform.position).normalized;
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             attackHitbox.transform.rotation = Quaternion.Euler(0f, 0f, angle);
 
@@ -39,7 +39,7 @@ public class RatEnemy : BaseEnemy
             Debug.Log("Hit a structure!");
 
             //need to loook on the parent objects, BaseStructure script doesnt exist on the collision object
-            collision.gameObject.GetComponentInParent<BaseStructure>().TakeDamageServerRpc(attackDamage);
+            collision.gameObject.GetComponentInParent<BaseObject>().TakeDamageServerRpc(attackDamage);
         }
     }
 
@@ -49,3 +49,5 @@ public class RatEnemy : BaseEnemy
         attackHitbox.enabled = false;
     }
 }
+
+

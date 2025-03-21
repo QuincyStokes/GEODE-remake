@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8033727422695801900}
   - component: {fileID: 2301513312846838760}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: CollisionHitbox
-  m_TagString: Untagged
+  m_TagString: EnvironmentObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -79,9 +79,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7707320620998976052}
   - component: {fileID: 1695604736586880252}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RaycastHitbox
-  m_TagString: Structure
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -145,7 +145,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 3.05575, y: 0.5528331}
+  m_Size: {x: 3.5, y: 1}
   m_EdgeRadius: 0
 --- !u!1 &4569716455414417005
 GameObject:
@@ -160,9 +160,10 @@ GameObject:
   - component: {fileID: -2123978293659210889}
   - component: {fileID: 1597582258657433652}
   - component: {fileID: 3486107488009609630}
-  m_Layer: 7
+  - component: {fileID: -5510116939366637077}
+  m_Layer: 0
   m_Name: FallenForestTree
-  m_TagString: Untagged
+  m_TagString: EnvironmentObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -298,3 +299,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985f7328bdd600d4c903515442c9073c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  registerd: 0
+--- !u!114 &-5510116939366637077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4569716455414417005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 468fcc394db2ac342a3ace6fee009f19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth:
+    m_InternalValue: 1
+  currentHealth:
+    m_InternalValue: 1
+  droppedItems:
+  - Id: 1
+    amount: 5
+  objectName: 

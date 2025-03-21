@@ -227,7 +227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 393037945
+  GlobalObjectIdHash: 3736220657
   InScenePlacedSourceGlobalObjectIdHash: 3736220657
   DeferredDespawnTick: 0
   Ownership: 1
@@ -253,7 +253,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  Id: 1
+  Id: 0
   maxHealth: 10
   attackDamage: 10
   attackRange: 1
@@ -367,7 +367,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7186009135097747369
 Transform:
   m_ObjectHideFlags: 0

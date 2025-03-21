@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 5758026136932027742}
   - component: {fileID: 7827002458054335611}
   - component: {fileID: 4468678220172184837}
-  m_Layer: 7
+  - component: {fileID: -383453519527385653}
+  m_Layer: 0
   m_Name: LargeForestTree
-  m_TagString: Untagged
+  m_TagString: EnvironmentObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -151,6 +152,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985f7328bdd600d4c903515442c9073c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  registerd: 0
+--- !u!114 &-383453519527385653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2928207964876413474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 468fcc394db2ac342a3ace6fee009f19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth:
+    m_InternalValue: 1
+  currentHealth:
+    m_InternalValue: 1
+  droppedItems:
+  - Id: 1
+    amount: 20
+  objectName: 
 --- !u!1 &4250049842612172757
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,9 +184,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7225126294287865365}
   - component: {fileID: 5673620026699128245}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RaycastHitbox
-  m_TagString: Structure
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -227,7 +250,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.3150434, y: 1.0900122}
+  m_Size: {x: 1.5, y: 1.5}
   m_EdgeRadius: 0
 --- !u!1 &6422907665464751151
 GameObject:
@@ -239,9 +262,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3345079948951825911}
   - component: {fileID: 1147121066264944669}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: CollisionHitbox
-  m_TagString: Untagged
+  m_TagString: EnvironmentObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

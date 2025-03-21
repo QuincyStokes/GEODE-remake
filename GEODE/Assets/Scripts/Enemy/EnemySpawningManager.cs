@@ -86,7 +86,7 @@ public class EnemySpawningManager : NetworkBehaviour
 
     private void Update()
     {
-        if(activated && NetworkManager.Singleton.ConnectedClientsList.Count > 0)
+        if(activated && NetworkManager.Singleton && NetworkManager.Singleton.ConnectedClientsList.Count > 0)
         {
             DoEnemySpawning();  
         }
@@ -116,7 +116,7 @@ public class EnemySpawningManager : NetworkBehaviour
                 Vector3Int randomPlayerPosInt = new Vector3Int((int)randomPlayerPos.x, (int)randomPlayerPos.y, 0);
                 //instead of doing the positional way, lets pick a random 360 direction from the player chosen, and then a random distance
 
-                Vector3Int spawnPosOffset = new Vector3Int(Random.Range(-1, 1) * Random.Range(minSpawnDistanceFromPlayer, maxSpawnDistanceFromPlayer), Random.Range(-1, 1) * Random.Range(minSpawnDistanceFromPlayer, maxSpawnDistanceFromPlayer));
+                Vector3Int spawnPosOffset = new Vector3Int(Random.Range(-1, 2) * Random.Range(minSpawnDistanceFromPlayer, maxSpawnDistanceFromPlayer), Random.Range(-1, 2) * Random.Range(minSpawnDistanceFromPlayer, maxSpawnDistanceFromPlayer));
                 spawnPos = randomPlayerPosInt + spawnPosOffset;
 
 
@@ -152,7 +152,7 @@ public class EnemySpawningManager : NetworkBehaviour
             {
                 int enemyToSpawnId = PickEnemyByWeight(enemies);
                 SpawnEnemyServerRpc(enemyToSpawnId, spawnPos);
-                Debug.Log($"Spawning an enemy at {spawnPos} in the {biomeType}");
+                
             }
             else
             {
@@ -194,9 +194,15 @@ public class EnemySpawningManager : NetworkBehaviour
     [ServerRpc (RequireOwnership = false)]
     public void SpawnEnemyServerRpc(int enemyId, Vector3Int pos)
     {
+        if(EnemyDatabase.Instance == null)
+        {
+            return;
+        }
+        
         GameObject enemyToSpawn = EnemyDatabase.Instance.GetEnemy(enemyId);
         if (enemyToSpawn != null)
         {
+            Debug.Log($"Spawning a {enemyToSpawn.name} at {pos}.");
             GameObject spawnedEnemy = Instantiate(EnemyDatabase.Instance.GetEnemy(enemyId), pos, Quaternion.identity);
             spawnedEnemy.GetComponent<NetworkObject>().Spawn();
         }

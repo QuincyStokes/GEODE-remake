@@ -49,7 +49,7 @@ public class PathToObstructingState : BaseEnemyState
                     {
                         //we have found a target to attack
                         obstructingObject = hit.transform.gameObject;
-                        owner.currentTarget = obstructingObject.transform.GetComponent<BaseStructure>();
+                        owner.currentTarget = obstructingObject.transform.GetComponent<BaseObject>();
                         Debug.Log(obstructingObject.transform.position);
                     }
                     else

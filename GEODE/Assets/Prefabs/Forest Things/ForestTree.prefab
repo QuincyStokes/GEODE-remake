@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: 6628632980197320086}
   - component: {fileID: 1193615935051695850}
   - component: {fileID: -1567724308649283714}
-  m_Layer: 7
+  - component: {fileID: 5984336060802938259}
+  m_Layer: 0
   m_Name: ForestTree
-  m_TagString: Untagged
+  m_TagString: EnvironmentObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -153,18 +154,18 @@ MonoBehaviour:
   m_ShadowMesh:
     m_Mesh: {fileID: 0}
     m_LocalBounds:
-      m_Center: {x: 1.171875, y: 2.671875, z: 0}
-      m_Extent: {x: 1.0718689, y: 2.571869, z: 0}
+      m_Center: {x: 1.184372, y: 2.625, z: 0}
+      m_Extent: {x: 0.94918823, y: 2.4773102, z: 0}
     m_EdgeProcessing: 1
     m_TrimEdge: 0.1
     m_FlipX: 0
     m_FlipY: 0
-    m_InitialTrim: 0.1
+    m_InitialTrim: 0
   m_CastingOption: 1
   m_PreviousTrimEdge: 0.1
   m_PreviousEdgeProcessing: 1
   m_PreviousShadowCastingSource: 2
-  m_PreviousShadowShape2DSource: {fileID: 0}
+  m_PreviousShadowShape2DSource: {fileID: 8037282693136163549}
   references:
     version: 2
     RefIds:
@@ -205,6 +206,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985f7328bdd600d4c903515442c9073c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  registerd: 0
+--- !u!114 &5984336060802938259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963850577847330231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 468fcc394db2ac342a3ace6fee009f19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth:
+    m_InternalValue: 1
+  currentHealth:
+    m_InternalValue: 1
+  droppedItems:
+  - Id: 1
+    amount: 15
+  objectName: 
 --- !u!1 &1505347995116985693
 GameObject:
   m_ObjectHideFlags: 0
@@ -215,9 +238,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2341169002199463532}
   - component: {fileID: 9018619495699395412}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: CollisionHitbox
-  m_TagString: Structure
+  m_TagString: EnvironmentObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -271,8 +294,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 1.07, y: 0.36}
-  m_Size: {x: 1.2, y: 0.73}
+  m_Offset: {x: 1.1047567, y: 0.38445845}
+  m_Size: {x: 1.1304866, y: 0.68108326}
   m_Direction: 1
 --- !u!1 &7462872995894434525
 GameObject:
@@ -284,9 +307,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2798204801051952775}
   - component: {fileID: 5330709802543386969}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RaycastHitbox
-  m_TagString: Structure
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -350,5 +373,5 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.5173249, y: 1.4698428}
+  m_Size: {x: 1.5, y: 1.5}
   m_EdgeRadius: 0

@@ -12,7 +12,7 @@ public enum ItemType
     Material
 }
 
-[SerializeField] public struct DroppedItem
+[System.Serializable]public struct DroppedItem
 {
     public DroppedItem(int Id, int amount)
     {

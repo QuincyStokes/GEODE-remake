@@ -106,7 +106,7 @@ public class WorldGenManager : NetworkBehaviour
                 float noiseValue = Mathf.PerlinNoise(sampleX, sampleY);
 
                 Tile tileToPlace;
-                if(noiseValue <= .5f)
+                if(noiseValue <= .5f) //CHANGED TO FOREST ONLY TEMP
                 {
                     tileToPlace = desertTiles[UnityEngine.Random.Range(0, desertTiles.Length)];
                 }
@@ -154,9 +154,6 @@ public class WorldGenManager : NetworkBehaviour
 
     private IEnumerator SpawnEnvironmentFluff()
     {
-        List<Vector3> positionsToBlock = new List<Vector3>();;
-
-
         int chunkSize = 5000;
         int totalTiles = WorldSizeX * WorldSizeY;
         int processedCount = 0;
@@ -181,7 +178,15 @@ public class WorldGenManager : NetworkBehaviour
                     
                 if(!GridManager.Instance.IsPositionOccupied(currentPos) && toSpawn != -1)
                 {
-                    PlaceObjectOffGridServerRpc(toSpawn, new Vector3(x+UnityEngine.Random.Range(-.2f , .2f), y+UnityEngine.Random.Range(-.2f, .2f), 0), positionsToBlock.ToArray());
+                    BaseItem item = ItemDatabase.Instance.GetItem(toSpawn);
+                    StructureItem structItem = item as StructureItem;
+
+                    Vector3 newPos = new Vector3(x+UnityEngine.Random.Range(-.2f , .2f), y+UnityEngine.Random.Range(-.2f, .2f), 0);
+                    if(structItem != null)
+                    {
+                        structItem.Use(newPos, false);
+                    }
+                    //PlaceObjectOffGridServerRpc(toSpawn, new Vector3(x+UnityEngine.Random.Range(-.2f , .2f), y+UnityEngine.Random.Range(-.2f, .2f), 0), positionsToBlock.ToArray());
                     //PlaceObjectOffGridServerRpc(toSpawn, new Vector3(x, y, 0), positionsToBlock.ToArray());
                     
                 }

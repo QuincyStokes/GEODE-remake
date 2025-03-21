@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8855354193827860834}
   - component: {fileID: 6556151738904023588}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: CollisionHitbox
-  m_TagString: Untagged
+  m_TagString: EnvironmentObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -82,9 +82,10 @@ GameObject:
   - component: {fileID: -1728568318042555414}
   - component: {fileID: 8301967978179943089}
   - component: {fileID: -5584132924107409593}
-  m_Layer: 7
+  - component: {fileID: 7529114642573329399}
+  m_Layer: 0
   m_Name: DeadForestTree
-  m_TagString: Untagged
+  m_TagString: EnvironmentObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -220,6 +221,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985f7328bdd600d4c903515442c9073c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  registerd: 0
+--- !u!114 &7529114642573329399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5294732903785832720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 468fcc394db2ac342a3ace6fee009f19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth:
+    m_InternalValue: 1
+  currentHealth:
+    m_InternalValue: 1
+  droppedItems:
+  - Id: 1
+    amount: 10
+  objectName: 
 --- !u!1 &7384950776458695469
 GameObject:
   m_ObjectHideFlags: 0
@@ -230,9 +253,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6846004125699808144}
   - component: {fileID: 3267815410620903752}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RaycastHitbox
-  m_TagString: Structure
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -296,5 +319,5 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.5, y: 1.5}
   m_EdgeRadius: 0

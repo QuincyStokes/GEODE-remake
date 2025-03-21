@@ -153,6 +153,84 @@ MonoBehaviour:
   handImageUI: {fileID: 2673909995229166449}
   handCountUI: {fileID: 5518289193284856648}
   isHolding: 0
+--- !u!1 &1676341282382613781
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3285393075799265181}
+  - component: {fileID: 557950745688739907}
+  m_Layer: 8
+  m_Name: AttackHitbox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3285393075799265181
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1676341282382613781}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8419501764596933443}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &557950745688739907
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1676341282382613781}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 256
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0.5}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 2, y: 2}
+  m_EdgeRadius: 0
 --- !u!1 &2183728699421712408
 GameObject:
   m_ObjectHideFlags: 0
@@ -929,6 +1007,7 @@ Transform:
   - {fileID: 3134291965886233372}
   - {fileID: 299958057514627802}
   - {fileID: 6945522980889348685}
+  - {fileID: 3285393075799265181}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5847752706677793350
@@ -971,11 +1050,12 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   playerInventory: {fileID: 2285968976491174105}
   animator: {fileID: 144841936893984039}
+  attackHitbox: {fileID: 557950745688739907}
   moveSpeed: 4
   knockbackDecay: 3
   maxHealth: 0
   itemDatabase: {fileID: 11400000, guid: 0a58dca2e5972ce40a34720b6bce51ee, type: 2}
-  enemyDatabase: {fileID: 0}
+  enemyDatabase: {fileID: 11400000, guid: 2b92f2f9c3baae140854bc2ea924a4c5, type: 2}
 --- !u!114 &2285968976491174105
 MonoBehaviour:
   m_ObjectHideFlags: 0
