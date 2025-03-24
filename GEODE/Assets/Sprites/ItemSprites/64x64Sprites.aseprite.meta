@@ -224,10 +224,10 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 64
+      x: 68
       y: 64
-      width: 64
-      height: 64
+      width: 57
+      height: 60
     spriteID: 0d4511005b5e2fa4e89a35f56bc33e83
     spriteBone: []
     spriteOutline: []
@@ -383,6 +383,27 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
+  - name: 64x64Sprites_5
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 222
+      y: 52
+      width: 78
+      height: 67
+    spriteID: eba7165be05cb954da2fd027cf6a66dd
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
   asepriteLayers:
   - layerIndex: 0
     guid: 1066965640
@@ -397,7 +418,7 @@ ScriptedImporter:
       cellRect:
         x: 0
         y: 231
-        width: 196
+        width: 300
         height: 128
       spriteId: 9bdb4201716a88e43bcd623209a67237
     linkedCells: []
@@ -443,4 +464,4 @@ ScriptedImporter:
   secondarySpriteTextures: []
   spritePackingTag: 
   canvasSize: {x: 640, y: 360}
-  previousTextureSize: {x: 256, y: 128}
+  previousTextureSize: {x: 512, y: 128}

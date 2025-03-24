@@ -169,7 +169,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3285393075799265181
 Transform:
   m_ObjectHideFlags: 0
@@ -1050,7 +1050,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   playerInventory: {fileID: 2285968976491174105}
   animator: {fileID: 144841936893984039}
-  attackHitbox: {fileID: 557950745688739907}
+  attackHitbox: {fileID: 1676341282382613781}
   moveSpeed: 4
   knockbackDecay: 3
   maxHealth: 0

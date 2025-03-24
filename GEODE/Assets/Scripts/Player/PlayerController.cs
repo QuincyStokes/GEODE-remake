@@ -15,7 +15,7 @@ public class PlayerController : NetworkBehaviour
     [SerializeField] private PlayerInventory playerInventory;
     [SerializeField] private Animator animator;
     private Rigidbody2D rb;
-    [SerializeField] public BoxCollider2D attackHitbox; //TEMP
+    [SerializeField] public GameObject attackHitbox; //TEMP
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed;
@@ -305,9 +305,10 @@ public class PlayerController : NetworkBehaviour
 
     private IEnumerator DoAttack()
     {
-        Instance.attackHitbox.enabled = true;
+        //Debug.Log("Attacking!");
+        Instance.attackHitbox.SetActive(true);
         yield return new WaitForSeconds(.1f);
-        Instance.attackHitbox.enabled = false;
+        Instance.attackHitbox.SetActive(false);
     }
 
 

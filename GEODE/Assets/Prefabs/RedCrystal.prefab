@@ -278,7 +278,9 @@ GameObject:
   - component: {fileID: 7359029905104181308}
   - component: {fileID: -5197024450714403594}
   - component: {fileID: 7155335561222885596}
-  m_Layer: 7
+  - component: {fileID: 8453264887146053554}
+  - component: {fileID: 8601517140000978159}
+  m_Layer: 0
   m_Name: RedCrystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -501,3 +503,77 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+--- !u!114 &8453264887146053554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8370947462149780993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 027e86f1d1cb2254e83fc3cd799bd937, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth:
+    m_InternalValue: 1
+  currentHealth:
+    m_InternalValue: 1
+  droppedItems:
+  - Id: 0
+    amount: 0
+  objectName: Ballista Tower
+  fireRate: 1
+  power: 10
+  range: 5
+  detectionAngle: 45
+  rotationSpeed: 10
+  rotates: 1
+  maximumLevelXp: 100
+  currentXp: 0
+  currentTotalXp: 0
+  level: 1
+  speed: 1
+  strength: 1
+  size: 1
+  sturdy: 1
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 512
+--- !u!58 &8601517140000978159
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8370947462149780993}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 1, y: 1}
+  m_Radius: 4

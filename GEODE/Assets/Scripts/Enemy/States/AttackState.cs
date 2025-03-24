@@ -19,12 +19,10 @@ public class AttackState : BaseEnemyState
 
     public override void ExitState(BaseEnemy owner, EnemyStateMachine stateMachine)
     {
-        Debug.Log("Exiting AttackState");
     }
 
     public override void FixedUpdateState(BaseEnemy owner, EnemyStateMachine stateMachine)
     {
-        Debug.Log("Fixed Update for AttackState");
     }
 
     public override void UpdateState(BaseEnemy owner, EnemyStateMachine stateMachine)
@@ -32,7 +30,6 @@ public class AttackState : BaseEnemyState
        
         if(doAttack)
         {
-            Debug.Log("Attacking from AttackState!");
             owner.animator.SetTrigger("Attack");
             owner.Attack();
             

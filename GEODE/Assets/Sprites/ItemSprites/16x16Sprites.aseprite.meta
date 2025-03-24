@@ -148,7 +148,7 @@ ScriptedImporter:
   - name: 16x16Sprites_0
     originalName: 
     pivot: {x: 0, y: 0}
-    alignment: 6
+    alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
@@ -169,7 +169,7 @@ ScriptedImporter:
   - name: 16x16Sprites_1
     originalName: 
     pivot: {x: 0, y: 0}
-    alignment: 6
+    alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
@@ -190,7 +190,7 @@ ScriptedImporter:
   - name: 16x16Sprites_2
     originalName: 
     pivot: {x: 0, y: 0}
-    alignment: 6
+    alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
@@ -200,6 +200,27 @@ ScriptedImporter:
       width: 16
       height: 16
     spriteID: 64a6184552160cc449ffa09e42318a13
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: 16x16Sprites_3
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 16
+      y: 0
+      width: 16
+      height: 16
+    spriteID: 5fce90deefcb53645bd511be4f3abe10
     spriteBone: []
     spriteOutline: []
     vertices: []

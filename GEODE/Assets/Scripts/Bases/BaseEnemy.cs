@@ -6,6 +6,7 @@ using UnityEngine;
 
 public abstract class BaseEnemy : NetworkBehaviour
 {
+    //TODO inherit IDamageable wtf are we doin here cmon now
     ///state machine controlled enemy base class
     ///
     [Header("ID")]

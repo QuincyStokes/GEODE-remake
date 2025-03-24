@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2579576704388551861}
   m_Layer: 9
   m_Name: EnemyObject
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -191,9 +191,10 @@ GameObject:
   - component: {fileID: 7670961486429863952}
   - component: {fileID: 5106031408755526819}
   - component: {fileID: 2680197266402830272}
-  m_Layer: 0
+  - component: {fileID: 2448939792321823289}
+  m_Layer: 9
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -227,7 +228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3736220657
+  GlobalObjectIdHash: 1410419493
   InScenePlacedSourceGlobalObjectIdHash: 3736220657
   DeferredDespawnTick: 0
   Ownership: 1
@@ -259,6 +260,7 @@ MonoBehaviour:
   attackRange: 1
   attackCooldown: 3
   movementSpeed: 2
+  droppedItems: []
   structureLayerMask:
     serializedVersion: 2
     m_Bits: 128
@@ -351,6 +353,42 @@ MonoBehaviour:
   UseRigidBodyForMotion: 0
   AutoUpdateKinematicState: 1
   AutoSetKinematicOnDespawn: 1
+--- !u!58 &2448939792321823289
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1160243913533736849}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.5
 --- !u!1 &5906243830527534231
 GameObject:
   m_ObjectHideFlags: 0
@@ -361,7 +399,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7186009135097747369}
   - component: {fileID: 4117687670939969054}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: AttackHitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}

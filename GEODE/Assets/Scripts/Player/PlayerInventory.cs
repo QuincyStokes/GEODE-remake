@@ -66,6 +66,7 @@ public class PlayerInventory : NetworkBehaviour, IContainer
         AddItem(7, 10);
         AddItem(8, 5);
         AddItem(22, 1);
+        AddItem(23, 5);
     }
 
     public int GetSelectedSlotIndex()

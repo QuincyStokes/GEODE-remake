@@ -7,7 +7,6 @@ public class PathToObstructingState : BaseEnemyState
     private GameObject obstructingObject;
     public override void EnterState(BaseEnemy owner, EnemyStateMachine stateMachine)
     {
-        Debug.Log("Entering PathToObstructing");
         //set running animation?
         owner.animator.SetBool("Move", true);
     }
@@ -57,7 +56,6 @@ public class PathToObstructingState : BaseEnemyState
                         //we really shouldn't ever get here, because we KNOW something is blocking the path, and we are raycasting through that path.
                             //but, in the case we don't hit anything... 
                             //just gonna debug for now?
-                        Debug.Log("ENEMY ERROR. Enemy thinks there is no path, and also no obstructing object");
                     }
                 }
                 else
