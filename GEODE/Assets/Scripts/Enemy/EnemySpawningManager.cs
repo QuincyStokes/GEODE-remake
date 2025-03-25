@@ -8,7 +8,7 @@ public class EnemySpawningManager : NetworkBehaviour
     public static EnemySpawningManager Instance;
     [Header("Enemies")]
 
-    //*dictionary where gameobject is the enemy prefab, int is the weight of it spawning.
+    //*List of EnemySpawnWeight. { enemyId, weight }
     [SerializeField] private List<EnemySpawnWeight> forestEnemies;
     [SerializeField] private List<EnemySpawnWeight> desertEnemies;
 
@@ -17,17 +17,15 @@ public class EnemySpawningManager : NetworkBehaviour
     [SerializeField] private int maxSpawnDistanceFromPlayer;
     [SerializeField] private int dayMaxSpawns; //maximum number of enemies during the day
     [SerializeField] private int nightMaxSpawns; //maximum number of enemies during the night
-    [SerializeField] private float daySpawnRate; //chance each frame to spawn an enemy during the day
-    [SerializeField] private float nightSpawnRate; //chance each frame to spawn an enemy during the night
-
-
+    [Tooltip("(1 / SpawnRate), higher number = lower chance")] [SerializeField] private float daySpawnRate; //chance each frame to spawn an enemy during the day
+    [Tooltip("(1 / SpawnRate), higher number = lower chance")][SerializeField] private float nightSpawnRate; //chance each frame to spawn an enemy during the night
 
 
     //! PUBLIC
     //there we should be able to modify spawn chances/conditions based on upgrades/settings/difficulties
     public float dayMaxSpawnsModifier = 1f; //default is one, we will multiply this by our maxSpawns to modify
     public float nightMaxSpawnsModifier = 1f;
-    public float daySpawnRateModifier = 1f; //default is one, we will multiply this by our mxSpawns to modify
+    public float daySpawnRateModifier = 1f; //default is one, we will multiply this by our maxSpawns to modify
     public float nightSpawnRateModifier = 1f;
     public bool activated = false;
 

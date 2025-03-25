@@ -12,6 +12,7 @@ public interface IDamageable
    public abstract void RestoreHealthServerRpc(float amount);
    public abstract void DestroyThisServerRpc(bool dropItems);
    public abstract void DropItemsServerRpc();
+
    public abstract void OnTakeDamage(float amount);
 
 }

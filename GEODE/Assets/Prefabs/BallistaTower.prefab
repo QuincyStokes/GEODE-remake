@@ -315,10 +315,10 @@ MonoBehaviour:
     m_InternalValue: 1
   droppedItems: []
   objectName: Ballista Tower
-  baseFireRate: 10
+  baseFireRate: 1
   basePower: 10
   baseRange: 10
-  rotationSpeed: 20
+  rotationSpeed: 40
   rotates: 1
   maximumLevelXp: 0
   currentXp: 0

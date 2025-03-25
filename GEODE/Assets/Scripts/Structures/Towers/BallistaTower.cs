@@ -21,4 +21,13 @@ public class BallistaTower : BaseTower
             Debug.Log("Enemy entered range, adding it to targets.");
         }
     }
+
+    public override void OnTriggerExit2D(Collider2D collision)
+    {
+         if(collision.gameObject.CompareTag("Enemy"))
+        {
+            RemoveTarget(collision.gameObject);
+            Debug.Log("Enemy entered range, adding it to targets.");
+        }
+    }
 }

@@ -3,26 +3,61 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Animations;
 
-public abstract class BaseEnemy : NetworkBehaviour
+public abstract class BaseEnemy : NetworkBehaviour, IDamageable
 {
     //TODO inherit IDamageable wtf are we doin here cmon now
     ///state machine controlled enemy base class
     ///
+    
+    #region PROPERTIES
     [Header("ID")]
     public int Id;
 
     [Header("Enemy Settings")]
-    public float maxHealth;
+    private float maxHealth;
+    private float currentHealth;
+
     public float attackDamage;
     public float attackRange;
     public float attackCooldown;
     public float movementSpeed;
-    [SerializeField] private List<DroppedItem> droppedItems;
+    [SerializeField] private List<DroppedItem> droppedItems = new List<DroppedItem>();
     public LayerMask structureLayerMask;
     public EnemySteering steering;
+    private Transform objectTransform;
+    private string objectName;
+    #endregion
+    #region ACCESSORS
+    public float MaxHealth
+    {
+        get => maxHealth;
+        set => maxHealth = value;
+    }
 
+    public float CurrentHealth
+    {
+        get => currentHealth;
+        set => currentHealth = value;
+    }
 
+    public Transform ObjectTransform
+    {
+        get => objectTransform;
+    }
+
+    public string ObjectName
+    {
+        get => objectName;
+        set => objectName = value;
+    }
+    public List<DroppedItem> DroppedItems
+    {
+        get => droppedItems;
+    }
+
+    #endregion
     [Header("References")]
     public Animator animator;
     public Rigidbody2D rb;
@@ -36,7 +71,6 @@ public abstract class BaseEnemy : NetworkBehaviour
     public static event Action OnDeath;
 
     //INTERNAL
-    private float currentHealth;
     private EnemyStateMachine stateMachine;
 
     private void Awake()
@@ -94,14 +128,6 @@ public abstract class BaseEnemy : NetworkBehaviour
         }
     }
 
-    public void DropItems()
-    {
-        foreach(DroppedItem droppedItem in droppedItems)
-        {
-            //instantiate the loot with droppedItem.Id and droppedItem.amount
-        }
-    }
-
     private void SetDeathState()
     {
         stateMachine.ChangeState(new DeathState());
@@ -120,4 +146,45 @@ public abstract class BaseEnemy : NetworkBehaviour
         //we have currentTarget
     }
 
+    public void OnTakeDamage(float amount)
+    {
+        Debug.Log($"{name} took {amount} damage");
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void DropItemsServerRpc()
+    {
+        foreach(DroppedItem droppedItem in DroppedItems)
+        {
+        //instantiate the loot with droppedItem.Id and droppedItem.amount
+        LootManager.Instance.SpawnLootServerRpc(ObjectTransform.position, droppedItem.Id, droppedItem.amount);
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void RestoreHealthServerRpc(float amount)
+    {
+        CurrentHealth += amount;
+        if(CurrentHealth > MaxHealth)
+        {
+            CurrentHealth = MaxHealth;
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void TakeDamageServerRpc(float amount, bool dropItems)
+    {
+        CurrentHealth -= amount;
+        if(CurrentHealth <= 0)
+        {
+            DestroyThisServerRpc(dropItems);
+        }
+    }
+
+    [ServerRpc]
+    public void DestroyThisServerRpc(bool dropItems)
+    {
+        DropItemsServerRpc(); // ERROR HERE
+        GetComponent<NetworkObject>()?.Despawn();
+    }
 }

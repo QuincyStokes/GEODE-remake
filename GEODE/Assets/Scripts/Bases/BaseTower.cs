@@ -139,7 +139,6 @@ public abstract class BaseTower : BaseObject
         }
     }
 
-
     private void LevelUp()
     {
         currentXp = 0;
@@ -149,9 +148,6 @@ public abstract class BaseTower : BaseObject
 
     private Transform GetNearestTarget()
     {
-        //TODO implement this
-        //we have enemyLayer
-        //deciding between raycasting a circle every frame, or keeping a list of enemies that enter a trigger radius
         float currentClosest = range*2; //arbitrary number, fine to set it to range*2 because that will always be outside of our range
         if(targets.Count == 0)
         {
@@ -161,16 +157,19 @@ public abstract class BaseTower : BaseObject
 
         foreach(GameObject target in targets)
         {
-            float dist = Vector3.Distance(target.transform.position, transform.position);
-            if(dist < currentClosest)
+            if(target != null)
             {
-                currentClosest = dist;
-                currentTarget = target.transform;
+                float dist = Vector3.Distance(target.transform.position, transform.position);
+                if(dist < currentClosest)
+                {
+                    currentClosest = dist;
+                    currentTarget = target.transform;
+                }
             }
+            
         }
         return currentTarget;
     }
-    public abstract void Fire();
     protected void AddTarget(GameObject target)
     {
         targets.Add(target);
@@ -181,15 +180,7 @@ public abstract class BaseTower : BaseObject
         targets.Remove(target);
     }
 
-
-    /// <summary>
-    /// check "targetLayer"
-    /// anything found in the targetLayer is things this tower wants to hit. 
-    /// </summary>
-    /// <param name="collision"></param>
-    public abstract void OnTriggerEnter2D(Collider2D collision);
-
-    private void SetTargetRotation()
+     private void SetTargetRotation()
     {
         Debug.Log("Setting target rotation!");
         Vector2 direction = (currentTarget.position - tower.transform.position).normalized;
@@ -204,7 +195,7 @@ public abstract class BaseTower : BaseObject
         if(isRotating)
         {
             Debug.Log($"Tower is rotating towards {targetRotation}");
-            tower.transform.rotation = Quaternion.Slerp(tower.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            tower.transform.rotation = Quaternion.Lerp(tower.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
     }
 
@@ -224,6 +215,11 @@ public abstract class BaseTower : BaseObject
         Gizmos.DrawWireSphere(tower.transform.position, range);
     }
 
+    public abstract void Fire();
+    public abstract void OnTriggerEnter2D(Collider2D collision);
+    public abstract void OnTriggerExit2D(Collider2D collision);
+
+   
     #endregion
 
 }
