@@ -6,7 +6,7 @@ using UnityEngine;
 public class WeaponItem : BaseItem
 {
 
-    public override bool Use(Vector3 position, bool snapToGrid = true)
+    public override bool Use(Vector3 position, bool snapToGrid = true, bool force=false)
     {
 
         //!TEMPORARY IMPLEMENTATION

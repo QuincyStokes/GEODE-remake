@@ -614,6 +614,14 @@ PrefabInstance:
       propertyPath: GlobalObjectIdHash
       value: 3986128031
       objectReference: {fileID: 0}
+    - target: {fileID: 4194063451765114128, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
+      propertyPath: itemDatabase
+      value: 
+      objectReference: {fileID: 11400000, guid: 0a58dca2e5972ce40a34720b6bce51ee, type: 2}
+    - target: {fileID: 4194063451765114128, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
+      propertyPath: enemyDatabase
+      value: 
+      objectReference: {fileID: 11400000, guid: 2b92f2f9c3baae140854bc2ea924a4c5, type: 2}
     - target: {fileID: 5913821483863319918, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
       propertyPath: m_Name
       value: Grid

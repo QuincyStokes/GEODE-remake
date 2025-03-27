@@ -52,10 +52,6 @@ public class PlayerController : NetworkBehaviour
     private Vector3Int previousMousePosInt;
 
 
-    //WEIRD THING, just going to create a field to the ItemDatabase so it loads.. kindof a hack but it works?
-    [SerializeField]private ItemDatabase itemDatabase;
-    [SerializeField]private EnemyDatabase enemyDatabase;
-
 
     
     //PRIVATE INTERNAL

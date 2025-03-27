@@ -29,6 +29,10 @@ public class WorldGenManager : NetworkBehaviour
     //[SerializeField] private BiomeSpawnTable desertSpawnTable;
     
     
+    //WEIRD THING, just going to create a field to the ItemDatabase so it loads.. kindof a hack but it works?
+    [SerializeField]private ItemDatabase itemDatabase;
+    [SerializeField]private EnemyDatabase enemyDatabase;
+
     public event Action OnWorldGenerated;
 
     public bool IsWorldGenerating;
@@ -108,7 +112,7 @@ public class WorldGenManager : NetworkBehaviour
                 Tile tileToPlace;
                 if(noiseValue <= .5f) //CHANGED TO FOREST ONLY TEMP
                 {
-                    tileToPlace = desertTiles[UnityEngine.Random.Range(0, desertTiles.Length)];
+                    tileToPlace = forestTiles[UnityEngine.Random.Range(0, forestTiles.Length)];
                 }
                 else //in the future this will be more else ifs for different biomes
                 {
@@ -169,7 +173,6 @@ public class WorldGenManager : NetworkBehaviour
                 {
                     case BiomeType.Forest:
                         toSpawn = GetRandomSpawn(forestSpawnTable);
-
                         break;
 
                     default:
@@ -184,8 +187,13 @@ public class WorldGenManager : NetworkBehaviour
                     Vector3 newPos = new Vector3(x+UnityEngine.Random.Range(-.2f , .2f), y+UnityEngine.Random.Range(-.2f, .2f), 0);
                     if(structItem != null)
                     {
-                        structItem.Use(newPos, false);
+                        structItem.Use(newPos, false, true);
                     }
+                    else
+                    {
+                        Debug.Log("Cannot place item, structItem not found");
+                    }
+                    
                     //PlaceObjectOffGridServerRpc(toSpawn, new Vector3(x+UnityEngine.Random.Range(-.2f , .2f), y+UnityEngine.Random.Range(-.2f, .2f), 0), positionsToBlock.ToArray());
                     //PlaceObjectOffGridServerRpc(toSpawn, new Vector3(x, y, 0), positionsToBlock.ToArray());
                     

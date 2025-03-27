@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      insetcraftingbox_0: 8045943823475669447
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

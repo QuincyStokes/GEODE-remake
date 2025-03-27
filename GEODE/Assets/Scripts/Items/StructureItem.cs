@@ -8,11 +8,11 @@ public class StructureItem : BaseItem
     public int width;
     public int height;
     List<Vector3> positionsToBlock;
-    public override bool Use(Vector3 position, bool snapToGrid=true)
+    public override bool Use(Vector3 position, bool snapToGrid=true, bool force=false)
     {
-        if(FlowFieldManager.Instance.HasCoreBeenPlaced() || Id==6)
+        if(FlowFieldManager.Instance.HasCoreBeenPlaced() || Id==6 || force) 
         {
-            if(Id == 6 || Vector2.Distance(Core.CORE.transform.position, position) < Core.CORE.buildRadius)
+            if(Id == 6 ||force || Vector2.Distance(Core.CORE.transform.position, position) < Core.CORE.buildRadius)
             {
                 positionsToBlock = new List<Vector3>();
                 for(int x = 0; x < width; x++)
@@ -21,7 +21,6 @@ public class StructureItem : BaseItem
                     {
                         if(GridManager.Instance.IsPositionOccupied(new Vector3Int((int)position.x+(1*x), (int)position.y +(1*y), 0)))
                         {
-                            Debug.Log($"Collided with something at {position.x} + {1*x}, {position.y} + {1*y}");
                             return false;
                         }
                         positionsToBlock.Add(new Vector3(position.x+1*x, position.y+1*y));
