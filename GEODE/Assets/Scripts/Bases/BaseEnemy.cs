@@ -109,7 +109,6 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable
 
     private void Update()
     {
-       
         stateMachine.CurrentState?.UpdateState(this, stateMachine);
     }
 
@@ -121,6 +120,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable
 
     public void TakeDamage(float amount)
     {
+        OnTakeDamage(amount);
         currentHealth -= amount;
         if(currentHealth <= 0)
         {
@@ -148,7 +148,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable
 
     public void OnTakeDamage(float amount)
     {
-        Debug.Log($"{name} took {amount} damage");
+       
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -174,11 +174,19 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable
     [ServerRpc(RequireOwnership = false)]
     public void TakeDamageServerRpc(float amount, bool dropItems)
     {
+        DisplayDamageFloaterClientRpc(amount);
         CurrentHealth -= amount;
         if(CurrentHealth <= 0)
         {
             DestroyThisServerRpc(dropItems);
         }
+    }
+
+    [ClientRpc]
+    public void DisplayDamageFloaterClientRpc(float amount)
+    {
+        GameObject damageFloater = Instantiate(GameAssets.Instance.damageFloater, transform.position, Quaternion.identity);
+        damageFloater.GetComponent<DamageFloater>().Initialize(amount);
     }
 
     [ServerRpc]

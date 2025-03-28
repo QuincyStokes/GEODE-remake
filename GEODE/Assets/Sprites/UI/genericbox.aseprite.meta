@@ -54,9 +54,9 @@ ScriptedImporter:
     filterMode: 0
     aniso: 1
     mipBias: 0
-    wrapU: 1
-    wrapV: 1
-    wrapW: 1
+    wrapU: 0
+    wrapV: 0
+    wrapW: 0
     normalMap: 0
     textureFormat: 0
     maxTextureSize: 0
@@ -98,7 +98,7 @@ ScriptedImporter:
     addSortingGroup: 1
     addShadowCasters: 0
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638745285682502226
+  platformSettingsDirtyTick: 638787646440476328
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -127,7 +127,7 @@ ScriptedImporter:
     originalName: 
     pivot: {x: 0.5, y: 0}
     alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
+    border: {x: 81, y: 80, z: 76, w: 94}
     customData: 
     rect:
       serializedVersion: 2

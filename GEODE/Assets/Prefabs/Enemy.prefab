@@ -228,7 +228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1410419493
+  GlobalObjectIdHash: 3736220657
   InScenePlacedSourceGlobalObjectIdHash: 3736220657
   DeferredDespawnTick: 0
   Ownership: 1
@@ -255,7 +255,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   Id: 0
-  maxHealth: 10
   attackDamage: 10
   attackRange: 1
   attackCooldown: 3
@@ -272,6 +271,7 @@ MonoBehaviour:
   rb: {fileID: 7670961486429863952}
   coreTransform: {fileID: 0}
   playerTransform: {fileID: 0}
+  damageFloatPrefab: {fileID: 6281566191396353018, guid: ffad0a0ba59a4b441a6339a382e12439, type: 3}
   attackHitbox: {fileID: 4117687670939969054}
 --- !u!50 &7670961486429863952
 Rigidbody2D:

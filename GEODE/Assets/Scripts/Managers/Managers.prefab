@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 734060754346146433}
   - component: {fileID: 5676695610016749919}
   - component: {fileID: 4650286162726344514}
+  - component: {fileID: 5211159613880304972}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -64,8 +65,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 692236410
-  InScenePlacedSourceGlobalObjectIdHash: 0
+  GlobalObjectIdHash: 4167655124
+  InScenePlacedSourceGlobalObjectIdHash: 692236410
   DeferredDespawnTick: 0
   Ownership: 1
   AlwaysReplicateAsRoot: 0
@@ -98,12 +99,26 @@ MonoBehaviour:
     weight: 10
   minSpawnDistanceFromPlayer: 20
   maxSpawnDistanceFromPlayer: 20
-  dayMaxSpawns: 500
+  dayMaxSpawns: 10
   nightMaxSpawns: 100
-  daySpawnRate: 50
-  nightSpawnRate: 200
+  daySpawnRate: 700
+  nightSpawnRate: 300
   dayMaxSpawnsModifier: 1
   nightMaxSpawnsModifier: 1
   daySpawnRateModifier: 1
   nightSpawnRateModifier: 1
   activated: 0
+--- !u!114 &5211159613880304972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7436883744573417230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d343dc3112814744bcf44b611d6b1ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  lootPrefab: {fileID: 3017425558445644788, guid: c785024a7fc199b40a029102dffabd6d, type: 3}

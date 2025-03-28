@@ -130,6 +130,7 @@ GameObject:
   - component: {fileID: 135569798}
   - component: {fileID: 135569799}
   - component: {fileID: 135569797}
+  - component: {fileID: 135569800}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -193,6 +194,20 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &135569800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 135569796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9531bcead0d2c64c89c7abe8b84c73d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  damageFloater: {fileID: 6281566191396353018, guid: ffad0a0ba59a4b441a6339a382e12439, type: 3}
 --- !u!1 &208993703
 GameObject:
   m_ObjectHideFlags: 0
@@ -872,25 +887,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
-      propertyPath: dayMaxSpawns
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
-      propertyPath: daySpawnRate
-      value: 1000
-      objectReference: {fileID: 0}
-    - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
-      propertyPath: nightSpawnRate
-      value: 600
-      objectReference: {fileID: 0}
     - target: {fileID: 5676695610016749919, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 4167655124
-      objectReference: {fileID: 0}
-    - target: {fileID: 5676695610016749919, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
-      propertyPath: InScenePlacedSourceGlobalObjectIdHash
-      value: 692236410
       objectReference: {fileID: 0}
     - target: {fileID: 7436883744573417230, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: m_Name
@@ -899,30 +898,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7436883744573417230, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 627260783984605205}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
---- !u!1 &627260783984605204 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7436883744573417230, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
-  m_PrefabInstance: {fileID: 627260783984605203}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &627260783984605205
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 627260783984605204}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d343dc3112814744bcf44b611d6b1ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  lootPrefab: {fileID: 3017425558445644788, guid: c785024a7fc199b40a029102dffabd6d, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

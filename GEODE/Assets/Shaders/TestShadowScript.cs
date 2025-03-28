@@ -2,7 +2,7 @@ using UnityEngine;
 
 /// <summary>
 /// Generates a custom mesh behind a sprite to act as a skewed shadow,
-/// using the sprite's TIGHT geometry (ignoring alpha=0 pixels).
+/// with the *lowest* edge of the sprite pinned in place (like the trunk base).
 ///
 /// Attach this to the same GameObject as your SpriteRenderer.
 /// Requires:
@@ -10,8 +10,8 @@ using UnityEngine;
 ///  2) A sprite imported with "Mesh Type" = Tight (so alpha=0 is stripped).
 ///  3) A material that can render Sprites (e.g., "Sprites/Default").
 ///
-/// It calculates each vertex's vertical position in local space
-/// and offsets it proportionally in the direction away from the light.
+/// It calculates each vertex's distance between minY (base) and maxY (top)
+/// in local space. minY = zero offset, maxY = full shadow offset.
 /// </summary>
 [RequireComponent(typeof(SpriteRenderer))]
 public class SkewedSpriteShadow2D : MonoBehaviour
@@ -63,30 +63,28 @@ public class SkewedSpriteShadow2D : MonoBehaviour
 
     private void Awake()
     {
-        // Get main sprite renderer
+        // 1. Grab the SpriteRenderer
         mainSpriteRenderer = GetComponent<SpriteRenderer>();
 
-        // If no specific sprite is assigned for the shadow, default to the same as the main sprite
+        // If no shadowSprite is set, default to the main sprite
         if (shadowSprite == null)
             shadowSprite = mainSpriteRenderer.sprite;
 
-        // Verify we actually have geometry
+        // Safety checks
         if (shadowSprite == null)
         {
             Debug.LogError("SkewedSpriteShadow2D: No sprite assigned and no SpriteRenderer sprite found.");
             return;
         }
 
-        if(lightSource == null)
+        if (lightSource == null)
         {
+            // Example auto-find if you have an object named "Sunlight"
             lightSource = GameObject.Find("Sunlight");
         }
 
-        // Grab the sprite's "tight" mesh data:
-        //  sprite.vertices   -> array of Vector2 for each vertex (in local sprite space)
-        //  sprite.uv        -> array of Vector2 for each vertex's UV
-        //  sprite.triangles -> array of indices (ushort)
-        spriteVertices2D = shadowSprite.vertices;   // local coords
+        // 2. Extract the sprite's TIGHT geometry (local coords, UVs, indices)
+        spriteVertices2D = shadowSprite.vertices;   
         spriteUVs2D      = shadowSprite.uv;
         spriteTriangles  = shadowSprite.triangles;
 
@@ -96,39 +94,39 @@ public class SkewedSpriteShadow2D : MonoBehaviour
             return;
         }
 
-        // Create a child object to hold the shadow mesh
+        // 3. Create a child for the mesh
         GameObject shadowObj = new GameObject("SkewedShadowMesh");
         shadowObj.transform.SetParent(this.transform);
         shadowObj.transform.localPosition = Vector3.zero;
         shadowObj.transform.localRotation = Quaternion.identity;
         shadowObj.transform.localScale    = Vector3.one;
 
-        // Add MeshFilter and MeshRenderer
+        // 4. Add MeshFilter / MeshRenderer
         shadowMeshFilter   = shadowObj.AddComponent<MeshFilter>();
         shadowMeshRenderer = shadowObj.AddComponent<MeshRenderer>();
 
-        // Create a new mesh
+        // 5. Create the mesh
         shadowMesh = new Mesh { name = "ShadowMesh" };
         shadowMeshFilter.mesh = shadowMesh;
 
-        // Assign material
+        // 6. Assign material
         if (shadowMaterial != null)
         {
+            // Clone the assigned material so each shadow can have its own instance color
             shadowMeshRenderer.material = new Material(shadowMaterial);
         }
         else
         {
-            // Default fallback
             Debug.LogWarning("No shadowMaterial assigned. Using 'Sprites/Default' as fallback.");
             shadowMeshRenderer.material = new Material(Shader.Find("Sprites/Default"));
         }
 
-        // Set shadow color/alpha
+        // 7. Set the shadow color/alpha
         Color finalColor = shadowColor;
         finalColor.a = shadowAlpha;
         shadowMeshRenderer.material.color = finalColor;
 
-        // Sorting layer / order behind the main sprite
+        // 8. Sorting layers / orders
         if (autoSetSortingLayer)
         {
             shadowMeshRenderer.sortingLayerID = mainSpriteRenderer.sortingLayerID;
@@ -139,36 +137,35 @@ public class SkewedSpriteShadow2D : MonoBehaviour
             shadowMeshRenderer.sortingLayerName = shadowSortingLayerName;
         }
 
-        // Generate the mesh data once
+        // Generate mesh data (with positions = original sprite geometry)
         GenerateShadowMesh();
     }
 
     private void LateUpdate()
     {
-        // Update geometry each frame if light or sprite moves
-        //lets try only having the sprite update every 50 frames or something
+        // Update shadow each frame, or throttle if needed
         UpdateShadowMesh();
     }
 
     /// <summary>
-    /// Sets up the mesh with the correct number of vertices, uvs, and triangles
-    /// based on the sprite's geometry. The actual vertex positions (skew) are applied in UpdateShadowMesh().
+    /// One-time creation of the mesh with correct vertex count, UVs, and triangles.
+    /// The actual positions are skewed each frame in UpdateShadowMesh().
     /// </summary>
     private void GenerateShadowMesh()
     {
         if (shadowMesh == null || spriteVertices2D == null)
             return;
 
-        // We'll create arrays for 3D positions/uvs/triangles
+        // We'll create arrays for the 3D data
         Vector3[] meshVertices3D = new Vector3[spriteVertices2D.Length];
         Vector2[] meshUVs        = new Vector2[spriteVertices2D.Length];
         int[] meshTriangles      = new int[spriteTriangles.Length];
 
-        // Copy uv array directly
+        // Copy the UVs
         for (int i = 0; i < spriteUVs2D.Length; i++)
             meshUVs[i] = spriteUVs2D[i];
 
-        // Convert triangles from ushort to int
+        // Convert ushort triangles to int
         for (int i = 0; i < spriteTriangles.Length; i++)
             meshTriangles[i] = spriteTriangles[i];
 
@@ -178,7 +175,6 @@ public class SkewedSpriteShadow2D : MonoBehaviour
             meshVertices3D[i] = new Vector3(spriteVertices2D[i].x, spriteVertices2D[i].y, 0f);
         }
 
-        // Assign to the mesh
         shadowMesh.Clear();
         shadowMesh.vertices  = meshVertices3D;
         shadowMesh.uv        = meshUVs;
@@ -189,17 +185,15 @@ public class SkewedSpriteShadow2D : MonoBehaviour
     }
 
     /// <summary>
-    /// Each frame, offset the vertices in the direction away from the light source,
-    /// proportional to their vertical position. That way, higher (top) vertices get more offset,
-    /// ignoring alpha=0 areas because the sprite's geometry doesn't include them.
+    /// Each frame, we skew the vertices so that the lowest edge (minY) is pinned,
+    /// and the top edge (maxY) is fully offset in the direction away from the light.
     /// </summary>
     private void UpdateShadowMesh()
     {
         if (shadowMesh == null || lightSource == null || spriteVertices2D == null)
             return;
 
-        // 1. Determine the minY and maxY in the sprite geometry, so we can proportionally offset
-        //    each vertex from minY=0 offset up to maxY=full shadow offset.
+        // 1. Find minY and maxY in sprite geometry
         float minY = float.MaxValue;
         float maxY = float.MinValue;
         for (int i = 0; i < spriteVertices2D.Length; i++)
@@ -209,47 +203,44 @@ public class SkewedSpriteShadow2D : MonoBehaviour
             if (vy > maxY) maxY = vy;
         }
 
-        // 2. Calculate direction in world space: from light -> sprite is (spritePos - lightPos).
-        //    But we want the shadow to extend AWAY from the light, so that's dir = (spritePos - lightPos).normalized.
+        // 2. Determine the direction in world space: from the light to this sprite
         Vector2 spritePos = transform.position;
         Vector2 lightPos  = lightSource.transform.position;
         Vector2 dirWorld  = (spritePos - lightPos).normalized;
 
-        // 3. Convert that direction to local space of the shadow's parent
+        // 3. Convert that direction to local space of our sprite
         Quaternion invRotation = Quaternion.Inverse(transform.rotation);
         Vector3 dirLocal = invRotation * (Vector3)dirWorld;
 
-        // 4. Update each vertex: 
-        //    - Start with original local coords from spriteVertices2D
-        //    - Scale Y if needed (verticalScale)
-        //    - Compute how "high" it is from minY..maxY to get a 't' factor.
-        //    - Offset by t * shadowLength in direction dirLocal.
-        Vector3[] meshVerts = shadowMesh.vertices; // current positions
-
+        // 4. Offset each vertex in local space
+        Vector3[] meshVerts = shadowMesh.vertices;
         for (int i = 0; i < spriteVertices2D.Length; i++)
         {
             float vx = spriteVertices2D[i].x;
             float vy = spriteVertices2D[i].y;
 
-            // Apply vertical scale
+            // If you want to squash or stretch vertically
             vy *= verticalScale;
 
+            // Compute how far above minY we are (0..1)
             float t = 0f;
-            if (maxY != minY)
-                t = (vy - (minY * verticalScale)) / ((maxY - minY) * verticalScale);
-            
-            // offset by t * shadowLength in dirLocal
+            float denom = (maxY - minY) * verticalScale;
+            if (denom != 0f)
+            {
+                t = (vy - (minY * verticalScale)) / denom;
+                t = Mathf.Clamp01(t); // safety clamp
+            }
+
+            // Offset = t * shadowLength in local shadow direction
             Vector3 offset = dirLocal * (shadowLength * t);
 
-            // final vertex in local space
+            // Final local position
             meshVerts[i] = new Vector3(vx, vy, 0f) + offset;
         }
 
-        // 5. Commit these changed vertices back to the mesh
+        // 5. Push these changes into the mesh
         shadowMesh.vertices = meshVerts;
         shadowMesh.RecalculateBounds();
-        // Normals are not strictly important for a 2D unlit sprite,
-        // but we do it for completeness.
         shadowMesh.RecalculateNormals();
     }
 }

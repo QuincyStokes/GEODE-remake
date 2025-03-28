@@ -43,13 +43,9 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
     { 
         get => transform;
     }
-    
 
     //METHODS
 
-   
-
-   
 
     [ServerRpc(RequireOwnership = false)]
     public void RestoreHealthServerRpc(float amount)
@@ -76,6 +72,9 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
         {
             return;
         }
+        
+        
+        DisplayDamageFloaterClientRpc(amount);
         Debug.Log($"{name} took {amount} damage");
         currentHealth.Value -= amount;
         OnTakeDamage(amount);
@@ -84,6 +83,13 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
             DestroyThisServerRpc(dropItems);
         }
 
+    }
+
+    [ClientRpc]
+    public void DisplayDamageFloaterClientRpc(float amount)
+    {
+        GameObject damageFloater = Instantiate(GameAssets.Instance.damageFloater, transform.position, Quaternion.identity);
+        damageFloater.GetComponent<DamageFloater>().Initialize(amount);
     }
 
     public void OnTakeDamage(float amount)
