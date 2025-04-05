@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Tilemaps;
 
 public class GridManager : NetworkBehaviour
@@ -115,6 +116,14 @@ public class GridManager : NetworkBehaviour
                 FlowFieldManager.Instance.SetWalkable(pos, false);
             } 
             FlowFieldManager.Instance.CalculateFlowField();
+
+            //this is a little weird, but I think it'll work well
+            BaseObject bo = newObject.GetComponent<BaseObject>();
+            if(bo != null)
+            {
+                bo.InitializeDescriptionAndSprite(baseItem.Description, baseItem.Icon);
+            }
+
             newObject.GetComponent<NetworkObject>().Spawn();
             
         }

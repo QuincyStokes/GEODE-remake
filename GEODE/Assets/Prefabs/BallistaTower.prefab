@@ -210,7 +210,7 @@ GameObject:
   - component: {fileID: 2392404520752398654}
   - component: {fileID: 3675773411458282196}
   - component: {fileID: 2077050480769059596}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BallistaTower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -279,13 +279,13 @@ MonoBehaviour:
   UseUnreliableDeltas: 0
   SyncPositionX: 1
   SyncPositionY: 1
-  SyncPositionZ: 1
+  SyncPositionZ: 0
   SyncRotAngleX: 1
   SyncRotAngleY: 1
   SyncRotAngleZ: 1
-  SyncScaleX: 1
-  SyncScaleY: 1
-  SyncScaleZ: 1
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
   PositionThreshold: 0.001
   RotAngleThreshold: 0.01
   ScaleThreshold: 0.01
@@ -315,28 +315,30 @@ MonoBehaviour:
     m_InternalValue: 1
   droppedItems: []
   objectName: Ballista Tower
-  baseFireRate: 1
-  basePower: 10
-  baseRange: 10
+  description: 
+  objectSprite: {fileID: 0}
+  baseSpeed: 0
+  baseStrength: 0
+  baseSize: 0
   rotationSpeed: 40
   rotates: 1
   maximumLevelXp: 0
   currentXp: 0
   currentTotalXp: 0
   level: 1
-  speed: 1
-  strength: 1
-  size: 1
-  sturdy: 1
+  speedModifier: 1
+  strengthModifier: 1
+  sizeModifier: 1
+  sturdyModifier: 1
   targetLayer:
     serializedVersion: 2
     m_Bits: 512
   detectionCollider: {fileID: 2077050480769059596}
   tower: {fileID: 4543848016171230497}
-  fireRate: 0
-  power: 0
-  range: 0
-  maxHp: 0
+  speed: 1
+  strength: 1
+  size: 1
+  sturdy: 1
   projectilePrefab: {fileID: 3971315044739012625, guid: 6adc3bbc20934134e95286598253a603, type: 3}
   firePoint: {fileID: 8530824588490717240}
 --- !u!58 &2077050480769059596

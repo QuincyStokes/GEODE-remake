@@ -33,13 +33,15 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
         get => droppedItems; 
     }
     [SerializeField] private string objectName;
-    string IDamageable.ObjectName
+    public string ObjectName
     { 
         get => objectName; set => objectName = value;
     }
     
+    [HideInInspector] public string description;
+    [HideInInspector] public Sprite objectSprite;
 
-    Transform IDamageable.ObjectTransform 
+    public Transform ObjectTransform 
     { 
         get => transform;
     }
@@ -119,5 +121,11 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
         }
         
         GetComponent<NetworkObject>().Despawn(true);
+    }
+
+    public void InitializeDescriptionAndSprite(string desc, Sprite sprite)
+    {
+        description = desc;
+        objectSprite = sprite;
     }
 }

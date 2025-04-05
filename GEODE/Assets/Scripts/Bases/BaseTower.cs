@@ -1,28 +1,31 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public abstract class BaseTower : BaseObject
+public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperienceGain
 {
     //all towers shall inherit from this script, so we must include all things that *all* towers need
     //hold up, should towers have states? i think that doin too much, towers are simple
     #region PROPERTIES
 
     [Header("Tower Stats")]
-    [SerializeField] private float baseFireRate; //attack rate
-    [SerializeField] private float basePower; //damage/power of attack
-    [SerializeField] private float baseRange; //range of attack
+    [SerializeField] public float baseSpeed;  //attack rate
+    [SerializeField] public float baseStrength; //damage/power of attack
+    [SerializeField] public float baseSize; //range of attack
     [SerializeField] private float rotationSpeed;
     [SerializeField] private bool rotates;
-    [SerializeField] private int maximumLevelXp; //the xp needed to level up this tower
-    [SerializeField] private int currentXp; //the current xp, reset from the last levelup
-    [SerializeField] private int currentTotalXp; //the total xp this tower has accumulated;
-    [SerializeField] private int level = 1;
+
+    [Header("Experience")]
+    [SerializeField] public int maximumLevelXp;  //the xp needed to level up this tower
+    [SerializeField] public int currentXp; //the current xp, reset from the last levelup
+    [SerializeField] public int currentTotalXp; //the total xp this tower has accumulated;
+    [SerializeField] public int level;
 
     [Header("Stat Modifiers")]
-    [SerializeField] private float speed = 1.0f; //modifies attack rate
-    [SerializeField] private float strength = 1.0f; //modifies power
-    [SerializeField] private float size = 1.0f; //modifies range
-    [SerializeField] private float sturdy = 1.0f; //modifies max health
+    [SerializeField] private float speedModifier = 1.0f; //modifies attack rate
+    [SerializeField] private float strengthModifier = 1.0f; //modifies power
+    [SerializeField] private float sizeModifier = 1.0f; //modifies range
+    [SerializeField] private float sturdyModifier = 1.0f; //modifies max health
 
     [Header("References")]
     [SerializeField] protected LayerMask targetLayer;
@@ -32,10 +35,10 @@ public abstract class BaseTower : BaseObject
 
 
     // final stats
-    [HideInInspector]public float fireRate;
-    [HideInInspector]public float power;
-    [HideInInspector]public float range;
-    [HideInInspector]public float maxHp;
+    [HideInInspector]public float speed;
+    [HideInInspector]public float strength;
+    [HideInInspector]public float size;
+    [HideInInspector]public float sturdy;
 
     //Internal
     protected List<GameObject> targets = new List<GameObject>();
@@ -46,37 +49,30 @@ public abstract class BaseTower : BaseObject
     #endregion
 
     #region ACCESSORS
-    public float Sturdy 
-    {
-        get => sturdy;
-        set => sturdy = value;
-    }
-    public float Speed 
-    {
-        get => speed;
-        set => speed = value;
-    }
-    public float Size 
-    {
-        get => size;
-        set => size = value;
-    }
-    public float Strength 
-    {
-        get => strength;
-        set => strength = value;
-    }
 
-    public int CurrentXp
-    {
-        get => currentXp;
-        private set => currentXp = value;
-    }
+    //* BASE STAT VALUES
+    public float BaseSpeed{get=>baseSpeed; set=> baseSpeed = value;} //
+    public float BaseStrength{get=>baseStrength; set=> baseStrength = value;}
+    public float BaseSize{get=>baseSize; set=> baseSize = value;}
 
-    public int Level
-    {
-        get => level;
-    }
+    //* STAT MODIFIERS
+    public float SturdyModifier { get => sturdyModifier; set => sturdyModifier = value;}
+    public float SpeedModifier { get => speedModifier; set => speedModifier = value; }
+    public float SizeModifier { get => sizeModifier; set => sizeModifier = value; }
+    public float StrengthModifier { get => strengthModifier; set => strengthModifier = value; }
+
+    //* STAT TOTALS
+
+    public float Sturdy { get => sturdy; set => sturdy = value;}
+    public float Speed { get => speed; set => speed = value; }
+    public float Size { get => size; set => size = value; }
+    public float Strength { get => strength; set => strength = value; }
+
+    public int Level { get => level; set => level = value;}
+    public int MaximumLevelXp { get => maximumLevelXp; set => maximumLevelXp = value;}
+    public int CurrentXp { get => currentXp; set => currentXp = value; }
+    public int CurrentTotalXp { get => currentTotalXp; set => currentTotalXp = value;}
+
     #endregion
 
 
@@ -86,14 +82,14 @@ public abstract class BaseTower : BaseObject
     {
         if(detectionCollider != null)
         {
-            detectionCollider.radius = baseRange;
+            detectionCollider.radius = size;
         }
 
         //set stats
-        power = basePower * strength;
-        fireRate = baseFireRate * speed;
-        range = baseRange * size;
-        maxHp = MaxHealth * sturdy; //notably, MaxHealth is derived from BaseObject
+        strength = baseStrength * strengthModifier;
+        speed = baseSpeed * speedModifier;
+        size = baseSize * sizeModifier;
+        sturdy = MaxHealth * sturdyModifier; //notably, MaxHealth is derived from BaseObject
     }
 
     private void Update()
@@ -114,14 +110,14 @@ public abstract class BaseTower : BaseObject
                     {
                         Fire();
                         Debug.Log("Firing.");
-                        nextFireTime = Time.time + 1f / fireRate;
+                        nextFireTime = Time.time + 1f / speed;
                     }
                 }
                 else if(Time.time >= nextFireTime)
                 {
                     Debug.Log("Does not rotate. Firing!");
                     Fire();
-                    nextFireTime = Time.time + 1f / fireRate;
+                    nextFireTime = Time.time + 1f / speed;
                 }
                 
             }
@@ -148,7 +144,7 @@ public abstract class BaseTower : BaseObject
 
     private Transform GetNearestTarget()
     {
-        float currentClosest = range*2; //arbitrary number, fine to set it to range*2 because that will always be outside of our range
+        float currentClosest = size*2; //arbitrary number, fine to set it to range*2 because that will always be outside of our range
         if(targets.Count == 0)
         {
             currentTarget = null;
@@ -212,14 +208,34 @@ public abstract class BaseTower : BaseObject
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(tower.transform.position, range);
+        Gizmos.DrawWireSphere(tower.transform.position, size);
     }
 
     public abstract void Fire();
     public abstract void OnTriggerEnter2D(Collider2D collision);
     public abstract void OnTriggerExit2D(Collider2D collision);
 
-   
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        Debug.Log("Pointer Entered from BaseTower");
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        Debug.Log("Pointer Exited from BaseTower");
+    }
+
+    public void OnInteract()
+    {
+        PopulateInteractionMenu();
+    }
+
+    public void PopulateInteractionMenu()
+    {
+        InspectionMenu.Instance.PopulateMenu(this.gameObject);
+    }
+
+
     #endregion
 
 }

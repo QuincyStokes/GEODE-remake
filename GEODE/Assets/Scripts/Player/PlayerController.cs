@@ -80,6 +80,10 @@ public class PlayerController : NetworkBehaviour
             //PrimaryFire
             playerInput.Player.PrimaryFire.performed += OnPrimaryFire;
             playerInput.Player.PrimaryFire.Enable();
+
+            //Secondary FIre
+            playerInput.Player.SecondaryFire.performed += OnSecondaryFire;
+            playerInput.Player.SecondaryFire.Enable();
             
             //Scroll
             playerInput.Player.Scroll.performed += playerInventory.OnScroll;
@@ -139,6 +143,10 @@ public class PlayerController : NetworkBehaviour
         //PrimaryFire
         playerInput.Player.PrimaryFire.performed -= OnPrimaryFire;
         playerInput.Player.PrimaryFire.Disable();
+
+        //Secondary
+        playerInput.Player.SecondaryFire.performed -= OnSecondaryFire;
+        playerInput.Player.SecondaryFire.Disable();
 
         //Scroll
         playerInput.Player.Scroll.performed -= playerInventory.OnScroll;
@@ -265,6 +273,35 @@ public class PlayerController : NetworkBehaviour
     private void OnPrimaryFire(InputAction.CallbackContext context)
     {
         playerInventory.UseSelectedItem(Camera.main.ScreenToWorldPoint(mouseInput.ReadValue<Vector2>()));
+    }
+
+    private void OnSecondaryFire(InputAction.CallbackContext context)
+    {
+        //raycast at mouse position, check for any IInteractables?
+        Debug.Log("Secondary Fire!");
+        Vector3 pos = Camera.main.ScreenToWorldPoint(mouseInput.ReadValue<Vector2>());
+        
+        RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero);
+        if(hit)
+        { 
+            Debug.Log($"Raycast Hit {hit.collider.gameObject.name}");
+            IInteractable interactable = hit.collider.gameObject.GetComponentInParent<IInteractable>();
+            if(interactable != null)
+            {
+                interactable.OnInteract();
+            }
+            else
+            {
+                InspectionMenu.Instance.CloseInspectionMenu();
+            }
+
+            
+        }
+        else
+        {
+            InspectionMenu.Instance.CloseInspectionMenu();
+            Debug.Log($"Raycast Hit nothing");
+        }
     }
 
     private void MousePositionHandler()
