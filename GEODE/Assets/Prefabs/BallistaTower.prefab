@@ -12,7 +12,7 @@ GameObject:
   m_Layer: 0
   m_Name: Firepoint
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -310,26 +310,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   maxHealth:
-    m_InternalValue: 1
+    m_InternalValue: 100
   currentHealth:
-    m_InternalValue: 1
-  droppedItems: []
+    m_InternalValue: 100
+  droppedItems:
+  - Id: 1
+    amount: 10
   objectName: Ballista Tower
   description: 
   objectSprite: {fileID: 0}
-  baseSpeed: 0
-  baseStrength: 0
-  baseSize: 0
+  baseSpeed: 5
+  baseStrength: 10
+  baseSize: 7
   rotationSpeed: 40
   rotates: 1
-  maximumLevelXp: 0
+  maximumLevelXp: 100
   currentXp: 0
   currentTotalXp: 0
   level: 1
   speedModifier: 1
-  strengthModifier: 1
+  strengthModifier: 1.5
   sizeModifier: 1
-  sturdyModifier: 1
+  sturdyModifier: 1.8
   targetLayer:
     serializedVersion: 2
     m_Bits: 512
@@ -375,7 +377,7 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 1, y: 1}
   m_Radius: 5
 --- !u!1 &6228093107545849552
 GameObject:

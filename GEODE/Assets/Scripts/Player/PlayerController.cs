@@ -51,7 +51,8 @@ public class PlayerController : NetworkBehaviour
     private Vector3 mousePos;
     private Vector3Int previousMousePosInt;
 
-
+    [Header("Interaction Layer Mask")]
+    [SerializeField] private LayerMask interactableLayerMask;
 
     
     //PRIVATE INTERNAL
@@ -281,7 +282,7 @@ public class PlayerController : NetworkBehaviour
         Debug.Log("Secondary Fire!");
         Vector3 pos = Camera.main.ScreenToWorldPoint(mouseInput.ReadValue<Vector2>());
         
-        RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero);
+        RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero, 10, interactableLayerMask);
         if(hit)
         { 
             Debug.Log($"Raycast Hit {hit.collider.gameObject.name}");

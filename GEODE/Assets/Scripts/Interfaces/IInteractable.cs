@@ -6,7 +6,6 @@ public interface IInteractable : IPointerEnterHandler, IPointerExitHandler
     public new void OnPointerExit(PointerEventData eventData);
 
     public abstract void OnInteract();
-
     public abstract void PopulateInteractionMenu();
 
 }

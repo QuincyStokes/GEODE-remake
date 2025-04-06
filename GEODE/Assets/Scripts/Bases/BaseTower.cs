@@ -90,6 +90,8 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
         speed = baseSpeed * speedModifier;
         size = baseSize * sizeModifier;
         sturdy = MaxHealth * sturdyModifier; //notably, MaxHealth is derived from BaseObject
+
+        detectionCollider.radius = size;
     }
 
     private void Update()

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,8 +24,17 @@ public class InspectionMenu : MonoBehaviour
     [SerializeField] private Slider healthSlider;
     [SerializeField] private Slider xpSlider;
 
+    [Header("Groups")]
+    [SerializeField] private List<GameObject> objectThings; //ui elements pertaining to base object
+
+    [SerializeField] private List<GameObject> statsThings; //ui elements pertaining to stats
+    [SerializeField] private List<GameObject> xpThings; //ui elements pertaining to xp
+
     //* ------- PRIVATE INTERNAL -------------
     private GameObject currentInspectedObject;
+
+
+    //* METHODS
     private void Awake()
     {
         if(Instance == null)
@@ -39,11 +49,17 @@ public class InspectionMenu : MonoBehaviour
 
     public void PopulateMenu(GameObject go)
     {
+        //TODO think about having these things constantly set in Update, so we can see changes live
+        if(go == currentInspectedObject)
+        {
+            return;
+        }
+        currentInspectedObject = go;
         if(InspectionMenuHolder.activeSelf == false)
         {
             InspectionMenuHolder.SetActive(true);
         }
-
+        
         BaseObject bo = go.GetComponent<BaseObject>();
         IStats stats = go.GetComponent<IStats>();
         IExperienceGain exp = go.GetComponent<IExperienceGain>();
@@ -51,6 +67,7 @@ public class InspectionMenu : MonoBehaviour
         //all of the necessary information to populate the menu
         if(bo != null) //health, description, sprite
         {
+            SetGroup(objectThings, true);
             inspectName.text = bo.ObjectName;
             inspectImage.sprite = bo.objectSprite;
             healthSlider.maxValue = bo.MaxHealth;
@@ -59,30 +76,47 @@ public class InspectionMenu : MonoBehaviour
             sturdy.text = bo.MaxHealth.ToString();
             description.text = bo.description;
         }
+        else
+        {
+            Debug.Log("BaseObject was null");
+            SetGroup(objectThings, false);
+        }
 
         if(stats != null) //all of the stat modifiers
         {
+            SetGroup(statsThings, true);
             //CAN DO CUSTOM COLOR BY DOING <COLOR=#ffffff>
             //STRENGTH
-            strength.text = $"<color=red>{stats.Strength}</color> = {stats.BaseStrength}<color=red>({stats.BaseStrength * stats.StrengthModifier-stats.BaseStrength}</color>)";
+            strength.text = $"<color=red>{stats.Strength}</color> = {stats.BaseStrength}<color=red> (+{stats.BaseStrength * stats.StrengthModifier-stats.BaseStrength}</color>)";
 
             //SPEED
-            speed.text = $"<color=yellow>{stats.Speed}</color> = {stats.BaseSpeed}<color=yellow>({stats.BaseSpeed * stats.SpeedModifier-stats.BaseSpeed}</color>)";
+            speed.text = $"<color=yellow>{stats.Speed}</color> = {stats.BaseSpeed}<color=yellow> (+{stats.BaseSpeed * stats.SpeedModifier-stats.BaseSpeed}</color>)";
 
             //SIZE
-            size.text = $"<color=green>{stats.Size}</color> = {stats.BaseSize}<color=green>({stats.BaseSize * stats.SizeModifier-stats.BaseSize}</color>)";
+            size.text = $"<color=green>{stats.Size}</color> = {stats.BaseSize}<color=green> (+{stats.BaseSize * stats.SizeModifier-stats.BaseSize}</color>)";
 
             //STURDY
-            sturdy.text = $"<color=blue>{stats.Sturdy}</color> = {bo.MaxHealth}<color=blue>({bo.MaxHealth * stats.SturdyModifier-bo.MaxHealth}</color>)";
+            sturdy.text = $"<color=blue>{stats.Sturdy}</color> = {bo.MaxHealth}<color=blue> +({bo.MaxHealth * stats.SturdyModifier-bo.MaxHealth}</color>)";
 
+        }
+        else
+        {
+            Debug.Log("Stats was null");
+            SetGroup(statsThings, false);
         }
 
         if(exp != null) //xp things like current/total/level
         {
+            SetGroup(xpThings, true);
             level.text = "Level " + exp.Level.ToString();
             xpSlider.maxValue = exp.MaximumLevelXp;
             xpSlider.minValue = 0;
             xpSlider.value = exp.CurrentXp;
+        }
+        else
+        {
+            Debug.Log("Xp was null");
+            SetGroup(xpThings, false);
         }
     }
 
@@ -90,5 +124,13 @@ public class InspectionMenu : MonoBehaviour
     {
         currentInspectedObject = null;
         InspectionMenuHolder.SetActive(false);
+    }
+
+    private void SetGroup(List<GameObject> group, bool set)
+    {
+        foreach (GameObject go in group)
+        {
+            go.SetActive(set);
+        }
     }
 }

@@ -88,7 +88,7 @@ GameObject:
   m_Component:
   - component: {fileID: 422872646870009635}
   - component: {fileID: 7661953336904614246}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -413,5 +413,7 @@ MonoBehaviour:
     m_InternalValue: 100
   droppedItems: []
   objectName: Core
+  description: 
+  objectSprite: {fileID: 0}
   buildRadius: 10
   areaLight: {fileID: 7661953336904614246}
