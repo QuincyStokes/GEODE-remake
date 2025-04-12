@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -6531102184260720500}
   - component: {fileID: -691942783128334435}
   - component: {fileID: 7201298494626830855}
+  - component: {fileID: 2258096195477954960}
   m_Layer: 0
   m_Name: StumpForestTree
   m_TagString: EnvironmentObject
@@ -174,6 +175,61 @@ MonoBehaviour:
   - Id: 1
     amount: 5
   objectName: 
+  description: 
+  objectSprite: {fileID: 0}
+--- !u!114 &2258096195477954960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 924637941774536388}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_Priority: 0
+  m_ComponentVersion: 5
+  m_HasRenderer: 0
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_AlphaCutoff: 0.1
+  m_ApplyToSortingLayers: 2f1377f300000000e7bcb112
+  m_ShapePath:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0.9375, z: 0}
+  - {x: 1.65625, y: 0.9375, z: 0}
+  - {x: 1.65625, y: 0, z: 0}
+  m_ShapePathHash: 0
+  m_InstanceId: 0
+  m_ShadowShape2DComponent: {fileID: 5300620979398461097}
+  m_ShadowShape2DProvider:
+    rid: 6094927455391055957
+  m_ShadowCastingSource: 2
+  m_ShadowMesh:
+    m_Mesh: {fileID: 0}
+    m_LocalBounds:
+      m_Center: {x: 0.84375, y: 0.46875, z: 0}
+      m_Extent: {x: 0.5850067, y: 0.4287567, z: 0}
+    m_EdgeProcessing: 1
+    m_TrimEdge: 0.04
+    m_FlipX: 0
+    m_FlipY: 0
+    m_InitialTrim: 0
+  m_CastingOption: 1
+  m_PreviousTrimEdge: 0
+  m_PreviousEdgeProcessing: -1
+  m_PreviousShadowCastingSource: -1
+  m_PreviousShadowShape2DSource: {fileID: 0}
+  references:
+    version: 2
+    RefIds:
+    - rid: 6094927455391055957
+      type: {class: ShadowShape2DProvider_SpriteRenderer, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
+      data: 
 --- !u!1 &7843015234756447887
 GameObject:
   m_ObjectHideFlags: 0
@@ -262,7 +318,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7536089406789385537}
   - component: {fileID: 2203301059727297429}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: CollisionHitbox
   m_TagString: EnvironmentObject
   m_Icon: {fileID: 0}

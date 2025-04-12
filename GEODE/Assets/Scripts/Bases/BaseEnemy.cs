@@ -15,8 +15,8 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable
     public int Id;
 
     [Header("Enemy Settings")]
-    private float maxHealth;
-    private float currentHealth;
+    [SerializeField]private float maxHealth;
+    [SerializeField]private float currentHealth;
 
     public float attackDamage;
     public float attackRange;

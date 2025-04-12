@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8033727422695801900}
   - component: {fileID: 2301513312846838760}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: CollisionHitbox
   m_TagString: EnvironmentObject
   m_Icon: {fileID: 0}
@@ -161,6 +161,7 @@ GameObject:
   - component: {fileID: 1597582258657433652}
   - component: {fileID: 3486107488009609630}
   - component: {fileID: -5510116939366637077}
+  - component: {fileID: 3548308005228402621}
   m_Layer: 0
   m_Name: FallenForestTree
   m_TagString: EnvironmentObject
@@ -321,3 +322,58 @@ MonoBehaviour:
   - Id: 1
     amount: 5
   objectName: 
+  description: 
+  objectSprite: {fileID: 0}
+--- !u!114 &3548308005228402621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4569716455414417005}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_Priority: 0
+  m_ComponentVersion: 5
+  m_HasRenderer: 0
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_AlphaCutoff: 0.1
+  m_ApplyToSortingLayers: 2f1377f300000000e7bcb112
+  m_ShapePath:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0.84375, z: 0}
+  - {x: 3.59375, y: 0.84375, z: 0}
+  - {x: 3.59375, y: 0, z: 0}
+  m_ShapePathHash: 0
+  m_InstanceId: 0
+  m_ShadowShape2DComponent: {fileID: 1039887143471275222}
+  m_ShadowShape2DProvider:
+    rid: 6094927455391055956
+  m_ShadowCastingSource: 2
+  m_ShadowMesh:
+    m_Mesh: {fileID: 0}
+    m_LocalBounds:
+      m_Center: {x: 1.7925034, y: 0.46875, z: 0}
+      m_Extent: {x: 1.517189, y: 0.3350067, z: 0}
+    m_EdgeProcessing: 1
+    m_TrimEdge: 0.04
+    m_FlipX: 0
+    m_FlipY: 0
+    m_InitialTrim: 0
+  m_CastingOption: 1
+  m_PreviousTrimEdge: 0
+  m_PreviousEdgeProcessing: -1
+  m_PreviousShadowCastingSource: -1
+  m_PreviousShadowShape2DSource: {fileID: 0}
+  references:
+    version: 2
+    RefIds:
+    - rid: 6094927455391055956
+      type: {class: ShadowShape2DProvider_SpriteRenderer, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
+      data: 

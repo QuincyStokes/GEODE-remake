@@ -255,6 +255,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   Id: 0
+  maxHealth: 30
+  currentHealth: 30
   attackDamage: 10
   attackRange: 1
   attackCooldown: 3
@@ -262,7 +264,7 @@ MonoBehaviour:
   droppedItems: []
   structureLayerMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 2176
   steering:
     checkInterval: 0.1
     rayDistance: 1
@@ -271,7 +273,6 @@ MonoBehaviour:
   rb: {fileID: 7670961486429863952}
   coreTransform: {fileID: 0}
   playerTransform: {fileID: 0}
-  damageFloatPrefab: {fileID: 6281566191396353018, guid: ffad0a0ba59a4b441a6339a382e12439, type: 3}
   attackHitbox: {fileID: 4117687670939969054}
 --- !u!50 &7670961486429863952
 Rigidbody2D:
@@ -281,9 +282,9 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1160243913533736849}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDamping: 0
@@ -296,7 +297,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
@@ -405,7 +406,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7186009135097747369
 Transform:
   m_ObjectHideFlags: 0

@@ -32,7 +32,12 @@ public class PathToCoreState : BaseEnemyState
           
             if(FlowFieldManager.Instance != null && !FlowFieldManager.Instance.IsOnFlowField(owner.transform.position))
             {
-                owner.rb.linearVelocity = (owner.coreTransform.position - owner.transform.position).normalized;
+                //owner.rb.linearVelocity = (owner.coreTransform.position - owner.transform.position).normalized;
+                Vector2 coreDir = (owner.coreTransform.position - owner.transform.position).normalized;
+
+                Vector2 finalDir = owner.steering.GetSteeredDirection(owner, coreDir);
+
+                owner.rb.linearVelocity = finalDir;
             }
             else if(FlowFieldManager.Instance != null && FlowFieldManager.Instance.IsOnFlowField(owner.transform.position))
             {

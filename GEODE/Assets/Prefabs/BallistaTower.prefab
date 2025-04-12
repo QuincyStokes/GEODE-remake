@@ -319,7 +319,7 @@ MonoBehaviour:
   objectName: Ballista Tower
   description: 
   objectSprite: {fileID: 0}
-  baseSpeed: 5
+  baseSpeed: 2
   baseStrength: 10
   baseSize: 7
   rotationSpeed: 40

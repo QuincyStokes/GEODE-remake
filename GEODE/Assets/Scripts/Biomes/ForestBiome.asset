@@ -56,4 +56,7 @@ MonoBehaviour:
   - entryName: Nothing
     baseItem: {fileID: 11400000, guid: 1caf887cd127e3b42b6167adfe82a6f5, type: 2}
     weight: 50
-  totalWeight: 524
+  - entryName: Red Geode
+    baseItem: {fileID: 11400000, guid: 06293a621c6263f43b4898799cded384, type: 2}
+    weight: 5
+  totalWeight: 667
