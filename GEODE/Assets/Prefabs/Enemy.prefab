@@ -258,7 +258,7 @@ MonoBehaviour:
   maxHealth: 30
   currentHealth: 30
   attackDamage: 10
-  attackRange: 1
+  attackRange: 1.5
   attackCooldown: 3
   movementSpeed: 2
   droppedItems: []
@@ -272,6 +272,7 @@ MonoBehaviour:
   animator: {fileID: 6878477634410811571}
   rb: {fileID: 7670961486429863952}
   coreTransform: {fileID: 0}
+  corePosition: {x: 0, y: 0}
   playerTransform: {fileID: 0}
   attackHitbox: {fileID: 4117687670939969054}
 --- !u!50 &7670961486429863952

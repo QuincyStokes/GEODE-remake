@@ -40,8 +40,8 @@ public class PathToObstructingState : BaseEnemyState
                 if(obstructingObject == null)
                 {
                     
-                    Vector3 dir = (owner.coreTransform.position - owner.transform.position).normalized;
-                    float distance = Vector3.Distance(owner.transform.position, owner.coreTransform.position);
+                    Vector3 dir = (owner.corePosition - (Vector2)owner.transform.position).normalized;
+                    float distance = Vector3.Distance(owner.transform.position, owner.corePosition);
 
                     RaycastHit2D hit = Physics2D.Raycast(owner.transform.position, dir, distance, owner.structureLayerMask);
                     if(hit.collider != null)
@@ -75,7 +75,7 @@ public class PathToObstructingState : BaseEnemyState
         if(attackTimer >= owner.attackCooldown)
         {
             // if current target is in range, attack!
-            if(Vector3.Distance(owner.coreTransform.position, owner.transform.position) <= owner.attackRange)
+            if(Vector3.Distance(owner.corePosition, owner.transform.position) <= owner.attackRange)
             {
                 //Switch to attack state
                 stateMachine.ChangeState(new AttackState());

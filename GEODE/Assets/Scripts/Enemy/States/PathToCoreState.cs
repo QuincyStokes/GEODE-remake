@@ -32,8 +32,9 @@ public class PathToCoreState : BaseEnemyState
           
             if(FlowFieldManager.Instance != null && !FlowFieldManager.Instance.IsOnFlowField(owner.transform.position))
             {
-                //owner.rb.linearVelocity = (owner.coreTransform.position - owner.transform.position).normalized;
-                Vector2 coreDir = (owner.coreTransform.position - owner.transform.position).normalized;
+                //owner.rb.linearVelocity = (owner.corePosition - owner.transform.position).normalized;
+                //HERE might be a little cringe, but can we just add (1, 1) to the position, so that way the enemies path towards the center of it?
+                Vector2 coreDir = (owner.corePosition - (Vector2)owner.transform.position).normalized;
 
                 Vector2 finalDir = owner.steering.GetSteeredDirection(owner, coreDir);
 
@@ -48,7 +49,7 @@ public class PathToCoreState : BaseEnemyState
                 }
                 else
                 {
-                    if(Vector3.Distance(owner.coreTransform.position, owner.transform.position) <= owner.attackRange)
+                    if(Vector3.Distance(owner.corePosition, owner.transform.position) <= owner.attackRange)
                     {
                         //just stand there for now
                         owner.rb.linearVelocity = Vector3.zero;
@@ -81,7 +82,7 @@ public class PathToCoreState : BaseEnemyState
         if(attackTimer >= owner.attackCooldown)
         {
             // if current target is in range, attack!
-            if(Vector3.Distance(owner.coreTransform.position, owner.transform.position) <= owner.attackRange)
+            if(Vector3.Distance(owner.corePosition, owner.transform.position) <= owner.attackRange)
             {
                 //Switch to attack state
                 stateMachine.ChangeState(new AttackState());

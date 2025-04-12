@@ -61,6 +61,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable
     public Animator animator;
     public Rigidbody2D rb;
     [HideInInspector] public Transform coreTransform;
+    [HideInInspector] public Vector2 corePosition;
     [HideInInspector] public Transform playerTransform;
     [HideInInspector] public IDamageable currentTarget;
     
@@ -95,7 +96,8 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable
         }
         else if (FlowFieldManager.Instance != null && coreTransform == null && FlowFieldManager.Instance.coreTransform != null)
         {
-            coreTransform = FlowFieldManager.Instance.coreTransform;
+            //coreTransform = FlowFieldManager.Instance.coreTransform;
+            SetCorePosition(FlowFieldManager.Instance.coreTransform);
         }
         OnDeath += SetDeathState;
         PostStart();
@@ -137,6 +139,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable
         if(FlowFieldManager.Instance != null && FlowFieldManager.Instance.HasCoreBeenPlaced())
         {
             this.coreTransform = coreTransform;
+            corePosition = (Vector2)coreTransform.position + new Vector2(1, 1);
         }
     }
 
@@ -147,7 +150,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable
 
     public void OnTakeDamage(float amount)
     {
-       
+        DisplayDamageFloaterClientRpc(amount);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -173,8 +176,8 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable
     [ServerRpc(RequireOwnership = false)]
     public void TakeDamageServerRpc(float amount, bool dropItems)
     {
-        DisplayDamageFloaterClientRpc(amount);
         CurrentHealth -= amount;
+        OnTakeDamage(amount);
         if(CurrentHealth <= 0)
         {
             DestroyThisServerRpc(dropItems);
