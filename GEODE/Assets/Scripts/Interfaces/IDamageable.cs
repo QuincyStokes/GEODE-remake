@@ -7,6 +7,7 @@ public interface IDamageable
    public float CurrentHealth {get; set;}
    public Transform ObjectTransform {get;}
    public string ObjectName {get; set;}
+   public Transform CenterPoint {get;}
    public List<DroppedItem> DroppedItems{get;}
    public abstract void TakeDamageServerRpc(float amount, bool dropItems);
    public abstract void RestoreHealthServerRpc(float amount);

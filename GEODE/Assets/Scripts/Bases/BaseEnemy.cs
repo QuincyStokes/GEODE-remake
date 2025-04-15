@@ -56,6 +56,12 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable
         get => droppedItems;
     }
 
+    [SerializeField] private Transform centerPoint;
+    public Transform CenterPoint
+    {
+        get => centerPoint;
+    }
+
     #endregion
     [Header("References")]
     public Animator animator;
@@ -187,7 +193,14 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable
     [ClientRpc]
     public void DisplayDamageFloaterClientRpc(float amount)
     {
-        GameObject damageFloater = Instantiate(GameAssets.Instance.damageFloater, transform.position, Quaternion.identity);
+        GameObject damageFloater;
+        if(CenterPoint != null){
+            damageFloater = Instantiate(GameAssets.Instance.damageFloater, CenterPoint.position, Quaternion.identity);
+        }
+        else
+        {
+            damageFloater = Instantiate(GameAssets.Instance.damageFloater, transform.position, Quaternion.identity);
+        }
         damageFloater.GetComponent<DamageFloater>().Initialize(amount);
     }
 

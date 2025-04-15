@@ -35,6 +35,12 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         get => objectName;
         set => objectName = value;
     }
+
+    [SerializeField] private Transform centerPoint;
+    public Transform CenterPoint
+    {
+        get => centerPoint;
+    }
     public List<DroppedItem> DroppedItems
     {
         get => droppedItems;
@@ -46,7 +52,14 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     public void DisplayDamageFloaterClientRpc(float amount)
     {
-        GameObject damageFloater = Instantiate(GameAssets.Instance.damageFloater, transform.position, Quaternion.identity);
+        GameObject damageFloater;
+        if(CenterPoint != null){
+            damageFloater = Instantiate(GameAssets.Instance.damageFloater, CenterPoint.position, Quaternion.identity);
+        }
+        else
+        {
+            damageFloater = Instantiate(GameAssets.Instance.damageFloater, transform.position, Quaternion.identity);
+        }
         damageFloater.GetComponent<DamageFloater>().Initialize(amount);
     }
 

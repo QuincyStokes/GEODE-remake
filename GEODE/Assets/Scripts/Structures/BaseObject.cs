@@ -37,6 +37,12 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
     { 
         get => objectName; set => objectName = value;
     }
+
+    [SerializeField] private Transform centerPoint;
+    public Transform CenterPoint
+    {
+        get => centerPoint;
+    }
     
     [HideInInspector] public string description;
     [HideInInspector] public Sprite objectSprite;
@@ -90,7 +96,14 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
     [ClientRpc]
     public void DisplayDamageFloaterClientRpc(float amount)
     {
-        GameObject damageFloater = Instantiate(GameAssets.Instance.damageFloater, transform.position, Quaternion.identity);
+        GameObject damageFloater;
+        if(CenterPoint != null){
+            damageFloater = Instantiate(GameAssets.Instance.damageFloater, CenterPoint.position, Quaternion.identity);
+        }
+        else
+        {
+            damageFloater = Instantiate(GameAssets.Instance.damageFloater, transform.position, Quaternion.identity);
+        }
         damageFloater.GetComponent<DamageFloater>().Initialize(amount);
     }
 
