@@ -18,11 +18,11 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
 
     [Header("Settings")]
-    [SerializeField] private int maxStackSize;
-    private BaseItem item; //item this slot is holding
-    private Sprite icon;
-    private int count;
-    private bool canInteract;
+    [SerializeField] protected int maxStackSize;
+    protected BaseItem item; //item this slot is holding
+    protected Sprite icon;
+    protected int count;
+    protected bool canInteract;
     [HideInInspector] public Transform parentAfterDrag;
 
     //----------
@@ -167,7 +167,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         //if the item is null, this means we need to pick up the slot item
         
         //PICK UP AN ITEM
-        if(heldItem == null)
+        if(heldItem == null && canInteract)
         {
             if(item != null)
             {
@@ -184,7 +184,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         else 
         {
             //PLACE YOUR ITEM
-            if(item == null)
+            if(item == null && canInteract)
             {
                 SetItem(heldItem.Id, heldCount, true);
 
@@ -194,8 +194,9 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
                 inventoryHand.SetHandData(null, 0);
             }
             //SWAP ITEMS
-            else
-            {   if(item == heldItem)
+            else if(canInteract)
+            {   
+                if(item == heldItem)
                 {
                     if(count + heldCount <= maxStackSize)
                     {
