@@ -1,5 +1,6 @@
 using System;
 using TMPro;
+using Unity.IO.LowLevel.Unsafe;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -22,7 +23,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     protected BaseItem item; //item this slot is holding
     protected Sprite icon;
     protected int count;
-    protected bool canInteract;
+    public bool canInteract;
     [HideInInspector] public Transform parentAfterDrag;
 
     //----------
@@ -48,6 +49,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         //set the internal item data
         if(id != -1)
         {
+            
             item = ItemDatabase.Instance.GetItem(id);
             itemSprite.sprite = item.Icon;
             itemSprite.color = new Color(1, 1, 1, 1);
@@ -162,7 +164,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         }
     }
 
-    private void HandleLeftClick()
+    public virtual void HandleLeftClick()
     {   
         //if the item is null, this means we need to pick up the slot item
         

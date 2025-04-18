@@ -1,13 +1,15 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 
+[Serializable]
 public struct ItemAmount
 {
     public BaseItem item;
     [Range(1,999)]
     public int amount;
 }
-
+[CreateAssetMenu(fileName = "NewCraftingRecipe", menuName = "ScriptableObject/CraftingRecipe")]
 public class CraftingRecipe : ScriptableObject
 {
     public List<ItemAmount> materials;
