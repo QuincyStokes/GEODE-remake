@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CraftingTab : MonoBehaviour
 {
     [Header("Properties")]
-    public List<CraftingRecipe> recipes;
+    public TabRecipies tabRecipes;
 
     [Header("References")]
     public Transform recipeSlotsHolder;
@@ -29,7 +29,7 @@ public class CraftingTab : MonoBehaviour
 
     private void InitializeRecipeSlots()
     {
-        foreach (CraftingRecipe cr in recipes)
+        foreach (CraftingRecipe cr in tabRecipes.recipies)
         {
             GameObject slot = Instantiate(craftingSlotPrefab);
             CraftingSlot cs = slot.GetComponent<CraftingSlot>();

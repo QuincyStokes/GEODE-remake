@@ -210,7 +210,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: 16x16Sprites_3
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -221,6 +221,27 @@ ScriptedImporter:
       width: 16
       height: 16
     spriteID: 5fce90deefcb53645bd511be4f3abe10
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: 16x16Sprites_4
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 32
+      y: 16
+      width: 16
+      height: 16
+    spriteID: 6ad4a18b831613e42b6023c13b2886fc
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -243,7 +264,7 @@ ScriptedImporter:
       cellRect:
         x: 0
         y: 224
-        width: 32
+        width: 48
         height: 32
       spriteId: c0a09ba21a3b82e4a9a203871afa0239
     linkedCells: []
@@ -289,4 +310,4 @@ ScriptedImporter:
   secondarySpriteTextures: []
   spritePackingTag: 
   canvasSize: {x: 256, y: 256}
-  previousTextureSize: {x: 32, y: 32}
+  previousTextureSize: {x: 64, y: 32}

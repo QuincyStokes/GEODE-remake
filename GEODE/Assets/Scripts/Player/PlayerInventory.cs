@@ -57,16 +57,11 @@ public class PlayerInventory : NetworkBehaviour, IContainer
             enabled = false;
             return;
         }
-        
-        AddItem(3, 10);
+          
         AddItem(1, 10);
-        AddItem(4, 10);
-        AddItem(5, 10);
+        AddItem(2, 10);
         AddItem(6, 1);
-        AddItem(7, 10);
-        AddItem(8, 5);
-        AddItem(22, 1);
-        AddItem(23, 5);
+        AddItem(24, 10);
     }
 
     public int GetSelectedSlotIndex()

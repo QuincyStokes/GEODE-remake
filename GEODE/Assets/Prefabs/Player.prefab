@@ -975,8 +975,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a6478e2b74747c4a96a214b32f53221, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recipes:
-  - {fileID: 11400000, guid: 4a1187da136112540a17f4f838ca24d9, type: 2}
+  tabRecipes: {fileID: 11400000, guid: 733f7cffc180f1149b85daa0f9ed2a17, type: 2}
   recipeSlotsHolder: {fileID: 3818009252994056189}
   craftingSlotPrefab: {fileID: 6343713965445539214, guid: a0d2d74d7f57dd145b185022d0fa5cc7, type: 3}
   allCraftingTabs:
@@ -1034,7 +1033,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1008970519686074532}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
   m_Name: 
@@ -1046,7 +1045,7 @@ MonoBehaviour:
     m_Bottom: 0
   m_ChildAlignment: 3
   m_Spacing: 0
-  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
@@ -1319,10 +1318,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 4524081911792111443}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 16, y: 16}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 62.7, y: -27.25}
+  m_SizeDelta: {x: 22, y: 16}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4505397471489287700
 CanvasRenderer:
@@ -2507,7 +2506,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a6478e2b74747c4a96a214b32f53221, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recipes: []
+  tabRecipes: {fileID: 11400000, guid: b3973ab1b9a99bc458d0420691ecfb10, type: 2}
   recipeSlotsHolder: {fileID: 5359818222760206103}
   craftingSlotPrefab: {fileID: 6343713965445539214, guid: a0d2d74d7f57dd145b185022d0fa5cc7, type: 3}
   allCraftingTabs:
@@ -3719,7 +3718,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a6478e2b74747c4a96a214b32f53221, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recipes: []
+  tabRecipes: {fileID: 11400000, guid: 7be3232eff478754ca4355c3d004f3d1, type: 2}
   recipeSlotsHolder: {fileID: 9068358260098037072}
   craftingSlotPrefab: {fileID: 6343713965445539214, guid: a0d2d74d7f57dd145b185022d0fa5cc7, type: 3}
   allCraftingTabs:
@@ -4118,7 +4117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a6478e2b74747c4a96a214b32f53221, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recipes: []
+  tabRecipes: {fileID: 11400000, guid: afabfad6a8ae45d40aab9e3005afef28, type: 2}
   recipeSlotsHolder: {fileID: 8861151215127051624}
   craftingSlotPrefab: {fileID: 6343713965445539214, guid: a0d2d74d7f57dd145b185022d0fa5cc7, type: 3}
   allCraftingTabs:
@@ -5469,7 +5468,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 27.25, y: -27.25}
-  m_SizeDelta: {x: 54.5, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6837599375566964862
 MonoBehaviour:
@@ -7668,7 +7667,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7175026220937244070, guid: fba2035405594244d86b130da5a462ca, type: 3}
       propertyPath: m_Pivot.x
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7175026220937244070, guid: fba2035405594244d86b130da5a462ca, type: 3}
       propertyPath: m_Pivot.y
@@ -7676,19 +7675,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7175026220937244070, guid: fba2035405594244d86b130da5a462ca, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7175026220937244070, guid: fba2035405594244d86b130da5a462ca, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7175026220937244070, guid: fba2035405594244d86b130da5a462ca, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7175026220937244070, guid: fba2035405594244d86b130da5a462ca, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7175026220937244070, guid: fba2035405594244d86b130da5a462ca, type: 3}
       propertyPath: m_SizeDelta.x
@@ -7732,7 +7731,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7175026220937244070, guid: fba2035405594244d86b130da5a462ca, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -27.25
       objectReference: {fileID: 0}
     - target: {fileID: 7175026220937244070, guid: fba2035405594244d86b130da5a462ca, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

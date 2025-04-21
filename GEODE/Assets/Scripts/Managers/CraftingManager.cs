@@ -65,7 +65,7 @@ public class CraftingManager : MonoBehaviour
         for(int i = 0; i < currentRecipe.materials.Count && i < recipeDisplaySlots.Count; i++)
         {
             recipeDisplaySlots[i].gameObject.SetActive(true);
-            recipeDisplaySlots[i].SetItem(currentRecipe.materials[i].item.Id, currentRecipe.results[0].amount, false);
+            recipeDisplaySlots[i].SetItem(currentRecipe.materials[i].item.Id, currentRecipe.materials[i].amount, false);
         }
 
         recipeResultSlot.SetItem(currentRecipe.results[0].item.Id, currentRecipe.results[0].amount, false);
