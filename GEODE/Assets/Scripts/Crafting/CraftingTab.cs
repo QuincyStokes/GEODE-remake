@@ -19,12 +19,12 @@ public class CraftingTab : MonoBehaviour
 
     private void Awake()
     {
-       InitializeRecipeSlots(); 
+       
     }
 
     private void Start()
     {
-        
+        InitializeRecipeSlots(); 
     }
 
     private void InitializeRecipeSlots()

@@ -12,9 +12,8 @@ public interface IContainer
 
     public void ToggleInventory(InputAction.CallbackContext context);
 
-    public BaseItem GetItemAtPosition();
+    public BaseItem GetItemAtPosition(int position);
 
     public int FindItem(BaseItem item);
-    public bool SwapItems(); //might delete
 
 }

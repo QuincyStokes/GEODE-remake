@@ -229,6 +229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feb432827a3fcb24492f55049bb60bab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   recipeDisplaySlots:
   - {fileID: 5930153586187383474}
   - {fileID: 7014432343224287512}
@@ -236,6 +237,7 @@ MonoBehaviour:
   - {fileID: 736394025241224624}
   recipeResultSlot: {fileID: 986042089226586002}
   currentRecipe: {fileID: 0}
+  descriptionText: {fileID: 9123735275927700973}
 --- !u!1 &200617646693071311
 GameObject:
   m_ObjectHideFlags: 0
@@ -1285,7 +1287,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 405636413097310078}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 9052237984515418798}
+        m_TargetAssemblyTypeName: CraftingManager, Assembly-CSharp
+        m_MethodName: Craft
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1588984218804560356
 GameObject:
   m_ObjectHideFlags: 0

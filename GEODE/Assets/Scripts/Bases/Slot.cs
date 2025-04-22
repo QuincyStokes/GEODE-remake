@@ -68,7 +68,6 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         {
             itemCount.text = "";
         }
-        count = newCount;
         canInteract = interactable;
 
         //set the UI to match
@@ -101,9 +100,17 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public void SubtractCount(int newCount=1)
     {
-        count -= newCount;
-        CheckItemDepleted();
-        UpdateCountUI();
+        if(newCount <= count)
+        {
+            count -= newCount;
+            CheckItemDepleted();
+            UpdateCountUI();
+        }
+        else
+        {
+            Debug.Log($"Cannot remove that many {item.name}, {newCount} > {count}");
+        }
+        
     }
 
     public void SetCount(int newCount)
@@ -120,6 +127,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     {
         if(count < 1)
         {
+            
             //this means we have no more of that item.
             EmptySlot();
         } 

@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 
-public class CraftingManager : MonoBehaviour
+public class CraftingManager : NetworkBehaviour
 {
     //This script shall handle all (or maybe most) logic for the crafting menu
     //including checking player inventory for crafting validation, current selected recipe, etc
@@ -11,6 +13,7 @@ public class CraftingManager : MonoBehaviour
     public Slot recipeResultSlot;
     
     public CraftingRecipe currentRecipe;
+    public TMP_Text descriptionText;
 
 
     //need a few different important functions
@@ -22,22 +25,21 @@ public class CraftingManager : MonoBehaviour
     //ui handling logic
     //onRecipeSelected => updates the currntRecipe, updates UI
     //UpdateCurrentRecipeUI
+    private PlayerInventory playerInventory;
 
 
     private void Awake()
     {
-        if(Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        
+       
     }
 
     private void Start()
     {
+        if(!IsOwner)
+        {
+            return;
+        }
         foreach(Slot slot in recipeDisplaySlots)
         {
             slot.canInteract = false;
@@ -46,8 +48,24 @@ public class CraftingManager : MonoBehaviour
         recipeResultSlot.canInteract = false;
     }
 
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+
+        if(IsOwner)
+        {     
+            Instance = this;
+            playerInventory = GetComponentInParent<PlayerInventory>();
+        }
+        
+
+    }
     public void SetRecipe(CraftingRecipe cr)
     {
+        if(!IsOwner)
+        {
+            return;
+        }
         currentRecipe = cr;
         //update UI
         UpdateRecipeUI();
@@ -55,6 +73,10 @@ public class CraftingManager : MonoBehaviour
 
     private void UpdateRecipeUI()
     {
+        if(!IsOwner)
+        {
+            return;
+        }
         //turn off all slots
         foreach(Slot slot in recipeDisplaySlots)
         {
@@ -69,16 +91,54 @@ public class CraftingManager : MonoBehaviour
         }
 
         recipeResultSlot.SetItem(currentRecipe.results[0].item.Id, currentRecipe.results[0].amount, false);
+        descriptionText.text = currentRecipe.results[0].item.Description;
+        Debug.Log($"Can Craft {currentRecipe.name}? => {CheckCanCraft(currentRecipe)}");
     }
 
-    public void CheckCanCraft()
+    //item parameter so we can use it on any item, not just currentRecipe
+    public bool CheckCanCraft(CraftingRecipe cr=null)
     {
+        CraftingRecipe recipe;
+        if(cr == null)
+        {
+            recipe = currentRecipe;
+        }
+        else
+        {
+            recipe = cr;
+        }
 
+        //should be this simple? i think?
+        foreach(ItemAmount ia in recipe.materials)
+        {
+            if(!playerInventory.ContainsItem(ia.item))
+            {
+                return false;
+            }
+            if(playerInventory.GetItemCount(ia.item) < ia.amount)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     public void Craft()
     {
         //attempt to craft the current recipe
+        if(CheckCanCraft(currentRecipe))
+        {
+            foreach(ItemAmount ia in currentRecipe.materials)
+            {
+                playerInventory.RemoveItem(ia.item, ia.amount);
+            }
+
+            foreach(ItemAmount ia in currentRecipe.results)
+            {
+                playerInventory.AddItem(ia.item.Id, ia.amount);
+            }
+            UpdateRecipeUI();
+        }
     }
 
 }

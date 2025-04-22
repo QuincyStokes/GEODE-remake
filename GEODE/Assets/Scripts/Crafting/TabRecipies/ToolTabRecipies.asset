@@ -13,4 +13,8 @@ MonoBehaviour:
   m_Name: ToolTabRecipies
   m_EditorClassIdentifier: 
   recipies:
+  - {fileID: 11400000, guid: dcc50f6278619e04bbab5cb0c4c60b65, type: 2}
+  - {fileID: 11400000, guid: 5ffaa091f8040154c902223abce46a96, type: 2}
+  - {fileID: 11400000, guid: b2771960ee07e6449b782a4d48f0b365, type: 2}
   - {fileID: 11400000, guid: 4a1187da136112540a17f4f838ca24d9, type: 2}
+  - {fileID: 11400000, guid: 333fa8d596722f5408a05179b40df888, type: 2}

@@ -33,6 +33,7 @@ public class PlayerInventory : NetworkBehaviour, IContainer
     //private tings
     private List<Slot> inventorySlots;
     private List<Slot> hotbarSlots;
+    private List<Slot> allInventorySlots = new List<Slot>(); //list of both hotbar + inventory slots
     private int selectedSlotIndex;
 
     private void Awake()
@@ -50,7 +51,7 @@ public class PlayerInventory : NetworkBehaviour, IContainer
         ChangeSelectedSlot(0);
     }
 
-     public override void OnNetworkSpawn()
+    public override void OnNetworkSpawn()
     {
         if(!IsOwner)
         {
@@ -62,6 +63,9 @@ public class PlayerInventory : NetworkBehaviour, IContainer
         AddItem(2, 10);
         AddItem(6, 1);
         AddItem(24, 10);
+        AddItem(26, 1);
+        AddItem(27, 1);
+        AddItem(28, 1);
     }
 
     public int GetSelectedSlotIndex()
@@ -80,6 +84,7 @@ public class PlayerInventory : NetworkBehaviour, IContainer
             currSlot.InitializeHand(hand);
             inventorySlots.Add(currSlot);
         }
+        allInventorySlots.AddRange(inventorySlots);
     }
 
     private void InitializeHotbarSlots()
@@ -93,6 +98,7 @@ public class PlayerInventory : NetworkBehaviour, IContainer
             currSlot.InitializeHand(hand);
             hotbarSlots.Add(currSlot);
         }
+        allInventorySlots.AddRange(hotbarSlots);
     }
 
     public void ToggleInventory(InputAction.CallbackContext context)
@@ -288,15 +294,78 @@ public class PlayerInventory : NetworkBehaviour, IContainer
         return -1;
     }
 
-    public BaseItem GetItemAtPosition()
+    public BaseItem GetItemAtPosition(int position)
     {
+        if(position <= inventorySlots.Count)
+        {
+            return inventorySlots[position].GetItemInSlot();
+        }
         return null;
     }
 
-    
-    public bool SwapItems()
+
+    public bool RemoveItem(BaseItem item, int amount)
     {
+        //this is pretty much our CanCraft function right?
+
+        List<Slot> slots = new List<Slot>();
+        int itemAmount = 0;
+
+        //for each inventory slot (notably, this does not look through hotbar slots)
+        foreach(Slot slot in allInventorySlots)
+        {
+            //if the slot holds the item we are looking for
+            if(slot.GetItemInSlot() == item)
+            {
+                //if the slot's amount is >= what we need, remove the amount and return, we're done.
+                if(slot.GetCount() >= amount)
+                {
+                    slot.SubtractCount(amount);
+                    return true;
+                }
+                else //if we're here, that means the slot held the item, but didn't have enough to fulfull the amount
+                {
+                    //add the slot to a list and keep track of its count, we will loop through it later 
+                    itemAmount += slot.GetCount();
+                    slots.Add(slot);
+                    if(itemAmount >= amount)
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+        //the total amount of items removed so far
+        int toRemove = amount;
+        
+        //just  double checking if the total# of items spread across our slots is greater than the amount we need
+        if(itemAmount >= amount)
+        {
+            foreach(Slot slot in slots)
+            {
+                //if we still have value to remove
+                if(toRemove > 0)
+                {
+                    //get the number in the current slot
+                    int slotCount = slot.GetCount();
+
+                    //clamp it between 0 and the maximum amount we need
+                    Mathf.Clamp(slotCount, 0, toRemove);
+
+                    //remove that amount
+                    toRemove -= slotCount;
+                    slot.SubtractCount(slotCount);
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
+        //if we're here, that means we didn't have the means to craft the item.
         return false;
     }
+
+
 
 }
