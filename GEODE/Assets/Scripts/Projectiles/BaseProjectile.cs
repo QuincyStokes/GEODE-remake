@@ -22,7 +22,7 @@ public abstract class BaseProjectile : MonoBehaviour
         if(collision.gameObject.CompareTag("Enemy"))
         {
             IDamageable dmg = collision.gameObject.GetComponent<IDamageable>();
-            dmg?.TakeDamageServerRpc(damage, true);
+            dmg?.TakeDamageServerRpc(damage, gameObject.transform.position, true);
             Destroy(gameObject);
         }
         

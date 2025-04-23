@@ -62,7 +62,7 @@ public class PathToObstructingState : BaseEnemyState
                 {
                     //here means we know what our obstructing object is, now we can go attack it. 
                     Vector2 dir = (obstructingObject.transform.position - owner.transform.position).normalized;
-                    owner.rb.MovePosition(owner.rb.position + dir * owner.movementSpeed * Time.deltaTime);
+                    owner.rb.linearVelocity = dir * owner.movementSpeed + owner.externalVelocity;
 
                 }
 

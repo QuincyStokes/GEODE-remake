@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations;
 
-public abstract class BaseEnemy : NetworkBehaviour, IDamageable
+public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable
 {
     ///state machine controlled enemy base class
     ///
@@ -27,6 +27,8 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable
     public EnemySteering steering;
     private Transform objectTransform;
     private string objectName;
+    public Vector2 externalVelocity;
+    [SerializeField] private float knockbackDecay;
     #endregion
     #region ACCESSORS
     public float MaxHealth
@@ -111,7 +113,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable
 
     public virtual void PostStart()
     {
-
+        externalVelocity = Vector2.zero;
     }
 
     private void Update()
@@ -123,16 +125,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable
     {
         
         stateMachine.CurrentState?.FixedUpdateState(this, stateMachine);   
-    }
-
-    public void TakeDamage(float amount)
-    {
-        OnTakeDamage(amount);
-        currentHealth -= amount;
-        if(currentHealth <= 0)
-        {
-            OnDeath?.Invoke();
-        }
+        externalVelocity = Vector2.Lerp(externalVelocity, Vector2.zero, knockbackDecay * Time.fixedDeltaTime);
     }
 
     private void SetDeathState()
@@ -154,19 +147,29 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable
         //we have currentTarget
     }
 
-    public void OnTakeDamage(float amount)
+    public void OnTakeDamage(float amount, Vector2 source)
     {
         DisplayDamageFloaterClientRpc(amount);
+        if(source!=Vector2.zero)
+        {
+            Vector3 dir = (Vector2)transform.position - source;
+            TakeKnockbackServerRpc(dir, amount);
+        }
+
     }
 
     [ServerRpc(RequireOwnership = false)]
     public void DropItemsServerRpc()
     {
-        foreach(DroppedItem droppedItem in DroppedItems)
+        if(DroppedItems != null)
         {
-        //instantiate the loot with droppedItem.Id and droppedItem.amount
-        LootManager.Instance.SpawnLootServerRpc(ObjectTransform.position, droppedItem.Id, droppedItem.amount);
+            foreach(DroppedItem droppedItem in DroppedItems)
+            {
+            //instantiate the loot with droppedItem.Id and droppedItem.amount
+                LootManager.Instance.SpawnLootServerRpc(ObjectTransform.position, droppedItem.Id, droppedItem.amount);
+            }
         }
+        
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -180,10 +183,10 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void TakeDamageServerRpc(float amount, bool dropItems)
+    public void TakeDamageServerRpc(float amount, Vector2 sourceDirection, bool dropItems=false)
     {
         CurrentHealth -= amount;
-        OnTakeDamage(amount);
+        OnTakeDamage(amount, sourceDirection);
         if(CurrentHealth <= 0)
         {
             DestroyThisServerRpc(dropItems);
@@ -208,6 +211,13 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable
     public void DestroyThisServerRpc(bool dropItems)
     {
         DropItemsServerRpc(); // ERROR HERE
+        OnDeath?.Invoke();
         GetComponent<NetworkObject>()?.Despawn();
+    }
+
+    [ServerRpc]
+    public void TakeKnockbackServerRpc(Vector2 direction, float force)
+    {
+        externalVelocity += direction.normalized * force;
     }
 }

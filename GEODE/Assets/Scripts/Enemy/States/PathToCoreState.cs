@@ -38,7 +38,7 @@ public class PathToCoreState : BaseEnemyState
 
                 Vector2 finalDir = owner.steering.GetSteeredDirection(owner, coreDir);
 
-                owner.rb.linearVelocity = finalDir;
+                owner.rb.linearVelocity = finalDir + owner.externalVelocity;
             }
             else if(FlowFieldManager.Instance != null && FlowFieldManager.Instance.IsOnFlowField(owner.transform.position))
             {
@@ -52,7 +52,8 @@ public class PathToCoreState : BaseEnemyState
                     if(Vector3.Distance(owner.corePosition, owner.transform.position) <= owner.attackRange)
                     {
                         //just stand there for now
-                        owner.rb.linearVelocity = Vector3.zero;
+                        owner.rb.linearVelocity = Vector2.zero + owner.externalVelocity;
+
                     }
                     else
                     {
@@ -62,7 +63,7 @@ public class PathToCoreState : BaseEnemyState
 
                         Vector2 finalDir = owner.steering.GetSteeredDirection(owner,  flowDir);
 
-                        owner.rb.linearVelocity = finalDir;
+                        owner.rb.linearVelocity = finalDir + owner.externalVelocity;
                     }
                     
 

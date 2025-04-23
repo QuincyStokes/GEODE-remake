@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e8a98f8fff09c342a684aae477b1350, type: 3}
   m_Name: BuildingTabRecipies
   m_EditorClassIdentifier: 
-  recipies: []
+  recipies:
+  - {fileID: 11400000, guid: 16c1de218b710c242ab832afd13f5acf, type: 2}
+  - {fileID: 11400000, guid: ce3b24b6b2793e04faf9d4d47fa07253, type: 2}

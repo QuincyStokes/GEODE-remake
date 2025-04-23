@@ -262,7 +262,9 @@ MonoBehaviour:
   attackRange: 1.5
   attackCooldown: 3
   movementSpeed: 2
-  droppedItems: []
+  droppedItems:
+  - Id: 25
+    amount: 1
   structureLayerMask:
     serializedVersion: 2
     m_Bits: 2176
@@ -270,6 +272,8 @@ MonoBehaviour:
     checkInterval: 0.1
     rayDistance: 1
     steeringAngle: 30
+  externalVelocity: {x: 0, y: 0}
+  knockbackDecay: 0.5
   centerPoint: {fileID: 4547582025547477451}
   animator: {fileID: 6878477634410811571}
   rb: {fileID: 7670961486429863952}

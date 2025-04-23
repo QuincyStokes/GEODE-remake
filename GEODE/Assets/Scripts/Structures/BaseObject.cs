@@ -70,7 +70,7 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void TakeDamageServerRpc(float amount, bool dropItems=false)
+    public void TakeDamageServerRpc(float amount,  Vector2 sourceDirection, bool dropItems=false)
     {
         if(!IsServer)
         {
@@ -85,7 +85,7 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
         DisplayDamageFloaterClientRpc(amount);
         Debug.Log($"{name} took {amount} damage");
         currentHealth.Value -= amount;
-        OnTakeDamage(amount);
+        OnTakeDamage(amount, sourceDirection);
         if(currentHealth.Value <= 0)
         {
             DestroyThisServerRpc(dropItems);
@@ -107,7 +107,7 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
         damageFloater.GetComponent<DamageFloater>().Initialize(amount);
     }
 
-    public void OnTakeDamage(float amount)
+    public void OnTakeDamage(float amount, Vector2 sourceDirection)
     {
         //
     }

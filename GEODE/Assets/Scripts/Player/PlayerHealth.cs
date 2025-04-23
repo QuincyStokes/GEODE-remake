@@ -98,7 +98,7 @@ public class PlayerHealthAndXP : MonoBehaviour, IDamageable, IExperienceGain
         }
     }
 
-    public void OnTakeDamage(float amount)
+    public void OnTakeDamage(float amount, Vector2 sourceDirection)
     {
         DisplayDamageFloaterClientRpc(amount);
         UpdateHealthbar();
@@ -115,10 +115,10 @@ public class PlayerHealthAndXP : MonoBehaviour, IDamageable, IExperienceGain
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void TakeDamageServerRpc(float amount, bool dropItems)
+    public void TakeDamageServerRpc(float amount, Vector2 sourceDirection, bool dropItems=false)
     {
         CurrentHealth -= amount;
-        OnTakeDamage(amount);
+        OnTakeDamage(amount, sourceDirection);
         if(CurrentHealth <= 0)
         {
             //not sure how to handle player death yet, current thought is similar to terraria?

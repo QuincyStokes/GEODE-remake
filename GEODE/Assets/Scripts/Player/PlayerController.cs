@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Scripting.APIUpdating;
 
-public class PlayerController : NetworkBehaviour
+public class PlayerController : NetworkBehaviour, IKnockbackable
 {
     public static PlayerController Instance;
     [Header("References")]
@@ -261,16 +261,10 @@ public class PlayerController : NetworkBehaviour
 
     //this works pretty well
     [ServerRpc]
-    public void ApplyKnockbackServerRpc()
-    //public void ApplyKnockback(Vector2 direction, float force)
+    public void TakeKnockbackServerRpc(Vector2 direction, float force)
+    
     {
-        // Normalize the direction to ensure consistent behavior, then add the knockback force.
-        //externalVelocity += direction.normalized * force;
-        //GameObject loot = Instantiate(lootPrefab, transform.position, Quaternion.identity);
-       
-        // loot.GetComponent<NetworkObject>().Spawn();
-        // loot.GetComponent<Loot>().itemId.Value = 1;
-
+        externalVelocity += direction.normalized * force;
     }
 
     private void SetPositionCenterWorld()
@@ -333,7 +327,7 @@ public class PlayerController : NetworkBehaviour
             EnvironmentObject envObj = collision.gameObject.GetComponentInParent<EnvironmentObject>();
             if(envObj != null)
             {
-                envObj.TakeDamageServerRpc(4, true);
+                envObj.TakeDamageServerRpc(4, gameObject.transform.position, true);
                 Debug.Log($"Hit {collision.name} for 4 damage");
             }
         }
