@@ -115,6 +115,7 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
     [ServerRpc]
     public void DropItemsServerRpc()
     {
+        if(DroppedItems != null && LootManager.Instance != null)
         foreach(DroppedItem item in droppedItems)
         {   
             LootManager.Instance.SpawnLootServerRpc(transform.position, item.Id, item.amount);

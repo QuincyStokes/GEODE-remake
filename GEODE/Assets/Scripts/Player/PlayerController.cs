@@ -264,7 +264,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
     public void TakeKnockbackServerRpc(Vector2 direction, float force)
     
     {
-        externalVelocity += direction.normalized * force;
+        externalVelocity += direction.normalized * Mathf.Log(force);
     }
 
     private void SetPositionCenterWorld()

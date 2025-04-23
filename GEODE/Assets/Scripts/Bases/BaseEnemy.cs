@@ -161,7 +161,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable
     [ServerRpc(RequireOwnership = false)]
     public void DropItemsServerRpc()
     {
-        if(DroppedItems != null)
+        if(DroppedItems != null && LootManager.Instance != null)
         {
             foreach(DroppedItem droppedItem in DroppedItems)
             {
@@ -218,6 +218,6 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable
     [ServerRpc]
     public void TakeKnockbackServerRpc(Vector2 direction, float force)
     {
-        externalVelocity += direction.normalized * force;
+        externalVelocity += direction.normalized * Mathf.Log(force);
     }
 }

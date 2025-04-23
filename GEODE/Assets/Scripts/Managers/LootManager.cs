@@ -10,6 +10,12 @@ public class LootManager : NetworkBehaviour
 
     private void Awake()
     {   
+        
+    }
+
+    public new void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
         if(Instance == null)
         {
             Instance = this;
@@ -18,6 +24,7 @@ public class LootManager : NetworkBehaviour
         {
             Destroy(gameObject);
         }
+
     }
 
     [ServerRpc]
