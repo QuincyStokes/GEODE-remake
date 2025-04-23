@@ -13,6 +13,7 @@ public class PlayerController : NetworkBehaviour
     public static PlayerController Instance;
     [Header("References")]
     [SerializeField] private PlayerInventory playerInventory;
+    [SerializeField] private PlayerHealthAndXP playerHealth;
     [SerializeField] private Animator animator;
     private Rigidbody2D rb;
     [SerializeField] public GameObject attackHitbox; //TEMP
@@ -173,6 +174,12 @@ public class PlayerController : NetworkBehaviour
         else
         {
             Debug.Log("WorldGenManager is null, cannot place player.");
+        }
+
+        if(playerHealth != null)
+        {
+            playerHealth.UpdateHealthbar();
+            playerHealth.UpdateXpbar();
         }
         CameraManager.Instance.FollowPlayer(transform);
         

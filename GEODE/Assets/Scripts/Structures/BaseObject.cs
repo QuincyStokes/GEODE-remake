@@ -132,7 +132,7 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
         {
            DropItemsServerRpc();
         }
-        
+        ChunkManager.Instance.DeregisterObject(gameObject);
         GetComponent<NetworkObject>().Despawn(true);
     }
 

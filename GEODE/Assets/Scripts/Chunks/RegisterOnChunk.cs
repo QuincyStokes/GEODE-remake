@@ -20,4 +20,5 @@ public class RegisterOnChunk : MonoBehaviour
         }
         gameObject.SetActive(false);
     }
+
 }

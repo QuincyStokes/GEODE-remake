@@ -237,6 +237,16 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
         InspectionMenu.Instance.PopulateMenu(this.gameObject);
     }
 
+    public void OnXpGain()
+    {
+        //not sure if we want to do anything here, i don't think so..
+    }
+
+    public void OnLevelUp()
+    {
+        //add to stat modifiers
+    }
+
 
     #endregion
 

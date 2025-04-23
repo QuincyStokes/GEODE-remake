@@ -36,6 +36,16 @@ public class ChunkManager : NetworkBehaviour
         chunkMap[chunk].Add(obj);
     }
 
+    public void DeregisterObject(GameObject obj)
+    {
+        Vector2Int chunk = GetChunkCoords(obj.transform.position);
+
+        if(chunkMap[chunk].Contains(obj))
+        {
+            chunkMap[chunk].Remove(obj);
+        }
+    }
+
     public Vector2Int GetChunkCoords(Vector3 worldPos)
     {
         int chunkX = Mathf.FloorToInt(worldPos.x / chunkSize);

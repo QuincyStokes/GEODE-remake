@@ -2,15 +2,36 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+using Unity.VisualScripting;
 
 
-public class PlayerHealth : MonoBehaviour, IDamageable
+public class PlayerHealthAndXP : MonoBehaviour, IDamageable, IExperienceGain
 {
+    [Header("Health")]
     [SerializeField] private float maxHealth;
     [SerializeField] private float currentHealth;
+
+    [Header("XP")]
+    [SerializeField] private int maxLevelXp;
+    [SerializeField] private int currentLevelXp;
+    [SerializeField] private int totalXp;
+    [SerializeField] private int level;
+
+    [Header("Settings")]
+    [SerializeField] private List<DroppedItem> droppedItems;
+
+    [Header("References")]
     [SerializeField] private Transform objectTransform;
     [SerializeField] private string objectName;
-    [SerializeField] private List<DroppedItem> droppedItems;
+    
+    [SerializeField] private Slider healthbarSlider;
+    [SerializeField] private TMP_Text healthbarText;
+
+    [SerializeField] private Slider xpbarSlider;
+    [SerializeField] private TMP_Text xpbarText;
+    [SerializeField] private TMP_Text levelText;
 
 
     public float MaxHealth
@@ -45,6 +66,11 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     {
         get => droppedItems;
     }
+    public int MaximumLevelXp { get => maxLevelXp; set => maxLevelXp = value; }
+    public int CurrentXp { get => currentLevelXp; set => currentLevelXp = value; }
+    public int CurrentTotalXp { get => totalXp; set => totalXp = value; }
+    public int Level { get => level; set => level = value; }
+
     public void DestroyThisServerRpc(bool dropItems)
     {
         //not sure if this'll ever be called, have to look into the player "dying", my guess is we don't actually want to destroy it
@@ -75,6 +101,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public void OnTakeDamage(float amount)
     {
         DisplayDamageFloaterClientRpc(amount);
+        UpdateHealthbar();
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -99,4 +126,34 @@ public class PlayerHealth : MonoBehaviour, IDamageable
             //wait x amount of time, respawn at core
         }
     }
+
+    public void UpdateHealthbar()
+    {
+        healthbarSlider.maxValue = MaxHealth;
+        healthbarSlider.value = CurrentHealth;
+
+        healthbarText.text = $"{CurrentHealth}/{MaxHealth}";
+    }
+
+    public void OnXpGain()
+    {
+        UpdateXpbar();
+    }
+
+    public void UpdateXpbar()
+    {
+        xpbarSlider.maxValue = MaximumLevelXp;
+        xpbarSlider.value = CurrentXp;
+
+        xpbarText.text = $"{CurrentXp}/{MaximumLevelXp}";
+
+        levelText.text = Level.ToString();
+    }
+
+    public void OnLevelUp()
+    {
+        //add to stat modifiers
+    }
+
+
 }
