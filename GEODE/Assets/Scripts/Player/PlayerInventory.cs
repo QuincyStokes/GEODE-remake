@@ -22,6 +22,7 @@ public class PlayerInventory : NetworkBehaviour, IContainer
     [SerializeField] private Transform hotbarSlotHolder;
     [SerializeField] private InventoryHandUI hand;
     [SerializeField] private PlayerController playerController;
+    [SerializeField] private GameObject healthbarObject;
 
     [Header("Audio" )]
     [SerializeField] private AudioClip inventoryOpenSFX;
@@ -45,8 +46,7 @@ public class PlayerInventory : NetworkBehaviour, IContainer
     
     private void Start()
     {
-        inventoryObject.SetActive(false);
-        hotbarObject.SetActive(true);
+        
         
         ChangeSelectedSlot(0);
     }
@@ -55,8 +55,16 @@ public class PlayerInventory : NetworkBehaviour, IContainer
     {
         if(!IsOwner)
         {
+            inventoryObject.SetActive(false);
+            hotbarObject.SetActive(false);
+            healthbarObject.SetActive(false);
             enabled = false;
             return;
+        }
+        else
+        {
+            inventoryObject.SetActive(false);
+            hotbarObject.SetActive(true);
         }
           
         AddItem(1, 10);

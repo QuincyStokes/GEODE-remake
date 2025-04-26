@@ -28,12 +28,6 @@ public class CraftingManager : NetworkBehaviour
     private PlayerInventory playerInventory;
 
 
-    private void Awake()
-    {
-        
-       
-    }
-
     private void Start()
     {
         if(!IsOwner)
