@@ -37,14 +37,6 @@ public class InspectionMenu : MonoBehaviour
     //* METHODS
     private void Awake()
     {
-        if(Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
     }
 
     public void PopulateMenu(GameObject go)
@@ -73,6 +65,7 @@ public class InspectionMenu : MonoBehaviour
             healthSlider.maxValue = bo.MaxHealth;
             healthSlider.minValue = 0;
             healthSlider.value = bo.CurrentHealth;
+            health.text = $"{bo.CurrentHealth}/{bo.MaxHealth}";
             sturdy.text = bo.MaxHealth.ToString();
             description.text = bo.description;
         }
@@ -112,6 +105,7 @@ public class InspectionMenu : MonoBehaviour
             xpSlider.maxValue = exp.MaximumLevelXp;
             xpSlider.minValue = 0;
             xpSlider.value = exp.CurrentXp;
+            xp.text = $"{exp.CurrentXp}/{exp.MaximumLevelXp}";
         }
         else
         {

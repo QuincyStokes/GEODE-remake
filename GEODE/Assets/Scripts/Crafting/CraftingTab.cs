@@ -17,6 +17,10 @@ public class CraftingTab : MonoBehaviour
     public GameObject tabActiveLowerSprite;
     public Image tabSprite;
 
+
+    //INTERNAL PRIVATE
+    private CraftingManager craftingManager;
+
     private void Awake()
     {
        
@@ -24,6 +28,7 @@ public class CraftingTab : MonoBehaviour
 
     private void Start()
     {
+        craftingManager = GetComponentInParent<CraftingManager>();
         InitializeRecipeSlots(); 
     }
 
@@ -34,7 +39,7 @@ public class CraftingTab : MonoBehaviour
             GameObject slot = Instantiate(craftingSlotPrefab);
             CraftingSlot cs = slot.GetComponent<CraftingSlot>();
 
-            cs.InitializeRecipeSlot(cr);
+            cs.InitializeRecipeSlot(cr, craftingManager);
             slot.transform.SetParent(recipeSlotsHolder, false);
         }
     }

@@ -53,6 +53,7 @@ public class PlayerInventory : NetworkBehaviour, IContainer
 
     public override void OnNetworkSpawn()
     {
+        base.OnNetworkSpawn();
         if(!IsOwner)
         {
             inventoryObject.SetActive(false);

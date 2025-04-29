@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.Mathematics;
 using Unity.Netcode;
 using Unity.Services.Matchmaker.Models;
@@ -14,7 +15,9 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
     [Header("References")]
     [SerializeField] private PlayerInventory playerInventory;
     [SerializeField] private PlayerHealthAndXP playerHealth;
+    [SerializeField] private InspectionMenu inspectionMenu;
     [SerializeField] private Animator animator;
+    [SerializeField] private GameObject playerUICanvas;
     private Rigidbody2D rb;
     [SerializeField] public GameObject attackHitbox; //TEMP
 
@@ -99,7 +102,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
 
             Instance = this;
 
-           
+            playerUICanvas.SetActive(true);
         }
        
         
@@ -287,21 +290,39 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
         if(hit)
         { 
             Debug.Log($"Raycast Hit {hit.collider.gameObject.name}");
-            IInteractable interactable = hit.collider.gameObject.GetComponentInParent<IInteractable>();
-            if(interactable != null)
+            //IInteractable interactable = hit.collider.gameObject.GetComponentInParent<IInteractable>();
+
+            //This is a bit strange, but:
+                //get all of the MonoBehaviour components in the objects parent
+            MonoBehaviour[] gos = hit.collider.gameObject.GetComponentsInParent<MonoBehaviour>();
+
+            GameObject go = null;
+
+            //if any of the retrieved Monos are also of type IInteractable (which Core should be for example), choose that gameObject. 
+            foreach(MonoBehaviour mono in gos)
             {
-                interactable.OnInteract();
+                if(mono is IInteractable)
+                {
+                    go = mono.gameObject;
+                    break;
+                }
+            }
+
+            if(go != null)
+            {
+                inspectionMenu.PopulateMenu(go);
             }
             else
             {
-                InspectionMenu.Instance.CloseInspectionMenu();
+                //can just give player a direct reference
+                inspectionMenu.CloseInspectionMenu();
             }
 
             
         }
         else
         {
-            InspectionMenu.Instance.CloseInspectionMenu();
+            inspectionMenu.CloseInspectionMenu();
             Debug.Log($"Raycast Hit nothing");
         }
     }

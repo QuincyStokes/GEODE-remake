@@ -47,7 +47,7 @@ public class EnemySpawningManager : NetworkBehaviour
         }   
         else
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
 
     }

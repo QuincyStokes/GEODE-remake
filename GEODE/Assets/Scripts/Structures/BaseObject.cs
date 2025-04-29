@@ -137,9 +137,12 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
         GetComponent<NetworkObject>().Despawn(true);
     }
 
-    public void InitializeDescriptionAndSprite(string desc, Sprite sprite)
+    [ClientRpc]
+    public void InitializeDescriptionAndSpriteClientRpc(int itemId, ClientRpcParams rpcParams = default)
     {
-        description = desc;
-        objectSprite = sprite;
+        Debug.Log($"Trying to load Desc + Sprite for {itemId}");//ah
+        BaseItem item = ItemDatabase.Instance.GetItem(itemId);
+        description = item.Description;
+        objectSprite = item.Icon;
     }
 }

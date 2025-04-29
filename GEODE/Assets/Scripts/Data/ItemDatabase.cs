@@ -32,10 +32,12 @@ public class ItemDatabase : ScriptableObject
         {
             itemDictionary.Add(item.Id, item);
         }
+        Debug.Log("Item Dictionary Loaded.");
     }
 
     public BaseItem GetItem(int id)
     {
+        Debug.Log($"Attempting to access item {id}");
         return itemDictionary[id];
     }
     

@@ -117,14 +117,17 @@ public class GridManager : NetworkBehaviour
             } 
             FlowFieldManager.Instance.CalculateFlowField();
 
+            newObject.GetComponent<NetworkObject>().Spawn();
+
             //this is a little weird, but I think it'll work well
             BaseObject bo = newObject.GetComponent<BaseObject>();
             if(bo != null)
             {
-                bo.InitializeDescriptionAndSprite(baseItem.Description, baseItem.Icon);
+                Debug.Log($"Initializing Description with item id {itemId}");
+                bo.InitializeDescriptionAndSpriteClientRpc(itemId);
             }
 
-            newObject.GetComponent<NetworkObject>().Spawn();
+            
             
         }
         else

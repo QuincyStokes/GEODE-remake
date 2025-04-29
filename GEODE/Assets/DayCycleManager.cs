@@ -35,7 +35,7 @@ public class DayCycleManager : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
     }
 

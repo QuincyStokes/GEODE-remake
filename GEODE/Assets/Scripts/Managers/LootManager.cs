@@ -22,7 +22,7 @@ public class LootManager : NetworkBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
 
     }

@@ -3,13 +3,14 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
-public class CraftingManager : NetworkBehaviour
+public class CraftingManager : MonoBehaviour
 {
     //This script shall handle all (or maybe most) logic for the crafting menu
     //including checking player inventory for crafting validation, current selected recipe, etc
-    public static CraftingManager Instance;
+    public static CraftingManager Instance {get; private set;}
     [Header("References")]
     public List<Slot> recipeDisplaySlots;
+    public List<CraftingTab> craftingTabs;
     public Slot recipeResultSlot;
     
     public CraftingRecipe currentRecipe;
@@ -30,36 +31,24 @@ public class CraftingManager : NetworkBehaviour
 
     private void Start()
     {
-        if(!IsOwner)
-        {
-            return;
-        }
+        Instance = this;
+        playerInventory = GetComponentInParent<PlayerInventory>();
         foreach(Slot slot in recipeDisplaySlots)
         {
             slot.canInteract = false;
             slot.gameObject.SetActive(false);
         }
         recipeResultSlot.canInteract = false;
-    }
-
-    public override void OnNetworkSpawn()
-    {
-        base.OnNetworkSpawn();
-
-        if(IsOwner)
-        {     
-            Instance = this;
-            playerInventory = GetComponentInParent<PlayerInventory>();
-        }
         
-
+        foreach(CraftingTab ct in craftingTabs)
+        {
+            ct.DeselectTab();
+        }
+        craftingTabs[0].SelectTab();
     }
+
     public void SetRecipe(CraftingRecipe cr)
     {
-        if(!IsOwner)
-        {
-            return;
-        }
         currentRecipe = cr;
         //update UI
         UpdateRecipeUI();
@@ -67,10 +56,6 @@ public class CraftingManager : NetworkBehaviour
 
     private void UpdateRecipeUI()
     {
-        if(!IsOwner)
-        {
-            return;
-        }
         //turn off all slots
         foreach(Slot slot in recipeDisplaySlots)
         {

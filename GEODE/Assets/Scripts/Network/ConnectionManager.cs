@@ -67,7 +67,7 @@ public class ConnectionManager : MonoBehaviour
         }
         waitingClientIds.Clear();
 
-       StartCoroutine(DoClientConnectedThings(NetworkManager.Singleton.LocalClientId));
+        StartCoroutine(DoClientConnectedThings(NetworkManager.Singleton.LocalClientId));
 
         
     }
@@ -114,7 +114,6 @@ public class ConnectionManager : MonoBehaviour
         SpawnPlayerForClient(clientId);
 
         //the last ting we do for the client is unload the loading screen, this should make a clean transition into game.
-        //SceneManager.UnloadSceneAsync("LoadingScreen");
         UnloadLoadingSceneClientRpc(new ClientRpcParams
         {
             Send = new ClientRpcSendParams
@@ -127,6 +126,10 @@ public class ConnectionManager : MonoBehaviour
     [ClientRpc]
     private void LoadLoadingSceneClientRpc(ClientRpcParams clientRpcParams = default)
     {
+        Debug.Log(
+        $"LoadLoadingSceneClientRpc on client {NetworkManager.Singleton.LocalClientId}, " +
+        $"filter = [{string.Join(",", clientRpcParams.Send.TargetClientIds)}]"
+        );
         SceneManager.LoadScene("Loading", LoadSceneMode.Additive);
     }
 
@@ -134,21 +137,6 @@ public class ConnectionManager : MonoBehaviour
     private void UnloadLoadingSceneClientRpc(ClientRpcParams clientRpcParams = default)
     {
         SceneManager.UnloadSceneAsync("Loading");
-    }
-
-    private void SpawnPlayerForHost()
-    {
-        GameObject playerInstance = Instantiate(playerPrefab);
-        
-        //can assume worldgenmanager.instance exists because this will only trigger
-        //after recieving a message from it
-        int centerX = WorldGenManager.Instance.WorldSizeX/2;
-        int centerY = WorldGenManager.Instance.WorldSizeY/2;
-
-        playerInstance.transform.position = new Vector3(centerX, centerY, 0);
-
-        NetworkObject netObj = playerInstance.GetComponent<NetworkObject>();
-        netObj.SpawnAsPlayerObject(NetworkManager.Singleton.LocalClientId, destroyWithScene: false);
     }
 
     private void SpawnPlayerForClient(ulong clientId)
