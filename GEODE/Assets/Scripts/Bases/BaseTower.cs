@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperienceGain
+public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperienceGain, IUpgradeable
 {
     //all towers shall inherit from this script, so we must include all things that *all* towers need
     //hold up, should towers have states? i think that doin too much, towers are simple
@@ -40,6 +40,10 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     [HideInInspector]public float size;
     [HideInInspector]public float sturdy;
 
+    //Upgrade privates
+    [HideInInspector] public List<Upgrade> upgrades = new List<Upgrade>();
+    [HideInInspector] public List<UpgradeItem> upgradeItems = new List<UpgradeItem>();
+
     //Internal
     protected List<GameObject> targets = new List<GameObject>();
     protected Transform currentTarget;
@@ -72,6 +76,11 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     public int MaximumLevelXp { get => maximumLevelXp; set => maximumLevelXp = value;}
     public int CurrentXp { get => currentXp; set => currentXp = value; }
     public int CurrentTotalXp { get => currentTotalXp; set => currentTotalXp = value;}
+
+
+    //UPGRADES 
+    public List<Upgrade> Upgrades { get => upgrades; }
+    public List<UpgradeItem> UpgradeItems { get => upgradeItems;}
 
     #endregion
 
@@ -126,23 +135,23 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
         }
     }
 
-    public void AddXp(int amount)
-    {
-        CurrentXp += amount;
-        currentTotalXp += amount;
-        //TODO update level UI here
-        if(CurrentXp >= maximumLevelXp)
-        {
-            LevelUp();
-        }
-    }
+    // public void AddXp(int amount)
+    // {
+    //     CurrentXp += amount;
+    //     currentTotalXp += amount;
+    //     //TODO update level UI here
+    //     if(CurrentXp >= maximumLevelXp)
+    //     {
+    //         LevelUp();
+    //     }
+    // }
 
-    private void LevelUp()
-    {
-        currentXp = 0;
-        level++;
-        //TODO apply some modifier to stats (increase base stats)
-    }
+    // private void LevelUp()
+    // {
+    //     currentXp = 0;
+    //     level++;
+    //     //TODO apply some modifier to stats (increase base stats)
+    // }
 
     private Transform GetNearestTarget()
     {
@@ -245,6 +254,21 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     public void OnLevelUp()
     {
         //add to stat modifiers
+    }
+
+    public void ApplyUpgrade(Upgrade upgrade)
+    {
+        //TODO
+    }
+
+    public void RemoveUpgrade(Upgrade upgrade)
+    {
+        //TODO
+    }
+
+    public void RefreshUpgrades()
+    {
+        //TODO
     }
 
 

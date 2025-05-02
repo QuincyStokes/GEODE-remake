@@ -184,6 +184,7 @@ public class PlayerInventory : NetworkBehaviour, IContainer
                 ) //slot + new count needs to *not* be at the max count
             {
                 //if these are true, we can add to this slot!
+                Debug.Log($"Adding {count} to slot with {id} in it");
                 slot.AddCount(count);
                 return true;
             }

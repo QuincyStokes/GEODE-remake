@@ -116,10 +116,32 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
     public void DropItemsServerRpc()
     {
         if(DroppedItems != null && LootManager.Instance != null)
-        foreach(DroppedItem item in droppedItems)
-        {   
-            LootManager.Instance.SpawnLootServerRpc(transform.position, item.Id, item.amount);
+        {
+            foreach(DroppedItem item in droppedItems)
+            {   
+                //If the item has something other than 100% drop chance
+                if(item.chance < 100)
+                {
+                    //roll the dice to see if we should spawn this item
+                    float rolledChance = Random.Range(0f, 100f);
+                    if(rolledChance <= item.chance)
+                    {
+                        LootManager.Instance.SpawnLootServerRpc(transform.position, item.Id, Random.Range(item.minAmount, item.maxAmount+1));
+                    }
+                }
+                else
+                {
+                    LootManager.Instance.SpawnLootServerRpc(transform.position, item.Id, Random.Range(item.minAmount, item.maxAmount+1));
+                }
+                
+                
+            }
         }
+        else
+        {
+            Debug.Log($"Tried to drop items | LootManager null?: {LootManager.Instance == null}, DroppedItems null? : {DroppedItems == null} ");
+        }
+
     }
 
     [ServerRpc]

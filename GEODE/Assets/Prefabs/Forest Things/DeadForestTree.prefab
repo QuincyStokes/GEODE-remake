@@ -274,7 +274,9 @@ MonoBehaviour:
     m_InternalValue: 1
   droppedItems:
   - Id: 1
-    amount: 10
+    minAmount: 3
+    maxAmount: 5
+    chance: 100
   objectName: 
   centerPoint: {fileID: 1212809725671271121}
   description: 

@@ -8,14 +8,14 @@ using UnityEngine.UI;
 public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     [Header("UI References")]
-    [SerializeField] private Image backgroundSprite;
-    [SerializeField] private Image itemSprite;
-    [SerializeField] private TMP_Text itemCount; 
-    [SerializeField] private InventoryHandUI inventoryHand;
+    [SerializeField] protected Image backgroundSprite;
+    [SerializeField] protected Image itemSprite;
+    [SerializeField] protected TMP_Text itemCount; 
+    [SerializeField] protected InventoryHandUI inventoryHand;
 
     [Header("Background Images")]
-    [SerializeField] private Sprite selectedBackgroundImage;
-    [SerializeField] private Sprite deselectedBackgroundImage;
+    [SerializeField] protected Sprite selectedBackgroundImage;
+    [SerializeField] protected Sprite deselectedBackgroundImage;
 
 
     [Header("Settings")]
@@ -30,8 +30,8 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     //PLAYERS "HAND"
     //----------
 
-    private static BaseItem heldItem = null;
-    private static int heldCount = 0;
+    protected static BaseItem heldItem = null;
+    protected static int heldCount = 0;
     
 
     private void Update()
@@ -44,7 +44,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         inventoryHand = hand;
     }
 
-    public void SetItem(int id=-1, int newCount = 1, bool interactable=true)
+    public virtual void SetItem(int id=-1, int newCount = 1, bool interactable=true)
     {
         //set the internal item data
         if(id != -1)
@@ -123,7 +123,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         return count;
     }
 
-    private void CheckItemDepleted()
+    protected void CheckItemDepleted()
     {
         if(count < 1)
         {
@@ -133,7 +133,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         } 
     }
 
-    private void EmptySlot()
+    protected void EmptySlot()
     {
         item = null;
         itemSprite.sprite = null;

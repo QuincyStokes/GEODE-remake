@@ -13,7 +13,7 @@ public class LootManager : NetworkBehaviour
         
     }
 
-    public new void OnNetworkSpawn()
+    public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
         if(Instance == null)

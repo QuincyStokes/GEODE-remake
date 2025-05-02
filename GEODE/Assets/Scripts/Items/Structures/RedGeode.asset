@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 801184ae3a0d9d2479257a43cc174ad5, type: 3}
-  m_Name: RedCrystals
+  m_Name: RedGeode
   m_EditorClassIdentifier: 
-  name: Red Crystals
-  description: Shiny!
+  name: Red Geode
+  description: What lies inside?
   type: 2
-  icon: {fileID: 2833242549449789950, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
+  icon: {fileID: -7668920765334974227, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
   id: 3
   isStackable: 1
   consumeOnUse: 1

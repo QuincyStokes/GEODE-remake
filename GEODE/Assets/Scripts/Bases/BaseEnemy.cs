@@ -163,10 +163,22 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable
     {
         if(DroppedItems != null && LootManager.Instance != null)
         {
-            foreach(DroppedItem droppedItem in DroppedItems)
-            {
-            //instantiate the loot with droppedItem.Id and droppedItem.amount
-                LootManager.Instance.SpawnLootServerRpc(ObjectTransform.position, droppedItem.Id, droppedItem.amount);
+            foreach(DroppedItem item in DroppedItems)
+            {   
+            //If the item has something other than 100% drop chance
+                if(item.chance < 100)
+                {
+                    //roll the dice to see if we should spawn this item
+                    float rolledChance = UnityEngine.Random.Range(0f, 100f);
+                    if(rolledChance <= item.chance)
+                    {
+                        LootManager.Instance.SpawnLootServerRpc(transform.position, item.Id, UnityEngine.Random.Range(item.minAmount, item.maxAmount+1));
+                    }
+                }
+                else
+                {
+                    LootManager.Instance.SpawnLootServerRpc(transform.position, item.Id, UnityEngine.Random.Range(item.minAmount, item.maxAmount+1));
+                }
             }
         }
         

@@ -23,12 +23,17 @@ public class InspectionMenu : MonoBehaviour
     [SerializeField] private TMP_Text xp;
     [SerializeField] private Slider healthSlider;
     [SerializeField] private Slider xpSlider;
+    
+    [Header("Upgrades")]
+    [SerializeField] private GameObject upgradeSlotHolder;
+    [SerializeField] private List<Slot> upgradeSlots;
 
     [Header("Groups")]
     [SerializeField] private List<GameObject> objectThings; //ui elements pertaining to base object
 
     [SerializeField] private List<GameObject> statsThings; //ui elements pertaining to stats
     [SerializeField] private List<GameObject> xpThings; //ui elements pertaining to xp
+    [SerializeField] private List<GameObject> upgradeThings;
 
     //* ------- PRIVATE INTERNAL -------------
     private GameObject currentInspectedObject;
@@ -55,6 +60,7 @@ public class InspectionMenu : MonoBehaviour
         BaseObject bo = go.GetComponent<BaseObject>();
         IStats stats = go.GetComponent<IStats>();
         IExperienceGain exp = go.GetComponent<IExperienceGain>();
+        IUpgradeable upg = go.GetComponent<IUpgradeable>();
         //since we have passed in our stats, xp, and theobject, we can guarantee that we have:
         //all of the necessary information to populate the menu
         if(bo != null) //health, description, sprite
@@ -111,6 +117,19 @@ public class InspectionMenu : MonoBehaviour
         {
             Debug.Log("Xp was null");
             SetGroup(xpThings, false);
+        }
+
+        if(upg != null)
+        {
+            SetGroup(upgradeThings, true);
+            for(int i = 0; i < upg.Upgrades.Count; ++i)
+            {
+                upgradeSlots[i].SetItem(upg.UpgradeItems[i].Id, 1, true);
+            }
+        }
+        else
+        {
+            SetGroup(upgradeThings, false);
         }
     }
 

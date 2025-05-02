@@ -287,8 +287,8 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: 64x64Sprites_3
     originalName: 
-    pivot: {x: 0.08974359, y: -0}
-    alignment: 9
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
@@ -335,7 +335,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 222
+      x: 221
       y: 115
       width: 78
       height: 67
@@ -361,6 +361,27 @@ ScriptedImporter:
       width: 57
       height: 60
     spriteID: 66fc36257c6a0e647ab00ff609e9ad44
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: 64x64Sprites_1
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 6
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 67
+      y: 64
+      width: 58
+      height: 60
+    spriteID: 073f3bf100204514e81e35d3d23e65c3
     spriteBone: []
     spriteOutline: []
     vertices: []

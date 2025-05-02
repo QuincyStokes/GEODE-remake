@@ -9,16 +9,21 @@ public enum ItemType
     Weapon,
     Structure,
     Consumable,
-    Material
+    Material,
+    Upgrade
 }
 
 [System.Serializable]public struct DroppedItem
 {
-    public DroppedItem(int Id, int amount)
+    public DroppedItem(int Id, int minAmount, int maxAmount, float chance)
     {
         this.Id = Id;
-        this.amount = amount;
+        this.minAmount = minAmount;
+        this.maxAmount = maxAmount;
+        this.chance = chance;
     }
     public int Id; 
-    public int amount;
+    public int minAmount;
+    public int maxAmount;
+    public float chance;
 }

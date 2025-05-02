@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4362482351808134440}
   - component: {fileID: 3792986849769939562}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: CollisionHitbox
-  m_TagString: Untagged
+  m_TagString: EnvironmentObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -78,6 +78,37 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.3400002, y: 0.8539704}
   m_EdgeRadius: 0
+--- !u!1 &7678120856355086358
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5222662708037614757}
+  m_Layer: 0
+  m_Name: Centerpoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5222662708037614757
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7678120856355086358}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8045205515108008951}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7857131579831043483
 GameObject:
   m_ObjectHideFlags: 0
@@ -147,8 +178,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -0.034150124, y: 0.058250427, z: 0}
-    m_Extent: {x: 11.30505, y: 11.25175, z: 0}
+    m_Center: {x: 0.27090025, y: 0.23780012, z: 0}
+    m_Extent: {x: 10.7390995, y: 10.7404, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 1.48
@@ -159,35 +190,19 @@ MonoBehaviour:
   m_ShapeLightFalloffSize: 10.23
   m_ShapeLightFalloffOffset: {x: 0, y: 0}
   m_ShapePath:
-  - {x: -0.63910985, y: -0.9625404, z: 0}
-  - {x: 0.73433405, y: -0.96019876, z: 0}
-  - {x: 0.9160628, y: -0.83093953, z: 0}
-  - {x: 0.99398935, y: -0.6617939, z: 0}
-  - {x: 0.93877316, y: -0.4829115, z: 0}
-  - {x: 0.86940956, y: -0.39170074, z: 0}
-  - {x: 1.0400732, y: -0.09186897, z: 0}
-  - {x: 1.0409343, y: 0.19943768, z: 0}
-  - {x: 0.963289, y: 0.34185964, z: 0}
+  - {x: 0.46284354, y: -0.27379727, z: 0}
+  - {x: 0.7781488, y: -0.06559378, z: 0}
+  - {x: 0.7813606, y: 0.20934397, z: 0}
   - {x: 0.6075853, y: 0.20829767, z: 0}
-  - {x: 0.6214294, y: 0.49376035, z: 0}
-  - {x: 0.615401, y: 0.68258685, z: 0}
-  - {x: 0.34224355, y: 0.66503817, z: 0}
-  - {x: 0.35365266, y: 0.83195925, z: 0}
-  - {x: 0.007254958, y: 1.0818876, z: 0}
-  - {x: -0.43576306, y: 0.67290026, z: 0}
-  - {x: -0.42383492, y: 0.2901742, z: 0}
-  - {x: -0.6792706, y: 0.34855205, z: 0}
-  - {x: -0.7889683, y: 0.27411944, z: 0}
-  - {x: -0.87013817, y: 0.18335038, z: 0}
-  - {x: -0.910473, y: 0.07087517, z: 0}
-  - {x: -1.1100848, y: -0.016783178, z: 0}
-  - {x: -1.089669, y: -0.3885313, z: 0}
-  - {x: -0.98731196, y: -0.47608107, z: 0}
-  - {x: -0.93412215, y: -0.55615723, z: 0}
-  - {x: -1.0068016, y: -0.62717074, z: 0}
-  - {x: -0.9093491, y: -0.8199877, z: 0}
-  - {x: -0.85848236, y: -0.87916344, z: 0}
-  - {x: -0.78932613, y: -0.9303967, z: 0}
+  - {x: 0.31821537, y: 0.049046516, z: 0}
+  - {x: 0.33689344, y: 0.59499174, z: 0}
+  - {x: 0.09967232, y: 0.5931652, z: 0}
+  - {x: 0.045946598, y: 0.7488561, z: 0}
+  - {x: -0.08707821, y: 0.6147136, z: 0}
+  - {x: -0.23811245, y: 0.2933213, z: 0}
+  - {x: -0.18554151, y: 0.061873317, z: 0}
+  - {x: -0.0305655, y: -0.19192797, z: 0}
+  - {x: 0.2659104, y: -0.1986661, z: 0}
 --- !u!58 &4173592387424904994
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -316,9 +331,10 @@ GameObject:
   - component: {fileID: -5197024450714403594}
   - component: {fileID: 7155335561222885596}
   - component: {fileID: 1858398660601040683}
+  - component: {fileID: 8001647827751899763}
   m_Layer: 0
   m_Name: RedCrystal
-  m_TagString: Untagged
+  m_TagString: EnvironmentObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -339,6 +355,7 @@ Transform:
   - {fileID: 4061266094706242322}
   - {fileID: 4362482351808134440}
   - {fileID: 342921055366697814}
+  - {fileID: 5222662708037614757}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4730815865388357885
@@ -385,7 +402,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 2833242549449789950, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
+  m_Sprite: {fileID: -7668920765334974227, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -552,3 +569,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   registerd: 0
+--- !u!114 &8001647827751899763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8370947462149780993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 468fcc394db2ac342a3ace6fee009f19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHealth:
+    m_InternalValue: 100
+  currentHealth:
+    m_InternalValue: 100
+  droppedItems:
+  - Id: 29
+    minAmount: 1
+    maxAmount: 2
+    chance: 100
+  objectName: Red Geode
+  centerPoint: {fileID: 5222662708037614757}
+  description: 
+  objectSprite: {fileID: 0}
