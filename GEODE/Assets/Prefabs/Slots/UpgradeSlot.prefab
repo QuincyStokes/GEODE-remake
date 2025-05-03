@@ -384,5 +384,5 @@ MonoBehaviour:
   selectedBackgroundImage: {fileID: 3875769440782901482, guid: a1474fb9d261c1e45aeebfae61461b67, type: 3}
   deselectedBackgroundImage: {fileID: -81528668887532154, guid: 1ef64a3abf377fa4cbc91ab942e496d9, type: 3}
   maxStackSize: 1
-  canInteract: 0
+  canInteract: 1
   parentAfterDrag: {fileID: 0}

@@ -259,11 +259,13 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     public void ApplyUpgrade(Upgrade upgrade)
     {
         //TODO
+        RefreshUpgrades();
     }
 
     public void RemoveUpgrade(Upgrade upgrade)
     {
         //TODO
+        RefreshUpgrades();
     }
 
     public void RefreshUpgrades()

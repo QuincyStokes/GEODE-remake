@@ -9,6 +9,7 @@ public class InspectionMenu : MonoBehaviour
     [Header("Name and Image")]
     [SerializeField] private TMP_Text inspectName;
     [SerializeField] private Image inspectImage;
+    [SerializeField] private InventoryHandUI inventoryHandUI;
 
     [Header("Stats")]    
     [SerializeField] private TMP_Text strength;
@@ -27,6 +28,7 @@ public class InspectionMenu : MonoBehaviour
     [Header("Upgrades")]
     [SerializeField] private GameObject upgradeSlotHolder;
     [SerializeField] private List<Slot> upgradeSlots;
+    [SerializeField] private GameObject upgradeSlotPrefab;
 
     [Header("Groups")]
     [SerializeField] private List<GameObject> objectThings; //ui elements pertaining to base object
@@ -51,6 +53,15 @@ public class InspectionMenu : MonoBehaviour
         {
             return;
         }
+
+        foreach(UpgradeSlot upgradeSlot in upgradeSlots)
+        {
+            UnsubscribeFromSlot(upgradeSlot);
+            Destroy(upgradeSlot.gameObject);
+           
+        }
+        upgradeSlots.Clear();
+        
         currentInspectedObject = go;
         if(InspectionMenuHolder.activeSelf == false)
         {
@@ -122,15 +133,53 @@ public class InspectionMenu : MonoBehaviour
         if(upg != null)
         {
             SetGroup(upgradeThings, true);
-            for(int i = 0; i < upg.Upgrades.Count; ++i)
+            //! FOR NOW HARD CODING AMOUNT OF SLOTS, THIS NEEDS TO BE DYNAMIC WITH THE LEVEL LATER ON
+            int numUpgradeSlots = 3;
+
+            //CREATE THE SLOTS
+            for(int i = 0; i < numUpgradeSlots; i++)
+            {
+                GameObject slot = Instantiate(upgradeSlotPrefab, upgradeSlotHolder.transform);
+                UpgradeSlot upgradeSlot = slot.GetComponent<UpgradeSlot>();
+                upgradeSlots.Add(upgradeSlot);
+                SubscribeToSlot(upgradeSlot);
+                upgradeSlot.InitializeHand(inventoryHandUI);
+                
+            }
+
+            //SET THE SLOTS
+            for(int i = 0; i < upg.UpgradeItems.Count; ++i)
             {
                 upgradeSlots[i].SetItem(upg.UpgradeItems[i].Id, 1, true);
             }
+
         }
         else
         {
             SetGroup(upgradeThings, false);
         }
+    }
+
+    private void SubscribeToSlot(UpgradeSlot upgradeSlot)
+    {
+        upgradeSlot.itemAdded += HandleUpgradeAdded;
+        upgradeSlot.itemRemoved += HandleUpgradeRemoved;
+    }
+
+    private void UnsubscribeFromSlot(UpgradeSlot upgradeSlot)
+    {
+        upgradeSlot.itemAdded -= HandleUpgradeAdded;
+        upgradeSlot.itemRemoved -= HandleUpgradeRemoved;
+    }
+
+    private void HandleUpgradeAdded(UpgradeItem upgradeItem)
+    {
+        
+    }
+
+    private void HandleUpgradeRemoved(UpgradeItem upgradeItem)
+    {
+        
     }
 
     public void CloseInspectionMenu()

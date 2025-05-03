@@ -11,7 +11,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     [SerializeField] protected Image backgroundSprite;
     [SerializeField] protected Image itemSprite;
     [SerializeField] protected TMP_Text itemCount; 
-    [SerializeField] protected InventoryHandUI inventoryHand;
+    [HideInInspector] protected InventoryHandUI inventoryHand;
 
     [Header("Background Images")]
     [SerializeField] protected Sprite selectedBackgroundImage;
