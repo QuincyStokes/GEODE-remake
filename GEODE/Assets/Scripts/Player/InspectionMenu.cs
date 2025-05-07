@@ -174,7 +174,9 @@ public class InspectionMenu : MonoBehaviour
 
     private void HandleUpgradeAdded(UpgradeItem upgradeItem)
     {
-        
+        //we have access to the Upgrade and our CurrentItem, should be able to handle all of the logic here..?
+        ///currentInspectedObject
+        currentInspectedObject.GetComponent<IUpgradeable>().UpgradeItems.Add(upgradeItem);
     }
 
     private void HandleUpgradeRemoved(UpgradeItem upgradeItem)
