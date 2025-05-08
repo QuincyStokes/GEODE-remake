@@ -6,7 +6,9 @@ using UnityEngine;
 public class UpgradeItem : BaseItem
 {
     [Header("Upgrade Settings")]
-    [SerializeField] private List<Upgrade> upgradeTypes;
+    [SerializeField] public List<Upgrade> upgradeTypes;
+
+
     public override bool Use(Vector3 position, bool snapToGrid = true, bool force = false)
     {
         return false;
@@ -26,7 +28,7 @@ public enum UpgradeType
 [Serializable]
 public struct Upgrade
 {
-    [SerializeField] UpgradeType upgradeType; //the type of stat it upgrades
-    [SerializeField] float percentIncrease; //the increase this upgrade has on the stat (eg 10, would increase a stat by 10%)
+    [SerializeField] public UpgradeType upgradeType; //the type of stat it upgrades
+    [SerializeField] public float percentIncrease; //the increase this upgrade has on the stat (eg 10, would increase a stat by 10%)
 };
 

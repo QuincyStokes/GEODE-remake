@@ -94,11 +94,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
             detectionCollider.radius = size;
         }
 
-        //set stats
-        strength = baseStrength * strengthModifier;
-        speed = baseSpeed * speedModifier;
-        size = baseSize * sizeModifier;
-        sturdy = MaxHealth * sturdyModifier; //notably, MaxHealth is derived from BaseObject
+        RefreshStats();
 
         detectionCollider.radius = size;
     }
@@ -152,6 +148,14 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     //     level++;
     //     //TODO apply some modifier to stats (increase base stats)
     // }
+
+    private void RefreshStats()
+    {
+        strength = baseStrength * (StrengthModifier/100+1);
+        speed = baseSpeed * (SpeedModifier/100+1);
+        size = baseSize * (SizeModifier/100+1);
+        sturdy =  MaxHealth * (SturdyModifier/100+1);//notably, MaxHealth is derived from BaseObject
+    }
 
     private Transform GetNearestTarget()
     {
@@ -259,13 +263,56 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     public void ApplyUpgrade(Upgrade upgrade)
     {
         //TODO
+       
+
+        //! FOR NOW JUST GOING TO USE A SWITCH/CASE, THIS IS NOT SCALEABLE BUT GETS THE JOB DONE FOR NOW
+        switch(upgrade.upgradeType)
+        {
+            case UpgradeType.Strength:
+                StrengthModifier += upgrade.percentIncrease;
+                break;
+            case UpgradeType.Speed:
+                SpeedModifier += upgrade.percentIncrease;
+                break;
+            case UpgradeType.Size:
+                SizeModifier += upgrade.percentIncrease;
+                break;
+            case UpgradeType.Sturdy:
+                SturdyModifier += upgrade.percentIncrease;
+                break;
+            default:
+                break;
+
+        }
         RefreshUpgrades();
+        RefreshStats();
     }
 
     public void RemoveUpgrade(Upgrade upgrade)
     {
         //TODO
+        //! FOR NOW JUST GOING TO USE A SWITCH/CASE, THIS IS NOT SCALEABLE BUT GETS THE JOB DONE FOR NOW
+
+        switch(upgrade.upgradeType)
+        {
+            case UpgradeType.Strength:
+                StrengthModifier -= upgrade.percentIncrease;
+                break;
+            case UpgradeType.Speed:
+                SpeedModifier -= upgrade.percentIncrease;
+                break;
+            case UpgradeType.Size:
+                SizeModifier -= upgrade.percentIncrease;
+                break;
+            case UpgradeType.Sturdy:
+                SturdyModifier -= upgrade.percentIncrease;
+                break;
+            default:
+                break;
+
+        }
         RefreshUpgrades();
+        RefreshStats();
     }
 
     public void RefreshUpgrades()

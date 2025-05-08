@@ -21,4 +21,4 @@ MonoBehaviour:
   consumeOnUse: 0
   upgradeTypes:
   - upgradeType: 0
-    percentIncrease: 0
+    percentIncrease: 50

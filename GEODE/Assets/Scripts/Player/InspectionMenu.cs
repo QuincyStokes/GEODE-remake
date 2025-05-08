@@ -46,10 +46,10 @@ public class InspectionMenu : MonoBehaviour
     {
     }
 
-    public void PopulateMenu(GameObject go)
+    public void PopulateMenu(GameObject go, bool refresh=false)
     {
         //TODO think about having these things constantly set in Update, so we can see changes live
-        if(go == currentInspectedObject)
+        if(go == currentInspectedObject && refresh==false)
         {
             return;
         }
@@ -97,16 +97,16 @@ public class InspectionMenu : MonoBehaviour
             SetGroup(statsThings, true);
             //CAN DO CUSTOM COLOR BY DOING <COLOR=#ffffff>
             //STRENGTH
-            strength.text = $"<color=red>{stats.Strength}</color> = {stats.BaseStrength}<color=red> (+{stats.BaseStrength * stats.StrengthModifier-stats.BaseStrength}</color>)";
+            strength.text = $"<color=red>{stats.Strength}</color> = {stats.BaseStrength}(<color=red>+{(stats.BaseStrength * ((stats.StrengthModifier/100)+1))-stats.BaseStrength}</color>)";
 
             //SPEED
-            speed.text = $"<color=yellow>{stats.Speed}</color> = {stats.BaseSpeed}<color=yellow> (+{stats.BaseSpeed * stats.SpeedModifier-stats.BaseSpeed}</color>)";
+            speed.text = $"<color=yellow>{stats.Speed}</color> = {stats.BaseSpeed}(<color=yellow>+{(stats.BaseSpeed * ((stats.SpeedModifier/100)+1))-stats.BaseSpeed}</color>)";
 
             //SIZE
-            size.text = $"<color=green>{stats.Size}</color> = {stats.BaseSize}<color=green> (+{stats.BaseSize * stats.SizeModifier-stats.BaseSize}</color>)";
+            size.text = $"<color=green>{stats.Size}</color> = {stats.BaseSize}(<color=green>+{(stats.BaseSize * ((stats.SizeModifier/100)+1))-stats.BaseSize}</color>)";
 
             //STURDY
-            sturdy.text = $"<color=blue>{stats.Sturdy}</color> = {bo.MaxHealth}<color=blue> +({bo.MaxHealth * stats.SturdyModifier-bo.MaxHealth}</color>)";
+            sturdy.text = $"<color=blue>{stats.Sturdy}</color> = {bo.MaxHealth}(<color=blue>+{(bo.MaxHealth * ((stats.SturdyModifier/100)+1))-bo.MaxHealth}</color>)";
 
         }
         else
@@ -176,12 +176,24 @@ public class InspectionMenu : MonoBehaviour
     {
         //we have access to the Upgrade and our CurrentItem, should be able to handle all of the logic here..?
         ///currentInspectedObject
+        /// 
+        // THIS WORKS WELL, now just need to actually affect the stats
         currentInspectedObject.GetComponent<IUpgradeable>().UpgradeItems.Add(upgradeItem);
+        foreach(Upgrade upgrade in upgradeItem.upgradeTypes)
+        {
+            currentInspectedObject.GetComponent<IUpgradeable>().ApplyUpgrade(upgrade);
+        }
+        PopulateMenu(currentInspectedObject, true);
     }
 
     private void HandleUpgradeRemoved(UpgradeItem upgradeItem)
     {
-        
+        currentInspectedObject.GetComponent<IUpgradeable>()?.UpgradeItems?.Remove(upgradeItem);
+        foreach(Upgrade upgrade in upgradeItem.upgradeTypes)
+        {
+            currentInspectedObject.GetComponent<IUpgradeable>().RemoveUpgrade(upgrade);
+        }
+        PopulateMenu(currentInspectedObject, true);
     }
 
     public void CloseInspectionMenu()

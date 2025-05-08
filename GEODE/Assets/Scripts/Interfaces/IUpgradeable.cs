@@ -8,6 +8,6 @@ public interface IUpgradeable
     public abstract void ApplyUpgrade(Upgrade upgrade);
     public abstract void RemoveUpgrade(Upgrade upgrade);
     public abstract void RefreshUpgrades(); //loops through our Upgrades list and applies all of their affects. 
-
+    
     //this all makes sense to me I think
 }

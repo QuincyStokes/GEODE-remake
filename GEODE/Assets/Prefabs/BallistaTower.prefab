@@ -315,8 +315,11 @@ MonoBehaviour:
     m_InternalValue: 100
   droppedItems:
   - Id: 1
-    amount: 10
+    minAmount: 0
+    maxAmount: 0
+    chance: 0
   objectName: Ballista Tower
+  centerPoint: {fileID: 0}
   description: 
   objectSprite: {fileID: 0}
   baseSpeed: 2
@@ -328,10 +331,10 @@ MonoBehaviour:
   currentXp: 0
   currentTotalXp: 0
   level: 1
-  speedModifier: 1
-  strengthModifier: 1.5
-  sizeModifier: 1
-  sturdyModifier: 1.8
+  speedModifier: 0
+  strengthModifier: 50
+  sizeModifier: 0
+  sturdyModifier: 80
   targetLayer:
     serializedVersion: 2
     m_Bits: 512
@@ -341,6 +344,8 @@ MonoBehaviour:
   strength: 1
   size: 1
   sturdy: 1
+  upgrades: []
+  upgradeItems: []
   projectilePrefab: {fileID: 3971315044739012625, guid: 6adc3bbc20934134e95286598253a603, type: 3}
   firePoint: {fileID: 8530824588490717240}
 --- !u!58 &2077050480769059596
