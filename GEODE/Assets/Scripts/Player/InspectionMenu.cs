@@ -176,23 +176,13 @@ public class InspectionMenu : MonoBehaviour
     {
         //we have access to the Upgrade and our CurrentItem, should be able to handle all of the logic here..?
         ///currentInspectedObject
-        /// 
-        // THIS WORKS WELL, now just need to actually affect the stats
-        currentInspectedObject.GetComponent<IUpgradeable>().UpgradeItems.Add(upgradeItem);
-        foreach(Upgrade upgrade in upgradeItem.upgradeTypes)
-        {
-            currentInspectedObject.GetComponent<IUpgradeable>().ApplyUpgrade(upgrade);
-        }
+        currentInspectedObject.GetComponent<IUpgradeable>().ApplyUpgradeServerRpc(upgradeItem.Id);
         PopulateMenu(currentInspectedObject, true);
     }
 
     private void HandleUpgradeRemoved(UpgradeItem upgradeItem)
     {
-        currentInspectedObject.GetComponent<IUpgradeable>()?.UpgradeItems?.Remove(upgradeItem);
-        foreach(Upgrade upgrade in upgradeItem.upgradeTypes)
-        {
-            currentInspectedObject.GetComponent<IUpgradeable>().RemoveUpgrade(upgrade);
-        }
+        currentInspectedObject.GetComponent<IUpgradeable>().RemoveUpgradeServerRpc(upgradeItem.Id);
         PopulateMenu(currentInspectedObject, true);
     }
 
@@ -208,5 +198,10 @@ public class InspectionMenu : MonoBehaviour
         {
             go.SetActive(set);
         }
+    }
+
+    public void RefreshMenu()
+    {
+        PopulateMenu(currentInspectedObject, true);
     }
 }

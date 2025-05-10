@@ -19,6 +19,6 @@ MonoBehaviour:
   id: 29
   isStackable: 1
   consumeOnUse: 0
-  upgradeTypes:
+  upgradeList:
   - upgradeType: 0
     percentIncrease: 50

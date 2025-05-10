@@ -6,7 +6,7 @@ using UnityEngine;
 public class UpgradeItem : BaseItem
 {
     [Header("Upgrade Settings")]
-    [SerializeField] public List<Upgrade> upgradeTypes;
+    [SerializeField] public List<Upgrade> upgradeList;
 
 
     public override bool Use(Vector3 position, bool snapToGrid = true, bool force = false)

@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Unity.Netcode;
+using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -149,6 +151,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     //     //TODO apply some modifier to stats (increase base stats)
     // }
 
+  
     private void RefreshStats()
     {
         strength = baseStrength * (StrengthModifier/100+1);
@@ -260,64 +263,91 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
         //add to stat modifiers
     }
 
-    public void ApplyUpgrade(Upgrade upgrade)
+    [ServerRpc(RequireOwnership =false)]
+    public void ApplyUpgradeServerRpc(int itemId)
+    //public void ApplyUpgrade(int itemId)
     {
         //TODO
        
-
+        BaseItem item = ItemDatabase.Instance.GetItem(itemId);
+        UpgradeItem upgradeItem = item as UpgradeItem;
         //! FOR NOW JUST GOING TO USE A SWITCH/CASE, THIS IS NOT SCALEABLE BUT GETS THE JOB DONE FOR NOW
-        switch(upgrade.upgradeType)
+        if(upgradeItem != null)
         {
-            case UpgradeType.Strength:
-                StrengthModifier += upgrade.percentIncrease;
-                break;
-            case UpgradeType.Speed:
-                SpeedModifier += upgrade.percentIncrease;
-                break;
-            case UpgradeType.Size:
-                SizeModifier += upgrade.percentIncrease;
-                break;
-            case UpgradeType.Sturdy:
-                SturdyModifier += upgrade.percentIncrease;
-                break;
-            default:
-                break;
+            UpgradeItems.Add(upgradeItem);
+            foreach(Upgrade upgrade in upgradeItem.upgradeList)
+            {
+                switch(upgrade.upgradeType)
+                {
+                    case UpgradeType.Strength:
+                        StrengthModifier += upgrade.percentIncrease;
+                        break;
+                    case UpgradeType.Speed:
+                        SpeedModifier += upgrade.percentIncrease;
+                        break;
+                    case UpgradeType.Size:
+                        SizeModifier += upgrade.percentIncrease;
+                        break;
+                    case UpgradeType.Sturdy:
+                        SturdyModifier += upgrade.percentIncrease;
+                        break;
+                    default:
+                        break;
 
+                }
+            }
+            
+        }
+        else
+        {   
+            Debug.Log("Did not apply stats. UpgradeItem is null");
         }
         RefreshUpgrades();
         RefreshStats();
     }
-
-    public void RemoveUpgrade(Upgrade upgrade)
+    [ServerRpc(RequireOwnership =false)]
+    public void RemoveUpgradeServerRpc(int itemId)
     {
         //TODO
         //! FOR NOW JUST GOING TO USE A SWITCH/CASE, THIS IS NOT SCALEABLE BUT GETS THE JOB DONE FOR NOW
 
-        switch(upgrade.upgradeType)
+        BaseItem item = ItemDatabase.Instance.GetItem(itemId);
+        UpgradeItem upgradeItem = item as UpgradeItem;
+        if(upgradeItem != null)
         {
-            case UpgradeType.Strength:
-                StrengthModifier -= upgrade.percentIncrease;
-                break;
-            case UpgradeType.Speed:
-                SpeedModifier -= upgrade.percentIncrease;
-                break;
-            case UpgradeType.Size:
-                SizeModifier -= upgrade.percentIncrease;
-                break;
-            case UpgradeType.Sturdy:
-                SturdyModifier -= upgrade.percentIncrease;
-                break;
-            default:
-                break;
+            UpgradeItems.Remove(upgradeItem);
+            foreach(Upgrade upgrade in upgradeItem.upgradeList)
+            {
+                switch(upgrade.upgradeType)
+                {
+                    case UpgradeType.Strength:
+                        StrengthModifier -= upgrade.percentIncrease;
+                        break;
+                    case UpgradeType.Speed:
+                        SpeedModifier -= upgrade.percentIncrease;
+                        break;
+                    case UpgradeType.Size:
+                        SizeModifier -= upgrade.percentIncrease;
+                        break;
+                    case UpgradeType.Sturdy:
+                        SturdyModifier -= upgrade.percentIncrease;
+                        break;
+                    default:
+                        break;
 
+                }
+            }
+            
         }
         RefreshUpgrades();
         RefreshStats();
     }
+
 
     public void RefreshUpgrades()
     {
-        //TODO
+        //this.upgradeItems = new List<UpgradeItem>();
+
     }
 
 
