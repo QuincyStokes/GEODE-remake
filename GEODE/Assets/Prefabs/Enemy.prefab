@@ -264,7 +264,9 @@ MonoBehaviour:
   movementSpeed: 2
   droppedItems:
   - Id: 25
-    amount: 1
+    minAmount: 1
+    maxAmount: 1
+    chance: 100
   structureLayerMask:
     serializedVersion: 2
     m_Bits: 2176

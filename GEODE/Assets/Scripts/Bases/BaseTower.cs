@@ -52,6 +52,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     private Quaternion targetRotation;
     private bool isRotating;
     private float nextFireTime;
+    private List<int> serverUpgradeItemIds = new();
     #endregion
 
     #region ACCESSORS
@@ -265,16 +266,19 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
 
     [ServerRpc(RequireOwnership =false)]
     public void ApplyUpgradeServerRpc(int itemId)
-    //public void ApplyUpgrade(int itemId)
     {
-        //TODO
-       
+        if(!IsServer)
+        {
+            return;
+        }
+
         BaseItem item = ItemDatabase.Instance.GetItem(itemId);
         UpgradeItem upgradeItem = item as UpgradeItem;
         //! FOR NOW JUST GOING TO USE A SWITCH/CASE, THIS IS NOT SCALEABLE BUT GETS THE JOB DONE FOR NOW
         if(upgradeItem != null)
         {
             UpgradeItems.Add(upgradeItem);
+            serverUpgradeItemIds.Add(upgradeItem.Id);
             foreach(Upgrade upgrade in upgradeItem.upgradeList)
             {
                 switch(upgrade.upgradeType)
@@ -302,20 +306,25 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
         {   
             Debug.Log("Did not apply stats. UpgradeItem is null");
         }
-        RefreshUpgrades();
-        RefreshStats();
+        SyncUpgradesAndStatsClientRpc(serverUpgradeItemIds.ToArray());
     }
+
+
+
     [ServerRpc(RequireOwnership =false)]
     public void RemoveUpgradeServerRpc(int itemId)
     {
-        //TODO
         //! FOR NOW JUST GOING TO USE A SWITCH/CASE, THIS IS NOT SCALEABLE BUT GETS THE JOB DONE FOR NOW
-
+        if(!IsServer)
+        {
+            return;
+        }
         BaseItem item = ItemDatabase.Instance.GetItem(itemId);
         UpgradeItem upgradeItem = item as UpgradeItem;
         if(upgradeItem != null)
         {
             UpgradeItems.Remove(upgradeItem);
+            serverUpgradeItemIds.Remove(upgradeItem.Id);
             foreach(Upgrade upgrade in upgradeItem.upgradeList)
             {
                 switch(upgrade.upgradeType)
@@ -339,15 +348,39 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
             }
             
         }
-        RefreshUpgrades();
-        RefreshStats();
+        SyncUpgradesAndStatsClientRpc(serverUpgradeItemIds.ToArray());
     }
 
+    [ClientRpc]
+    private void SyncUpgradesAndStatsClientRpc(int[] itemIds)
+    {
+        //First, clear our ItemUpgrades list to start fresh
+        serverUpgradeItemIds = new List<int>(itemIds);
+
+        upgradeItems.Clear();
+        upgrades.Clear();
+
+        foreach(int id in serverUpgradeItemIds)
+        {
+            BaseItem item = ItemDatabase.Instance.GetItem(id);
+            UpgradeItem upItem = item as UpgradeItem;
+            if(upItem != null)
+            {
+                upgradeItems.Add(upItem);
+                upgrades.AddRange(upItem.upgradeList);
+            }
+        }
+
+        strength = baseStrength * (StrengthModifier/100+1);
+        speed = baseSpeed * (SpeedModifier/100+1);
+        size = baseSize * (SizeModifier/100+1);
+        sturdy =  MaxHealth * (SturdyModifier/100+1);//notably, MaxHealth is derived from BaseObject
+    }
 
     public void RefreshUpgrades()
     {
         //this.upgradeItems = new List<UpgradeItem>();
-
+        
     }
 
 
