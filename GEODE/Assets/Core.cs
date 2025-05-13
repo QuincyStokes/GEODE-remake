@@ -18,15 +18,6 @@ public class Core : BaseObject, IInteractable
         
     }
 
-    public void OnInteract()
-    {
-        PopulateInteractionMenu();
-    }
-    public void PopulateInteractionMenu()
-    {
-        InspectionMenu.Instance.PopulateMenu(this.gameObject);
-    }
-
     private void Start()
     {
         if(FlowFieldManager.Instance != null)

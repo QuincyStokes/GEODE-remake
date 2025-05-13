@@ -49,11 +49,20 @@ public class InspectionMenu : MonoBehaviour
     public void PopulateMenu(GameObject go, bool refresh=false)
     {
         //TODO think about having these things constantly set in Update, so we can see changes live
+
+        //if we're repopulating the same object but *dont* want to refresh, return;
         if(go == currentInspectedObject && refresh==false)
         {
             return;
         }
 
+        //if we're not inspecting the passed in object, but *do* want to refresh it, that means this player is inspecting a different object, we should not update
+        if(go != currentInspectedObject && refresh == true)
+        {
+            return;
+        }
+
+    
         foreach(UpgradeSlot upgradeSlot in upgradeSlots)
         {
             UnsubscribeFromSlot(upgradeSlot);
@@ -62,7 +71,9 @@ public class InspectionMenu : MonoBehaviour
         }
         upgradeSlots.Clear();
         
+        
         currentInspectedObject = go;
+
         if(InspectionMenuHolder.activeSelf == false)
         {
             InspectionMenuHolder.SetActive(true);
@@ -177,13 +188,12 @@ public class InspectionMenu : MonoBehaviour
         //we have access to the Upgrade and our CurrentItem, should be able to handle all of the logic here..?
         ///currentInspectedObject
         currentInspectedObject.GetComponent<IUpgradeable>().ApplyUpgradeServerRpc(upgradeItem.Id);
-        PopulateMenu(currentInspectedObject, true);
+        
     }
 
     private void HandleUpgradeRemoved(UpgradeItem upgradeItem)
     {
         currentInspectedObject.GetComponent<IUpgradeable>().RemoveUpgradeServerRpc(upgradeItem.Id);
-        PopulateMenu(currentInspectedObject, true);
     }
 
     public void CloseInspectionMenu()

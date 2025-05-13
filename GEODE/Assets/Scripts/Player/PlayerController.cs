@@ -15,7 +15,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
     [Header("References")]
     [SerializeField] private PlayerInventory playerInventory;
     [SerializeField] private PlayerHealthAndXP playerHealth;
-    [SerializeField] private InspectionMenu inspectionMenu;
+    [SerializeField] public InspectionMenu inspectionMenu;
     [SerializeField] private Animator animator;
     [SerializeField] private GameObject playerUICanvas;
     private Rigidbody2D rb;

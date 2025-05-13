@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public interface IUpgradeable
     public abstract void ApplyUpgradeServerRpc(int itemId);
     public abstract void RemoveUpgradeServerRpc(int itemId);
     public abstract void RefreshUpgrades(); //loops through our Upgrades list and applies all of their affects. 
+    //public event Action OnSlotChanged;
     
     //this all makes sense to me I think
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.Services.Lobbies.Models;
@@ -30,10 +31,10 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     [SerializeField] public int level;
 
     [Header("Stat Modifiers")]
-    [SerializeField] public NetworkVariable<float> speedModifier {get; set;} = new NetworkVariable<float>(1.0f); //modifies attack rate
-    [SerializeField] public NetworkVariable<float> strengthModifier {get; set;} = new NetworkVariable<float>(1.0f); //modifies power
-    [SerializeField] public NetworkVariable<float> sizeModifier {get; set;} = new NetworkVariable<float>(1.0f); //modifies range
-    [SerializeField] public NetworkVariable<float> sturdyModifier {get; set;} = new NetworkVariable<float>(1.0f); //modifies max health
+    [SerializeField] public NetworkVariable<float> speedModifier {get; set;} = new NetworkVariable<float>(0); //modifies attack rate
+    [SerializeField] public NetworkVariable<float> strengthModifier {get; set;} = new NetworkVariable<float>(0); //modifies power
+    [SerializeField] public NetworkVariable<float> sizeModifier {get; set;} = new NetworkVariable<float>(0); //modifies range
+    [SerializeField] public NetworkVariable<float> sturdyModifier {get; set;} = new NetworkVariable<float>(0); //modifies max health
 
     [Header("References")]
     [SerializeField] protected LayerMask targetLayer;
@@ -59,6 +60,8 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     private bool isRotating;
     private float nextFireTime;
     private List<int> serverUpgradeItemIds = new();
+
+    //public event Action OnSlotChanged;
     #endregion
 
     #region ACCESSORS
@@ -151,14 +154,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     //     //TODO apply some modifier to stats (increase base stats)
     // }
 
-  
-    private void RefreshStats()
-    {
-        strength.Value = baseStrength.Value * (strengthModifier.Value/100+1);
-        speed.Value = baseSpeed.Value * (speedModifier.Value/100+1);
-        size.Value = baseSize.Value * (sizeModifier.Value/100+1);
-        sturdy.Value =  MaxHealth * (sturdyModifier.Value/100+1);
-    }
+
 
     private Transform GetNearestTarget()
     {
@@ -243,16 +239,6 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
         Debug.Log("Pointer Exited from BaseTower");
     }
 
-    public void OnInteract()
-    {
-        PopulateInteractionMenu();
-    }
-
-    public void PopulateInteractionMenu()
-    {
-        InspectionMenu.Instance.PopulateMenu(this.gameObject);
-    }
-
     public void OnXpGain()
     {
         //not sure if we want to do anything here, i don't think so..
@@ -305,12 +291,20 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
         {   
             Debug.Log("Did not apply stats. UpgradeItem is null");
         }
+
+        strength.Value = baseStrength.Value * (strengthModifier.Value/100+1);
+        speed.Value = baseSpeed.Value * (speedModifier.Value/100+1);
+        size.Value = baseSize.Value * (sizeModifier.Value/100+1);
+        sturdy.Value =  MaxHealth * (sturdyModifier.Value/100+1);
+
+        
+
         SyncUpgradesAndStatsClientRpc(serverUpgradeItemIds.ToArray());
     }
 
 
 
-    [ServerRpc(RequireOwnership =false)]
+    [ServerRpc(RequireOwnership = false)]
     public void RemoveUpgradeServerRpc(int itemId)
     {
         //! FOR NOW JUST GOING TO USE A SWITCH/CASE, THIS IS NOT SCALEABLE BUT GETS THE JOB DONE FOR NOW
@@ -347,6 +341,12 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
             }
             
         }
+
+        strength.Value = baseStrength.Value * (strengthModifier.Value/100+1);
+        speed.Value = baseSpeed.Value * (speedModifier.Value/100+1);
+        size.Value = baseSize.Value * (sizeModifier.Value/100+1);
+        sturdy.Value =  MaxHealth * (sturdyModifier.Value/100+1);
+
         SyncUpgradesAndStatsClientRpc(serverUpgradeItemIds.ToArray());
     }
 
@@ -369,6 +369,8 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
                 upgrades.AddRange(upItem.upgradeList);
             }
         }
+        //OnSlotChanged?.Invoke();
+        PlayerController.Instance.inspectionMenu?.PopulateMenu(this.gameObject, true);
     }
 
     public void RefreshUpgrades()
