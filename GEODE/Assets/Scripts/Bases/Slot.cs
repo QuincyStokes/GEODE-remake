@@ -12,6 +12,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     [SerializeField] protected Image itemSprite;
     [SerializeField] protected TMP_Text itemCount; 
     [HideInInspector] protected InventoryHandUI inventoryHand;
+    [SerializeField] protected GameObject tooltip;
 
     [Header("Background Images")]
     [SerializeField] protected Sprite selectedBackgroundImage;
@@ -69,7 +70,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
             itemCount.text = "";
         }
         canInteract = interactable;
-
+        BuildTooltip();
         //set the UI to match
         CheckItemDepleted();
     }
@@ -140,17 +141,28 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         itemSprite.color = new
         Color(1, 1, 1, 0);
         itemCount.text = "";
+
+        if(tooltip.activeSelf == true)
+        {
+            tooltip.SetActive(false);
+        }
     }
     //todo
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        
+        if(tooltip != null)
+        {
+            tooltip.SetActive(true);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        
+        if(tooltip != null)
+        {
+            tooltip.SetActive(false);
+        }
     }
 
 
@@ -237,5 +249,10 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
                 
             }
         }
+    }
+
+    private void BuildTooltip()
+    {
+        //TODO 
     }
 }
