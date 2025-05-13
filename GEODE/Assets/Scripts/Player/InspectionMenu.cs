@@ -97,16 +97,16 @@ public class InspectionMenu : MonoBehaviour
             SetGroup(statsThings, true);
             //CAN DO CUSTOM COLOR BY DOING <COLOR=#ffffff>
             //STRENGTH
-            strength.text = $"<color=red>{stats.Strength}</color> = {stats.BaseStrength}(<color=red>+{(stats.BaseStrength * ((stats.StrengthModifier/100)+1))-stats.BaseStrength}</color>)";
+            strength.text = $"<color=red>{stats.strength.Value}</color> = {stats.baseStrength.Value}(<color=red>+{(stats.baseStrength.Value * ((stats.strengthModifier.Value/100)+1))-stats.baseStrength.Value}</color>)";
 
             //SPEED
-            speed.text = $"<color=yellow>{stats.Speed}</color> = {stats.BaseSpeed}(<color=yellow>+{(stats.BaseSpeed * ((stats.SpeedModifier/100)+1))-stats.BaseSpeed}</color>)";
+            speed.text = $"<color=yellow>{stats.speed.Value}</color> = {stats.baseSpeed.Value}(<color=yellow>+{(stats.baseSpeed.Value * ((stats.speedModifier.Value/100)+1))-stats.baseSpeed.Value}</color>)";
 
             //SIZE
-            size.text = $"<color=green>{stats.Size}</color> = {stats.BaseSize}(<color=green>+{(stats.BaseSize * ((stats.SizeModifier/100)+1))-stats.BaseSize}</color>)";
+            size.text = $"<color=green>{stats.size.Value}</color> = {stats.baseSize.Value}(<color=green>+{(stats.baseSize.Value * ((stats.sizeModifier.Value/100)+1))-stats.baseSize.Value}</color>)";
 
             //STURDY
-            sturdy.text = $"<color=blue>{stats.Sturdy}</color> = {bo.MaxHealth}(<color=blue>+{(bo.MaxHealth * ((stats.SturdyModifier/100)+1))-bo.MaxHealth}</color>)";
+            sturdy.text = $"<color=blue>{stats.sturdy.Value}</color> = {bo.MaxHealth}(<color=blue>+{(bo.MaxHealth * ((stats.sturdyModifier.Value/100)+1))-bo.MaxHealth}</color>)";
 
         }
         else

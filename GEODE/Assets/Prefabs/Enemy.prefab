@@ -256,6 +256,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   Id: 0
+  sr: {fileID: 6974662852891349937}
   maxHealth: 30
   currentHealth: 30
   attackDamage: 10
@@ -263,10 +264,10 @@ MonoBehaviour:
   attackCooldown: 3
   movementSpeed: 2
   droppedItems:
-  - Id: 25
+  - Id: 29
     minAmount: 1
     maxAmount: 1
-    chance: 100
+    chance: 10
   structureLayerMask:
     serializedVersion: 2
     m_Bits: 2176

@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -13,6 +15,9 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable
     #region PROPERTIES
     [Header("ID")]
     public int Id;
+
+    [Header("References")]
+    [SerializeField] private SpriteRenderer sr;
 
     [Header("Enemy Settings")]
     [SerializeField]private float maxHealth;
@@ -150,6 +155,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable
     public void OnTakeDamage(float amount, Vector2 source)
     {
         DisplayDamageFloaterClientRpc(amount);
+        OnDamageColorChangeClientRpc();
         if(source!=Vector2.zero)
         {
             Vector3 dir = (Vector2)transform.position - source;
@@ -217,6 +223,19 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable
             damageFloater = Instantiate(GameAssets.Instance.damageFloater, transform.position, Quaternion.identity);
         }
         damageFloater.GetComponent<DamageFloater>().Initialize(amount);
+    }
+
+    [ClientRpc]
+    public void OnDamageColorChangeClientRpc()
+    {
+        StartCoroutine(FlashDamage(.3f));
+    }
+
+    private IEnumerator FlashDamage(float time)
+    {
+        sr.color = Color.red;
+        yield return new WaitForSeconds(time);
+        sr.color = Color.white;
     }
 
     [ServerRpc]

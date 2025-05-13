@@ -14,6 +14,14 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     [HideInInspector] protected InventoryHandUI inventoryHand;
     [SerializeField] protected GameObject tooltip;
 
+    [Header("Tooltip References")]
+    [SerializeField] protected TMP_Text tooltipItemName;
+    [SerializeField] protected TMP_Text tooltipItemDescription;
+    [SerializeField] protected TMP_Text tooltipItemType;
+    [SerializeField] protected TMP_Text tooltipItemStats;
+    [SerializeField] protected TMP_Text tooltipItemQuality;
+    
+
     [Header("Background Images")]
     [SerializeField] protected Sprite selectedBackgroundImage;
     [SerializeField] protected Sprite deselectedBackgroundImage;
@@ -70,7 +78,10 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
             itemCount.text = "";
         }
         canInteract = interactable;
-        BuildTooltip();
+        if(item != null)
+        {
+            BuildTooltip();
+        }
         //set the UI to match
         CheckItemDepleted();
     }
@@ -151,7 +162,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if(tooltip != null)
+        if(tooltip != null && item != null)
         {
             tooltip.SetActive(true);
         }
@@ -159,7 +170,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if(tooltip != null)
+        if(tooltip != null  && item != null)
         {
             tooltip.SetActive(false);
         }
@@ -254,5 +265,66 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     private void BuildTooltip()
     {
         //TODO 
+        //First disable all text objects (could put these in a list, but I want them by name)
+        tooltipItemName.gameObject.SetActive(false);
+        tooltipItemDescription.gameObject.SetActive(false);
+        tooltipItemType.gameObject.SetActive(false);
+        tooltipItemStats.gameObject.SetActive(false);
+        tooltipItemQuality.gameObject.SetActive(false);
+        
+        //Enable and Set the text of each relevant tooltip section
+
+        //First, Basic Item properties
+        tooltipItemName.gameObject.SetActive(true);
+        tooltipItemName.text = item.name;
+
+        tooltipItemDescription.gameObject.SetActive(true);
+        tooltipItemDescription.text = item.Description;
+
+        tooltipItemType.gameObject.SetActive(true);
+        tooltipItemType.text = item.Type.ToString();
+
+        //Now we need to cover different itemTypes
+        tooltipItemStats.text = "";
+        switch(item.Type)
+        {
+            case ItemType.Tool:
+                tooltipItemStats.gameObject.SetActive(true);
+                
+                //tooltipItemStats.text += item.speed; HAVENT ACTUALLY IMPLEMENTED SWING SPEED YET (or damage)
+                tooltipItemStats.text += "DMG | <color=red>99</color>\n";
+                tooltipItemStats.text += "SPD | <color=yellow>99</color>\n";
+                break;
+
+            case ItemType.Weapon:
+                tooltipItemStats.gameObject.SetActive(true);
+                //tooltipItemStats.text += item.speed; HAVENT ACTUALLY IMPLEMENTED SWING SPEED YET (or damage)
+                tooltipItemStats.text += "DMG | <color=red>99</color>\n";
+                tooltipItemStats.text += "SPD | <color=yellow>99</color>\n";
+                break;
+
+            case ItemType.Upgrade:
+                tooltipItemStats.gameObject.SetActive(true);
+                UpgradeItem upgItem = item as UpgradeItem;
+                if(upgItem != null)
+                {
+                    tooltipItemQuality.text = "\n" + upgItem.Quality.ToString() + "%";
+                    foreach(Upgrade upgrade in upgItem.upgradeList)
+                    {
+                        tooltipItemStats.text += $"{upgrade.upgradeType} : {upgrade.percentIncrease}\n";
+                    }
+                }
+                break;
+            
+            case ItemType.Structure:
+                StructureItem structItem = item as StructureItem;
+                if(structItem != null)
+                {
+                    tooltipItemStats.text += $"Health = {structItem.prefab.GetComponent<BaseObject>()?.MaxHealth}\n";
+                    tooltipItemStats.text += $"Size = {structItem.width}x{structItem.height}\n";
+                }
+                
+                break;
+        }
     }
 }

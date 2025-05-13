@@ -1,55 +1,56 @@
+using Unity.Netcode;
 using UnityEngine;
 
 public interface IStats
 {
     [Header("Base Stats")]
-    public float BaseSpeed
+    public NetworkVariable<float> baseSpeed
     {
         get; set;
     }
 
-    public float BaseStrength
+    public NetworkVariable<float> baseStrength
     {
         get; set;
     }
 
-    public float BaseSize
+    public NetworkVariable<float> baseSize
     {
         get; set;
     }
 
     [Header("Stat Modifiers")]
-    public float SpeedModifier
+    public NetworkVariable<float> speedModifier
     {
         get; set;
     }
-    public float StrengthModifier
+    public NetworkVariable<float> strengthModifier
     {
         get; set;
     }
-    public float SizeModifier
+    public NetworkVariable<float> sizeModifier
     {
         get; set;
     }
-    public float SturdyModifier
+    public NetworkVariable<float> sturdyModifier
     {
         get; set;
     }
 
     //* ---------- INTERNAL FINAL STATS ---------------
-    public float Speed
+    public NetworkVariable<float> speed
     {
         get; set;
     }
-    public float Strength
+    public NetworkVariable<float> strength
     {
         get; set;
     }
-    public float Size
+    public NetworkVariable<float> size
     {
         get; set;
     }
-    public float Sturdy
+    public NetworkVariable<float> sturdy
     {
         get; set;
     }

@@ -15,6 +15,7 @@ public abstract class BaseItem : ScriptableObject
     [SerializeField]private ItemType type;
     [SerializeField]private Sprite icon;
     [SerializeField]private int id;
+    [SerializeField]private int quality;
     [SerializeField]private bool isStackable;
     [SerializeField]private bool consumeOnUse;
 
@@ -46,6 +47,12 @@ public abstract class BaseItem : ScriptableObject
     {
         get => id;
         private set => id = value;
+    }
+
+    public int Quality
+    {
+        get => quality;
+        private set => quality = value;
     }
 
     public bool IsStackable

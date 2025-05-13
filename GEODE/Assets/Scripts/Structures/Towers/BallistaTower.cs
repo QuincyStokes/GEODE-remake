@@ -9,7 +9,7 @@ public class BallistaTower : BaseTower
     public override void Fire()
     {
        GameObject bolt = Instantiate(projectilePrefab, firePoint.position, tower.transform.rotation);
-       bolt.GetComponent<BaseProjectile>().Initialize(strength, (currentTarget.position - tower.transform.position).normalized);
+       bolt.GetComponent<BaseProjectile>().Initialize(strength.Value, (currentTarget.position - tower.transform.position).normalized);
        
     }
 

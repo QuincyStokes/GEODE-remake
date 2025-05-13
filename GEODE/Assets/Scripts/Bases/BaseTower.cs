@@ -11,9 +11,15 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     #region PROPERTIES
 
     [Header("Tower Stats")]
-    [SerializeField] public float baseSpeed;  //attack rate
-    [SerializeField] public float baseStrength; //damage/power of attack
-    [SerializeField] public float baseSize; //range of attack
+
+    [SerializeField] private float BASE_SPEED;
+    [SerializeField] private float BASE_STRENGTH;
+    [SerializeField] private float BASE_SIZE;
+    
+    public NetworkVariable<float> baseSpeed {get; set;} = new NetworkVariable<float>(1f);  //attack rate
+    public NetworkVariable<float> baseStrength {get; set;} = new NetworkVariable<float>(1f);//damage/power of attack
+    public NetworkVariable<float> baseSize{get; set;} = new NetworkVariable<float>(1f);//range of attack
+
     [SerializeField] private float rotationSpeed;
     [SerializeField] private bool rotates;
 
@@ -24,10 +30,10 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     [SerializeField] public int level;
 
     [Header("Stat Modifiers")]
-    [SerializeField] private float speedModifier = 1.0f; //modifies attack rate
-    [SerializeField] private float strengthModifier = 1.0f; //modifies power
-    [SerializeField] private float sizeModifier = 1.0f; //modifies range
-    [SerializeField] private float sturdyModifier = 1.0f; //modifies max health
+    [SerializeField] public NetworkVariable<float> speedModifier {get; set;} = new NetworkVariable<float>(1.0f); //modifies attack rate
+    [SerializeField] public NetworkVariable<float> strengthModifier {get; set;} = new NetworkVariable<float>(1.0f); //modifies power
+    [SerializeField] public NetworkVariable<float> sizeModifier {get; set;} = new NetworkVariable<float>(1.0f); //modifies range
+    [SerializeField] public NetworkVariable<float> sturdyModifier {get; set;} = new NetworkVariable<float>(1.0f); //modifies max health
 
     [Header("References")]
     [SerializeField] protected LayerMask targetLayer;
@@ -37,10 +43,10 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
 
 
     // final stats
-    [HideInInspector]public float speed;
-    [HideInInspector]public float strength;
-    [HideInInspector]public float size;
-    [HideInInspector]public float sturdy;
+    [HideInInspector]public NetworkVariable<float> speed {get; set;} = new NetworkVariable<float>(1f);
+    [HideInInspector]public NetworkVariable<float> strength {get; set;} = new NetworkVariable<float>(1f);
+    [HideInInspector]public NetworkVariable<float> size {get; set;} = new NetworkVariable<float>(1f);
+    [HideInInspector]public NetworkVariable<float> sturdy {get; set;} = new NetworkVariable<float>(1f);
 
     //Upgrade privates
     [HideInInspector] public List<Upgrade> upgrades = new List<Upgrade>();
@@ -57,24 +63,6 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
 
     #region ACCESSORS
 
-    //* BASE STAT VALUES
-    public float BaseSpeed{get=>baseSpeed; set=> baseSpeed = value;} //
-    public float BaseStrength{get=>baseStrength; set=> baseStrength = value;}
-    public float BaseSize{get=>baseSize; set=> baseSize = value;}
-
-    //* STAT MODIFIERS
-    public float SturdyModifier { get => sturdyModifier; set => sturdyModifier = value;}
-    public float SpeedModifier { get => speedModifier; set => speedModifier = value; }
-    public float SizeModifier { get => sizeModifier; set => sizeModifier = value; }
-    public float StrengthModifier { get => strengthModifier; set => strengthModifier = value; }
-
-    //* STAT TOTALS
-
-    public float Sturdy { get => sturdy; set => sturdy = value;}
-    public float Speed { get => speed; set => speed = value; }
-    public float Size { get => size; set => size = value; }
-    public float Strength { get => strength; set => strength = value; }
-
     public int Level { get => level; set => level = value;}
     public int MaximumLevelXp { get => maximumLevelXp; set => maximumLevelXp = value;}
     public int CurrentXp { get => currentXp; set => currentXp = value; }
@@ -90,16 +78,27 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
 
     #region METHODS
 
-    private void Awake()
+    public override void OnNetworkSpawn()
     {
+        base.OnNetworkSpawn();
+        InitializeBaseStats();
         if(detectionCollider != null)
         {
-            detectionCollider.radius = size;
+            detectionCollider.radius = size.Value;
         }
+    }
 
-        RefreshStats();
+    private void InitializeBaseStats()
+    {
+        if(!IsServer) {return;}
+        baseSpeed.Value = BASE_SPEED;
+        baseSize.Value = BASE_SIZE;
+        baseStrength.Value = BASE_STRENGTH;
 
-        detectionCollider.radius = size;
+        strength.Value = baseStrength.Value * (strengthModifier.Value/100+1);
+        speed.Value = baseSpeed.Value * (speedModifier.Value/100+1);
+        size.Value = baseSize.Value * (sizeModifier.Value/100+1);
+        sturdy.Value =  MaxHealth * (sturdyModifier.Value/100+1);
     }
 
     private void Update()
@@ -120,14 +119,14 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
                     {
                         Fire();
                         Debug.Log("Firing.");
-                        nextFireTime = Time.time + 1f / speed;
+                        nextFireTime = Time.time + 1f / speed.Value;
                     }
                 }
                 else if(Time.time >= nextFireTime)
                 {
                     Debug.Log("Does not rotate. Firing!");
                     Fire();
-                    nextFireTime = Time.time + 1f / speed;
+                    nextFireTime = Time.time + 1f / speed.Value;
                 }
                 
             }
@@ -155,15 +154,15 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
   
     private void RefreshStats()
     {
-        strength = baseStrength * (StrengthModifier/100+1);
-        speed = baseSpeed * (SpeedModifier/100+1);
-        size = baseSize * (SizeModifier/100+1);
-        sturdy =  MaxHealth * (SturdyModifier/100+1);//notably, MaxHealth is derived from BaseObject
+        strength.Value = baseStrength.Value * (strengthModifier.Value/100+1);
+        speed.Value = baseSpeed.Value * (speedModifier.Value/100+1);
+        size.Value = baseSize.Value * (sizeModifier.Value/100+1);
+        sturdy.Value =  MaxHealth * (sturdyModifier.Value/100+1);
     }
 
     private Transform GetNearestTarget()
     {
-        float currentClosest = size*2; //arbitrary number, fine to set it to range*2 because that will always be outside of our range
+        float currentClosest = size.Value*2; //arbitrary number, fine to set it to range*2 because that will always be outside of our range
         if(targets.Count == 0)
         {
             currentTarget = null;
@@ -227,7 +226,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(tower.transform.position, size);
+        Gizmos.DrawWireSphere(tower.transform.position, size.Value);
     }
 
     public abstract void Fire();
@@ -284,16 +283,16 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
                 switch(upgrade.upgradeType)
                 {
                     case UpgradeType.Strength:
-                        StrengthModifier += upgrade.percentIncrease;
+                        strengthModifier.Value += upgrade.percentIncrease;
                         break;
                     case UpgradeType.Speed:
-                        SpeedModifier += upgrade.percentIncrease;
+                        speedModifier.Value += upgrade.percentIncrease;
                         break;
                     case UpgradeType.Size:
-                        SizeModifier += upgrade.percentIncrease;
+                        sizeModifier.Value += upgrade.percentIncrease;
                         break;
                     case UpgradeType.Sturdy:
-                        SturdyModifier += upgrade.percentIncrease;
+                        sturdyModifier.Value += upgrade.percentIncrease;
                         break;
                     default:
                         break;
@@ -330,16 +329,16 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
                 switch(upgrade.upgradeType)
                 {
                     case UpgradeType.Strength:
-                        StrengthModifier -= upgrade.percentIncrease;
+                        strengthModifier.Value -= upgrade.percentIncrease;
                         break;
                     case UpgradeType.Speed:
-                        SpeedModifier -= upgrade.percentIncrease;
+                        speedModifier.Value -= upgrade.percentIncrease;
                         break;
                     case UpgradeType.Size:
-                        SizeModifier -= upgrade.percentIncrease;
+                        sizeModifier.Value -= upgrade.percentIncrease;
                         break;
                     case UpgradeType.Sturdy:
-                        SturdyModifier -= upgrade.percentIncrease;
+                        sturdyModifier.Value -= upgrade.percentIncrease;
                         break;
                     default:
                         break;
@@ -356,7 +355,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     {
         //First, clear our ItemUpgrades list to start fresh
         serverUpgradeItemIds = new List<int>(itemIds);
-
+        //! JUST MAKE THE STATS NETWORK VARIABLES I THINK
         upgradeItems.Clear();
         upgrades.Clear();
 
@@ -370,11 +369,6 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
                 upgrades.AddRange(upItem.upgradeList);
             }
         }
-
-        strength = baseStrength * (StrengthModifier/100+1);
-        speed = baseSpeed * (SpeedModifier/100+1);
-        size = baseSize * (SizeModifier/100+1);
-        sturdy =  MaxHealth * (SturdyModifier/100+1);//notably, MaxHealth is derived from BaseObject
     }
 
     public void RefreshUpgrades()

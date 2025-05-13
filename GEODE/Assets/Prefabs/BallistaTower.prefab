@@ -322,28 +322,20 @@ MonoBehaviour:
   centerPoint: {fileID: 0}
   description: 
   objectSprite: {fileID: 0}
-  baseSpeed: 2
-  baseStrength: 10
-  baseSize: 7
+  BASE_SPEED: 5
+  BASE_STRENGTH: 10
+  BASE_SIZE: 7
   rotationSpeed: 40
   rotates: 1
   maximumLevelXp: 100
   currentXp: 0
   currentTotalXp: 0
   level: 1
-  speedModifier: 0
-  strengthModifier: 50
-  sizeModifier: 0
-  sturdyModifier: 80
   targetLayer:
     serializedVersion: 2
     m_Bits: 512
   detectionCollider: {fileID: 2077050480769059596}
   tower: {fileID: 4543848016171230497}
-  speed: 1
-  strength: 1
-  size: 1
-  sturdy: 1
   upgrades: []
   upgradeItems: []
   projectilePrefab: {fileID: 3971315044739012625, guid: 6adc3bbc20934134e95286598253a603, type: 3}

@@ -26,7 +26,6 @@ public class Loot : NetworkBehaviour
         itemId.OnValueChanged += OnItemIdChanged;
     }
 
-    
 
     private void OnTriggerEnter2D(Collider2D other)
     {
