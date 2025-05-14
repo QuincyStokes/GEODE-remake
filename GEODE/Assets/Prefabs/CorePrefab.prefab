@@ -323,7 +323,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -3158003992202558021, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
+  m_Sprite: {fileID: 2833242549449789950, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -408,6 +408,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  BASE_HEALTH: 0
   maxHealth:
     m_InternalValue: 100
   currentHealth:

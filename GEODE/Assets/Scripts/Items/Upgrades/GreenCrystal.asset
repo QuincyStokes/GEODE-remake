@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dd03a3836b0ecfc4e877af96d30a870c, type: 3}
-  m_Name: RedCrystal
+  m_Name: GreenCrystal
   m_EditorClassIdentifier: 
-  name: Red Crystal
-  description: A glowing red crystal shard
+  name: Green Crystal
+  description: A glowing green crystal, upgrades size!
   type: 5
-  icon: {fileID: 2018568419415810458, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
-  id: 29
+  icon: {fileID: -4518530809162081342, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
+  id: 30
   quality: 0
   isStackable: 1
   consumeOnUse: 0
   upgradeList:
-  - upgradeType: 0
+  - upgradeType: 2
     percentIncrease: 50

@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dd03a3836b0ecfc4e877af96d30a870c, type: 3}
-  m_Name: RedCrystal
+  m_Name: BlueCrystal
   m_EditorClassIdentifier: 
-  name: Red Crystal
-  description: A glowing red crystal shard
+  name: Blue Crystal
+  description: A glowing blue crystal. Upgrades Health!
   type: 5
   icon: {fileID: 2018568419415810458, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
-  id: 29
+  id: 31
   quality: 0
   isStackable: 1
   consumeOnUse: 0
   upgradeList:
-  - upgradeType: 0
-    percentIncrease: 50
+  - upgradeType: 3
+    percentIncrease: 30
