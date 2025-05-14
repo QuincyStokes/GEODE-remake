@@ -1,13 +1,8 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.Mathematics;
 using Unity.Netcode;
-using Unity.Services.Matchmaker.Models;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Scripting.APIUpdating;
 
 public class PlayerController : NetworkBehaviour, IKnockbackable
 {
@@ -20,6 +15,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
     [SerializeField] private GameObject playerUICanvas;
     private Rigidbody2D rb;
     [SerializeField] public GameObject attackHitbox; //TEMP
+    [SerializeField] public Animator attackAnimator;
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed;
@@ -40,13 +36,6 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
         NetworkVariableWritePermission.Server
     );
 
-
-    
-    [Header("Health")]
-    [SerializeField] private float maxHealth;
-    private float currentHealth;
-
-
     //INPUTS  -----------------------
     [Header("Input")]
     [SerializeField] public PlayerInputActionMap playerInput; //this is the input action map, essentially there are a bunch of actions we can grab and assign
@@ -54,6 +43,8 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
     private InputAction mouseInput;
     private Vector3 mousePos;
     private Vector3Int previousMousePosInt;
+    [SerializeField] private float swingCooldown;
+    private float swingCooldownTimer = 0f;
 
     [Header("Interaction Layer Mask")]
     [SerializeField] private LayerMask interactableLayerMask;
@@ -196,6 +187,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
             return;
         }
         MousePositionHandler();
+        CooldownTimer();
     }
 
     private void FixedUpdate()
@@ -223,6 +215,10 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
             lastMovedDir = finalVelocity.normalized;
         }
 
+        float hitboxAngle = Mathf.Atan2(lastMovedDir.y, lastMovedDir.x) * Mathf.Rad2Deg;
+        float angle = Mathf.Round(hitboxAngle / 90) * 90f + 90;
+        attackHitbox.transform.localRotation = Quaternion.Euler(0, 0, angle);
+
         animator.SetFloat("moveX", lastMovedDir.x);
         animator.SetFloat("moveY", lastMovedDir.y);
         animator.SetFloat("velocity", finalVelocity.magnitude);
@@ -234,7 +230,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
         {
             UpdateMovementServerRpc(lastMovedDir, finalVelocity.magnitude);
         }
-
+        //attackHitbox.gameObject.transform.localPosition = lastMovedDir;
         externalVelocity = Vector2.Lerp(externalVelocity, Vector2.zero, knockbackDecay * Time.fixedDeltaTime);
     }
 
@@ -356,15 +352,31 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
 
     public void Attack()
     {
-        StartCoroutine(DoAttack());
+        if(swingCooldownTimer >= swingCooldown)
+        {
+            StartCoroutine(DoAttack());
+        }
+        
     }
 
     private IEnumerator DoAttack()
     {
         //Debug.Log("Attacking!");
         Instance.attackHitbox.SetActive(true);
+        attackAnimator.SetTrigger("Swing");
+        moveSpeed /= 2;
         yield return new WaitForSeconds(.1f);
         Instance.attackHitbox.SetActive(false);
+        moveSpeed *= 2;
+        swingCooldownTimer = 0f;
+    }
+
+    private void CooldownTimer()
+    {
+        if(swingCooldownTimer < swingCooldown)
+        {
+            swingCooldownTimer += Time.deltaTime;
+        }
     }
 
 

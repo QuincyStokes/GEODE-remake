@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine;
 public abstract class BaseObject : NetworkBehaviour, IDamageable
 {
     [Header("Properties")]
+    [SerializeField] private float BASE_HEALTH;
     [SerializeField] private NetworkVariable<float> maxHealth = new NetworkVariable<float>(
         1,
         NetworkVariableReadPermission.Everyone,
@@ -47,12 +49,21 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
     [HideInInspector] public string description;
     [HideInInspector] public Sprite objectSprite;
 
+    private SpriteRenderer sr;
+
     public Transform ObjectTransform 
     { 
         get => transform;
     }
 
     //METHODS
+
+    private void Start()
+    {
+        sr = GetComponentInChildren<SpriteRenderer>();   
+        MaxHealth = BASE_HEALTH;
+        CurrentHealth = MaxHealth;
+    }
 
 
     [ServerRpc(RequireOwnership = false)]
@@ -109,7 +120,20 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
 
     public void OnTakeDamage(float amount, Vector2 sourceDirection)
     {
-        //
+        OnDamageColorChangeClientRpc();
+    }
+
+    [ClientRpc]
+    public void OnDamageColorChangeClientRpc()
+    {
+        StartCoroutine(FlashDamage(.15f));
+    }
+
+    private IEnumerator FlashDamage(float time)
+    {
+        sr.color = Color.red;
+        yield return new WaitForSeconds(time);
+        sr.color = Color.white;
     }
 
     [ServerRpc]

@@ -14,6 +14,8 @@ public interface IDamageable
    public abstract void DestroyThisServerRpc(bool dropItems);
    public abstract void DropItemsServerRpc();
    public abstract void DisplayDamageFloaterClientRpc(float amount);
+   public abstract void OnDamageColorChangeClientRpc();
+   
 
    public abstract void OnTakeDamage(float amount, Vector2 source);
 

@@ -309,6 +309,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  BASE_HEALTH: 100
   maxHealth:
     m_InternalValue: 100
   currentHealth:
@@ -322,9 +323,9 @@ MonoBehaviour:
   centerPoint: {fileID: 0}
   description: 
   objectSprite: {fileID: 0}
-  BASE_SPEED: 5
+  BASE_SPEED: 1
   BASE_STRENGTH: 10
-  BASE_SIZE: 7
+  BASE_SIZE: 4
   rotationSpeed: 40
   rotates: 1
   maximumLevelXp: 100

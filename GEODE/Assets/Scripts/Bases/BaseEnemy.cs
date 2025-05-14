@@ -228,7 +228,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable
     [ClientRpc]
     public void OnDamageColorChangeClientRpc()
     {
-        StartCoroutine(FlashDamage(.3f));
+        StartCoroutine(FlashDamage(.15f));
     }
 
     private IEnumerator FlashDamage(float time)

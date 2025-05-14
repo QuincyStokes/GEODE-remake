@@ -346,10 +346,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  BASE_HEALTH: 8
   maxHealth:
-    m_InternalValue: 1
+    m_InternalValue: 8
   currentHealth:
-    m_InternalValue: 1
+    m_InternalValue: 8
   droppedItems:
   - Id: 1
     minAmount: 4

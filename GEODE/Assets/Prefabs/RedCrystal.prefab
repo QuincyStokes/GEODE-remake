@@ -582,6 +582,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  BASE_HEALTH: 0
   maxHealth:
     m_InternalValue: 100
   currentHealth:
@@ -589,7 +590,11 @@ MonoBehaviour:
   droppedItems:
   - Id: 29
     minAmount: 1
-    maxAmount: 2
+    maxAmount: 1
+    chance: 50
+  - Id: 2
+    minAmount: 1
+    maxAmount: 3
     chance: 100
   objectName: Red Geode
   centerPoint: {fileID: 5222662708037614757}

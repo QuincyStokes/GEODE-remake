@@ -292,15 +292,14 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
                 tooltipItemStats.gameObject.SetActive(true);
                 
                 //tooltipItemStats.text += item.speed; HAVENT ACTUALLY IMPLEMENTED SWING SPEED YET (or damage)
-                tooltipItemStats.text += "DMG | <color=red>99</color>\n";
-                tooltipItemStats.text += "SPD | <color=yellow>99</color>\n";
+                tooltipItemStats.text += "DMG | NA\nSPD | NA";
+                
                 break;
 
             case ItemType.Weapon:
                 tooltipItemStats.gameObject.SetActive(true);
                 //tooltipItemStats.text += item.speed; HAVENT ACTUALLY IMPLEMENTED SWING SPEED YET (or damage)
-                tooltipItemStats.text += "DMG | <color=red>99</color>\n";
-                tooltipItemStats.text += "SPD | <color=yellow>99</color>\n";
+                tooltipItemStats.text += "DMG | NA\nSPD | NA";
                 break;
 
             case ItemType.Upgrade:

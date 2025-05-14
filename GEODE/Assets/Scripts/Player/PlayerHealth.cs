@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
+using System.Collections;
 
 
 public class PlayerHealthAndXP : MonoBehaviour, IDamageable, IExperienceGain
@@ -23,6 +24,7 @@ public class PlayerHealthAndXP : MonoBehaviour, IDamageable, IExperienceGain
     [SerializeField] private List<DroppedItem> droppedItems;
 
     [Header("References")]
+    [SerializeField] private SpriteRenderer sr;
     [SerializeField] private Transform objectTransform;
     [SerializeField] private string objectName;
     
@@ -115,6 +117,7 @@ public class PlayerHealthAndXP : MonoBehaviour, IDamageable, IExperienceGain
     public void OnTakeDamage(float amount, Vector2 sourceDirection)
     {
         DisplayDamageFloaterClientRpc(amount);
+        OnDamageColorChangeClientRpc();
         UpdateHealthbar();
     }
 
@@ -139,6 +142,19 @@ public class PlayerHealthAndXP : MonoBehaviour, IDamageable, IExperienceGain
             //drop some portion of items or lose xp? or maybe nothing
             //wait x amount of time, respawn at core
         }
+    }
+
+    [ClientRpc]
+    public void OnDamageColorChangeClientRpc()
+    {
+        StartCoroutine(FlashDamage(.15f));
+    }
+
+    private IEnumerator FlashDamage(float time)
+    {
+        sr.color = Color.red;
+        yield return new WaitForSeconds(time);
+        sr.color = Color.white;
     }
 
     public void UpdateHealthbar()
