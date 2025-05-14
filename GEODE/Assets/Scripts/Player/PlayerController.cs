@@ -310,7 +310,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
 
             if(go != null)
             {
-                inspectionMenu.PopulateMenu(go);
+                inspectionMenu.DoMenu(go);
             }
             else
             {

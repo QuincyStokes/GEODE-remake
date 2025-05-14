@@ -46,32 +46,28 @@ public class InspectionMenu : MonoBehaviour
     {
     }
 
-    public void PopulateMenu(GameObject go, bool refresh=false)
+
+    public void DoMenu(GameObject go)
     {
-        //TODO think about having these things constantly set in Update, so we can see changes live
-
-        //if we're repopulating the same object but *dont* want to refresh, return;
-        if(go == currentInspectedObject && refresh==false)
+        if(currentInspectedObject == null)
         {
-            return;
+            PopulateMenu(go);
+        }
+        else if (go != currentInspectedObject)
+        {
+            DePopulateMenu();
+            PopulateMenu(go);
+        }
+        else
+        {
+            //do nothing since we're already inspecting this object
         }
 
-        //if we're not inspecting the passed in object, but *do* want to refresh it, that means this player is inspecting a different object, we should not update
-        if(go != currentInspectedObject && refresh == true)
-        {
-            return;
-        }
+    }
 
-    
-        foreach(UpgradeSlot upgradeSlot in upgradeSlots)
-        {
-            UnsubscribeFromSlot(upgradeSlot);
-            Destroy(upgradeSlot.gameObject);
-           
-        }
-        upgradeSlots.Clear();
-        
-        
+    public void PopulateMenu(GameObject go)
+    {
+        //TODO think about having these things constantly set in Update, so we can see changes live        
         currentInspectedObject = go;
 
         if(InspectionMenuHolder.activeSelf == false)
@@ -108,16 +104,15 @@ public class InspectionMenu : MonoBehaviour
             SetGroup(statsThings, true);
             //CAN DO CUSTOM COLOR BY DOING <COLOR=#ffffff>
             //STRENGTH
-            strength.text = $"<color=red>{stats.strength.Value}</color> = {stats.baseStrength.Value}(<color=red>+{(stats.baseStrength.Value * ((stats.strengthModifier.Value/100)+1))-stats.baseStrength.Value}</color>)";
+        
+            //* Subscribe to the NV's callbacks
 
-            //SPEED
-            speed.text = $"<color=yellow>{stats.speed.Value}</color> = {stats.baseSpeed.Value}(<color=yellow>+{(stats.baseSpeed.Value * ((stats.speedModifier.Value/100)+1))-stats.baseSpeed.Value}</color>)";
+            stats.strength.OnValueChanged += RefreshStats;
+            stats.speed.OnValueChanged += RefreshStats;
+            stats.size.OnValueChanged += RefreshStats;
+            stats.sturdy.OnValueChanged += RefreshStats;
 
-            //SIZE
-            size.text = $"<color=green>{stats.size.Value}</color> = {stats.baseSize.Value}(<color=green>+{(stats.baseSize.Value * ((stats.sizeModifier.Value/100)+1))-stats.baseSize.Value}</color>)";
-
-            //STURDY
-            sturdy.text = $"<color=blue>{stats.sturdy.Value}</color> = {bo.MaxHealth}(<color=blue>+{(bo.MaxHealth * ((stats.sturdyModifier.Value/100)+1))-bo.MaxHealth}</color>)";
+            RefreshStats(0f,0f);
 
         }
         else
@@ -158,17 +153,75 @@ public class InspectionMenu : MonoBehaviour
                 
             }
 
+            upg.OnUpgradesChanged += RefreshUpgrades;
+
             //SET THE SLOTS
             for(int i = 0; i < upg.UpgradeItems.Count; ++i)
             {
                 upgradeSlots[i].SetItem(upg.UpgradeItems[i].Id, 1, true);
             }
-
         }
         else
         {
             SetGroup(upgradeThings, false);
         }
+    }
+
+    private void RefreshStats(float oldValue, float newValue)
+    {
+        IStats stats = currentInspectedObject.GetComponent<IStats>();
+        if(currentInspectedObject != null && stats != null)
+        {
+            strength.text = $"<color=red>{stats.strength.Value}</color> = {stats.baseStrength.Value}(<color=red>+{(stats.baseStrength.Value * ((stats.strengthModifier.Value/100)+1))-stats.baseStrength.Value}</color>)";
+
+            //SPEED
+            speed.text = $"<color=yellow>{stats.speed.Value}</color> = {stats.baseSpeed.Value}(<color=yellow>+{(stats.baseSpeed.Value * ((stats.speedModifier.Value/100)+1))-stats.baseSpeed.Value}</color>)";
+
+            //SIZE
+            size.text = $"<color=green>{stats.size.Value}</color> = {stats.baseSize.Value}(<color=green>+{(stats.baseSize.Value * ((stats.sizeModifier.Value/100)+1))-stats.baseSize.Value}</color>)";
+        }
+
+        BaseObject bo = currentInspectedObject.GetComponent<BaseObject>();
+        if(currentInspectedObject != null && bo != null)
+        {
+            //STURDY
+            sturdy.text = $"<color=blue>{stats.sturdy.Value}</color> = {bo.MaxHealth}(<color=blue>+{(bo.MaxHealth * ((stats.sturdyModifier.Value/100)+1))-bo.MaxHealth}</color>)";
+        }
+    }
+
+    private void RefreshUpgrades()
+    {
+        GameObject go = currentInspectedObject;
+        DePopulateMenu();
+        PopulateMenu(go);
+    }
+
+    public void DePopulateMenu()
+    {
+        foreach(UpgradeSlot upgradeSlot in upgradeSlots)
+        {
+            UnsubscribeFromSlot(upgradeSlot);
+            Destroy(upgradeSlot.gameObject);
+           
+        }
+        upgradeSlots.Clear();
+
+        IUpgradeable upg = currentInspectedObject.GetComponent<IUpgradeable>();
+        if(upg != null)
+        {
+            upg.OnUpgradesChanged -= RefreshUpgrades;
+        }
+
+        //Clear subscriptions from stat values
+        if(currentInspectedObject != null && currentInspectedObject.GetComponent<IStats>() != null)
+        {
+            currentInspectedObject.GetComponent<IStats>().strength.OnValueChanged -= RefreshStats;
+            currentInspectedObject.GetComponent<IStats>().speed.OnValueChanged -= RefreshStats;
+            currentInspectedObject.GetComponent<IStats>().size.OnValueChanged -= RefreshStats;
+            currentInspectedObject.GetComponent<IStats>().sturdy.OnValueChanged -= RefreshStats;
+        }
+
+        currentInspectedObject = null;
     }
 
     private void SubscribeToSlot(UpgradeSlot upgradeSlot)
@@ -194,11 +247,12 @@ public class InspectionMenu : MonoBehaviour
     private void HandleUpgradeRemoved(UpgradeItem upgradeItem)
     {
         currentInspectedObject.GetComponent<IUpgradeable>().RemoveUpgradeServerRpc(upgradeItem.Id);
+        
     }
 
     public void CloseInspectionMenu()
     {
-        currentInspectedObject = null;
+        DePopulateMenu();
         InspectionMenuHolder.SetActive(false);
     }
 
@@ -208,10 +262,5 @@ public class InspectionMenu : MonoBehaviour
         {
             go.SetActive(set);
         }
-    }
-
-    public void RefreshMenu()
-    {
-        PopulateMenu(currentInspectedObject, true);
     }
 }

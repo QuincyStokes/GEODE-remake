@@ -60,8 +60,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     private bool isRotating;
     private float nextFireTime;
     private List<int> serverUpgradeItemIds = new();
-
-    //public event Action OnSlotChanged;
+    public event Action OnUpgradesChanged;
     #endregion
 
     #region ACCESSORS
@@ -297,8 +296,6 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
         size.Value = baseSize.Value * (sizeModifier.Value/100+1);
         sturdy.Value =  MaxHealth * (sturdyModifier.Value/100+1);
 
-        
-
         SyncUpgradesAndStatsClientRpc(serverUpgradeItemIds.ToArray());
     }
 
@@ -369,16 +366,9 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
                 upgrades.AddRange(upItem.upgradeList);
             }
         }
-        //OnSlotChanged?.Invoke();
-        PlayerController.Instance.inspectionMenu?.PopulateMenu(this.gameObject, true);
+        OnUpgradesChanged?.Invoke();
+        //PlayerController.Instance.inspectionMenu?.PopulateMenu(this.gameObject, true);
     }
-
-    public void RefreshUpgrades()
-    {
-        //this.upgradeItems = new List<UpgradeItem>();
-        
-    }
-
 
     #endregion
 
