@@ -9,9 +9,10 @@ using UnityEngine.InputSystem;
 public class PlayerInventory : NetworkBehaviour, IContainer
 {
     [Header("Settings")]
+    [SerializeField] private bool devMode;
     [SerializeField] private int numSlots;
     //hotbar slots will always be 9
-    [SerializeField] private List<BaseItem> startingItems;
+    [SerializeField] private List<ItemAmount> startingItems;
     [SerializeField] private int maxItemStack;
 
     [Header("References")]
@@ -67,14 +68,23 @@ public class PlayerInventory : NetworkBehaviour, IContainer
             inventoryObject.SetActive(false);
             hotbarObject.SetActive(true);
         }
-          
-        AddItem(1, 10);
-        AddItem(2, 10);
-        AddItem(6, 1);
-        AddItem(24, 10);
-        AddItem(26, 1);
-        AddItem(27, 1);
-        AddItem(28, 1);
+        
+        foreach(ItemAmount itemAmount in startingItems)
+        {
+            AddItem(itemAmount.item.Id, itemAmount.amount);
+        }
+
+        if(devMode)
+        {
+            AddItem(1, 10);
+            AddItem(2, 10);
+            AddItem(6, 1);
+            AddItem(24, 10);
+            AddItem(26, 1);
+            AddItem(27, 1);
+            AddItem(28, 1);
+        }
+        
     }
 
     public int GetSelectedSlotIndex()

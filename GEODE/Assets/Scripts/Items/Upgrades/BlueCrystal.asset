@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Blue Crystal
   description: A glowing blue crystal. Upgrades Health!
   type: 5
-  icon: {fileID: 2018568419415810458, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
+  icon: {fileID: 8974179435539756478, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
   id: 31
   quality: 0
   isStackable: 1

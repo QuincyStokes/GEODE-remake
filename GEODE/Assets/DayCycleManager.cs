@@ -20,6 +20,7 @@ public class DayCycleManager : MonoBehaviour
 
     //PUBLIC TINGS
     public DayType dayType;
+    public int DayNum = 1;
 
     //PRIVATE TINGS
     private float currentTime;
@@ -60,6 +61,7 @@ public class DayCycleManager : MonoBehaviour
         {
             currentTime = 0f;
             isNightTime = false;
+            DayNum++;
             becameDay?.Invoke();
             Debug.Log("Becoming Day!");
         }
@@ -75,7 +77,7 @@ public class DayCycleManager : MonoBehaviour
     private void UpdateLighting()
     {
         //timePercent = 0f;
-        float sunlightIntensity = 0f;
+        float sunlightIntensity;
         if(!isNightTime) //daytime sunlight
         {
             timePercent = currentTime / dayLengthInSeconds;

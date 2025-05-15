@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Green Crystal
   description: A glowing green crystal, upgrades size!
   type: 5
-  icon: {fileID: -4518530809162081342, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
+  icon: {fileID: -1561941736606595945, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
   id: 30
   quality: 0
   isStackable: 1

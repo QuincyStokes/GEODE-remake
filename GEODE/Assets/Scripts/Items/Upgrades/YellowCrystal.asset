@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Yellow Crystal
   description: A glowing yellow crystal. Upgrades speed!
   type: 5
-  icon: {fileID: -895672226148424724, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
+  icon: {fileID: 275367399833583520, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
   id: 32
   quality: 0
   isStackable: 1
