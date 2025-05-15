@@ -158,7 +158,7 @@ MonoBehaviour:
   m_LightType: 1
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.842
-  m_Color: {r: 0.9245283, g: 0.18752226, b: 0.18752226, a: 1}
+  m_Color: {r: 0.121568635, g: 0.83921576, b: 0.7803922, a: 1}
   m_Intensity: 0.91
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
@@ -329,11 +329,10 @@ GameObject:
   - component: {fileID: 4730815865388357885}
   - component: {fileID: 7359029905104181308}
   - component: {fileID: -5197024450714403594}
-  - component: {fileID: 7155335561222885596}
   - component: {fileID: 1858398660601040683}
   - component: {fileID: 8001647827751899763}
   m_Layer: 0
-  m_Name: RedCrystal
+  m_Name: BlueGeode
   m_TagString: EnvironmentObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -402,7 +401,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -7668920765334974227, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
+  m_Sprite: {fileID: -3158003992202558021, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -425,7 +424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3220729341
+  GlobalObjectIdHash: 890440442
   InScenePlacedSourceGlobalObjectIdHash: 3220729341
   DeferredDespawnTick: 0
   Ownership: 1
@@ -474,88 +473,6 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &7155335561222885596
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8370947462149780993}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
-  m_Priority: 0
-  m_ComponentVersion: 5
-  m_HasRenderer: 1
-  m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
-  m_SelfShadows: 0
-  m_AlphaCutoff: 0.1
-  m_ApplyToSortingLayers: 2f1377f300000000e7bcb112
-  m_ShapePath:
-  - {x: 0.42730987, y: 1.1998345, z: 0}
-  - {x: 0.65617716, y: 1.145182, z: 0}
-  - {x: 0.6795236, y: 1.5809824, z: 0}
-  - {x: 1.0199443, y: 1.939655, z: 0}
-  - {x: 1.2558832, y: 1.7355069, z: 0}
-  - {x: 1.2630516, y: 1.5342586, z: 0}
-  - {x: 1.5646985, y: 1.5569524, z: 0}
-  - {x: 1.5409489, y: 1.0322033, z: 0}
-  - {x: 1.9974506, y: 1.1566687, z: 0}
-  - {x: 1.9752799, y: 0.90921605, z: 0}
-  - {x: 1.700163, y: 0.28696445, z: 0}
-  - {x: 1.9110771, y: 0.36447302, z: 0}
-  - {x: 1.9215853, y: 0.15399888, z: 0}
-  - {x: 1.7532907, y: 0.01171574, z: 0}
-  - {x: 0.35175645, y: -0.0077032745, z: 0}
-  - {x: 0.34895015, y: 0.02089104, z: 0}
-  - {x: 0.2882496, y: 0.022695392, z: 0}
-  - {x: 0.28826034, y: 0.052786738, z: 0}
-  - {x: 0.2571026, y: 0.050088674, z: 0}
-  - {x: 0.25495374, y: 0.114553005, z: 0}
-  - {x: 0.28719127, y: 0.116176635, z: 0}
-  - {x: 0.28669178, y: 0.14673159, z: 0}
-  - {x: 0.3486241, y: 0.1478087, z: 0}
-  - {x: 0.35023975, y: 0.1763514, z: 0}
-  - {x: 0.25761068, y: 0.17581287, z: 0}
-  - {x: 0.2570721, y: 0.2048941, z: 0}
-  - {x: 0.16656059, y: 0.20791098, z: 0}
-  - {x: 0.056952238, y: 0.36696723, z: 0}
-  - {x: 0.2631787, y: 0.4331155, z: 0}
-  - {x: 0.025823832, y: 0.6977085, z: 0}
-  - {x: 0.021932602, y: 0.9428462, z: 0}
-  - {x: 0.27485204, y: 0.92728186, z: 0}
-  - {x: 0.46162355, y: 0.8144407, z: 0}
-  - {x: 0.3526734, y: 1.0323409, z: 0}
-  m_ShapePathHash: 1771435832
-  m_InstanceId: 0
-  m_ShadowShape2DComponent: {fileID: 0}
-  m_ShadowShape2DProvider:
-    rid: -2
-  m_ShadowCastingSource: 1
-  m_ShadowMesh:
-    m_Mesh: {fileID: 0}
-    m_LocalBounds:
-      m_Center: {x: 1.0096916, y: 0.9659759, z: 0}
-      m_Extent: {x: 0.987759, y: 0.9736791, z: 0}
-    m_EdgeProcessing: 1
-    m_TrimEdge: 0
-    m_FlipX: 0
-    m_FlipY: 0
-    m_InitialTrim: 0
-  m_CastingOption: 1
-  m_PreviousTrimEdge: 0
-  m_PreviousEdgeProcessing: 1
-  m_PreviousShadowCastingSource: 1
-  m_PreviousShadowShape2DSource: {fileID: 4730815865388357885}
-  references:
-    version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
 --- !u!114 &1858398660601040683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -582,13 +499,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  BASE_HEALTH: 0
+  BASE_HEALTH: 25
   maxHealth:
     m_InternalValue: 100
   currentHealth:
     m_InternalValue: 100
   droppedItems:
-  - Id: 29
+  - Id: 31
     minAmount: 1
     maxAmount: 1
     chance: 50
@@ -596,7 +513,7 @@ MonoBehaviour:
     minAmount: 1
     maxAmount: 3
     chance: 100
-  objectName: Red Geode
+  objectName: Blue Geode
   centerPoint: {fileID: 5222662708037614757}
   description: 
   objectSprite: {fileID: 0}

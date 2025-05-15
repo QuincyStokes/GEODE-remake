@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 801184ae3a0d9d2479257a43cc174ad5, type: 3}
-  m_Name: BallistaTower
+  m_Name: BlueGeode
   m_EditorClassIdentifier: 
-  name: Ballista Tower
-  description: A Ballista Tower
+  name: Blue Geode
+  description: What lies inside?
   type: 2
-  icon: {fileID: -6777421769219088599, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
-  id: 23
+  icon: {fileID: -3158003992202558021, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
+  id: 33
   quality: 0
   isStackable: 1
   consumeOnUse: 1
-  prefab: {fileID: 5241912323242780402, guid: 8342e320428a4994e88576cd73952587, type: 3}
+  prefab: {fileID: 8370947462149780993, guid: e8422d069988f92419823e2803b35ce4, type: 3}
   width: 2
   height: 2

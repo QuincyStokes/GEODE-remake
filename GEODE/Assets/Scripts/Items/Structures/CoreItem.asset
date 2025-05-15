@@ -15,8 +15,9 @@ MonoBehaviour:
   name: Core
   description: You must protect it
   type: 2
-  icon: {fileID: -3158003992202558021, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
+  icon: {fileID: 2833242549449789950, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
   id: 6
+  quality: 0
   isStackable: 0
   consumeOnUse: 1
   prefab: {fileID: 8370947462149780993, guid: d10e315ecceb8944696b1643d0ae4ed3, type: 3}

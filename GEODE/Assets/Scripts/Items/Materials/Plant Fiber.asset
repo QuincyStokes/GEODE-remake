@@ -15,7 +15,8 @@ MonoBehaviour:
   name: Plant Fiber
   description: Fiber from a plant, useful for tying or bonding
   type: 4
-  icon: {fileID: 6645774616090122732, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
+  icon: {fileID: 2018568419415810458, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
   id: 24
+  quality: 0
   isStackable: 1
   consumeOnUse: 0

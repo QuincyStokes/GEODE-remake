@@ -15,7 +15,8 @@ MonoBehaviour:
   name: Stone Sword
   description: Its a Sword
   type: 1
-  icon: {fileID: 5563887230975585060, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
+  icon: {fileID: 6645774616090122732, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
   id: 22
+  quality: 0
   isStackable: 0
   consumeOnUse: 0
