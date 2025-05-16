@@ -16,22 +16,23 @@ public class YourLobby : MonoBehaviour
     [SerializeField] private GameObject playerLobbyCardPrefab;
     [SerializeField] private TMP_Text lobbyCode;
     private Lobby lobby;
-    public Lobby Lobby {
-        get=>lobby;
+    public Lobby Lobby
+    {
+        get => lobby;
         private set => lobby = value;
     }
 
     private void Awake()
     {
-        
-    
+
+
         startButton.gameObject.SetActive(true);
-        startButton.onClick.AddListener( () => 
+        startButton.onClick.AddListener(() =>
         {
             LobbyHandler.Instance.StartGame();
         });
-        
-        
+
+
     }
 
     private void Start()
@@ -42,23 +43,29 @@ public class YourLobby : MonoBehaviour
     private void OnDisable()
     {
         LobbyHandler.onLobbyUpdated -= UpdatePlayerList;
+        Lobby = null;
+        lobbyCode.text = "";
     }
 
     public void SetLobby(Lobby lobby)
-    {   
+    {
         Lobby = lobby;
         lobbyCode.text = Lobby.LobbyCode;
-        if(!IsLobbyHost())
+        if (!IsLobbyHost())
         {
             startButton.gameObject.SetActive(false);
         }
+        else
+        {
+            startButton.gameObject.SetActive(true);
+        }
     }
     public void UpdatePlayerList(Lobby lobby)
-    {   
-        Debug.Log("Updating Player List for Lobby "+ lobby.Name);
+    {
+        Debug.Log("Updating Player List for Lobby " + lobby.Name);
         SetLobby(lobby);
 
-       
+
 
         foreach (Transform transform in contentParent)
         {
@@ -66,7 +73,7 @@ public class YourLobby : MonoBehaviour
         }
 
 
-        if(lobby != null)
+        if (lobby != null)
         {
             Debug.Log("Players in Lobby " + lobby.Name + " " + lobby.Players);
             foreach (Player player in lobby.Players)
@@ -76,7 +83,7 @@ public class YourLobby : MonoBehaviour
                 PlayerLobbyCard plc = playerLobbyCard.GetComponent<PlayerLobbyCard>();
                 plc.InitializePlayerLobbyCard(player);
                 plc.transform.SetParent(contentParent, false);
-            }    
+            }
         }
     }
 
@@ -85,6 +92,4 @@ public class YourLobby : MonoBehaviour
         Debug.Log("Checking whether this is the host" + Lobby.HostId == AuthenticationService.Instance.PlayerId);
         return Lobby.HostId == AuthenticationService.Instance.PlayerId;
     }
-
-
 }

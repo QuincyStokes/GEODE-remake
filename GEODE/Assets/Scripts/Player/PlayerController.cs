@@ -3,6 +3,7 @@ using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : NetworkBehaviour, IKnockbackable
 {
@@ -13,6 +14,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
     [SerializeField] public InspectionMenu inspectionMenu;
     [SerializeField] private Animator animator;
     [SerializeField] private GameObject playerUICanvas;
+    [SerializeField] private GameObject pauseMenu;
     private Rigidbody2D rb;
     [SerializeField] public GameObject attackHitbox; //TEMP
     [SerializeField] public Animator attackAnimator;
@@ -23,23 +25,23 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
     private Vector2 localInputVelocity;
     private Vector2 lastMovedDir;
     private Vector2 externalVelocity;
-    
+
     private NetworkVariable<Vector2> networkDirection = new NetworkVariable<Vector2>( //store our directoin as a network variable so other clients can update
-        Vector2.down, 
-        NetworkVariableReadPermission.Everyone, 
+        Vector2.down,
+        NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Server
     );
 
     private NetworkVariable<float> networkVelocity = new NetworkVariable<float>( //same as networkDirection
-        0f, 
-        NetworkVariableReadPermission.Everyone, 
+        0f,
+        NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Server
     );
 
     //INPUTS  -----------------------
     [Header("Input")]
     [SerializeField] public PlayerInputActionMap playerInput; //this is the input action map, essentially there are a bunch of actions we can grab and assign
-    private InputAction movementInput; 
+    private InputAction movementInput;
     private InputAction mouseInput;
     private Vector3 mousePos;
     private Vector3Int previousMousePosInt;
@@ -49,9 +51,9 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
     [Header("Interaction Layer Mask")]
     [SerializeField] private LayerMask interactableLayerMask;
 
-    
+
     //PRIVATE INTERNAL
-    
+
 
     public override void OnNetworkSpawn()
     {
@@ -60,7 +62,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
         networkVelocity.OnValueChanged += OnNetworkVelocityChanged;
         //ENABLE CALLBACKS
         //Movement
-        if(IsOwner)
+        if (IsOwner)
         {
             movementInput = playerInput.Player.Move;
             movementInput.Enable();
@@ -80,23 +82,27 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
             //Secondary FIre
             playerInput.Player.SecondaryFire.performed += OnSecondaryFire;
             playerInput.Player.SecondaryFire.Enable();
-            
+
             //Scroll
             playerInput.Player.Scroll.performed += playerInventory.OnScroll;
             playerInput.Player.Scroll.Enable();
+
+            //Escape
+            playerInput.Player.Menu.performed += OnMenuOpened;
+            playerInput.Player.Menu.Enable();
 
             //Mouse position
             mouseInput = playerInput.Player.Mouse;
             mouseInput.Enable();
 
-        
+
 
             Instance = this;
 
             playerUICanvas.SetActive(true);
         }
-       
-        
+
+
     }
     private void Awake()
     {
@@ -107,16 +113,16 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
 
     private void OnEnable()
     {
-        if(!IsOwner)
+        if (!IsOwner)
         {
             return;
         }
-        
+
     }
 
     private void OnDisable()
     {
-        if(!IsOwner)
+        if (!IsOwner)
         {
             return;
         }
@@ -148,41 +154,44 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
         playerInput.Player.Scroll.performed -= playerInventory.OnScroll;
         playerInput.Player.Scroll.Disable();
 
-        
+        //Escape
+        playerInput.Player.Menu.performed += OnMenuOpened;
+        playerInput.Player.Menu.Enable();
+
 
     }
 
-    
+
     private void Start()
     {
-        
-        if(!IsOwner)
+
+        if (!IsOwner)
         {
             return;
         }
-        
-        if(WorldGenManager.Instance != null)
+
+        if (WorldGenManager.Instance != null)
         {
-            transform.position = new Vector3Int(WorldGenManager.Instance.WorldSizeX/2, WorldGenManager.Instance.WorldSizeY/2);
+            transform.position = new Vector3Int(WorldGenManager.Instance.WorldSizeX / 2, WorldGenManager.Instance.WorldSizeY / 2);
         }
         else
         {
             Debug.Log("WorldGenManager is null, cannot place player.");
         }
 
-        if(playerHealth != null)
+        if (playerHealth != null)
         {
             playerHealth.UpdateHealthbar();
             playerHealth.UpdateXpbar();
         }
         CameraManager.Instance.FollowPlayer(transform);
-        
-        
+
+
     }
 
     private void Update()
     {
-        if(!IsOwner)
+        if (!IsOwner)
         {
             return;
         }
@@ -192,7 +201,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
 
     private void FixedUpdate()
     {
-        if(!IsOwner)
+        if (!IsOwner)
         {
             return;
         }
@@ -201,7 +210,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
 
     private void MovementUpdate()
     {
-        if(!IsOwner)
+        if (!IsOwner)
         {
             return;
         }
@@ -210,7 +219,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
         rb.linearVelocity = finalVelocity;
 
         //animation?
-        if(finalVelocity.sqrMagnitude > 0.01f)
+        if (finalVelocity.sqrMagnitude > 0.01f)
         {
             lastMovedDir = finalVelocity.normalized;
         }
@@ -226,7 +235,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
         bool directionChanged = Vector2.Distance(networkDirection.Value, lastMovedDir) > .001f;
         bool velocityChanged = Math.Abs(networkVelocity.Value - finalVelocity.sqrMagnitude) > .001f;
 
-        if(directionChanged || velocityChanged)
+        if (directionChanged || velocityChanged)
         {
             UpdateMovementServerRpc(lastMovedDir, finalVelocity.magnitude);
         }
@@ -236,7 +245,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
 
     private void OnNetworkDirectionChanged(Vector2 oldValue, Vector2 newValue)
     {
-        if(!IsOwner)
+        if (!IsOwner)
         {
             animator.SetFloat("moveX", newValue.x);
             animator.SetFloat("moveY", newValue.y);
@@ -245,7 +254,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
 
     private void OnNetworkVelocityChanged(float oldValue, float newValue)
     {
-        if(!IsOwner)
+        if (!IsOwner)
         {
             animator.SetFloat("velocity", newValue);
         }
@@ -261,14 +270,14 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
     //this works pretty well
     [ServerRpc]
     public void TakeKnockbackServerRpc(Vector2 direction, float force)
-    
+
     {
         externalVelocity += direction.normalized * Mathf.Log(force);
     }
 
     private void SetPositionCenterWorld()
     {
-        transform.position = new Vector3Int(WorldGenManager.Instance.WorldSizeX/2, WorldGenManager.Instance.WorldSizeY/2);
+        transform.position = new Vector3Int(WorldGenManager.Instance.WorldSizeX / 2, WorldGenManager.Instance.WorldSizeY / 2);
     }
 
     private void OnPrimaryFire(InputAction.CallbackContext context)
@@ -281,30 +290,30 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
         //raycast at mouse position, check for any IInteractables?
         Debug.Log("Secondary Fire!");
         Vector3 pos = Camera.main.ScreenToWorldPoint(mouseInput.ReadValue<Vector2>());
-        
+
         RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero, 10, interactableLayerMask);
-        if(hit)
-        { 
+        if (hit)
+        {
             Debug.Log($"Raycast Hit {hit.collider.gameObject.name}");
             //IInteractable interactable = hit.collider.gameObject.GetComponentInParent<IInteractable>();
 
             //This is a bit strange, but:
-                //get all of the MonoBehaviour components in the objects parent
+            //get all of the MonoBehaviour components in the objects parent
             MonoBehaviour[] gos = hit.collider.gameObject.GetComponentsInParent<MonoBehaviour>();
 
             GameObject go = null;
 
             //if any of the retrieved Monos are also of type IInteractable (which Core should be for example), choose that gameObject. 
-            foreach(MonoBehaviour mono in gos)
+            foreach (MonoBehaviour mono in gos)
             {
-                if(mono is IInteractable)
+                if (mono is IInteractable)
                 {
                     go = mono.gameObject;
                     break;
                 }
             }
 
-            if(go != null)
+            if (go != null)
             {
                 inspectionMenu.DoMenu(go);
             }
@@ -314,7 +323,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
                 inspectionMenu.CloseInspectionMenu();
             }
 
-            
+
         }
         else
         {
@@ -330,7 +339,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
 
         mousePos = Camera.main.ScreenToWorldPoint(mouseInput.ReadValue<Vector2>());
         Vector3Int mousePosInt = new Vector3Int((int)mousePos.x, (int)mousePos.y, 0);
-        if(mousePosInt != previousMousePosInt && GridManager.Instance != null)
+        if (mousePosInt != previousMousePosInt && GridManager.Instance != null)
         {
             GridManager.Instance.UpdateMousePos(mousePosInt);
         }
@@ -339,10 +348,10 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("EnvironmentObject"))
+        if (collision.CompareTag("EnvironmentObject"))
         {
             EnvironmentObject envObj = collision.gameObject.GetComponentInParent<EnvironmentObject>();
-            if(envObj != null)
+            if (envObj != null)
             {
                 envObj.TakeDamageServerRpc(4, gameObject.transform.position, true);
                 Debug.Log($"Hit {collision.name} for 4 damage");
@@ -352,11 +361,11 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
 
     public void Attack()
     {
-        if(swingCooldownTimer >= swingCooldown)
+        if (swingCooldownTimer >= swingCooldown)
         {
             StartCoroutine(DoAttack());
         }
-        
+
     }
 
     private IEnumerator DoAttack()
@@ -373,10 +382,32 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
 
     private void CooldownTimer()
     {
-        if(swingCooldownTimer < swingCooldown)
+        if (swingCooldownTimer < swingCooldown)
         {
             swingCooldownTimer += Time.deltaTime;
         }
+    }
+
+    public void OnMenuOpened(InputAction.CallbackContext context)
+    {
+        TogglePauseMenu();
+    }
+
+    public void TogglePauseMenu()
+    {
+        pauseMenu.SetActive(!pauseMenu.activeSelf);
+    }
+
+    public void LeaveGame()
+    {
+        if (NetworkManager.Singleton != null && NetworkManager.Singleton.IsListening)
+        {
+            // Disconnect client, stop the server/host, and flush the queue
+            NetworkManager.Singleton.Shutdown();
+        }
+
+        SceneManager.LoadScene("Lobby");
+
     }
 
 

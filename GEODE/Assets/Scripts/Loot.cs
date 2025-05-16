@@ -19,33 +19,69 @@ public class Loot : NetworkBehaviour
     [SerializeField] private SpriteRenderer sr;
     [SerializeField] private CircleCollider2D col;
     [SerializeField] private float moveSpeed;
+    private bool pickedUp;
     
 
     public override void OnNetworkSpawn()
     {
         itemId.OnValueChanged += OnItemIdChanged;
+
+        OnItemIdChanged(0, itemId.Value);
+        StartCoroutine(DelayCollider());
     }
 
 
+    private IEnumerator DelayCollider()
+    {
+        col.enabled = false;                 
+        yield return new WaitForSeconds(0.1f);
+        col.enabled = true;                
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if(!IsServer || pickedUp)
+        {
+            return;
+        }
+
         if(other.gameObject.CompareTag("Player"))
         {
 
             //check if it *can* be added to the player's inventory
             //if it can, call MoveAndCollect
 
-            bool canAdd = other.gameObject.GetComponent<PlayerInventory>().AddItem(itemId.Value, amount.Value);
-            if(canAdd) {
-                StartCoroutine(MoveAndCollect(other.transform));
+            PlayerInventory inv = other.gameObject.GetComponent<PlayerInventory>();
+            if(inv == null)
+            {
+                return;
             }
 
+            if(inv.AddItem(itemId.Value, amount.Value))
+            {
+                Debug.Log("Item added to inventory!");
+                pickedUp = true;
+                col.enabled = false; //this should fix white box error on multiplayer?
+
+                PickupClientRpc(other.GetComponent<NetworkObject>().NetworkObjectId);
+                NetworkObject.Despawn(false);
+            }
+            
         }
+    }
+
+    [ClientRpc]
+    private void PickupClientRpc(ulong playerObjectId)
+    {
+        var player = NetworkManager.Singleton.SpawnManager.SpawnedObjects[playerObjectId];
+        if (player == null) return;
+
+        // Start a local coroutine only for visual flair.
+        StartCoroutine(MoveAndCollect(player.transform));
     }
 
     private IEnumerator MoveAndCollect(Transform target)
     {
-        Destroy(col);
         //do something to move towards the player
         while(transform.position !=  target.position && Vector3.Distance(transform.position, target.position) > .01f) {
             transform.position = Vector3.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);

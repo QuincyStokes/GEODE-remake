@@ -4,9 +4,9 @@ using Unity.Services.Authentication;
 
 public class HostOrJoinMenu : MonoBehaviour
 {
-   [SerializeField] private GameObject HostOrJoinButtons;
-   [SerializeField] private GameObject HostScreen;
-   [SerializeField] private GameObject JoinScreen;
+    [SerializeField] private GameObject HostOrJoinButtons;
+    [SerializeField] private GameObject HostScreen;
+    [SerializeField] private GameObject JoinScreen;
 
     private async void Start()
     {
@@ -21,4 +21,10 @@ public class HostOrJoinMenu : MonoBehaviour
         HostScreen.SetActive(false);
         JoinScreen.SetActive(false);
     }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
 }

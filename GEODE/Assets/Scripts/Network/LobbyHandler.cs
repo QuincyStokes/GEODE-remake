@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using Unity.Netcode;
 using Unity.Services.Authentication;
@@ -22,6 +23,7 @@ public class LobbyHandler : MonoBehaviour
     [SerializeField] private GameObject createALobbyScreen;
     [SerializeField] private GameObject customizeLobbyScreen;
     [SerializeField] private GameObject yourLobbyScreen;
+    [SerializeField] private GameObject hostOrJoinButtons;
     [SerializeField] private YourLobby yourLobby;
     private Lobby hostLobby;
     private Lobby joinedLobby;
@@ -33,7 +35,7 @@ public class LobbyHandler : MonoBehaviour
 
     void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
         }
@@ -43,6 +45,10 @@ public class LobbyHandler : MonoBehaviour
         }
     }
 
+    void OnEnable()
+    {
+        hostOrJoinButtons.SetActive(true);
+    }
     private void Start()
     {
         //initialize the unity services
@@ -51,10 +57,10 @@ public class LobbyHandler : MonoBehaviour
 
         //sign in the current user anonymously, no need to authenticate them for now.
         //eventually, will need this to be replaced with some sort of steam authentification?
-        
+
         createLobbyButton.onClick.AddListener(CreateLobby);
-        maxPlayersSlider.onValueChanged.AddListener(delegate {UpdateMaxPlayersText();});
-        maxPlayersSlider.value = maxPlayersSlider.minValue+1;
+        maxPlayersSlider.onValueChanged.AddListener(delegate { UpdateMaxPlayersText(); });
+        maxPlayersSlider.value = maxPlayersSlider.minValue + 1;
 
         createALobbyScreen.SetActive(true);
         customizeLobbyScreen.SetActive(true);
@@ -63,10 +69,10 @@ public class LobbyHandler : MonoBehaviour
 
     private void Update()
     {
-       
+
         HeartbeatTimer();
         HandleLobbyUpdatePoll();
-               
+
     }
     /// <summary>
     /// Create a lobby.
@@ -81,12 +87,12 @@ public class LobbyHandler : MonoBehaviour
             int maxPlayers = (int)maxPlayersSlider.value; //this will be a setting maybe
 
             //here we will create the options that the player has chosen for this lobby
-            CreateLobbyOptions createLobbyOptions = new CreateLobbyOptions 
+            CreateLobbyOptions createLobbyOptions = new CreateLobbyOptions
             {
                 IsPrivate = privateToggle.isOn,
                 Player = new Player
                 {
-                    Data = new Dictionary<string, PlayerDataObject> 
+                    Data = new Dictionary<string, PlayerDataObject>
                     {
                         //Set the player's name! visibility = member means only other members of the server can see the player's name
                         //this also now means we can access the players in the lobby. :eyes:
@@ -100,9 +106,9 @@ public class LobbyHandler : MonoBehaviour
                     { KEY_START_GAME, new DataObject(DataObject.VisibilityOptions.Member, "0")}
                 }
             };
-           
+
             //create the lobby!
-            if(lobbyNameField.text != "")
+            if (lobbyNameField.text != "")
             {
                 Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, createLobbyOptions);
                 Debug.Log("Created lobby " + lobby.Name + " with max players: " + lobby.MaxPlayers + "CODE: " + lobby.LobbyCode);
@@ -139,10 +145,10 @@ public class LobbyHandler : MonoBehaviour
     /// </summary>
     private async void HeartbeatTimer()
     {
-        if(hostLobby != null)
-            {
+        if (hostLobby != null)
+        {
             heartbeatTimer -= Time.deltaTime;
-            if(heartbeatTimer < 0f)
+            if (heartbeatTimer < 0f)
             {
                 float heartbeatTimerMax = 15;
                 heartbeatTimer = heartbeatTimerMax;
@@ -150,15 +156,15 @@ public class LobbyHandler : MonoBehaviour
                 Debug.Log("Sent heartbeat to " + hostLobby.Name);
             }
         }
-    
+
     }
 
     private async void HandleLobbyUpdatePoll()
     {
-        if(joinedLobby != null)
+        if (joinedLobby != null)
         {
             lobbyUpdateTimer -= Time.deltaTime;
-            if(lobbyUpdateTimer < 0f)
+            if (lobbyUpdateTimer < 0f)
             {
                 float updateLobbyMaxTime = 2;
                 lobbyUpdateTimer = updateLobbyMaxTime;
@@ -166,10 +172,10 @@ public class LobbyHandler : MonoBehaviour
                 Debug.Log("Updating " + joinedLobby.Name);
                 onLobbyUpdated?.Invoke(joinedLobby);
 
-                if(joinedLobby.Data[KEY_START_GAME].Value != "0")
+                if (joinedLobby.Data[KEY_START_GAME].Value != "0")
                 {
                     //start game!
-                    if(!IsLobbyHost())
+                    if (!IsLobbyHost())
                     {
                         RelayHandler.Instance.JoinRelay(joinedLobby.Data[KEY_START_GAME].Value);
                     }
@@ -184,15 +190,15 @@ public class LobbyHandler : MonoBehaviour
 
     private void PrintCurrentPlayers()
     {
-        if(hostLobby != null)
+        if (hostLobby != null)
         {
             Debug.Log("Players in Lobby " + hostLobby.Name + " Players( " + hostLobby.Players.Count + " )");
             foreach (Player player in hostLobby.Players)
             {
                 Debug.Log(player.Id + " " + player.Data["PlayerName"].Value);
-            }    
+            }
         }
-        
+
     }
 
     public async void StartGame()
@@ -200,11 +206,11 @@ public class LobbyHandler : MonoBehaviour
         try
         {
             Debug.Log("Game Started!");
-            string relayCode = await RelayHandler.Instance.CreateRelay(hostLobby.MaxPlayers-1);
+            string relayCode = await RelayHandler.Instance.CreateRelay(hostLobby.MaxPlayers - 1);
 
             Lobby lobby = await LobbyService.Instance.UpdateLobbyAsync(hostLobby.Id, new UpdateLobbyOptions
             {
-                Data = new Dictionary<string, DataObject> 
+                Data = new Dictionary<string, DataObject>
                 {
                     { KEY_START_GAME, new DataObject(DataObject.VisibilityOptions.Member, relayCode)}
                 }
@@ -218,27 +224,27 @@ public class LobbyHandler : MonoBehaviour
 
             NetworkManager.Singleton.StartHost();
 
-           
-            
+
+
 
             //Load the game in the background as the primary scene, we need to set this as the active scene
             NetworkManager.Singleton.SceneManager.LoadScene("Game", LoadSceneMode.Single);
 
-             //Then, load the Loading Screen to hide loading
+            //Then, load the Loading Screen to hide loading
             SceneManager.LoadScene("Loading", LoadSceneMode.Additive);
-           
-            
+
+
 
             // could maybe Load the loading screen here for clients?
         }
-        catch (LobbyServiceException e) 
+        catch (LobbyServiceException e)
         {
             Debug.Log(e);
         }
 
     }
 
-    
+
 
     private bool IsLobbyHost()
     {
@@ -248,5 +254,40 @@ public class LobbyHandler : MonoBehaviour
     public void SetJoinedLobby(Lobby lobby)
     {
         joinedLobby = lobby;
+    }
+
+    public async void LeaveLobby()
+    {
+        if (NetworkManager.Singleton && NetworkManager.Singleton.IsListening)
+        {
+            NetworkManager.Singleton.Shutdown();
+        }
+
+        try
+        {
+            if (IsLobbyHost())
+            {
+                await LobbyService.Instance.DeleteLobbyAsync(joinedLobby.Name);
+            }
+            else
+            {
+                string playerId = AuthenticationService.Instance.PlayerId;
+                await LobbyService.Instance.RemovePlayerAsync(joinedLobby.Id, playerId);
+            }
+        }
+        catch (LobbyServiceException e)
+        {
+            Debug.LogWarning($"Lobby leave failed: {e}");
+        }
+
+        StopAllCoroutines();
+        joinedLobby = null;
+        hostOrJoinButtons.SetActive(true);
+        yourLobbyScreen.SetActive(false);
+    }
+
+    private void OnApplicationQuit()
+    {
+        LeaveLobby();
     }
 }

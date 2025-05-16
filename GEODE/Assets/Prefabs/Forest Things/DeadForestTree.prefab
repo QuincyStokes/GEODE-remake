@@ -268,20 +268,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  BASE_HEALTH: 10
+  BASE_HEALTH: 32
   maxHealth:
     m_InternalValue: 10
   currentHealth:
     m_InternalValue: 10
   droppedItems:
   - Id: 1
-    minAmount: 3
-    maxAmount: 5
+    minAmount: 2
+    maxAmount: 4
     chance: 100
   - Id: 24
     minAmount: 1
-    maxAmount: 3
-    chance: 60
+    maxAmount: 1
+    chance: 30
   objectName: 
   centerPoint: {fileID: 1212809725671271121}
   description: 

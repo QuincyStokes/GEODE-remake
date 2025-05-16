@@ -206,11 +206,15 @@ public class InspectionMenu : MonoBehaviour
         }
         upgradeSlots.Clear();
 
-        IUpgradeable upg = currentInspectedObject.GetComponent<IUpgradeable>();
-        if(upg != null)
+        if (currentInspectedObject != null)
         {
-            upg.OnUpgradesChanged -= RefreshUpgrades;
+            IUpgradeable upg = currentInspectedObject.GetComponent<IUpgradeable>();
+            if(upg != null)
+            {
+                upg.OnUpgradesChanged -= RefreshUpgrades;
+            }
         }
+        
 
         //Clear subscriptions from stat values
         if(currentInspectedObject != null && currentInspectedObject.GetComponent<IStats>() != null)

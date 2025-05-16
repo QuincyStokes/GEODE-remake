@@ -4,14 +4,13 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ConnectionManager : MonoBehaviour
+public class ConnectionManager : NetworkBehaviour
 {
     public static ConnectionManager Instance;
 
 
     [HideInInspector] public string LobbyCode;
     [HideInInspector] public string RelayCode;
-    [HideInInspector] public bool IsHost;
 
     [HideInInspector] public string PlayerID;
     [HideInInspector] public string PlayerName;
@@ -35,23 +34,29 @@ public class ConnectionManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
-        NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
-        
     }
 
-    private void OnDestroy()
+
+    public override void OnNetworkSpawn()
     {
-        if(NetworkManager.Singleton != null)
+        if(IsServer)
         {
-            NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
-        }
-    }
+            base.OnNetworkSpawn();
+            NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
+        }   
+        
+        
+    }   
 
-    private void Start()
+    public override void OnNetworkDespawn()
     {
-        IsHost = NetworkManager.Singleton.IsHost;
-    }
+        if(IsServer)
+        {
+            base.OnNetworkDespawn();
+            NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
+        }   
+        
+    }   
 
     public void OnWorldReady()
     {
@@ -109,8 +114,10 @@ public class ConnectionManager : MonoBehaviour
 
     private IEnumerator DoClientConnectedThings(ulong clientId)
     {
-       
-        yield return StartCoroutine(GameManager.Instance.GenerateWorld(clientId));
+        if(IsServer)
+        {
+            yield return StartCoroutine(GameManager.Instance.GenerateWorld(clientId));
+        }
         SpawnPlayerForClient(clientId);
 
         //the last ting we do for the client is unload the loading screen, this should make a clean transition into game.

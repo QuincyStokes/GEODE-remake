@@ -61,10 +61,23 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
     private void Start()
     {
         sr = GetComponentInChildren<SpriteRenderer>();   
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        if(IsServer)
+        {   
+            InitializeHealthServerRpc();
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void InitializeHealthServerRpc()
+    {
         MaxHealth = BASE_HEALTH;
         CurrentHealth = MaxHealth;
     }
-
 
     [ServerRpc(RequireOwnership = false)]
     public void RestoreHealthServerRpc(float amount)
