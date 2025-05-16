@@ -14,8 +14,9 @@ public class WorldGenManager : NetworkBehaviour
     public static WorldGenManager Instance;
     [SerializeField] private GameObject playerPrefab;
 
-    [SerializeField] private const int worldSizeX = 200;
-    [SerializeField] private const int worldSizeY = 200;
+    [SerializeField] private const int worldSizeX = 300;
+    [SerializeField] private const int worldSizeY = 250
+    ;
    
     [SerializeField] Tilemap backgroundTilemap;
 

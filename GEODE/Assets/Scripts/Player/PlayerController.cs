@@ -102,6 +102,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
 
 
             Instance = this;
+            CameraWorldConfiner.Instance.SetCameraBoundary();
 
             playerUICanvas.SetActive(true);
         }
