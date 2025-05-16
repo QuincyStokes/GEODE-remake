@@ -508,7 +508,7 @@ MonoBehaviour:
   - Id: 32
     minAmount: 1
     maxAmount: 1
-    chance: 50
+    chance: 80
   - Id: 2
     minAmount: 1
     maxAmount: 3

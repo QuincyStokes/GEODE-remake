@@ -58,7 +58,6 @@ public class LobbyHandler : MonoBehaviour
         //sign in the current user anonymously, no need to authenticate them for now.
         //eventually, will need this to be replaced with some sort of steam authentification?
 
-        createLobbyButton.onClick.AddListener(CreateLobby);
         maxPlayersSlider.onValueChanged.AddListener(delegate { UpdateMaxPlayersText(); });
         maxPlayersSlider.value = maxPlayersSlider.minValue + 1;
 
@@ -285,6 +284,28 @@ public class LobbyHandler : MonoBehaviour
         hostOrJoinButtons.SetActive(true);
         yourLobbyScreen.SetActive(false);
     }
+
+    public void CreateALobbyButton()
+    {
+        if (lobbyNameField.text == "")
+        {
+            LobbyErrorMessages.Instance.SetError("Please enter a lobby name.");
+            return;
+        }
+
+        if (playerName.text == "")
+        {
+            LobbyErrorMessages.Instance.SetError("Please enter a player name.");
+            return;
+        }
+
+        CreateLobby();
+        yourLobbyScreen.SetActive(true);
+        customizeLobbyScreen.SetActive(false);
+        createALobbyScreen.SetActive(false);
+        
+    }
+
 
     private void OnApplicationQuit()
     {

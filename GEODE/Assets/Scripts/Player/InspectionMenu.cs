@@ -232,12 +232,14 @@ public class InspectionMenu : MonoBehaviour
     {
         upgradeSlot.itemAdded += HandleUpgradeAdded;
         upgradeSlot.itemRemoved += HandleUpgradeRemoved;
+        upgradeSlot.itemSwapped += HandleUpgradeSwapped;
     }
 
     private void UnsubscribeFromSlot(UpgradeSlot upgradeSlot)
     {
         upgradeSlot.itemAdded -= HandleUpgradeAdded;
         upgradeSlot.itemRemoved -= HandleUpgradeRemoved;
+        upgradeSlot.itemSwapped -= HandleUpgradeSwapped;
     }
 
     private void HandleUpgradeAdded(UpgradeItem upgradeItem)
@@ -252,6 +254,12 @@ public class InspectionMenu : MonoBehaviour
     {
         currentInspectedObject.GetComponent<IUpgradeable>().RemoveUpgradeServerRpc(upgradeItem.Id);
         
+    }
+
+    private void HandleUpgradeSwapped(UpgradeItem oldUpgradeItem, UpgradeItem newUpgradeItem)
+    {
+        currentInspectedObject.GetComponent<IUpgradeable>().RemoveUpgradeServerRpc(oldUpgradeItem.Id);
+        currentInspectedObject.GetComponent<IUpgradeable>().ApplyUpgradeServerRpc(newUpgradeItem.Id);
     }
 
     public void CloseInspectionMenu()

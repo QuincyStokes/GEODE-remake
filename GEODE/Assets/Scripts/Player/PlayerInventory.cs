@@ -38,11 +38,14 @@ public class PlayerInventory : NetworkBehaviour, IContainer
     private List<Slot> allInventorySlots = new List<Slot>(); //list of both hotbar + inventory slots
     private int selectedSlotIndex;
 
+    //--------- EVENTS ----------
+    public event Action<bool> OnInventoryToggled;
+
     private void Awake()
     {
         InitializeInventorySlots();
         InitializeHotbarSlots();
-        
+
     }
     
     private void Start()
@@ -74,15 +77,17 @@ public class PlayerInventory : NetworkBehaviour, IContainer
             AddItem(itemAmount.item.Id, itemAmount.amount);
         }
 
-        if(devMode)
+        if (devMode)
         {
-            AddItem(1, 10);
-            AddItem(2, 10);
+            AddItem(1, 20);
+            AddItem(2, 20);
             AddItem(6, 1);
-            AddItem(24, 10);
+            AddItem(24, 20);
             AddItem(26, 1);
             AddItem(27, 1);
             AddItem(28, 1);
+            AddItem(31, 5);
+            AddItem(32, 1);
         }
         
     }
@@ -101,6 +106,8 @@ public class PlayerInventory : NetworkBehaviour, IContainer
             currSlot.SetItem();
             currSlot.gameObject.transform.SetParent(inventorySlotHolder, false);
             currSlot.InitializeHand(hand);
+            currSlot.InitializeInventory(this);
+            currSlot.playerInventory = this;
             inventorySlots.Add(currSlot);
         }
         allInventorySlots.AddRange(inventorySlots);
@@ -115,6 +122,7 @@ public class PlayerInventory : NetworkBehaviour, IContainer
             currSlot.SetItem();
             currSlot.gameObject.transform.SetParent(hotbarSlotHolder, false);
             currSlot.InitializeHand(hand);
+            currSlot.InitializeInventory(this);
             hotbarSlots.Add(currSlot);
         }
         allInventorySlots.AddRange(hotbarSlots);
@@ -123,6 +131,11 @@ public class PlayerInventory : NetworkBehaviour, IContainer
     public void ToggleInventory(InputAction.CallbackContext context)
     {
         inventoryObject.SetActive(!inventoryObject.activeSelf);
+        OnInventoryToggled?.Invoke(inventoryObject.activeSelf);
+        if (inventoryObject.activeSelf)
+        {
+            Cursor.visible = true;
+        }
     }
 
 
@@ -228,7 +241,7 @@ public class PlayerInventory : NetworkBehaviour, IContainer
             if(slot.GetItemInSlot() == null)
             {
                 //we've found an empty slot!
-                slot.SetItem(id, count, true);
+                slot.SetItem(id, count, inventoryObject.activeSelf);
                 return true;
             }
         }
@@ -238,7 +251,7 @@ public class PlayerInventory : NetworkBehaviour, IContainer
             if(slot.GetItemInSlot() == null)
             {
                 //we've found an empty slot!
-                slot.SetItem(id, count, true);
+                slot.SetItem(id, count, inventoryObject.activeSelf);
                 return true;
             }
         }

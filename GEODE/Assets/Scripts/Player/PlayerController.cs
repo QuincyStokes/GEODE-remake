@@ -1,9 +1,13 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerController : NetworkBehaviour, IKnockbackable
 {
@@ -101,9 +105,8 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
 
             playerUICanvas.SetActive(true);
         }
-
-
     }
+
     private void Awake()
     {
         rb = GetComponentInChildren<Rigidbody2D>();
@@ -282,7 +285,10 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
 
     private void OnPrimaryFire(InputAction.CallbackContext context)
     {
-        playerInventory.UseSelectedItem(Camera.main.ScreenToWorldPoint(mouseInput.ReadValue<Vector2>()));
+        if (!IsPointerOverUI())
+        {
+            playerInventory.UseSelectedItem(Camera.main.ScreenToWorldPoint(mouseInput.ReadValue<Vector2>()));
+        }
     }
 
     private void OnSecondaryFire(InputAction.CallbackContext context)
@@ -398,6 +404,21 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
         pauseMenu.SetActive(!pauseMenu.activeSelf);
     }
 
+    public bool IsPointerOverUI()
+    {
+         var pointerData = new PointerEventData(EventSystem.current)
+        {
+            position = Mouse.current.position.ReadValue()
+        };
+
+        // 2. Ray-cast through **all** raycasters
+        List<RaycastResult> hits = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointerData, hits);
+
+        // 3. Accept only hits coming from a GraphicRaycaster (i.e. real Canvas UI)
+        return hits.Exists(h => h.module is GraphicRaycaster);
+    }
+
     public void LeaveGame()
     {
         if (NetworkManager.Singleton != null && NetworkManager.Singleton.IsListening)
@@ -409,6 +430,8 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
         SceneManager.LoadScene("Lobby");
 
     }
+
+
 
 
 }

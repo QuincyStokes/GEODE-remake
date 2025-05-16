@@ -10,7 +10,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     [Header("UI References")]
     [SerializeField] protected Image backgroundSprite;
     [SerializeField] protected Image itemSprite;
-    [SerializeField] protected TMP_Text itemCount; 
+    [SerializeField] protected TMP_Text itemCount;
     [HideInInspector] protected InventoryHandUI inventoryHand;
     [SerializeField] protected GameObject tooltip;
 
@@ -20,7 +20,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     [SerializeField] protected TMP_Text tooltipItemType;
     [SerializeField] protected TMP_Text tooltipItemStats;
     [SerializeField] protected TMP_Text tooltipItemQuality;
-    
+
 
     [Header("Background Images")]
     [SerializeField] protected Sprite selectedBackgroundImage;
@@ -32,20 +32,20 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     protected BaseItem item; //item this slot is holding
     protected Sprite icon;
     protected int count;
-    public bool canInteract;
+    public bool canInteract = true;
     [HideInInspector] public Transform parentAfterDrag;
 
     //----------
     //PLAYERS "HAND"
     //----------
-
+    public PlayerInventory playerInventory;
     protected static BaseItem heldItem = null;
     protected static int heldCount = 0;
-    
+
 
     private void Update()
     {
-        
+
     }
 
     public void InitializeHand(InventoryHandUI hand)
@@ -53,12 +53,26 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         inventoryHand = hand;
     }
 
-    public virtual void SetItem(int id=-1, int newCount = 1, bool interactable=true)
+    public void InitializeInventory(PlayerInventory pi)
     {
+        playerInventory = pi;
+        playerInventory.OnInventoryToggled += ToggleCanInteract;
+        ToggleCanInteract(false);
+    }
+
+    private void ToggleCanInteract(bool active)
+    {
+        canInteract = active;
+        Debug.Log($"Slot canInteract set to {active}");
+    }
+
+    public virtual void SetItem(int id = -1, int newCount = 1, bool interactable = false)
+    {
+        Debug.Log($"Setting item to {id}, count {newCount}");
         //set the internal item data
-        if(id != -1)
+        if (id != -1)
         {
-            
+
             item = ItemDatabase.Instance.GetItem(id);
             itemSprite.sprite = item.Icon;
             itemSprite.color = new Color(1, 1, 1, 1);
@@ -69,7 +83,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         }
 
         count = newCount;
-        if(count > 1)
+        if (count > 1)
         {
             itemCount.text = count.ToString();
         }
@@ -78,7 +92,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
             itemCount.text = "";
         }
         canInteract = interactable;
-        if(item != null)
+        if (item != null)
         {
             BuildTooltip();
         }
@@ -93,7 +107,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public void UpdateCountUI()
     {
-        if(count > 1)
+        if (count > 1)
         {
             itemCount.text = count.ToString();
         }
@@ -101,18 +115,20 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         {
             itemCount.text = "";
         }
-       
+
     }
 
-    public void AddCount(int newCount=1)
+
+
+    public void AddCount(int newCount = 1)
     {
         count += newCount;
         UpdateCountUI();
     }
 
-    public void SubtractCount(int newCount=1)
+    public void SubtractCount(int newCount = 1)
     {
-        if(newCount <= count)
+        if (newCount <= count)
         {
             count -= newCount;
             CheckItemDepleted();
@@ -122,8 +138,10 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         {
             Debug.Log($"Cannot remove that many {item.name}, {newCount} > {count}");
         }
-        
+
     }
+
+
 
     public void SetCount(int newCount)
     {
@@ -137,12 +155,12 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     protected void CheckItemDepleted()
     {
-        if(count < 1)
+        if (count < 1)
         {
-            
+
             //this means we have no more of that item.
             EmptySlot();
-        } 
+        }
     }
 
     protected void EmptySlot()
@@ -153,7 +171,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         Color(1, 1, 1, 0);
         itemCount.text = "";
 
-        if(tooltip.activeSelf == true)
+        if (tooltip.activeSelf == true)
         {
             tooltip.SetActive(false);
         }
@@ -162,7 +180,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if(tooltip != null && item != null)
+        if (tooltip != null && item != null)
         {
             tooltip.SetActive(true);
         }
@@ -170,7 +188,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if(tooltip != null  && item != null)
+        if (tooltip != null && item != null)
         {
             tooltip.SetActive(false);
         }
@@ -189,20 +207,20 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(eventData.button == PointerEventData.InputButton.Left)
+        if (eventData.button == PointerEventData.InputButton.Left)
         {
             HandleLeftClick();
         }
     }
 
     public virtual void HandleLeftClick()
-    {   
+    {
         //if the item is null, this means we need to pick up the slot item
-        
+
         //PICK UP AN ITEM
-        if(heldItem == null && canInteract)
+        if (heldItem == null && canInteract)
         {
-            if(item != null)
+            if (item != null)
             {
                 //set the "hand" information
                 heldItem = item;
@@ -212,12 +230,12 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
                 //clear the "slot" information
                 EmptySlot();
             }
-           
+
         }
-        else 
+        else
         {
             //PLACE YOUR ITEM
-            if(item == null && canInteract)
+            if (item == null && canInteract)
             {
                 SetItem(heldItem.Id, heldCount, true);
 
@@ -227,11 +245,11 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
                 inventoryHand.SetHandData(null, 0);
             }
             //SWAP ITEMS
-            else if(canInteract)
-            {   
-                if(item == heldItem)
+            else if (canInteract)
+            {
+                if (item == heldItem)
                 {
-                    if(count + heldCount <= maxStackSize)
+                    if (count + heldCount <= maxStackSize)
                     {
                         AddCount(heldCount);
                         inventoryHand.SetHandData(null);
@@ -243,7 +261,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
                         heldCount = count + heldCount - maxStackSize;
                         SetCount(maxStackSize);
                         inventoryHand.SetHandData(heldItem.Icon, heldCount);
-                        
+
                     }
                 }
                 else
@@ -257,7 +275,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
                     SetItem(tempItem.Id, tempCount, true);
                 }
-                
+
             }
         }
     }
@@ -271,7 +289,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         tooltipItemType.gameObject.SetActive(false);
         tooltipItemStats.gameObject.SetActive(false);
         tooltipItemQuality.gameObject.SetActive(false);
-        
+
         //Enable and Set the text of each relevant tooltip section
 
         //First, Basic Item properties
@@ -286,14 +304,14 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
         //Now we need to cover different itemTypes
         tooltipItemStats.text = "";
-        switch(item.Type)
+        switch (item.Type)
         {
             case ItemType.Tool:
                 tooltipItemStats.gameObject.SetActive(true);
-                
+
                 //tooltipItemStats.text += item.speed; HAVENT ACTUALLY IMPLEMENTED SWING SPEED YET (or damage)
                 tooltipItemStats.text += "DMG | NA\nSPD | NA";
-                
+
                 break;
 
             case ItemType.Weapon:
@@ -305,25 +323,34 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
             case ItemType.Upgrade:
                 tooltipItemStats.gameObject.SetActive(true);
                 UpgradeItem upgItem = item as UpgradeItem;
-                if(upgItem != null)
+                if (upgItem != null)
                 {
                     tooltipItemQuality.text = "\n" + upgItem.Quality.ToString() + "%";
-                    foreach(Upgrade upgrade in upgItem.upgradeList)
+                    foreach (Upgrade upgrade in upgItem.upgradeList)
                     {
                         tooltipItemStats.text += $"{upgrade.upgradeType} : {upgrade.percentIncrease}\n";
                     }
                 }
                 break;
-            
+
             case ItemType.Structure:
                 StructureItem structItem = item as StructureItem;
-                if(structItem != null)
+                if (structItem != null)
                 {
                     tooltipItemStats.text += $"Health = {structItem.prefab.GetComponent<BaseObject>()?.MaxHealth}\n";
                     tooltipItemStats.text += $"Size = {structItem.width}x{structItem.height}\n";
                 }
-                
+
                 break;
         }
+    }
+
+    private void OnDestroy()
+    {
+        if (playerInventory != null)
+        {
+            playerInventory.OnInventoryToggled -= ToggleCanInteract;
+        }
+        
     }
 }
