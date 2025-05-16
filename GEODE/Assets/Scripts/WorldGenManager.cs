@@ -19,11 +19,13 @@ public class WorldGenManager : NetworkBehaviour
     ;
    
     [SerializeField] Tilemap backgroundTilemap;
+    [SerializeField] Tilemap worldBoundaryTilemap;
+    
 
     [Header("Tiles")]
     [SerializeField] Tile[] desertTiles;
     [SerializeField] Tile[] forestTiles;
-
+    [SerializeField] Tile worldBoundaryTile;
     [Header("Biome Objects")]
     [SerializeField] private BiomeSpawnTable forestSpawnTable;
     private int totalWeight;
@@ -101,10 +103,14 @@ public class WorldGenManager : NetworkBehaviour
         int processedCount = 0;
 
         //now the fun part
-        for (int x = 0; x < worldSizeX; x++)
+        for (int x = -1; x < worldSizeX+1; x++)
         {
-            for (int y = 0; y < worldSizeY; y++)
+            for (int y = -1; y < worldSizeY+1; y++)
             {
+                if (x == -1 || y == -1 || x == worldSizeX || y == worldSizeY)
+                {
+                    worldBoundaryTilemap.SetTile(new Vector3Int(x, y), worldBoundaryTile);
+                }
                 float sampleX = (x + offset.x) / noiseScale;
                 float sampleY = (y + offset.y) / noiseScale;
 
