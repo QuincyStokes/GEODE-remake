@@ -13,6 +13,8 @@ public class DayCycleManager : MonoBehaviour
     [SerializeField] private float startTimeInSeconds;
     [SerializeField] private float dayLengthInSeconds;
     [SerializeField] private float nightLengthInSeconds;
+    [SerializeField] private Gradient lightGradient;
+    [SerializeField] private AnimationCurve intensityCurve;
 
     //EVENTS
     public event Action becameNight;
@@ -25,12 +27,14 @@ public class DayCycleManager : MonoBehaviour
     //PRIVATE TINGS
     private float currentTime;
     private float timePercent;
+    private float totalDayCycleLength;
+    private float _t;
     
 
 
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
         }
@@ -44,6 +48,7 @@ public class DayCycleManager : MonoBehaviour
     {
         sunlight.intensity = .8f;
         isNightTime = false;
+        totalDayCycleLength = dayLengthInSeconds + nightLengthInSeconds;
     }
 
     private void Update()
@@ -65,6 +70,10 @@ public class DayCycleManager : MonoBehaviour
             becameDay?.Invoke();
             Debug.Log("Becoming Day!");
         }
+
+         
+
+
         UpdateLighting();
     }
 
@@ -76,23 +85,27 @@ public class DayCycleManager : MonoBehaviour
 
     private void UpdateLighting()
     {
-        //timePercent = 0f;
-        float sunlightIntensity;
-        if(!isNightTime) //daytime sunlight
-        {
-            timePercent = currentTime / dayLengthInSeconds;
-            sunlightIntensity = Mathf.Sin(timePercent * Mathf.PI);
+        _t = (Time.time / totalDayCycleLength) % 1f;       // loops 0-1
+        sunlight.color = lightGradient.Evaluate(_t);
+        sunlight.intensity = intensityCurve.Evaluate(_t);
 
-            if(sunlightIntensity < .05f) //if it would be super dark, make it not super dark
-            {
-                sunlightIntensity = .05f;
-            }
-        }
-        else
-        {
-            sunlightIntensity = .05f;
-        }
-        sunlight.intensity = sunlightIntensity;
+        // //timePercent = 0f;
+        // float sunlightIntensity;
+        // if(!isNightTime) //daytime sunlight
+        // {
+        //     timePercent = currentTime / dayLengthInSeconds;
+        //     sunlightIntensity = Mathf.Sin(timePercent * Mathf.PI);
+
+        //     if(sunlightIntensity < .05f) //if it would be super dark, make it not super dark
+        //     {
+        //         sunlightIntensity = .05f;
+        //     }
+        // }
+        // else
+        // {
+        //     //sunlightIntensity = .05f;
+        // }
+        // //sunlight.intensity = sunlightIntensity;
         
     }
 
