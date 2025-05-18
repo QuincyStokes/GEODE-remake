@@ -7,103 +7,100 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations;
 
-public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable
+public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable, IExperienceGain
 {
     ///state machine controlled enemy base class
     ///
-    
-    #region PROPERTIES
+
     [Header("ID")]
     public int Id;
+    //*         ----------------------------- INSPECTOR REFERENCES ---------------------------
 
     [Header("References")]
     [SerializeField] private SpriteRenderer sr;
+    public EnemySteering steering;
+    public Animator animator;
+    public Rigidbody2D rb;
+    [SerializeField] private Transform centerPoint;
+
+    //*         ----------------------------- PUBLIC PROPERTIES ---------------------------
 
     [Header("Enemy Settings")]
-    [SerializeField]private float maxHealth;
-    [SerializeField]private float currentHealth;
-
     public float attackDamage;
     public float attackRange;
     public float attackCooldown;
     public float movementSpeed;
-    [SerializeField] private List<DroppedItem> droppedItems = new List<DroppedItem>();
+    [SerializeField] private int BASE_MAX_HEALTH;
+    [SerializeField] private int BASE_XP_REQUIRED;
     public LayerMask structureLayerMask;
-    public EnemySteering steering;
-    private Transform objectTransform;
-    private string objectName;
-    public Vector2 externalVelocity;
+    [HideInInspector] public Vector2 externalVelocity;
     [SerializeField] private float knockbackDecay;
-    #endregion
-    #region ACCESSORS
-    public float MaxHealth
-    {
-        get => maxHealth;
-        set => maxHealth = value;
-    }
 
-    public float CurrentHealth
-    {
-        get => currentHealth;
-        set => currentHealth = value;
-    }
-
-    public Transform ObjectTransform
-    {
-        get => objectTransform;
-    }
-
-    public string ObjectName
-    {
-        get => objectName;
-        set => objectName = value;
-    }
-    public List<DroppedItem> DroppedItems
-    {
-        get => droppedItems;
-    }
-
-    [SerializeField] private Transform centerPoint;
-    public Transform CenterPoint
-    {
-        get => centerPoint;
-    }
-
-    #endregion
-    [Header("References")]
-    public Animator animator;
-    public Rigidbody2D rb;
+    public float MaxHealth { get; set; }
+    public float CurrentHealth { get; set; }
+    public Transform ObjectTransform { get; }
+    public string ObjectName { get; set; }
+    [SerializeField] public List<DroppedItem> DroppedItems { get; }
+    [SerializeField] public Transform CenterPoint { get; }
     [HideInInspector] public Transform coreTransform;
     [HideInInspector] public Vector2 corePosition;
     [HideInInspector] public Transform playerTransform;
     [HideInInspector] public IDamageable currentTarget;
-    
-
-
-    //EVENTS
-    public static event Action OnDeath;
-
-    //INTERNAL
     private EnemyStateMachine stateMachine;
 
+    //*         ----------------------------- IExperienceGain ---------------------------
+
+    public int MaximumLevelXp { set; get; }
+    public int CurrentXp { set; get; }
+    public int CurrentTotalXp { set; get; }
+    public int Level { set; get; }    
+
+
+    //*         ----------------------------- EVENTS ---------------------------
+
+    //EVENTS
+    public event Action OnDeath;
+
+    //INTERNAL
+
+
+
+    //*         ----------------------------- METHODS ---------------------------
     private void Awake()
     {
         stateMachine = new EnemyStateMachine(this);
-        
+
     }
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
 
-        if(!IsServer)
+        if (!IsServer)
         {
             this.enabled = false;
+        }
+
+        MaxHealth = BASE_MAX_HEALTH;
+        MaximumLevelXp = BASE_XP_REQUIRED;
+
+        if(DayCycleManager.Instance != null)
+        {
+            DayCycleManager.Instance.becameDay += NewDayStats;
+        }
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+        if(DayCycleManager.Instance != null)
+        {
+            DayCycleManager.Instance.becameDay -= NewDayStats;
         }
     }
     private void Start()
     {
-        if(FlowFieldManager.Instance != null && coreTransform == null && FlowFieldManager.Instance.coreTransform == null)
+        if (FlowFieldManager.Instance != null && coreTransform == null && FlowFieldManager.Instance.coreTransform == null)
         {
             FlowFieldManager.Instance.corePlaced += SetCorePosition;
         }
@@ -128,8 +125,8 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable
 
     private void FixedUpdate()
     {
-        
-        stateMachine.CurrentState?.FixedUpdateState(this, stateMachine);   
+
+        stateMachine.CurrentState?.FixedUpdateState(this, stateMachine);
         externalVelocity = Vector2.Lerp(externalVelocity, Vector2.zero, knockbackDecay * Time.fixedDeltaTime);
     }
 
@@ -140,23 +137,20 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable
 
     private void SetCorePosition(Transform coreTransform)
     {
-        if(FlowFieldManager.Instance != null && FlowFieldManager.Instance.HasCoreBeenPlaced())
+        if (FlowFieldManager.Instance != null && FlowFieldManager.Instance.HasCoreBeenPlaced())
         {
             this.coreTransform = coreTransform;
             corePosition = (Vector2)coreTransform.position + new Vector2(1, 1);
         }
     }
 
-    public virtual void Attack()
-    {
-        //we have currentTarget
-    }
+    public abstract void Attack();
 
     public void OnTakeDamage(float amount, Vector2 source)
     {
         DisplayDamageFloaterClientRpc(amount);
         OnDamageColorChangeClientRpc();
-        if(source!=Vector2.zero)
+        if (source != Vector2.zero)
         {
             Vector3 dir = (Vector2)transform.position - source;
             TakeKnockbackServerRpc(dir, amount);
@@ -167,45 +161,45 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable
     [ServerRpc(RequireOwnership = false)]
     public void DropItemsServerRpc()
     {
-        if(DroppedItems != null && LootManager.Instance != null)
+        if (DroppedItems != null && LootManager.Instance != null)
         {
-            foreach(DroppedItem item in DroppedItems)
-            {   
-            //If the item has something other than 100% drop chance
-                if(item.chance < 100)
+            foreach (DroppedItem item in DroppedItems)
+            {
+                //If the item has something other than 100% drop chance
+                if (item.chance < 100)
                 {
                     //roll the dice to see if we should spawn this item
                     float rolledChance = UnityEngine.Random.Range(0f, 100f);
-                    if(rolledChance <= item.chance)
+                    if (rolledChance <= item.chance)
                     {
-                        LootManager.Instance.SpawnLootServerRpc(transform.position, item.Id, UnityEngine.Random.Range(item.minAmount, item.maxAmount+1));
+                        LootManager.Instance.SpawnLootServerRpc(transform.position, item.Id, UnityEngine.Random.Range(item.minAmount, item.maxAmount + 1));
                     }
                 }
                 else
                 {
-                    LootManager.Instance.SpawnLootServerRpc(transform.position, item.Id, UnityEngine.Random.Range(item.minAmount, item.maxAmount+1));
+                    LootManager.Instance.SpawnLootServerRpc(transform.position, item.Id, UnityEngine.Random.Range(item.minAmount, item.maxAmount + 1));
                 }
             }
         }
-        
+
     }
 
     [ServerRpc(RequireOwnership = false)]
     public void RestoreHealthServerRpc(float amount)
     {
         CurrentHealth += amount;
-        if(CurrentHealth > MaxHealth)
+        if (CurrentHealth > MaxHealth)
         {
             CurrentHealth = MaxHealth;
         }
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void TakeDamageServerRpc(float amount, Vector2 sourceDirection, bool dropItems=false)
+    public void TakeDamageServerRpc(float amount, Vector2 sourceDirection, bool dropItems = false)
     {
         CurrentHealth -= amount;
         OnTakeDamage(amount, sourceDirection);
-        if(CurrentHealth <= 0)
+        if (CurrentHealth <= 0)
         {
             DestroyThisServerRpc(dropItems);
         }
@@ -215,7 +209,8 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable
     public void DisplayDamageFloaterClientRpc(float amount)
     {
         GameObject damageFloater;
-        if(CenterPoint != null){
+        if (CenterPoint != null)
+        {
             damageFloater = Instantiate(GameAssets.Instance.damageFloater, CenterPoint.position, Quaternion.identity);
         }
         else
@@ -241,7 +236,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable
     [ServerRpc]
     public void DestroyThisServerRpc(bool dropItems)
     {
-        DropItemsServerRpc(); // ERROR HERE
+        DropItemsServerRpc();
         OnDeath?.Invoke();
         GetComponent<NetworkObject>()?.Despawn();
     }
@@ -251,4 +246,57 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable
     {
         externalVelocity += direction.normalized * Mathf.Log(force);
     }
+
+    public void NewDayStats()
+    {
+        AddXp(125);
+    }
+
+    public void AddXp(int amount)
+    {
+        
+        CurrentXp += amount;
+        
+        CheckLevelUp();
+        OnXpGain();
+        //maybe in the future this can be a coroutine that does it slowly for cool effect
+    }
+
+    public void CheckLevelUp()
+    {
+        if(CurrentXp > MaximumLevelXp)
+        {
+            int newXp = CurrentXp - MaximumLevelXp;
+            CurrentXp = 0;
+            LevelUp();
+            AddXp(newXp);
+        }
+    }
+
+    public void LevelUp()
+    {
+        Level++;
+        MaximumLevelXp = Mathf.RoundToInt(MaximumLevelXp * 1.2f);
+        //need some way for this to interact with stats.. OnLevelUp()? then it's up to the base classes to figure out what they wanna do
+        OnLevelUp();
+    }
+
+    public void SetLevel(int level)
+    {
+        Level = level;
+    }
+
+    public void OnXpGain()
+    {
+
+    }
+
+    public void OnLevelUp()
+    {
+        attackDamage *= 1.1f;
+        movementSpeed *= 1.04f;
+        attackCooldown *= .97f;
+    }
+
+
 }

@@ -257,29 +257,24 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   Id: 0
   sr: {fileID: 6974662852891349937}
-  maxHealth: 30
-  currentHealth: 30
-  attackDamage: 10
-  attackRange: 1.5
-  attackCooldown: 3
-  movementSpeed: 2
-  droppedItems:
-  - Id: 29
-    minAmount: 1
-    maxAmount: 1
-    chance: 10
-  structureLayerMask:
-    serializedVersion: 2
-    m_Bits: 2176
   steering:
     checkInterval: 0.1
     rayDistance: 1
     steeringAngle: 30
-  externalVelocity: {x: 0, y: 0}
-  knockbackDecay: 0.5
-  centerPoint: {fileID: 4547582025547477451}
   animator: {fileID: 6878477634410811571}
   rb: {fileID: 7670961486429863952}
+  centerPoint: {fileID: 4547582025547477451}
+  attackDamage: 10
+  attackRange: 1.5
+  attackCooldown: 3
+  movementSpeed: 2
+  BASE_MAX_HEALTH: 25
+  BASE_XP_REQUIRED: 100
+  structureLayerMask:
+    serializedVersion: 2
+    m_Bits: 2176
+  externalVelocity: {x: 0, y: 0}
+  knockbackDecay: 0.5
   coreTransform: {fileID: 0}
   corePosition: {x: 0, y: 0}
   playerTransform: {fileID: 0}

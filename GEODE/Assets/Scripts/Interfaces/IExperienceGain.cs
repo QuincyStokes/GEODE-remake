@@ -20,38 +20,10 @@ public interface IExperienceGain
         set; get;
     }
 
-    public void AddXp(int amount)
-    {
-        
-        CurrentXp += amount;
-        
-        CheckLevelUp();
-        OnXpGain();
-        //maybe in the future this can be a coroutine that does it slowly for cool effect
-    }
-    public void CheckLevelUp()
-    {
-        if(CurrentXp > MaximumLevelXp)
-        {
-            int newXp = CurrentXp - MaximumLevelXp;
-            CurrentXp = 0;
-            LevelUp();
-            AddXp(newXp);
-        }
-    }
-    
-    public void LevelUp()
-    {
-        Level++;
-        MaximumLevelXp = Mathf.RoundToInt(MaximumLevelXp * 1.2f);
-        //need some way for this to interact with stats.. OnLevelUp()? then it's up to the base classes to figure out what they wanna do
-        OnLevelUp();
-    }
-    public void SetLevel(int level)
-    {
-        Level = level;
-    }
-
+    public abstract void AddXp(int amount);
+    public abstract void CheckLevelUp();
+    public abstract void LevelUp();
+    public void SetLevel(int level);
     public void OnXpGain();
     //this needs functions like AddXp, 
     public void OnLevelUp();

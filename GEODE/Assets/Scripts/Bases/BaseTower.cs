@@ -16,10 +16,10 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     [SerializeField] private float BASE_SPEED;
     [SerializeField] private float BASE_STRENGTH;
     [SerializeField] private float BASE_SIZE;
-    
-    public NetworkVariable<float> baseSpeed {get; set;} = new NetworkVariable<float>(1f);  //attack rate
-    public NetworkVariable<float> baseStrength {get; set;} = new NetworkVariable<float>(1f);//damage/power of attack
-    public NetworkVariable<float> baseSize{get; set;} = new NetworkVariable<float>(1f);//range of attack
+
+    public NetworkVariable<float> baseSpeed { get; set; } = new NetworkVariable<float>(1f);  //attack rate
+    public NetworkVariable<float> baseStrength { get; set; } = new NetworkVariable<float>(1f);//damage/power of attack
+    public NetworkVariable<float> baseSize { get; set; } = new NetworkVariable<float>(1f);//range of attack
 
     [SerializeField] private float rotationSpeed;
     [SerializeField] private bool rotates;
@@ -31,10 +31,10 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     [SerializeField] public int level;
 
     [Header("Stat Modifiers")]
-    [SerializeField] public NetworkVariable<float> speedModifier {get; set;} = new NetworkVariable<float>(0); //modifies attack rate
-    [SerializeField] public NetworkVariable<float> strengthModifier {get; set;} = new NetworkVariable<float>(0); //modifies power
-    [SerializeField] public NetworkVariable<float> sizeModifier {get; set;} = new NetworkVariable<float>(0); //modifies range
-    [SerializeField] public NetworkVariable<float> sturdyModifier {get; set;} = new NetworkVariable<float>(0); //modifies max health
+    [SerializeField] public NetworkVariable<float> speedModifier { get; set; } = new NetworkVariable<float>(0); //modifies attack rate
+    [SerializeField] public NetworkVariable<float> strengthModifier { get; set; } = new NetworkVariable<float>(0); //modifies power
+    [SerializeField] public NetworkVariable<float> sizeModifier { get; set; } = new NetworkVariable<float>(0); //modifies range
+    [SerializeField] public NetworkVariable<float> sturdyModifier { get; set; } = new NetworkVariable<float>(0); //modifies max health
 
     [Header("References")]
     [SerializeField] protected LayerMask targetLayer;
@@ -44,10 +44,10 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
 
 
     // final stats
-    [HideInInspector]public NetworkVariable<float> speed {get; set;} = new NetworkVariable<float>(1f);
-    [HideInInspector]public NetworkVariable<float> strength {get; set;} = new NetworkVariable<float>(1f);
-    [HideInInspector]public NetworkVariable<float> size {get; set;} = new NetworkVariable<float>(1f);
-    [HideInInspector]public NetworkVariable<float> sturdy {get; set;} = new NetworkVariable<float>(1f);
+    [HideInInspector] public NetworkVariable<float> speed { get; set; } = new NetworkVariable<float>(1f);
+    [HideInInspector] public NetworkVariable<float> strength { get; set; } = new NetworkVariable<float>(1f);
+    [HideInInspector] public NetworkVariable<float> size { get; set; } = new NetworkVariable<float>(1f);
+    [HideInInspector] public NetworkVariable<float> sturdy { get; set; } = new NetworkVariable<float>(1f);
 
     //Upgrade privates
     [HideInInspector] public List<Upgrade> upgrades = new List<Upgrade>();
@@ -65,15 +65,15 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
 
     #region ACCESSORS
 
-    public int Level { get => level; set => level = value;}
-    public int MaximumLevelXp { get => maximumLevelXp; set => maximumLevelXp = value;}
+    public int Level { get => level; set => level = value; }
+    public int MaximumLevelXp { get => maximumLevelXp; set => maximumLevelXp = value; }
     public int CurrentXp { get => currentXp; set => currentXp = value; }
-    public int CurrentTotalXp { get => currentTotalXp; set => currentTotalXp = value;}
+    public int CurrentTotalXp { get => currentTotalXp; set => currentTotalXp = value; }
 
 
     //UPGRADES 
     public List<Upgrade> Upgrades { get => upgrades; }
-    public List<UpgradeItem> UpgradeItems { get => upgradeItems;}
+    public List<UpgradeItem> UpgradeItems { get => upgradeItems; }
 
     #endregion
 
@@ -84,7 +84,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     {
         base.OnNetworkSpawn();
         InitializeBaseStats();
-        if(detectionCollider != null)
+        if (detectionCollider != null)
         {
             detectionCollider.radius = size.Value;
         }
@@ -92,45 +92,45 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
 
     private void InitializeBaseStats()
     {
-        if(!IsServer) {return;}
+        if (!IsServer) { return; }
         baseSpeed.Value = BASE_SPEED;
         baseSize.Value = BASE_SIZE;
         baseStrength.Value = BASE_STRENGTH;
 
-        strength.Value = baseStrength.Value * (strengthModifier.Value/100+1);
-        speed.Value = baseSpeed.Value * (speedModifier.Value/100+1);
-        size.Value = baseSize.Value * (sizeModifier.Value/100+1);
-        sturdy.Value =  MaxHealth * (sturdyModifier.Value/100+1);
+        strength.Value = baseStrength.Value * (strengthModifier.Value / 100 + 1);
+        speed.Value = baseSpeed.Value * (speedModifier.Value / 100 + 1);
+        size.Value = baseSize.Value * (sizeModifier.Value / 100 + 1);
+        sturdy.Value = MaxHealth * (sturdyModifier.Value / 100 + 1);
     }
 
     private void Update()
     {
-        if(Time.frameCount % 4 == 0)
+        if (Time.frameCount % 4 == 0)
         {
             currentTarget = GetNearestTarget();
             Debug.Log($"Current target: {currentTarget}");
-            if(currentTarget != null)
+            if (currentTarget != null)
             {
                 Debug.Log("Current target isn't null!");
-                if(rotates)
+                if (rotates)
                 {
                     Debug.Log("It rotates!");
                     SetTargetRotation();
                     RotateTowardsTarget();
-                    if(Time.time >= nextFireTime && IsRotationComplete()) // 
+                    if (Time.time >= nextFireTime && IsRotationComplete()) // 
                     {
                         Fire();
                         Debug.Log("Firing.");
                         nextFireTime = Time.time + 1f / speed.Value;
                     }
                 }
-                else if(Time.time >= nextFireTime)
+                else if (Time.time >= nextFireTime)
                 {
                     Debug.Log("Does not rotate. Firing!");
                     Fire();
                     nextFireTime = Time.time + 1f / speed.Value;
                 }
-                
+
             }
         }
     }
@@ -157,25 +157,25 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
 
     private Transform GetNearestTarget()
     {
-        float currentClosest = size.Value*2; //arbitrary number, fine to set it to range*2 because that will always be outside of our range
-        if(targets.Count == 0)
+        float currentClosest = size.Value * 2; //arbitrary number, fine to set it to range*2 because that will always be outside of our range
+        if (targets.Count == 0)
         {
             currentTarget = null;
             return null;
         }
 
-        foreach(GameObject target in targets)
+        foreach (GameObject target in targets)
         {
-            if(target != null)
+            if (target != null)
             {
                 float dist = Vector3.Distance(target.transform.position, transform.position);
-                if(dist < currentClosest)
+                if (dist < currentClosest)
                 {
                     currentClosest = dist;
                     currentTarget = target.transform;
                 }
             }
-            
+
         }
         return currentTarget;
     }
@@ -189,19 +189,19 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
         targets.Remove(target);
     }
 
-     private void SetTargetRotation()
+    private void SetTargetRotation()
     {
         Debug.Log("Setting target rotation!");
         Vector2 direction = (currentTarget.position - tower.transform.position).normalized;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         targetRotation = Quaternion.Euler(new Vector3(0, 0, angle));
         isRotating = true;
-        
+
     }
 
     private void RotateTowardsTarget()
     {
-        if(isRotating)
+        if (isRotating)
         {
             Debug.Log($"Tower is rotating towards {targetRotation}");
             tower.transform.rotation = Quaternion.Lerp(tower.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
@@ -210,7 +210,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
 
     private bool IsRotationComplete()
     {
-        if(Quaternion.Angle(tower.transform.rotation, targetRotation) < 1f)
+        if (Quaternion.Angle(tower.transform.rotation, targetRotation) < 1f)
         {
             isRotating = false;
             return true;
@@ -245,13 +245,16 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
 
     public void OnLevelUp()
     {
-        //add to stat modifiers
+        baseStrength.Value += 4;
+        baseSpeed.Value += 1;
+        baseSize.Value += 1;
+        MaxHealth *= 1.05f;
     }
 
-    [ServerRpc(RequireOwnership =false)]
+    [ServerRpc(RequireOwnership = false)]
     public void ApplyUpgradeServerRpc(int itemId)
     {
-        if(!IsServer)
+        if (!IsServer)
         {
             return;
         }
@@ -259,13 +262,13 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
         BaseItem item = ItemDatabase.Instance.GetItem(itemId);
         UpgradeItem upgradeItem = item as UpgradeItem;
         //! FOR NOW JUST GOING TO USE A SWITCH/CASE, THIS IS NOT SCALEABLE BUT GETS THE JOB DONE FOR NOW
-        if(upgradeItem != null)
+        if (upgradeItem != null)
         {
             UpgradeItems.Add(upgradeItem);
             serverUpgradeItemIds.Add(upgradeItem.Id);
-            foreach(Upgrade upgrade in upgradeItem.upgradeList)
+            foreach (Upgrade upgrade in upgradeItem.upgradeList)
             {
-                switch(upgrade.upgradeType)
+                switch (upgrade.upgradeType)
                 {
                     case UpgradeType.Strength:
                         strengthModifier.Value += upgrade.percentIncrease;
@@ -284,17 +287,17 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
 
                 }
             }
-            
+
         }
         else
-        {   
+        {
             Debug.Log("Did not apply stats. UpgradeItem is null");
         }
 
-        strength.Value = baseStrength.Value * (strengthModifier.Value/100+1);
-        speed.Value = baseSpeed.Value * (speedModifier.Value/100+1);
-        size.Value = baseSize.Value * (sizeModifier.Value/100+1);
-        sturdy.Value =  MaxHealth * (sturdyModifier.Value/100+1);
+        strength.Value = baseStrength.Value * (strengthModifier.Value / 100 + 1);
+        speed.Value = baseSpeed.Value * (speedModifier.Value / 100 + 1);
+        size.Value = baseSize.Value * (sizeModifier.Value / 100 + 1);
+        sturdy.Value = MaxHealth * (sturdyModifier.Value / 100 + 1);
 
         SyncUpgradesAndStatsClientRpc(serverUpgradeItemIds.ToArray());
     }
@@ -305,19 +308,19 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     public void RemoveUpgradeServerRpc(int itemId)
     {
         //! FOR NOW JUST GOING TO USE A SWITCH/CASE, THIS IS NOT SCALEABLE BUT GETS THE JOB DONE FOR NOW
-        if(!IsServer)
+        if (!IsServer)
         {
             return;
         }
         BaseItem item = ItemDatabase.Instance.GetItem(itemId);
         UpgradeItem upgradeItem = item as UpgradeItem;
-        if(upgradeItem != null)
+        if (upgradeItem != null)
         {
             UpgradeItems.Remove(upgradeItem);
             serverUpgradeItemIds.Remove(upgradeItem.Id);
-            foreach(Upgrade upgrade in upgradeItem.upgradeList)
+            foreach (Upgrade upgrade in upgradeItem.upgradeList)
             {
-                switch(upgrade.upgradeType)
+                switch (upgrade.upgradeType)
                 {
                     case UpgradeType.Strength:
                         strengthModifier.Value -= upgrade.percentIncrease;
@@ -336,13 +339,13 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
 
                 }
             }
-            
+
         }
 
-        strength.Value = baseStrength.Value * (strengthModifier.Value/100+1);
-        speed.Value = baseSpeed.Value * (speedModifier.Value/100+1);
-        size.Value = baseSize.Value * (sizeModifier.Value/100+1);
-        sturdy.Value =  MaxHealth * (sturdyModifier.Value/100+1);
+        strength.Value = baseStrength.Value * (strengthModifier.Value / 100 + 1);
+        speed.Value = baseSpeed.Value * (speedModifier.Value / 100 + 1);
+        size.Value = baseSize.Value * (sizeModifier.Value / 100 + 1);
+        sturdy.Value = MaxHealth * (sturdyModifier.Value / 100 + 1);
 
         SyncUpgradesAndStatsClientRpc(serverUpgradeItemIds.ToArray());
     }
@@ -356,11 +359,11 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
         upgradeItems.Clear();
         upgrades.Clear();
 
-        foreach(int id in serverUpgradeItemIds)
+        foreach (int id in serverUpgradeItemIds)
         {
             BaseItem item = ItemDatabase.Instance.GetItem(id);
             UpgradeItem upItem = item as UpgradeItem;
-            if(upItem != null)
+            if (upItem != null)
             {
                 upgradeItems.Add(upItem);
                 upgrades.AddRange(upItem.upgradeList);
@@ -370,6 +373,39 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
         //PlayerController.Instance.inspectionMenu?.PopulateMenu(this.gameObject, true);
     }
 
+    public void AddXp(int amount)
+    {
+        
+        CurrentXp += amount;
+        
+        CheckLevelUp();
+        OnXpGain();
+        //maybe in the future this can be a coroutine that does it slowly for cool effect
+    }
+
+    public void CheckLevelUp()
+    {
+        if(CurrentXp > MaximumLevelXp)
+        {
+            int newXp = CurrentXp - MaximumLevelXp;
+            CurrentXp = 0;
+            LevelUp();
+            AddXp(newXp);
+        }
+    }
+
+    public void LevelUp()
+    {
+        Level++;
+        MaximumLevelXp = Mathf.RoundToInt(MaximumLevelXp * 1.2f);
+        //need some way for this to interact with stats.. OnLevelUp()? then it's up to the base classes to figure out what they wanna do
+        OnLevelUp();
+    }
+
+    public void SetLevel(int level)
+    {
+        Level = level;
+    }
     #endregion
 
 }

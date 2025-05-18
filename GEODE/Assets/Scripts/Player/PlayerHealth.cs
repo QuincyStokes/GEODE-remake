@@ -27,7 +27,7 @@ public class PlayerHealthAndXP : MonoBehaviour, IDamageable, IExperienceGain
     [SerializeField] private SpriteRenderer sr;
     [SerializeField] private Transform objectTransform;
     [SerializeField] private string objectName;
-    
+
     [SerializeField] private Slider healthbarSlider;
     [SerializeField] private TMP_Text healthbarText;
 
@@ -81,7 +81,8 @@ public class PlayerHealthAndXP : MonoBehaviour, IDamageable, IExperienceGain
     public void DisplayDamageFloaterClientRpc(float amount)
     {
         GameObject damageFloater;
-        if(CenterPoint != null){
+        if (CenterPoint != null)
+        {
             damageFloater = Instantiate(GameAssets.Instance.damageFloater, CenterPoint.position, Quaternion.identity);
         }
         else
@@ -93,24 +94,24 @@ public class PlayerHealthAndXP : MonoBehaviour, IDamageable, IExperienceGain
 
     public void DropItemsServerRpc()
     {
-        foreach(DroppedItem item in DroppedItems)
-        {   
+        foreach (DroppedItem item in DroppedItems)
+        {
             //If the item has something other than 100% drop chance
-            if(item.chance < 100)
+            if (item.chance < 100)
             {
                 //roll the dice to see if we should spawn this item
                 float rolledChance = Random.Range(0f, 100f);
-                if(rolledChance <= item.chance)
+                if (rolledChance <= item.chance)
                 {
-                    LootManager.Instance.SpawnLootServerRpc(transform.position, item.Id, Random.Range(item.minAmount, item.maxAmount+1));
+                    LootManager.Instance.SpawnLootServerRpc(transform.position, item.Id, Random.Range(item.minAmount, item.maxAmount + 1));
                 }
             }
             else
             {
-                LootManager.Instance.SpawnLootServerRpc(transform.position, item.Id, Random.Range(item.minAmount, item.maxAmount+1));
+                LootManager.Instance.SpawnLootServerRpc(transform.position, item.Id, Random.Range(item.minAmount, item.maxAmount + 1));
             }
-            
-            
+
+
         }
     }
 
@@ -125,18 +126,18 @@ public class PlayerHealthAndXP : MonoBehaviour, IDamageable, IExperienceGain
     public void RestoreHealthServerRpc(float amount)
     {
         CurrentHealth += amount;
-        if(CurrentHealth > MaxHealth)
+        if (CurrentHealth > MaxHealth)
         {
             CurrentHealth = MaxHealth;
         }
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void TakeDamageServerRpc(float amount, Vector2 sourceDirection, bool dropItems=false)
+    public void TakeDamageServerRpc(float amount, Vector2 sourceDirection, bool dropItems = false)
     {
         CurrentHealth -= amount;
         OnTakeDamage(amount, sourceDirection);
-        if(CurrentHealth <= 0)
+        if (CurrentHealth <= 0)
         {
             //not sure how to handle player death yet, current thought is similar to terraria?
             //drop some portion of items or lose xp? or maybe nothing
@@ -182,7 +183,41 @@ public class PlayerHealthAndXP : MonoBehaviour, IDamageable, IExperienceGain
 
     public void OnLevelUp()
     {
-        //add to stat modifiers
+        
+    }
+    
+    public void AddXp(int amount)
+    {
+        
+        CurrentXp += amount;
+        
+        CheckLevelUp();
+        OnXpGain();
+        //maybe in the future this can be a coroutine that does it slowly for cool effect
+    }
+
+    public void CheckLevelUp()
+    {
+        if(CurrentXp > MaximumLevelXp)
+        {
+            int newXp = CurrentXp - MaximumLevelXp;
+            CurrentXp = 0;
+            LevelUp();
+            AddXp(newXp);
+        }
+    }
+
+    public void LevelUp()
+    {
+        Level++;
+        MaximumLevelXp = Mathf.RoundToInt(MaximumLevelXp * 1.2f);
+        //need some way for this to interact with stats.. OnLevelUp()? then it's up to the base classes to figure out what they wanna do
+        OnLevelUp();
+    }
+
+    public void SetLevel(int level)
+    {
+        Level = level;
     }
 
 
