@@ -1026,6 +1026,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1496171620}
     - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
+      propertyPath: dayLengthInSeconds
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
+      propertyPath: startTimeInSeconds
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: lightGradient.atime0
       value: 0
       objectReference: {fileID: 0}
@@ -1128,6 +1136,10 @@ PrefabInstance:
     - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: lightGradient.m_Mode
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
+      propertyPath: nightLengthInSeconds
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: lightGradient.m_NumColorKeys
