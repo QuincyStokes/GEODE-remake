@@ -31,7 +31,8 @@ public class DayCycleManager : NetworkBehaviour
     private float timePercent;
     private float totalDayCycleLength;
     private float _t;
-    
+    private float _t2;
+    private float worldSizeX;
 
 
     private void Awake()
@@ -51,6 +52,12 @@ public class DayCycleManager : NetworkBehaviour
         sunlight.intensity = .8f;
         isNightTime = false;
         totalDayCycleLength = dayLengthInSeconds + nightLengthInSeconds;
+        if (WorldGenManager.Instance != null)
+        {
+            worldSizeX = WorldGenManager.Instance.WorldSizeX;
+        }
+        currentTime.Value += startTimeInSeconds;
+        totalDayTime.Value += startTimeInSeconds;
     }
 
     public override void OnNetworkSpawn()
@@ -93,10 +100,23 @@ public class DayCycleManager : NetworkBehaviour
 
     private void UpdateLighting()
     {
-        _t = totalDayTime.Value / totalDayCycleLength % 1f;       // loops 0-1
+        _t = (totalDayTime.Value / totalDayCycleLength + startTimeInSeconds) % 1f;       // loops 0-1
         sunlight.color = lightGradient.Evaluate(_t);
         sunlight.intensity = intensityCurve.Evaluate(_t);
 
+        if (totalDayTime.Value < dayLengthInSeconds)
+        {
+            //percentage of dayTime complete needs to be transformed into the percentage distance to WorldSizeX
+            //daytime, move left to right
+            _t2 = currentTime.Value / dayLengthInSeconds;
+            sunlight.transform.position = new Vector3(_t2 * worldSizeX, sunlight.transform.position.y, 0);
+        }
+        else
+        {
+            //nighttime, move right to left
+            _t2 = currentTime.Value / nightLengthInSeconds;
+            sunlight.transform.position = new Vector3(worldSizeX - (_t2 * worldSizeX), sunlight.transform.position.y, 0);
+        }
         // //timePercent = 0f;
         // float sunlightIntensity;
         // if(!isNightTime) //daytime sunlight
@@ -104,17 +124,17 @@ public class DayCycleManager : NetworkBehaviour
         //     timePercent = currentTime / dayLengthInSeconds;
         //     sunlightIntensity = Mathf.Sin(timePercent * Mathf.PI);
 
-        //     if(sunlightIntensity < .05f) //if it would be super dark, make it not super dark
-        //     {
-        //         sunlightIntensity = .05f;
-        //     }
-        // }
-        // else
-        // {
-        //     //sunlightIntensity = .05f;
-        // }
-        // //sunlight.intensity = sunlightIntensity;
-        
+            //     if(sunlightIntensity < .05f) //if it would be super dark, make it not super dark
+            //     {
+            //         sunlightIntensity = .05f;
+            //     }
+            // }
+            // else
+            // {
+            //     //sunlightIntensity = .05f;
+            // }
+            // //sunlight.intensity = sunlightIntensity;
+
     }
 
 
