@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Unity.Collections;
 using Unity.Netcode;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
@@ -68,15 +69,9 @@ public class WorldGenManager : NetworkBehaviour
     }
 
 
-    public IEnumerator InitializeWorldGen(int newseed, float noiseScale, Vector2 offset, ulong clientId)
+    public IEnumerator InitializeWorldGen(int newseed, float noiseScale, Vector2 offset)
     {
-        InitializeBiomeTilesSeededClientRpc(newseed, noiseScale, offset, new ClientRpcParams
-        {
-            Send = new ClientRpcSendParams
-            {
-                TargetClientIds = new [] { clientId }
-            }
-        });
+        InitializeBiomeTilesSeededClientRpc(newseed, noiseScale, offset, new ClientRpcParams{});
         //yield return StartCoroutine(InitializeBiomeTiles(newseed, noiseScale, offset));
         yield return StartCoroutine(SpawnEnvironmentFluff());
 
@@ -84,16 +79,16 @@ public class WorldGenManager : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void InitializeBiomeTilesSeededClientRpc(int seed, float noiseScale, Vector2 offset, ClientRpcParams clientRpcParams = default)
+    public void InitializeBiomeTilesSeededClientRpc(int seed, float noiseScale, Vector2 offset, ClientRpcParams clientRpcParams = default)
     {
         StartCoroutine(InitializeBiomeTiles(seed, noiseScale, offset));
     }
 
-    private IEnumerator InitializeBiomeTiles(int newseed, float noiseScale, Vector2 offset)
+    public IEnumerator InitializeBiomeTiles(int newseed, float noiseScale, Vector2 offset)
     {
         IsWorldGenerating = true;
         UnityEngine.Random.InitState(newseed);
-        if(noiseScale <= 0f)
+        if (noiseScale <= 0f)
         {
             noiseScale = .0001f; //this will just prevent division by zero error
         }
@@ -103,9 +98,9 @@ public class WorldGenManager : NetworkBehaviour
         int processedCount = 0;
 
         //now the fun part
-        for (int x = -1; x < worldSizeX+1; x++)
+        for (int x = -1; x < worldSizeX + 1; x++)
         {
-            for (int y = -1; y < worldSizeY+1; y++)
+            for (int y = -1; y < worldSizeY + 1; y++)
             {
                 if (x == -1 || y == -1 || x == worldSizeX || y == worldSizeY)
                 {
@@ -117,7 +112,7 @@ public class WorldGenManager : NetworkBehaviour
                 float noiseValue = Mathf.PerlinNoise(sampleX, sampleY);
 
                 Tile tileToPlace;
-                if(noiseValue <= .5f) //CHANGED TO FOREST ONLY TEMP
+                if (noiseValue <= .5f) //CHANGED TO FOREST ONLY TEMP
                 {
                     tileToPlace = forestTiles[UnityEngine.Random.Range(0, forestTiles.Length)];
                 }
@@ -129,7 +124,7 @@ public class WorldGenManager : NetworkBehaviour
 
                 processedCount++;
 
-                if(processedCount % chunkSize == 0)
+                if (processedCount % chunkSize == 0)
                 {
                     float progress = (float)processedCount / (float)totalTiles;
                     Debug.Log($"Generation Progress: {progress:P2}");

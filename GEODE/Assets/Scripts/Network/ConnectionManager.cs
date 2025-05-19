@@ -68,11 +68,11 @@ public class ConnectionManager : NetworkBehaviour
         //Spawn the player's for each client in the waiting list
         foreach(ulong clientId in waitingClientIds)
         {
-            StartCoroutine(DoClientConnectedThings(clientId));
+            DoClientConnectedThings(clientId);
         }
         waitingClientIds.Clear();
 
-        StartCoroutine(DoClientConnectedThings(NetworkManager.Singleton.LocalClientId));
+        DoClientConnectedThings(NetworkManager.Singleton.LocalClientId);
 
         
     }
@@ -103,7 +103,7 @@ public class ConnectionManager : NetworkBehaviour
         if(isWorldReady)
         {
             Debug.Log($"Doing Client Connected Things for {clientId}");
-            StartCoroutine(DoClientConnectedThings(clientId));
+            DoClientConnectedThings(clientId);
         }
         else
         {
@@ -112,14 +112,17 @@ public class ConnectionManager : NetworkBehaviour
         }
     }
 
-    private IEnumerator DoClientConnectedThings(ulong clientId)
+    private void DoClientConnectedThings(ulong clientId)
     {
-        if(IsServer)
-        {
-            yield return StartCoroutine(GameManager.Instance.GenerateWorld(clientId));
-        }
-        SpawnPlayerForClient(clientId);
 
+        SpawnPlayerForClient(clientId);
+        WorldGenManager.Instance.InitializeBiomeTilesSeededClientRpc(0, 5, new Vector2(10,10), new ClientRpcParams 
+        {
+            Send = new ClientRpcSendParams 
+            {
+                TargetClientIds = new[] {clientId}
+            }
+        });
         //the last ting we do for the client is unload the loading screen, this should make a clean transition into game.
         UnloadLoadingSceneClientRpc(new ClientRpcParams
         {

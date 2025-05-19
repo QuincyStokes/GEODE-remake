@@ -39,7 +39,8 @@ public class GameManager : NetworkBehaviour
             return;
         }
         Debug.Log("GameManager calling OnWorldReady!");
-        ConnectionManager.Instance.OnWorldReady();
+        StartCoroutine(GenerateWorld());
+        
         
     }
 
@@ -53,15 +54,16 @@ public class GameManager : NetworkBehaviour
         SceneManager.SetActiveScene(gameplay);
     }
 
-    
-    public IEnumerator GenerateWorld(ulong clientId)
+
+    public IEnumerator GenerateWorld()
     {
         Debug.Log("Generating world from GameManager!");
 
-        yield return StartCoroutine(WorldGenManager.Instance.InitializeWorldGen(seed, noiseScale, offset, clientId));  
+        yield return StartCoroutine(WorldGenManager.Instance.InitializeWorldGen(seed, noiseScale, offset));
         EnemySpawningManager.Instance.activated = true;
-        
+
         audioListener.enabled = true;
+        ConnectionManager.Instance.OnWorldReady();
     }
 
 }
