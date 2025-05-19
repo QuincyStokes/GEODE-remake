@@ -2802,6 +2802,7 @@ GameObject:
   - component: {fileID: 2612314248934743737}
   - component: {fileID: 6936979194301973592}
   - component: {fileID: 144841936893984039}
+  - component: {fileID: 3810456138664397343}
   m_Layer: 0
   m_Name: PlayerObject
   m_TagString: Untagged
@@ -2901,6 +2902,28 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3810456138664397343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2330667595646655313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93756521e94389f4a8685ec32d7b2293, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightSource: {fileID: 0}
+  shadowSprite: {fileID: 0}
+  shadowMaterial: {fileID: 0}
+  shadowColor: {r: 0, g: 0, b: 0, a: 1}
+  shadowAlpha: 0.5
+  shadowLength: 1
+  verticalScale: 1
+  autoSetSortingLayer: 1
+  shadowSortingLayerName: 
+  shadowSortingOrderOffset: -1
 --- !u!1 &2532921387558770516
 GameObject:
   m_ObjectHideFlags: 0

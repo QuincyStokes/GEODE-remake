@@ -27,6 +27,7 @@ public class DayCycleManager : NetworkBehaviour
 
     //PRIVATE TINGS
     private NetworkVariable<float> currentTime = new NetworkVariable<float>(0f);
+    private NetworkVariable<float> totalDayTime = new NetworkVariable<float>(0f);
     private float timePercent;
     private float totalDayCycleLength;
     private float _t;
@@ -62,6 +63,7 @@ public class DayCycleManager : NetworkBehaviour
         if (IsServer)
         {
             currentTime.Value += Time.deltaTime;
+            totalDayTime.Value += Time.deltaTime;
 
             if (currentTime.Value > dayLengthInSeconds && !isNightTime)
             {
@@ -73,6 +75,7 @@ public class DayCycleManager : NetworkBehaviour
             else if (currentTime.Value > nightLengthInSeconds && isNightTime)
             {
                 currentTime.Value = 0f;
+                totalDayTime.Value = 0f;
                 isNightTime = false;
                 DayNum++;
                 becameDay?.Invoke();
@@ -90,7 +93,7 @@ public class DayCycleManager : NetworkBehaviour
 
     private void UpdateLighting()
     {
-        _t = (currentTime.Value / totalDayCycleLength) % 1f;       // loops 0-1
+        _t = totalDayTime.Value / totalDayCycleLength % 1f;       // loops 0-1
         sunlight.color = lightGradient.Evaluate(_t);
         sunlight.intensity = intensityCurve.Evaluate(_t);
 

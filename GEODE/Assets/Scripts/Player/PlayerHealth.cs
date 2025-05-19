@@ -11,8 +11,8 @@ using System.Collections;
 public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
 {
     [Header("Health")]
-    [SerializeField] public NetworkVariable<float> MaxHealth { get; set; }  = new NetworkVariable<float>(1); 
-    [SerializeField] public NetworkVariable<float> CurrentHealth { get; set; } = new NetworkVariable<float>(1);
+    [SerializeField] public NetworkVariable<float> MaxHealth { get; set; }  = new NetworkVariable<float>(100); 
+    [SerializeField] public NetworkVariable<float> CurrentHealth { get; set; } = new NetworkVariable<float>(100);
 
     [Header("XP")]
     [SerializeField] private int maxLevelXp;

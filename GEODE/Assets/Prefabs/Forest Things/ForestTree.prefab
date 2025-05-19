@@ -42,7 +42,6 @@ GameObject:
   - component: {fileID: 2728531835010332996}
   - component: {fileID: 8037282693136163549}
   - component: {fileID: -5205301784457108778}
-  - component: {fileID: 6628632980197320086}
   - component: {fileID: 1193615935051695850}
   - component: {fileID: -1567724308649283714}
   - component: {fileID: 5984336060802938259}
@@ -151,59 +150,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &6628632980197320086
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 963850577847330231}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
-  m_Priority: 0
-  m_ComponentVersion: 5
-  m_HasRenderer: 1
-  m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
-  m_SelfShadows: 0
-  m_AlphaCutoff: 0.1
-  m_ApplyToSortingLayers: 2f1377f300000000e7bcb112
-  m_ShapePath:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 5.34375, z: 0}
-  - {x: 2.34375, y: 5.34375, z: 0}
-  - {x: 2.34375, y: 0, z: 0}
-  m_ShapePathHash: 0
-  m_InstanceId: 0
-  m_ShadowShape2DComponent: {fileID: 8037282693136163549}
-  m_ShadowShape2DProvider:
-    rid: 7621089246745198679
-  m_ShadowCastingSource: 2
-  m_ShadowMesh:
-    m_Mesh: {fileID: 0}
-    m_LocalBounds:
-      m_Center: {x: 1.184372, y: 2.625, z: 0}
-      m_Extent: {x: 0.94918823, y: 2.4773102, z: 0}
-    m_EdgeProcessing: 1
-    m_TrimEdge: 0.1
-    m_FlipX: 0
-    m_FlipY: 0
-    m_InitialTrim: 0
-  m_CastingOption: 1
-  m_PreviousTrimEdge: 0.1
-  m_PreviousEdgeProcessing: 1
-  m_PreviousShadowCastingSource: 2
-  m_PreviousShadowShape2DSource: {fileID: 8037282693136163549}
-  references:
-    version: 2
-    RefIds:
-    - rid: 7621089246745198679
-      type: {class: ShadowShape2DProvider_SpriteRenderer, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
-      data: 
 --- !u!114 &1193615935051695850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,10 +199,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   BASE_HEALTH: 40
-  maxHealth:
-    m_InternalValue: 1
-  currentHealth:
-    m_InternalValue: 1
   droppedItems:
   - Id: 1
     minAmount: 6

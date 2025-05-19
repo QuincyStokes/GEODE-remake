@@ -6,7 +6,7 @@ using UnityEngine;
 public abstract class BaseObject : NetworkBehaviour, IDamageable
 {
     [Header("Properties")]
-    [SerializeField] private float BASE_HEALTH;
+    [SerializeField] public float BASE_HEALTH;
     [SerializeField]
     public NetworkVariable<float> MaxHealth { get; set; } = new NetworkVariable<float>(1);
     public NetworkVariable<float> CurrentHealth { get; set; } = new NetworkVariable<float>(1);
@@ -31,7 +31,7 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
     [HideInInspector] public string description;
     [HideInInspector] public Sprite objectSprite;
 
-    private SpriteRenderer sr;
+    [SerializeField]private SpriteRenderer sr;
 
     public Transform ObjectTransform 
     { 

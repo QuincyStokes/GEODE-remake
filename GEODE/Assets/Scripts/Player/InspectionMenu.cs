@@ -185,7 +185,7 @@ public class InspectionMenu : MonoBehaviour
         if(currentInspectedObject != null && bo != null)
         {
             //STURDY
-            sturdy.text = $"<color=blue>{stats.sturdy.Value}</color> = {bo.MaxHealth.Value}(<color=blue>+{(bo.MaxHealth.Value * ((stats.sturdyModifier.Value/100)+1))-bo.MaxHealth.Value}</color>)";
+            sturdy.text = $"<color=blue>{stats.sturdy.Value}</color> = {bo.BASE_HEALTH}(<color=blue>+{(bo.MaxHealth.Value * ((stats.sturdyModifier.Value/100)+1))-stats.sturdy.Value}</color>)";
         }
     }
 

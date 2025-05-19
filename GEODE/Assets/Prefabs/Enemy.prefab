@@ -258,9 +258,11 @@ MonoBehaviour:
   Id: 0
   sr: {fileID: 6974662852891349937}
   steering:
-    checkInterval: 0.1
+    rayCount: 15
+    arc: 360
     rayDistance: 1
-    steeringAngle: 30
+    checkInterval: 0.2
+    drawDebug: 1
   animator: {fileID: 6878477634410811571}
   rb: {fileID: 7670961486429863952}
   centerPoint: {fileID: 4547582025547477451}

@@ -101,6 +101,8 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
         speed.Value = baseSpeed.Value * (speedModifier.Value / 100 + 1);
         size.Value = baseSize.Value * (sizeModifier.Value / 100 + 1);
         sturdy.Value = MaxHealth.Value * (sturdyModifier.Value / 100 + 1);
+
+        MaxHealth.Value = sturdy.Value;
     }
 
     private void Update()
@@ -272,15 +274,25 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
                 {
                     case UpgradeType.Strength:
                         strengthModifier.Value += upgrade.percentIncrease;
+                         strength.Value = baseStrength.Value * (strengthModifier.Value / 100 + 1);
                         break;
                     case UpgradeType.Speed:
                         speedModifier.Value += upgrade.percentIncrease;
+                        speed.Value = baseSpeed.Value * (speedModifier.Value / 100 + 1);
                         break;
                     case UpgradeType.Size:
                         sizeModifier.Value += upgrade.percentIncrease;
+                        size.Value = baseSize.Value * (sizeModifier.Value / 100 + 1);
                         break;
                     case UpgradeType.Sturdy:
+                        // Save missing hp so we can apply max hp without fully restoring health 
+                        float missingHp = MaxHealth.Value - CurrentHealth.Value;
                         sturdyModifier.Value += upgrade.percentIncrease;
+
+                        
+                        sturdy.Value = BASE_HEALTH * (sturdyModifier.Value / 100 + 1);
+                        MaxHealth.Value = sturdy.Value;
+                        CurrentHealth.Value = MaxHealth.Value - missingHp;
                         break;
                     default:
                         break;
@@ -294,11 +306,10 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
             Debug.Log("Did not apply stats. UpgradeItem is null");
         }
 
-        strength.Value = baseStrength.Value * (strengthModifier.Value / 100 + 1);
-        speed.Value = baseSpeed.Value * (speedModifier.Value / 100 + 1);
-        size.Value = baseSize.Value * (sizeModifier.Value / 100 + 1);
-        sturdy.Value = MaxHealth.Value * (sturdyModifier.Value / 100 + 1);
-
+       
+        
+        
+        
         SyncUpgradesAndStatsClientRpc(serverUpgradeItemIds.ToArray());
     }
 
@@ -324,15 +335,25 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
                 {
                     case UpgradeType.Strength:
                         strengthModifier.Value -= upgrade.percentIncrease;
+                        strength.Value = baseStrength.Value * (strengthModifier.Value / 100 + 1);
                         break;
                     case UpgradeType.Speed:
                         speedModifier.Value -= upgrade.percentIncrease;
+                        speed.Value = baseSpeed.Value * (speedModifier.Value / 100 + 1);
                         break;
                     case UpgradeType.Size:
                         sizeModifier.Value -= upgrade.percentIncrease;
+                        size.Value = baseSize.Value * (sizeModifier.Value / 100 + 1);
                         break;
                     case UpgradeType.Sturdy:
                         sturdyModifier.Value -= upgrade.percentIncrease;
+                        
+                        sturdy.Value = BASE_HEALTH * (sturdyModifier.Value / 100 + 1);
+                        MaxHealth.Value = sturdy.Value;
+                        if (CurrentHealth.Value > MaxHealth.Value)
+                        {
+                            CurrentHealth.Value = MaxHealth.Value;
+                        }
                         break;
                     default:
                         break;
@@ -342,10 +363,12 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
 
         }
 
-        strength.Value = baseStrength.Value * (strengthModifier.Value / 100 + 1);
-        speed.Value = baseSpeed.Value * (speedModifier.Value / 100 + 1);
-        size.Value = baseSize.Value * (sizeModifier.Value / 100 + 1);
-        sturdy.Value = MaxHealth.Value * (sturdyModifier.Value / 100 + 1);
+        
+        
+        
+        
+
+        
 
         SyncUpgradesAndStatsClientRpc(serverUpgradeItemIds.ToArray());
     }
