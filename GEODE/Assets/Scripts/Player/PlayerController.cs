@@ -22,6 +22,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
     private Rigidbody2D rb;
     [SerializeField] public GameObject attackHitbox; //TEMP
     [SerializeField] public Animator attackAnimator;
+    [SerializeField] private DayNumber dayNumber;
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed;
@@ -103,6 +104,11 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
 
             Instance = this;
             CameraWorldConfiner.Instance.SetCameraBoundary();
+
+            if (DayCycleManager.Instance != null)
+            {
+                DayCycleManager.Instance.becameDay += dayNumber.IncreaseDay;
+            }
 
             playerUICanvas.SetActive(true);
         }
@@ -271,9 +277,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
         networkVelocity.Value = velocity;
     }
 
-    //this works pretty well
-    [ServerRpc]
-    public void TakeKnockbackServerRpc(Vector2 direction, float force)
+    public void TakeKnockback(Vector2 direction, float force)
 
     {
         externalVelocity += direction.normalized * Mathf.Log(force);

@@ -7,28 +7,10 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
 {
     [Header("Properties")]
     [SerializeField] private float BASE_HEALTH;
-    [SerializeField] private NetworkVariable<float> maxHealth = new NetworkVariable<float>(
-        1,
-        NetworkVariableReadPermission.Everyone,
-        NetworkVariableWritePermission.Server
-    );
-    public float MaxHealth 
-    { 
-        get => maxHealth.Value; 
-        set => maxHealth.Value = value; 
-    }
-    
-    [SerializeField] private NetworkVariable<float> currentHealth = new NetworkVariable<float>(
-        1,
-        NetworkVariableReadPermission.Everyone,
-        NetworkVariableWritePermission.Server
-    );
+    [SerializeField]
+    public NetworkVariable<float> MaxHealth { get; set; } = new NetworkVariable<float>(1);
+    public NetworkVariable<float> CurrentHealth { get; set; } = new NetworkVariable<float>(1);
 
-    public float CurrentHealth 
-    { 
-        get => currentHealth.Value; 
-        set => currentHealth.Value = value; 
-    }
     [SerializeField] private List<DroppedItem> droppedItems;
     public List<DroppedItem> DroppedItems 
     { 
@@ -75,8 +57,8 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
     [ServerRpc(RequireOwnership = false)]
     public void InitializeHealthServerRpc()
     {
-        MaxHealth = BASE_HEALTH;
-        CurrentHealth = MaxHealth;
+        MaxHealth.Value = BASE_HEALTH;
+        CurrentHealth.Value = MaxHealth.Value;
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -86,15 +68,25 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
         {
             return;
         }
-        currentHealth.Value += amount;
-        if(currentHealth.Value > maxHealth.Value)
+        CurrentHealth.Value += amount;
+        if(CurrentHealth.Value > MaxHealth.Value)
         {
-            currentHealth.Value = maxHealth.Value;
+            CurrentHealth.Value = MaxHealth.Value;
         }
     }
 
     [ServerRpc(RequireOwnership = false)]
     public void TakeDamageServerRpc(float amount,  Vector2 sourceDirection, bool dropItems=false)
+    {
+        if (!IsServer)
+        {
+            return;
+        }
+
+        ApplyDamage(amount, sourceDirection, dropItems);
+    }
+
+    public void ApplyDamage(float amount, Vector2 sourceDirection, bool dropItems = false)
     {
         if(!IsServer)
         {
@@ -108,11 +100,11 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
         
         DisplayDamageFloaterClientRpc(amount);
         Debug.Log($"{name} took {amount} damage");
-        currentHealth.Value -= amount;
+        CurrentHealth.Value -= amount;
         OnTakeDamage(amount, sourceDirection);
-        if(currentHealth.Value <= 0)
+        if(CurrentHealth.Value <= 0)
         {
-            DestroyThisServerRpc(dropItems);
+            DestroyThis(dropItems);
         }
 
     }
@@ -149,8 +141,7 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
         sr.color = Color.white;
     }
 
-    [ServerRpc]
-    public void DropItemsServerRpc()
+    public void DropItems()
     {
         if(DroppedItems != null && LootManager.Instance != null)
         {
@@ -181,8 +172,7 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
 
     }
 
-    [ServerRpc]
-    public void DestroyThisServerRpc(bool dropItems)
+    public void DestroyThis(bool dropItems)
     {
         if(!IsServer)
         {
@@ -190,7 +180,7 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
         }
         if(dropItems)
         {
-           DropItemsServerRpc();
+           DropItems();
         }
         ChunkManager.Instance.DeregisterObject(gameObject);
         GetComponent<NetworkObject>().Despawn(true);

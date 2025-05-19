@@ -11,13 +11,10 @@ public class DayNumber : MonoBehaviour
     [SerializeField] private float scaleAmount;
     void Start()
     {
-        if (DayCycleManager.Instance != null)
-        {
-            DayCycleManager.Instance.becameDay += IncreaseDay;
-        }
+        
     }
 
-    private void IncreaseDay()
+    public void IncreaseDay()
     {
         dayNum++;
         StartCoroutine(ScaleDayText());

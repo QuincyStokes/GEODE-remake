@@ -8,11 +8,11 @@ using Unity.VisualScripting;
 using System.Collections;
 
 
-public class PlayerHealthAndXP : MonoBehaviour, IDamageable, IExperienceGain
+public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
 {
     [Header("Health")]
-    [SerializeField] private float maxHealth;
-    [SerializeField] private float currentHealth;
+    [SerializeField] public NetworkVariable<float> MaxHealth { get; set; }  = new NetworkVariable<float>(1); 
+    [SerializeField] public NetworkVariable<float> CurrentHealth { get; set; } = new NetworkVariable<float>(1);
 
     [Header("XP")]
     [SerializeField] private int maxLevelXp;
@@ -34,19 +34,6 @@ public class PlayerHealthAndXP : MonoBehaviour, IDamageable, IExperienceGain
     [SerializeField] private Slider xpbarSlider;
     [SerializeField] private TMP_Text xpbarText;
     [SerializeField] private TMP_Text levelText;
-
-
-    public float MaxHealth
-    {
-        get => maxHealth;
-        set => maxHealth = value;
-    }
-
-    public float CurrentHealth
-    {
-        get => currentHealth;
-        set => currentHealth = value;
-    }
 
     public Transform ObjectTransform
     {
@@ -73,11 +60,12 @@ public class PlayerHealthAndXP : MonoBehaviour, IDamageable, IExperienceGain
     public int CurrentTotalXp { get => totalXp; set => totalXp = value; }
     public int Level { get => level; set => level = value; }
 
-    public void DestroyThisServerRpc(bool dropItems)
+    public void DestroyThis(bool dropItems)
     {
         //not sure if this'll ever be called, have to look into the player "dying", my guess is we don't actually want to destroy it
     }
 
+    [ClientRpc]
     public void DisplayDamageFloaterClientRpc(float amount)
     {
         GameObject damageFloater;
@@ -92,7 +80,7 @@ public class PlayerHealthAndXP : MonoBehaviour, IDamageable, IExperienceGain
         damageFloater.GetComponent<DamageFloater>().Initialize(amount);
     }
 
-    public void DropItemsServerRpc()
+    public void DropItems()
     {
         foreach (DroppedItem item in DroppedItems)
         {
@@ -125,19 +113,29 @@ public class PlayerHealthAndXP : MonoBehaviour, IDamageable, IExperienceGain
     [ServerRpc(RequireOwnership = false)]
     public void RestoreHealthServerRpc(float amount)
     {
-        CurrentHealth += amount;
-        if (CurrentHealth > MaxHealth)
+        CurrentHealth.Value += amount;
+        if (CurrentHealth.Value > MaxHealth.Value)
         {
-            CurrentHealth = MaxHealth;
+            CurrentHealth.Value = MaxHealth.Value;
         }
     }
 
     [ServerRpc(RequireOwnership = false)]
     public void TakeDamageServerRpc(float amount, Vector2 sourceDirection, bool dropItems = false)
     {
-        CurrentHealth -= amount;
+        if (!IsServer)
+        {
+            return;
+        }
+        ApplyDamage(amount, sourceDirection, dropItems);
+
+    }
+
+    public void ApplyDamage(float amount, Vector2 sourceDirection, bool dropItems = false)
+    {
+        CurrentHealth.Value -= amount;
         OnTakeDamage(amount, sourceDirection);
-        if (CurrentHealth <= 0)
+        if (CurrentHealth.Value <= 0)
         {
             //not sure how to handle player death yet, current thought is similar to terraria?
             //drop some portion of items or lose xp? or maybe nothing
@@ -160,10 +158,10 @@ public class PlayerHealthAndXP : MonoBehaviour, IDamageable, IExperienceGain
 
     public void UpdateHealthbar()
     {
-        healthbarSlider.maxValue = MaxHealth;
-        healthbarSlider.value = CurrentHealth;
+        healthbarSlider.maxValue = MaxHealth.Value;
+        healthbarSlider.value = CurrentHealth.Value;
 
-        healthbarText.text = $"{CurrentHealth}/{MaxHealth}";
+        healthbarText.text = $"{CurrentHealth.Value}/{MaxHealth.Value}";
     }
 
     public void OnXpGain()

@@ -1,8 +1,9 @@
 using System;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-public class DayCycleManager : MonoBehaviour
+public class DayCycleManager : NetworkBehaviour
 {
     public static DayCycleManager Instance;
     [Header("References")]
@@ -25,7 +26,7 @@ public class DayCycleManager : MonoBehaviour
     public int DayNum = 1;
 
     //PRIVATE TINGS
-    private float currentTime;
+    private NetworkVariable<float> currentTime = new NetworkVariable<float>(0f);
     private float timePercent;
     private float totalDayCycleLength;
     private float _t;
@@ -51,29 +52,33 @@ public class DayCycleManager : MonoBehaviour
         totalDayCycleLength = dayLengthInSeconds + nightLengthInSeconds;
     }
 
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        
+    }
     private void Update()
     {
-        currentTime += Time.deltaTime;
-
-        if(currentTime > dayLengthInSeconds && !isNightTime)
+        if (IsServer)
         {
-            currentTime = 0f;
-            isNightTime = true;
-            becameNight?.Invoke();
-            Debug.Log("Becoming Night!");
+            currentTime.Value += Time.deltaTime;
+
+            if (currentTime.Value > dayLengthInSeconds && !isNightTime)
+            {
+                currentTime.Value = 0f;
+                isNightTime = true;
+                becameNight?.Invoke();
+                Debug.Log("Becoming Night!");
+            }
+            else if (currentTime.Value > nightLengthInSeconds && isNightTime)
+            {
+                currentTime.Value = 0f;
+                isNightTime = false;
+                DayNum++;
+                becameDay?.Invoke();
+                Debug.Log("Becoming Day!");
+            }
         }
-        else if (currentTime > nightLengthInSeconds && isNightTime)
-        {
-            currentTime = 0f;
-            isNightTime = false;
-            DayNum++;
-            becameDay?.Invoke();
-            Debug.Log("Becoming Day!");
-        }
-
-         
-
-
         UpdateLighting();
     }
 
@@ -85,7 +90,7 @@ public class DayCycleManager : MonoBehaviour
 
     private void UpdateLighting()
     {
-        _t = (Time.time / totalDayCycleLength) % 1f;       // loops 0-1
+        _t = (currentTime.Value / totalDayCycleLength) % 1f;       // loops 0-1
         sunlight.color = lightGradient.Evaluate(_t);
         sunlight.intensity = intensityCurve.Evaluate(_t);
 

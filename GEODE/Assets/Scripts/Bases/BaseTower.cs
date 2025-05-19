@@ -100,7 +100,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
         strength.Value = baseStrength.Value * (strengthModifier.Value / 100 + 1);
         speed.Value = baseSpeed.Value * (speedModifier.Value / 100 + 1);
         size.Value = baseSize.Value * (sizeModifier.Value / 100 + 1);
-        sturdy.Value = MaxHealth * (sturdyModifier.Value / 100 + 1);
+        sturdy.Value = MaxHealth.Value * (sturdyModifier.Value / 100 + 1);
     }
 
     private void Update()
@@ -248,7 +248,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
         baseStrength.Value += 4;
         baseSpeed.Value += 1;
         baseSize.Value += 1;
-        MaxHealth *= 1.05f;
+        MaxHealth.Value *= 1.05f;
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -297,7 +297,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
         strength.Value = baseStrength.Value * (strengthModifier.Value / 100 + 1);
         speed.Value = baseSpeed.Value * (speedModifier.Value / 100 + 1);
         size.Value = baseSize.Value * (sizeModifier.Value / 100 + 1);
-        sturdy.Value = MaxHealth * (sturdyModifier.Value / 100 + 1);
+        sturdy.Value = MaxHealth.Value * (sturdyModifier.Value / 100 + 1);
 
         SyncUpgradesAndStatsClientRpc(serverUpgradeItemIds.ToArray());
     }
@@ -345,7 +345,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
         strength.Value = baseStrength.Value * (strengthModifier.Value / 100 + 1);
         speed.Value = baseSpeed.Value * (speedModifier.Value / 100 + 1);
         size.Value = baseSize.Value * (sizeModifier.Value / 100 + 1);
-        sturdy.Value = MaxHealth * (sturdyModifier.Value / 100 + 1);
+        sturdy.Value = MaxHealth.Value * (sturdyModifier.Value / 100 + 1);
 
         SyncUpgradesAndStatsClientRpc(serverUpgradeItemIds.ToArray());
     }

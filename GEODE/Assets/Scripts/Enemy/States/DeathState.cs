@@ -10,7 +10,7 @@ public class DeathState : BaseEnemyState
 
     public override void ExitState(BaseEnemy owner, EnemyStateMachine stateMachine)
     {
-        owner.DropItemsServerRpc();
+        owner.DropItems();
     }
 
     public override void FixedUpdateState(BaseEnemy owner, EnemyStateMachine stateMachine)

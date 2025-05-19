@@ -8272,6 +8272,7 @@ MonoBehaviour:
   pauseMenu: {fileID: 1395375061418743693}
   attackHitbox: {fileID: 8748278583955026354}
   attackAnimator: {fileID: 980645611446013924}
+  dayNumber: {fileID: 1514360565529031736}
   moveSpeed: 4
   knockbackDecay: 3
   swingCooldown: 0.5
@@ -8321,8 +8322,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b85cafa51f5e5944f94da1b44ef10954, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 120
-  currentHealth: 90
+  ShowTopMostFoldoutHeaderGroup: 1
   maxLevelXp: 500
   currentLevelXp: 358
   totalXp: 358

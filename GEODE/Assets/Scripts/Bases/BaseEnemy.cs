@@ -36,11 +36,11 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
     [HideInInspector] public Vector2 externalVelocity;
     [SerializeField] private float knockbackDecay;
 
-    public float MaxHealth { get; set; }
-    public float CurrentHealth { get; set; }
+    public NetworkVariable<float> MaxHealth { get; set; } = new NetworkVariable<float>(1);
+    public NetworkVariable<float> CurrentHealth { get; set; } = new NetworkVariable<float>(1);
     public Transform ObjectTransform { get; }
     public string ObjectName { get; set; }
-    [SerializeField] public List<DroppedItem> DroppedItems { get; }
+    [SerializeField] public List<DroppedItem> DroppedItems { get; set; }
     [SerializeField] public Transform CenterPoint { get; }
     [HideInInspector] public Transform coreTransform;
     [HideInInspector] public Vector2 corePosition;
@@ -78,10 +78,11 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
 
         if (!IsServer)
         {
-            this.enabled = false;
+            return;
         }
 
-        MaxHealth = BASE_MAX_HEALTH;
+        MaxHealth.Value = BASE_MAX_HEALTH;
+        CurrentHealth.Value = MaxHealth.Value;
         MaximumLevelXp = BASE_XP_REQUIRED;
 
         if(DayCycleManager.Instance != null)
@@ -153,13 +154,12 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
         if (source != Vector2.zero)
         {
             Vector3 dir = (Vector2)transform.position - source;
-            TakeKnockbackServerRpc(dir, amount);
+            TakeKnockback(dir, amount);
         }
 
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void DropItemsServerRpc()
+    public void DropItems()
     {
         if (DroppedItems != null && LootManager.Instance != null)
         {
@@ -187,8 +187,17 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
     [ServerRpc(RequireOwnership = false)]
     public void RestoreHealthServerRpc(float amount)
     {
-        CurrentHealth += amount;
-        if (CurrentHealth > MaxHealth)
+        RestoreHealth(amount);
+    }
+
+    public void RestoreHealth(float amount)
+    {
+        if (!IsServer)
+        {
+            return;
+        }
+        CurrentHealth.Value += amount;
+        if (CurrentHealth.Value > MaxHealth.Value)
         {
             CurrentHealth = MaxHealth;
         }
@@ -197,11 +206,23 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
     [ServerRpc(RequireOwnership = false)]
     public void TakeDamageServerRpc(float amount, Vector2 sourceDirection, bool dropItems = false)
     {
-        CurrentHealth -= amount;
-        OnTakeDamage(amount, sourceDirection);
-        if (CurrentHealth <= 0)
+        ApplyDamage(amount, sourceDirection, dropItems);
+    }
+
+    //this will be the code that *actually* applies damage to the enemy. The Server RPC is a wrapper for strange edge cases that would need it. 
+    public void ApplyDamage(float amount, Vector2 sourceDirection, bool dropItems = false)
+    {
+        if (!IsServer)
         {
-            DestroyThisServerRpc(dropItems);
+            return;
+        }
+
+        CurrentHealth.Value -= amount;
+        OnTakeDamage(amount, sourceDirection);
+
+        if (CurrentHealth.Value <= 0)
+        {
+            DestroyThis(dropItems);
         }
     }
 
@@ -233,16 +254,17 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
         sr.color = Color.white;
     }
 
-    [ServerRpc]
-    public void DestroyThisServerRpc(bool dropItems)
+    public void DestroyThis(bool dropItems)
     {
-        DropItemsServerRpc();
+        if (dropItems)
+        {
+            DropItems();
+        }
         OnDeath?.Invoke();
         GetComponent<NetworkObject>()?.Despawn();
     }
 
-    [ServerRpc]
-    public void TakeKnockbackServerRpc(Vector2 direction, float force)
+    public void TakeKnockback(Vector2 direction, float force)
     {
         externalVelocity += direction.normalized * Mathf.Log(force);
     }

@@ -86,11 +86,11 @@ public class InspectionMenu : MonoBehaviour
             SetGroup(objectThings, true);
             inspectName.text = bo.ObjectName;
             inspectImage.sprite = bo.objectSprite;
-            healthSlider.maxValue = bo.MaxHealth;
+            healthSlider.maxValue = bo.MaxHealth.Value;
             healthSlider.minValue = 0;
-            healthSlider.value = bo.CurrentHealth;
-            health.text = $"{bo.CurrentHealth}/{bo.MaxHealth}";
-            sturdy.text = bo.MaxHealth.ToString();
+            healthSlider.value = bo.CurrentHealth.Value;
+            health.text = $"{bo.CurrentHealth.Value}/{bo.MaxHealth.Value}";
+            sturdy.text = bo.MaxHealth.Value.ToString();
             description.text = bo.description;
         }
         else
@@ -185,7 +185,7 @@ public class InspectionMenu : MonoBehaviour
         if(currentInspectedObject != null && bo != null)
         {
             //STURDY
-            sturdy.text = $"<color=blue>{stats.sturdy.Value}</color> = {bo.MaxHealth}(<color=blue>+{(bo.MaxHealth * ((stats.sturdyModifier.Value/100)+1))-bo.MaxHealth}</color>)";
+            sturdy.text = $"<color=blue>{stats.sturdy.Value}</color> = {bo.MaxHealth.Value}(<color=blue>+{(bo.MaxHealth.Value * ((stats.sturdyModifier.Value/100)+1))-bo.MaxHealth.Value}</color>)";
         }
     }
 
