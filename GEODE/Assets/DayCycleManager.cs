@@ -5,36 +5,47 @@ using UnityEngine.Rendering.Universal;
 
 public class DayCycleManager : NetworkBehaviour
 {
-    public static DayCycleManager Instance;
-    [Header("References")]
-    [SerializeField] private bool isNightTime;
+    //*--------------Singleton--------------
+    public static DayCycleManager Instance { get; private set; }
+
+    //* ------------ Inspector -----------
+    [Header("Light")]
     [SerializeField] private Light2D sunlight;
-    
-    [Header("Night Cycle Settings")]
-    [SerializeField] private float startTimeInSeconds;
+
+    [Header("Lengths (sec)")]
     [SerializeField] private float dayLengthInSeconds;
     [SerializeField] private float nightLengthInSeconds;
+
+    
+    [Header("Transitions")]
+    [Tooltip("Fraction of the night after the darkest point that counts as 'sunrise'")]
+    [Range(0f,1f)] public float sunrisePercent = 0.15f;
+
+    [Header("Curves")]
     [SerializeField] private Gradient lightGradient;
     [SerializeField] private AnimationCurve intensityCurve;
 
-    //EVENTS
+    //* ----------------Events---------------
     public event Action becameNight;
     public event Action becameDay;
 
-    //PUBLIC TINGS
-    public DayType dayType;
-    public int DayNum = 1;
+    //* ----------------State ---------------
+    private NetworkVariable<float> timeOfDay =
+        new NetworkVariable<float>(0f, NetworkVariableReadPermission.Everyone,
+                                       NetworkVariableWritePermission.Server);
 
-    //PRIVATE TINGS
-    private NetworkVariable<float> currentTime = new NetworkVariable<float>(0f);
-    private NetworkVariable<float> totalDayTime = new NetworkVariable<float>(0f);
-    private float timePercent;
-    private float totalDayCycleLength;
-    private float _t;
-    private float _t2;
-    private float worldSizeX;
+    public int DayNum { get; private set; } =  1;
+    private bool isNightCached;
+
+    private float _cycleLength;
+    private float _worldSizeX;
+
+    // since we're using *one* clock, the time at which night starts will be the amount of seconds that dayLength is.
+    float nightStart; 
+    float sunriseTime;
 
 
+    //* ------------------------------Methods--------------------------------------
     private void Awake()
     {
         if (Instance == null)
@@ -43,100 +54,101 @@ public class DayCycleManager : NetworkBehaviour
         }
         else
         {
-            //Destroy(gameObject);
+            //Destroy
         }
     }
 
     private void Start()
     {
-        sunlight.intensity = .8f;
-        isNightTime = false;
-        totalDayCycleLength = dayLengthInSeconds + nightLengthInSeconds;
-        if (WorldGenManager.Instance != null)
-        {
-            worldSizeX = WorldGenManager.Instance.WorldSizeX;
-        }
-        currentTime.Value += startTimeInSeconds;
-        totalDayTime.Value += startTimeInSeconds;
+        _cycleLength = dayLengthInSeconds + nightLengthInSeconds;
+        _worldSizeX = WorldGenManager.Instance?.WorldSizeX ?? 100f;   // fallback
+
+        sunlight.intensity = intensityCurve.Evaluate(0f);
+
+        // since we're using *one* clock, the time at which night starts will be the amount of seconds that dayLength is.
+        nightStart = dayLengthInSeconds;
+        sunriseTime = nightStart + nightLengthInSeconds * sunrisePercent;
+
+        timeOfDay.Value = sunriseTime;
     }
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        
+        if (!IsServer) { return; }        
     }
     private void Update()
     {
         if (IsServer)
         {
-            currentTime.Value += Time.deltaTime;
-            totalDayTime.Value += Time.deltaTime;
-
-            if (currentTime.Value > dayLengthInSeconds && !isNightTime)
-            {
-                currentTime.Value = 0f;
-                isNightTime = true;
-                becameNight?.Invoke();
-                Debug.Log("Becoming Night!");
-            }
-            else if (currentTime.Value > nightLengthInSeconds && isNightTime)
-            {
-                currentTime.Value = 0f;
-                totalDayTime.Value = 0f;
-                isNightTime = false;
-                DayNum++;
-                becameDay?.Invoke();
-                Debug.Log("Becoming Day!");
-            }
+            AdvanceClock();
         }
         UpdateLighting();
+        CheckDayNightTransition();
     }
 
 
+    //* --------------------------- HELPERS ---------------------------
     public bool IsNighttime()
     {
-        return isNightTime;
+        return isNightCached;
     }
+
+    private void AdvanceClock()
+    {
+        //this adds to the clock, but autoatically resets to 0 when we reach cycleLength. 
+        //This is the same as just chekcing if its greater than the max time, set it to 0.
+        timeOfDay.Value = Mathf.Repeat(timeOfDay.Value + Time.deltaTime, _cycleLength);
+    }
+
+    //the percentage through the day we are.
+    private float NormalizedTime => timeOfDay.Value / _cycleLength;
 
     private void UpdateLighting()
     {
-        _t = (totalDayTime.Value / totalDayCycleLength + startTimeInSeconds) % 1f;       // loops 0-1
-        sunlight.color = lightGradient.Evaluate(_t);
-        sunlight.intensity = intensityCurve.Evaluate(_t);
+        float t = NormalizedTime;
 
-        if (totalDayTime.Value < dayLengthInSeconds)
+        //Update sunlight color and position
+        sunlight.color = lightGradient.Evaluate(t);
+        sunlight.intensity = intensityCurve.Evaluate(t);
+
+        float xPos;
+        //if the time is less than the daylength, it's daytime! move the sun right
+        if (timeOfDay.Value < dayLengthInSeconds)
         {
-            //percentage of dayTime complete needs to be transformed into the percentage distance to WorldSizeX
-            //daytime, move left to right
-            _t2 = currentTime.Value / dayLengthInSeconds;
-            sunlight.transform.position = new Vector3(_t2 * worldSizeX, sunlight.transform.position.y, 0);
+            xPos = Mathf.Lerp(0, _worldSizeX, timeOfDay.Value / dayLengthInSeconds);
         }
-        else
+        else //its nightime! move the sun left
         {
-            //nighttime, move right to left
-            _t2 = currentTime.Value / nightLengthInSeconds;
-            sunlight.transform.position = new Vector3(worldSizeX - (_t2 * worldSizeX), sunlight.transform.position.y, 0);
+            float nightT = (timeOfDay.Value - dayLengthInSeconds) / nightLengthInSeconds;
+            xPos = Mathf.Lerp(_worldSizeX, 0, nightT);
         }
-        // //timePercent = 0f;
-        // float sunlightIntensity;
-        // if(!isNightTime) //daytime sunlight
-        // {
-        //     timePercent = currentTime / dayLengthInSeconds;
-        //     sunlightIntensity = Mathf.Sin(timePercent * Mathf.PI);
 
-            //     if(sunlightIntensity < .05f) //if it would be super dark, make it not super dark
-            //     {
-            //         sunlightIntensity = .05f;
-            //     }
-            // }
-            // else
-            // {
-            //     //sunlightIntensity = .05f;
-            // }
-            // //sunlight.intensity = sunlightIntensity;
-
+        //set the suns position from above
+        Vector3 p = sunlight.transform.position;
+        sunlight.transform.position = new Vector3(xPos, p.y, p.z);
     }
 
+    private void CheckDayNightTransition()
+    {
+        //helper variable to see if its night now or not
+        bool nowNight = timeOfDay.Value >= nightStart &&
+                timeOfDay.Value <  sunriseTime;
+
+        //if it's not night, but its NowNight, that means we should change to nighttime
+        if (!isNightCached && nowNight)
+        {
+            isNightCached = true;
+            becameNight?.Invoke();
+        }
+        //else if its night but the time of day is daytime, this means we need to switch to daytime.
+        else if (isNightCached && timeOfDay.Value >= sunriseTime && becameDay != null)
+        {
+            isNightCached = false;
+            DayNum++;
+            becameDay?.Invoke();
+        }
+    }
 
     public enum DayType
     {
