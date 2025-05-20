@@ -610,7 +610,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 6.66
+  orthographic size: 5.625
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1025,6 +1025,10 @@ PrefabInstance:
       propertyPath: sunlight
       value: 
       objectReference: {fileID: 1496171620}
+    - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
+      propertyPath: sunrisePercent
+      value: 0.15
+      objectReference: {fileID: 0}
     - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: dayLengthInSeconds
       value: 120

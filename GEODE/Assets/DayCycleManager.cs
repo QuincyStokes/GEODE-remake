@@ -35,7 +35,7 @@ public class DayCycleManager : NetworkBehaviour
                                        NetworkVariableWritePermission.Server);
 
     public int DayNum { get; private set; } =  1;
-    private bool isNightCached;
+    private bool isNightCached = false;
 
     private float _cycleLength;
     private float _worldSizeX;
@@ -66,8 +66,9 @@ public class DayCycleManager : NetworkBehaviour
         sunlight.intensity = intensityCurve.Evaluate(0f);
 
         // since we're using *one* clock, the time at which night starts will be the amount of seconds that dayLength is.
-        nightStart = dayLengthInSeconds;
-        sunriseTime = nightStart + nightLengthInSeconds * sunrisePercent;
+        sunriseTime = _cycleLength * sunrisePercent;
+        nightStart = dayLengthInSeconds + sunriseTime;
+        
 
         timeOfDay.Value = sunriseTime;
     }
@@ -131,18 +132,15 @@ public class DayCycleManager : NetworkBehaviour
 
     private void CheckDayNightTransition()
     {
-        //helper variable to see if its night now or not
-        bool nowNight = timeOfDay.Value >= nightStart &&
-                timeOfDay.Value <  sunriseTime;
-
+      
         //if it's not night, but its NowNight, that means we should change to nighttime
-        if (!isNightCached && nowNight)
+        if (!isNightCached && timeOfDay.Value >= nightStart)
         {
             isNightCached = true;
             becameNight?.Invoke();
         }
         //else if its night but the time of day is daytime, this means we need to switch to daytime.
-        else if (isNightCached && timeOfDay.Value >= sunriseTime && becameDay != null)
+        else if (isNightCached && timeOfDay.Value >= sunriseTime && timeOfDay.Value < nightStart)
         {
             isNightCached = false;
             DayNum++;
