@@ -38,7 +38,6 @@ public class GameManager : NetworkBehaviour
             enabled = false;
             return;
         }
-        Debug.Log("GameManager calling OnWorldReady!");
         StartCoroutine(GenerateWorld());
         
         

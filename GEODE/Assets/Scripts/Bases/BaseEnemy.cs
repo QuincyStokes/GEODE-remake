@@ -18,38 +18,37 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
 
     [Header("References")]
     [SerializeField] private SpriteRenderer sr;
+    [SerializeField] public Transform CenterPoint { get; set; }
+    public Transform ObjectTransform { get; set; }
     public EnemySteering steering;
     public Animator animator;
     public Rigidbody2D rb;
-    [SerializeField] private Transform centerPoint;
+
 
     //*         ----------------------------- PUBLIC PROPERTIES ---------------------------
 
-    [Header("Enemy Settings")]
+    [Header("Enemy Stats")]
     public float attackDamage;
     public float attackRange;
     public float attackCooldown;
     public float movementSpeed;
     [SerializeField] private int BASE_MAX_HEALTH;
     [SerializeField] private int BASE_XP_REQUIRED;
+
+    [Header("Drops")]
+    [SerializeField] private  List<DroppedItem> DROPPED_ITEMS = new List<DroppedItem>();
+
+    [Header("Movement Settings")]
     public LayerMask structureLayerMask;
-    [HideInInspector] public Vector2 externalVelocity;
     [SerializeField] private float knockbackDecay;
 
-    public NetworkVariable<float> MaxHealth { get; set; } = new NetworkVariable<float>(1);
-    public NetworkVariable<float> CurrentHealth { get; set; } = new NetworkVariable<float>(1);
-    public Transform ObjectTransform { get; }
-    public string ObjectName { get; set; }
-    [SerializeField] public List<DroppedItem> DroppedItems { get; set; }
-    [SerializeField] public Transform CenterPoint { get; }
-    [HideInInspector] public Transform coreTransform;
-    [HideInInspector] public Vector2 corePosition;
-    [HideInInspector] public Transform playerTransform;
-    [HideInInspector] public IDamageable currentTarget;
+    public NetworkVariable<float> MaxHealth { get; set; } = new NetworkVariable<float>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<float> CurrentHealth { get; set; } = new NetworkVariable<float>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public List<DroppedItem> DroppedItems { get; set; }
     private EnemyStateMachine stateMachine;
 
-    //*         ----------------------------- IExperienceGain ---------------------------
 
+    //*         ----------------------------- IExperienceGain ---------------------------
     public int MaximumLevelXp { set; get; }
     public int CurrentXp { set; get; }
     public int CurrentTotalXp { set; get; }
@@ -57,11 +56,16 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
 
 
     //*         ----------------------------- EVENTS ---------------------------
-
-    //EVENTS
     public event Action OnDeath;
 
-    //INTERNAL
+
+    //*         ---------------------------- INTERNAL ----------------------------
+    [HideInInspector] public Transform coreTransform;
+    [HideInInspector] public Vector2 corePosition;
+    [HideInInspector] public Transform playerTransform;
+    [HideInInspector] public IDamageable currentTarget;
+    [HideInInspector] public Vector2 externalVelocity;
+
 
 
 
@@ -84,23 +88,12 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
         MaxHealth.Value = BASE_MAX_HEALTH;
         CurrentHealth.Value = MaxHealth.Value;
         MaximumLevelXp = BASE_XP_REQUIRED;
-
-        if(DayCycleManager.Instance != null)
+        ObjectTransform = transform;
+        DroppedItems = DROPPED_ITEMS;
+        if (DayCycleManager.Instance != null)
         {
             DayCycleManager.Instance.becameDay += NewDayStats;
         }
-    }
-
-    public override void OnNetworkDespawn()
-    {
-        base.OnNetworkDespawn();
-        if(DayCycleManager.Instance != null)
-        {
-            DayCycleManager.Instance.becameDay -= NewDayStats;
-        }
-    }
-    private void Start()
-    {
         if (FlowFieldManager.Instance != null && coreTransform == null && FlowFieldManager.Instance.coreTransform == null)
         {
             FlowFieldManager.Instance.corePlaced += SetCorePosition;
@@ -111,6 +104,19 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
             SetCorePosition(FlowFieldManager.Instance.coreTransform);
         }
         OnDeath += SetDeathState;
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+
+        DayCycleManager.Instance.becameDay -= NewDayStats;
+        FlowFieldManager.Instance.corePlaced -= SetCorePosition;
+        OnDeath -= SetDeathState;
+        
+    }
+    private void Start()
+    {
         PostStart();
     }
 
@@ -199,7 +205,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
         CurrentHealth.Value += amount;
         if (CurrentHealth.Value > MaxHealth.Value)
         {
-            CurrentHealth = MaxHealth;
+            CurrentHealth.Value = MaxHealth.Value;
         }
     }
 

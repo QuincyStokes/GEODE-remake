@@ -5,10 +5,9 @@ using UnityEngine;
 public interface IDamageable 
 {
    public NetworkVariable<float> MaxHealth {get; set;}
-   public NetworkVariable<float> CurrentHealth {get; set;}
-   public Transform ObjectTransform {get;}
-   public string ObjectName {get; set;}
-   public Transform CenterPoint {get;}
+   public NetworkVariable<float> CurrentHealth { get; set; }
+   public Transform ObjectTransform { get; }
+   public Transform CenterPoint { get; }
    public List<DroppedItem> DroppedItems{get;}
    public abstract void TakeDamageServerRpc(float amount, Vector2 sourceDirection, bool dropItems);
    public abstract void ApplyDamage(float amount, Vector2 sourceDirection, bool dropItems);

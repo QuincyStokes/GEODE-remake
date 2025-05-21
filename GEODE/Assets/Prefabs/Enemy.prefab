@@ -265,21 +265,29 @@ MonoBehaviour:
     drawDebug: 1
   animator: {fileID: 6878477634410811571}
   rb: {fileID: 7670961486429863952}
-  centerPoint: {fileID: 4547582025547477451}
   attackDamage: 10
   attackRange: 1.5
   attackCooldown: 3
   movementSpeed: 2
   BASE_MAX_HEALTH: 25
   BASE_XP_REQUIRED: 100
+  DROPPED_ITEMS:
+  - Id: 29
+    minAmount: 1
+    maxAmount: 1
+    chance: 25
+  - Id: 2
+    minAmount: 1
+    maxAmount: 2
+    chance: 25
   structureLayerMask:
     serializedVersion: 2
     m_Bits: 2176
-  externalVelocity: {x: 0, y: 0}
   knockbackDecay: 0.5
   coreTransform: {fileID: 0}
   corePosition: {x: 0, y: 0}
   playerTransform: {fileID: 0}
+  externalVelocity: {x: 0, y: 0}
   attackHitbox: {fileID: 4117687670939969054}
 --- !u!50 &7670961486429863952
 Rigidbody2D:

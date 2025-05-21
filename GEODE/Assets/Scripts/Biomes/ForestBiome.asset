@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   biomeName: Forest
   spawnEntries:
+  - entryName: Nothing
+    baseItem: {fileID: 11400000, guid: 1caf887cd127e3b42b6167adfe82a6f5, type: 2}
+    weight: 120
   - entryName: ForestTree
     baseItem: {fileID: 11400000, guid: 01dd4bbb0ea1ba1448077fa66c98c7fb, type: 2}
     weight: 10
@@ -53,19 +56,16 @@ MonoBehaviour:
   - entryName: ForestMushroomsS
     baseItem: {fileID: 11400000, guid: bffa4bb3d0401ce43af3807ceb88d2bc, type: 2}
     weight: 7
-  - entryName: Nothing
-    baseItem: {fileID: 11400000, guid: 1caf887cd127e3b42b6167adfe82a6f5, type: 2}
-    weight: 50
   - entryName: Red Geode
     baseItem: {fileID: 11400000, guid: 06293a621c6263f43b4898799cded384, type: 2}
-    weight: 2
+    weight: 1
   - entryName: Blue Geode
     baseItem: {fileID: 11400000, guid: 2f994faad21dd8743ad7cc2c6998cc88, type: 2}
-    weight: 2
+    weight: 1
   - entryName: Green Geode
     baseItem: {fileID: 11400000, guid: d989f779fe7c7544cafe3e134cca375e, type: 2}
-    weight: 2
+    weight: 1
   - entryName: Yellow Geode
     baseItem: {fileID: 11400000, guid: ff4657d69cb2e7a4597396f94d7c57e4, type: 2}
-    weight: 2
-  totalWeight: 815
+    weight: 1
+  totalWeight: 217

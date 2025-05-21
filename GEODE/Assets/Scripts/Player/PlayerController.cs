@@ -365,7 +365,16 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
             if (envObj != null)
             {
                 envObj.TakeDamageServerRpc(4, gameObject.transform.position, true);
-                Debug.Log($"Hit {collision.name} for 4 damage");
+                //Debug.Log($"Hit {collision.name} for 4 damage");
+            }
+        }
+        else if (collision.CompareTag("Enemy"))
+        {
+            BaseEnemy baseEnemy = collision.gameObject.GetComponentInParent<BaseEnemy>();
+            if (baseEnemy != null)
+            {
+                baseEnemy.TakeDamageServerRpc(4, gameObject.transform.position, true);
+                
             }
         }
     }

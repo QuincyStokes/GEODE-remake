@@ -14,7 +14,7 @@ public class BiomeSpawnEntry
     public int weight;
 }
 
-[CreateAssetMenu (fileName = "NewBiomeSpawnTable", menuName = "Biomes/Biome Spawn Table")]
+[CreateAssetMenu(fileName = "NewBiomeSpawnTable", menuName = "Biomes/Biome Spawn Table")]
 public class BiomeSpawnTable : ScriptableObject
 {
     [Header("Optional: Name")]
@@ -24,14 +24,38 @@ public class BiomeSpawnTable : ScriptableObject
     public List<BiomeSpawnEntry> spawnEntries;
     [HideInInspector] public int totalWeight = 0;
 
+    private void OnEnable()
+    {
+        RecalculateWeights();
+    }
 
     private void Awake()
     {
-        foreach(BiomeSpawnEntry bse in spawnEntries)
+        totalWeight = 0;
+        foreach (BiomeSpawnEntry bse in spawnEntries)
         {
 
             totalWeight += bse.weight;
         }
         Debug.Log($"Total weight of {name} is {totalWeight}");
     }
+
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        RecalculateWeights();
+    }
+#endif
+    private void RecalculateWeights()
+    {
+        totalWeight = 0;
+        foreach (BiomeSpawnEntry bse in spawnEntries)
+        {
+
+            totalWeight += bse.weight;
+        }
+    }
+    
+    
+    
 }

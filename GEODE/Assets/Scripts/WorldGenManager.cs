@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Unity.Collections;
 using Unity.Netcode;
@@ -127,7 +128,7 @@ public class WorldGenManager : NetworkBehaviour
                 if (processedCount % chunkSize == 0)
                 {
                     float progress = (float)processedCount / (float)totalTiles;
-                    Debug.Log($"Generation Progress: {progress:P2}");
+                    //Debug.Log($"Generation Progress: {progress:P2}");
 
                     yield return null;
                 }
@@ -138,12 +139,29 @@ public class WorldGenManager : NetworkBehaviour
 
     }
     
+    [ContextMenu("Test-fire table 10 000×")]
+    public void MonteCarlo()
+    {
+        const int shots = 10_000;
+        Dictionary<BaseItem,int> tally = new();
+        for (int i = 0; i < shots; i++)
+        {
+            int id = GetRandomSpawn(forestSpawnTable);             // assumes in same SO
+            var item = ItemDatabase.Instance.GetItem(id);
+            if (!tally.TryAdd(item, 1))
+                tally[item]++;
+        }
+        foreach (var kv in tally.OrderBy(k => k.Value))
+            Debug.Log($"{kv.Key.name}: {(float)kv.Value / shots:P2}");
+    }
+
     public BiomeType GetBiomeAtPosition(Vector3Int pos)
     {
         TileBase tile = backgroundTilemap.GetTile(pos);
-        if (tile != null){
+        if (tile != null)
+        {
             BiomeTile biomeTile = tile as BiomeTile;
-            if(biomeTile != null)
+            if (biomeTile != null)
             {
                 return biomeTile.biomeType;
             }
@@ -151,7 +169,7 @@ public class WorldGenManager : NetworkBehaviour
             {
                 return BiomeType.None;
             }
-        } 
+        }
         else
         {
             return BiomeType.None;
@@ -164,9 +182,9 @@ public class WorldGenManager : NetworkBehaviour
         int totalTiles = WorldSizeX * WorldSizeY;
         int processedCount = 0;
 
-        for (int x = 0; x < worldSizeX; x++)
+        for (int x = 0; x < WorldSizeX; x++)
         {
-            for (int y = 0; y < worldSizeY; y++)
+            for (int y = 0; y < WorldSizeY; y++)
             {
                 Vector3Int currentPos = new Vector3Int(x, y);
                 BiomeType currType = GetBiomeAtPosition(currentPos);
@@ -180,26 +198,28 @@ public class WorldGenManager : NetworkBehaviour
                     default:
                         break;
                 }
-                    
-                if(!GridManager.Instance.IsPositionOccupied(currentPos) && toSpawn != -1)
+
+                if (!GridManager.Instance.IsPositionOccupied(currentPos) && toSpawn != -1)
                 {
                     BaseItem item = ItemDatabase.Instance.GetItem(toSpawn);
                     StructureItem structItem = item as StructureItem;
 
-                    Vector3 newPos = new Vector3(x+UnityEngine.Random.Range(-.2f , .2f), y+UnityEngine.Random.Range(-.2f, .2f), 0);
-                    if(structItem != null)
+                    Vector3 newPos = new Vector3(x + UnityEngine.Random.Range(-.2f, .2f), y + UnityEngine.Random.Range(-.2f, .2f), 0);
+                    if (structItem != null)
                     {
                         structItem.Use(newPos, false, true);
                     }
                     else
                     {
-                        Debug.Log("Cannot place item, structItem not found");
+                        
                     }
-                    
+
                     //PlaceObjectOffGridServerRpc(toSpawn, new Vector3(x+UnityEngine.Random.Range(-.2f , .2f), y+UnityEngine.Random.Range(-.2f, .2f), 0), positionsToBlock.ToArray());
                     //PlaceObjectOffGridServerRpc(toSpawn, new Vector3(x, y, 0), positionsToBlock.ToArray());
-                    
+
                 }
+                
+
                 processedCount++;
 
                 if(processedCount % chunkSize == 0)
@@ -214,21 +234,24 @@ public class WorldGenManager : NetworkBehaviour
         }
         
     }
+    
+    
+
 
     private int GetRandomSpawn(BiomeSpawnTable bst)
     {
-        if(bst == null || bst.spawnEntries == null || bst.spawnEntries.Count == 0)
+        if (bst == null || bst.spawnEntries == null || bst.spawnEntries.Count == 0)
         {
             Debug.Log($"Error | Biome Entry Table for {bst.name} is null");
             return -1;
         }
-        float randomValue = UnityEngine.Random.value * bst.totalWeight;
-
-        foreach(var entry in bst.spawnEntries)
+        float randomValue = UnityEngine.Random.Range(0, bst.totalWeight);
+        Debug.Log($"Total Weight On Spawn: {bst.totalWeight}");
+        foreach (var entry in bst.spawnEntries)
         {
-            if(randomValue < entry.weight)
+            if (randomValue < entry.weight)
             {
-                if(entry.baseItem != null)
+                if (entry.baseItem != null)
                 {
                     return entry.baseItem.Id;
                 }
@@ -236,7 +259,7 @@ public class WorldGenManager : NetworkBehaviour
                 {
                     return -1;
                 }
-                
+
             }
             else
             {

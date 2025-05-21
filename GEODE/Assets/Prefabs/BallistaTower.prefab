@@ -310,10 +310,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   BASE_HEALTH: 100
-  maxHealth:
-    m_InternalValue: 100
-  currentHealth:
-    m_InternalValue: 100
   droppedItems:
   - Id: 1
     minAmount: 0
@@ -323,6 +319,7 @@ MonoBehaviour:
   centerPoint: {fileID: 0}
   description: 
   objectSprite: {fileID: 0}
+  sr: {fileID: 0}
   BASE_SPEED: 1
   BASE_STRENGTH: 10
   BASE_SIZE: 4
@@ -465,6 +462,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6484323666102249149}
   - component: {fileID: 6878977793782977151}
+  - component: {fileID: 2154732167530679458}
   m_Layer: 0
   m_Name: TowerBase
   m_TagString: Untagged
@@ -544,6 +542,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
+--- !u!114 &2154732167530679458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7889345120831098038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93756521e94389f4a8685ec32d7b2293, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightSource: {fileID: 0}
+  shadowSprite: {fileID: 0}
+  shadowMaterial: {fileID: 0}
+  shadowColor: {r: 0, g: 0, b: 0, a: 1}
+  shadowAlpha: 0.5
+  shadowLength: 1
+  verticalScale: 1
+  autoSetSortingLayer: 1
+  shadowSortingLayerName: 
+  shadowSortingOrderOffset: -1
 --- !u!1 &8527540901337222357
 GameObject:
   m_ObjectHideFlags: 0

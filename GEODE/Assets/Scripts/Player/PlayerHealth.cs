@@ -26,8 +26,6 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
     [Header("References")]
     [SerializeField] private SpriteRenderer sr;
     [SerializeField] private Transform objectTransform;
-    [SerializeField] private string objectName;
-
     [SerializeField] private Slider healthbarSlider;
     [SerializeField] private TMP_Text healthbarText;
 
@@ -38,12 +36,6 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
     public Transform ObjectTransform
     {
         get => objectTransform;
-    }
-
-    public string ObjectName
-    {
-        get => objectName;
-        set => objectName = value;
     }
 
     [SerializeField] private Transform centerPoint;
