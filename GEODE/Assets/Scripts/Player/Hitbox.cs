@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Unity.Netcode;
-using UnityEditor.UIElements;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Hitbox : MonoBehaviour
 {
@@ -24,7 +22,7 @@ public class Hitbox : MonoBehaviour
                 Debug.Log($"Comparing object {tag} ?= {collision.tag}");
                 if (collision.CompareTag(tag))
                 {
-                    damageable.ApplyDamage(new DamageInfo(damage, parentDirection, tool, dropItems));
+                    damageable.TakeDamageServerRpc(new DamageInfo(damage, parentDirection, tool, dropItems));
                     return;
                 }
             }

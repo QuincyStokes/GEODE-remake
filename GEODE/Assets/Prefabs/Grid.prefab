@@ -239,10 +239,12 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   playerPrefab: {fileID: 8265714030686749453, guid: 4a1078cc45e59d74aa22bc27912743fa, type: 3}
   backgroundTilemap: {fileID: 2742785033119217819}
+  worldBoundaryTilemap: {fileID: 0}
   desertTiles:
   - {fileID: 11400000, guid: 14b1f6bd9a25f6a47b516bc9fc7d7b98, type: 2}
   forestTiles:
   - {fileID: 11400000, guid: cfcabcac4e30b2e419851606ec724b3d, type: 2}
+  worldBoundaryTile: {fileID: 0}
   forestSpawnTable: {fileID: 11400000, guid: 21e9ce3bc2544fb41b66ec1f6386ceb8, type: 2}
   itemDatabase: {fileID: 0}
   enemyDatabase: {fileID: 0}

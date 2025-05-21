@@ -8318,8 +8318,6 @@ MonoBehaviour:
   startingItems:
   - item: {fileID: 11400000, guid: a1cb9bfd804f74e468769ad9e11ffd58, type: 2}
     amount: 1
-  - item: {fileID: 11400000, guid: 95be7b23b2fb6a6478d3ab92b1dbf1c0, type: 2}
-    amount: 1
   maxItemStack: 0
   inventoryObject: {fileID: 3774294273146469442}
   inventorySlotHolder: {fileID: 7945631100879103693}

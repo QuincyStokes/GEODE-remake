@@ -71,8 +71,13 @@ public class PlayerInventory : NetworkBehaviour, IContainer
             inventoryObject.SetActive(false);
             hotbarObject.SetActive(true);
         }
+
+        if (IsServer)
+        {
+            AddItem(6, 1);
+        }
         
-        foreach(ItemAmount itemAmount in startingItems)
+        foreach (ItemAmount itemAmount in startingItems)
         {
             AddItem(itemAmount.item.Id, itemAmount.amount);
         }
@@ -81,7 +86,6 @@ public class PlayerInventory : NetworkBehaviour, IContainer
         {
             AddItem(1, 20);
             AddItem(2, 20);
-            AddItem(6, 1);
             AddItem(24, 20);
             AddItem(26, 1);
             AddItem(27, 1);
