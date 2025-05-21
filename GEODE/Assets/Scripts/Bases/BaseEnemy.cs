@@ -37,6 +37,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
 
     [Header("Drops")]
     [SerializeField] private  List<DroppedItem> DROPPED_ITEMS = new List<DroppedItem>();
+    [SerializeField] private ToolType idealToolType;
 
     [Header("Movement Settings")]
     public LayerMask structureLayerMask;
@@ -210,25 +211,34 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void TakeDamageServerRpc(float amount, Vector2 sourceDirection, bool dropItems = false)
+    public void TakeDamageServerRpc(DamageInfo info)
     {
-        ApplyDamage(amount, sourceDirection, dropItems);
+        ApplyDamage(info);
     }
 
     //this will be the code that *actually* applies damage to the enemy. The Server RPC is a wrapper for strange edge cases that would need it. 
-    public void ApplyDamage(float amount, Vector2 sourceDirection, bool dropItems = false)
+    public void ApplyDamage(DamageInfo info)
     {
         if (!IsServer)
         {
             return;
         }
 
-        CurrentHealth.Value -= amount;
-        OnTakeDamage(amount, sourceDirection);
+        if (info.tool == idealToolType || info.tool == ToolType.None)
+        {
+            CurrentHealth.Value -= info.amount;
+            OnTakeDamage(info.amount, info.sourceDirection);
+        }
+        else
+        {
+            CurrentHealth.Value -= info.amount/4;
+            OnTakeDamage(info.amount/4, info.sourceDirection);
+        }
+        
 
         if (CurrentHealth.Value <= 0)
         {
-            DestroyThis(dropItems);
+            DestroyThis(info.dropItems);
         }
     }
 

@@ -17,5 +17,8 @@ MonoBehaviour:
   type: 1
   icon: {fileID: -8961851798374407225, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
   id: 28
+  quality: 0
   isStackable: 0
   consumeOnUse: 0
+  damage: 0
+  toolType: 4

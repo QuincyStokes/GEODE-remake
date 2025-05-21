@@ -168,6 +168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   BASE_HEALTH: 16
+  idealToolType: 2
   droppedItems:
   - Id: 1
     minAmount: 1
@@ -177,6 +178,7 @@ MonoBehaviour:
   centerPoint: {fileID: 6647818183751251631}
   description: 
   objectSprite: {fileID: 0}
+  sr: {fileID: 0}
 --- !u!1 &6616316421070252082
 GameObject:
   m_ObjectHideFlags: 0

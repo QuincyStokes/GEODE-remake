@@ -39,7 +39,7 @@ public class RatEnemy : BaseEnemy
             Debug.Log("Hit a structure!");
 
             //need to loook on the parent objects, BaseStructure script doesnt exist on the collision object
-            collision.gameObject.GetComponentInParent<BaseObject>().ApplyDamage(attackDamage, gameObject.transform.position);
+            collision.gameObject.GetComponentInParent<BaseObject>().ApplyDamage(new DamageInfo(attackDamage, gameObject.transform.position));
         }
     }
 

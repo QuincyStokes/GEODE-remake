@@ -37,7 +37,6 @@ public class ItemDatabase : ScriptableObject
 
     public BaseItem GetItem(int id)
     {
-        Debug.Log($"Attempting to access item {id}");
         return itemDictionary[id];
     }
     

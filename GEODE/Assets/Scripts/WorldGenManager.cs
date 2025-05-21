@@ -246,7 +246,7 @@ public class WorldGenManager : NetworkBehaviour
             return -1;
         }
         float randomValue = UnityEngine.Random.Range(0, bst.totalWeight);
-        Debug.Log($"Total Weight On Spawn: {bst.totalWeight}");
+        //Debug.Log($"Total Weight On Spawn: {bst.totalWeight}");
         foreach (var entry in bst.spawnEntries)
         {
             if (randomValue < entry.weight)

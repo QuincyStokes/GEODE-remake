@@ -310,6 +310,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   BASE_HEALTH: 100
+  idealToolType: 4
   droppedItems:
   - Id: 1
     minAmount: 0

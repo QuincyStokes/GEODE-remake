@@ -137,7 +137,7 @@ public class FlowFieldManager : NetworkBehaviour
         //First check if this position is actually on the flowfield
         if(IsInBounds(flowFieldPosition))
         {
-            Debug.Log($"Marking  {flowFieldPosition} as non-walkable");
+            //Debug.Log($"Marking  {flowFieldPosition} as non-walkable");
             //if we're here, we have a valid position, set the walkable
             flowField[flowFieldPosition.x, flowFieldPosition.y].isWalkable = walkable;
         }
@@ -174,7 +174,7 @@ public class FlowFieldManager : NetworkBehaviour
     {
         if(!hasCoreBeenPlaced)
         {
-            Debug.Log("Cannot calculate flow field, core position has not been set.");
+            //Debug.Log("Cannot calculate flow field, core position has not been set.");
             return;
         }
 
@@ -277,7 +277,7 @@ public class FlowFieldManager : NetworkBehaviour
                     }
                 }
                 //finally, set our current position's flow direction towards the cheapest neighbor
-                Debug.Log($"Placing flow direction at ({x}, {y}) with direction {bestDir}");
+                //Debug.Log($"Placing flow direction at ({x}, {y}) with direction {bestDir}");
                 flowField[x, y].flowDirection = bestDir;
                 if(bestDir == neighborOffsets[0])
                 {

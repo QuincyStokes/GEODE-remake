@@ -20,3 +20,5 @@ MonoBehaviour:
   quality: 0
   isStackable: 0
   consumeOnUse: 0
+  damage: 5
+  toolType: 5

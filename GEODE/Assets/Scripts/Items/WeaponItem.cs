@@ -5,18 +5,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewWeapon", menuName = "Items/WeaponItem")]
 public class WeaponItem : BaseItem
 {
-
-    public override bool Use(Vector3 position, bool snapToGrid = true, bool force=false)
+    [SerializeField] private float damage;
+    [SerializeField] private ToolType toolType;
+    public override bool Use(Vector3 position, bool snapToGrid = true, bool force = false)
     {
+        PlayerController.Instance.Attack(damage, toolType, true);
 
-        //!TEMPORARY IMPLEMENTATION
-        //just enable a hitbox thats attatched to the player
-        //how do we where do we do the hitbox
-            //its attatched to the player, how do we access it?
-                //reference back to PlayerController, which will need some reference to thehitbox
-                //i think this works fine for temporary
-        PlayerController.Instance.Attack();
-        
         return true;
     }
 

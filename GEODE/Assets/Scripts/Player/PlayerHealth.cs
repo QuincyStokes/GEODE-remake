@@ -113,20 +113,20 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void TakeDamageServerRpc(float amount, Vector2 sourceDirection, bool dropItems = false)
+    public void TakeDamageServerRpc(DamageInfo info)
     {
         if (!IsServer)
         {
             return;
         }
-        ApplyDamage(amount, sourceDirection, dropItems);
+        ApplyDamage(info);
 
     }
 
-    public void ApplyDamage(float amount, Vector2 sourceDirection, bool dropItems = false)
+    public void ApplyDamage(DamageInfo info)
     {
-        CurrentHealth.Value -= amount;
-        OnTakeDamage(amount, sourceDirection);
+        CurrentHealth.Value -= info.amount;
+        OnTakeDamage(info.amount, info.sourceDirection);
         if (CurrentHealth.Value <= 0)
         {
             //not sure how to handle player death yet, current thought is similar to terraria?

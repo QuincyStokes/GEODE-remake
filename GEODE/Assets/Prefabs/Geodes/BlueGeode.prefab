@@ -500,10 +500,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   BASE_HEALTH: 25
-  maxHealth:
-    m_InternalValue: 100
-  currentHealth:
-    m_InternalValue: 100
+  idealToolType: 1
   droppedItems:
   - Id: 31
     minAmount: 1
@@ -517,3 +514,4 @@ MonoBehaviour:
   centerPoint: {fileID: 5222662708037614757}
   description: 
   objectSprite: {fileID: 0}
+  sr: {fileID: 0}

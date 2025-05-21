@@ -7,10 +7,10 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
 {
     [Header("Properties")]
     [SerializeField] public float BASE_HEALTH;
-    [SerializeField]
     public NetworkVariable<float> MaxHealth { get; set; } = new NetworkVariable<float>(1);
     public NetworkVariable<float> CurrentHealth { get; set; } = new NetworkVariable<float>(1);
 
+    [SerializeField] private ToolType idealToolType;
     [SerializeField] private List<DroppedItem> droppedItems;
     public List<DroppedItem> DroppedItems 
     { 
@@ -76,35 +76,46 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void TakeDamageServerRpc(float amount,  Vector2 sourceDirection, bool dropItems=false)
+    public void TakeDamageServerRpc(DamageInfo info)
     {
         if (!IsServer)
         {
             return;
         }
 
-        ApplyDamage(amount, sourceDirection, dropItems);
+        ApplyDamage(info);
     }
 
-    public void ApplyDamage(float amount, Vector2 sourceDirection, bool dropItems = false)
+    public void ApplyDamage(DamageInfo info)
+    //public void ApplyDamage(float amount, Vector2 sourceDirection, bool dropItems = false)
     {
         if(!IsServer)
         {
             return;
         }
-        if(amount <= 0)
+        if(info.amount <= 0)
         {
             return;
         }
         
         
-        DisplayDamageFloaterClientRpc(amount);
-        Debug.Log($"{name} took {amount} damage");
-        CurrentHealth.Value -= amount;
-        OnTakeDamage(amount, sourceDirection);
-        if(CurrentHealth.Value <= 0)
+        
+        //take full damage if hit by the proper weapon.
+        if (info.tool == idealToolType)
         {
-            DestroyThis(dropItems);
+            CurrentHealth.Value -= info.amount;
+            OnTakeDamage(info.amount, info.sourceDirection);
+        }
+        else //else, take 25% damage
+        {
+            CurrentHealth.Value -= info.amount / 4;
+            OnTakeDamage(info.amount / 4, info.sourceDirection);
+        }
+        
+        
+        if (CurrentHealth.Value <= 0)
+        {
+            DestroyThis(info.dropItems);
         }
 
     }
@@ -126,6 +137,7 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
     public void OnTakeDamage(float amount, Vector2 sourceDirection)
     {
         OnDamageColorChangeClientRpc();
+        DisplayDamageFloaterClientRpc(amount);
     }
 
     [ClientRpc]
@@ -189,7 +201,6 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
     [ClientRpc]
     public void InitializeDescriptionAndSpriteClientRpc(int itemId, ClientRpcParams rpcParams = default)
     {
-        Debug.Log($"Trying to load Desc + Sprite for {itemId}");//ah
         BaseItem item = ItemDatabase.Instance.GetItem(itemId);
         description = item.Description;
         objectSprite = item.Icon;

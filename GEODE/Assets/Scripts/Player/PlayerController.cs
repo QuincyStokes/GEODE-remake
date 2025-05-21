@@ -20,7 +20,8 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
     [SerializeField] private GameObject playerUICanvas;
     [SerializeField] private GameObject pauseMenu;
     private Rigidbody2D rb;
-    [SerializeField] public GameObject attackHitbox; //TEMP
+    [SerializeField] public Hitbox hitbox; //TEMP
+    [SerializeField] public GameObject hitboxParent;
     [SerializeField] public Animator attackAnimator;
     [SerializeField] private DayNumber dayNumber;
 
@@ -236,7 +237,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
 
         float hitboxAngle = Mathf.Atan2(lastMovedDir.y, lastMovedDir.x) * Mathf.Rad2Deg;
         float angle = Mathf.Round(hitboxAngle / 90) * 90f + 90;
-        attackHitbox.transform.localRotation = Quaternion.Euler(0, 0, angle);
+        hitboxParent.transform.localRotation = Quaternion.Euler(0, 0, angle);
 
         animator.SetFloat("moveX", lastMovedDir.x);
         animator.SetFloat("moveY", lastMovedDir.y);
@@ -345,9 +346,6 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
 
     private void MousePositionHandler()
     {
-        Debug.Log("Camera.main: " + Camera.main);
-        Debug.Log("mouseInput: " + mouseInput);
-
         mousePos = Camera.main.ScreenToWorldPoint(mouseInput.ReadValue<Vector2>());
         Vector3Int mousePosInt = new Vector3Int((int)mousePos.x, (int)mousePos.y, 0);
         if (mousePosInt != previousMousePosInt && GridManager.Instance != null)
@@ -357,32 +355,36 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
     }
 
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("EnvironmentObject"))
-        {
-            EnvironmentObject envObj = collision.gameObject.GetComponentInParent<EnvironmentObject>();
-            if (envObj != null)
-            {
-                envObj.TakeDamageServerRpc(4, gameObject.transform.position, true);
-                //Debug.Log($"Hit {collision.name} for 4 damage");
-            }
-        }
-        else if (collision.CompareTag("Enemy"))
-        {
-            BaseEnemy baseEnemy = collision.gameObject.GetComponentInParent<BaseEnemy>();
-            if (baseEnemy != null)
-            {
-                baseEnemy.TakeDamageServerRpc(4, gameObject.transform.position, true);
+    // private void OnTriggerEnter2D(Collider2D collision)
+    // {
+    //     // if (collision.CompareTag("EnvironmentObject"))
+    //     // {
+    //     //     EnvironmentObject envObj = collision.gameObject.GetComponentInParent<EnvironmentObject>();
+    //     //     if (envObj != null)
+    //     //     {
+    //     //         envObj.TakeDamageServerRpc(4, gameObject.transform.position, true);
+    //     //         //Debug.Log($"Hit {collision.name} for 4 damage");
+    //     //     }
+    //     // }
+    //     // else if (collision.CompareTag("Enemy"))
+    //     // {
+    //     //     BaseEnemy baseEnemy = collision.gameObject.GetComponentInParent<BaseEnemy>();
+    //     //     if (baseEnemy != null)
+    //     //     {
+    //     //         baseEnemy.TakeDamageServerRpc(4, gameObject.transform.position, true);
                 
-            }
-        }
-    }
+    //     //     }
+    //     // }
+    // }
 
-    public void Attack()
+    public void Attack(float dmg, ToolType t, bool drops)
     {
         if (swingCooldownTimer >= swingCooldown)
         {
+            Instance.hitbox.damage = dmg;
+            Instance.hitbox.tool = t;
+            Instance.hitbox.parentDirection = transform.position;
+            Instance.hitbox.dropItems = drops;
             StartCoroutine(DoAttack());
         }
 
@@ -391,11 +393,11 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
     private IEnumerator DoAttack()
     {
         //Debug.Log("Attacking!");
-        Instance.attackHitbox.SetActive(true);
+        Instance.hitbox.gameObject.SetActive(true);
         attackAnimator.SetTrigger("Swing");
         moveSpeed /= 2;
         yield return new WaitForSeconds(.1f);
-        Instance.attackHitbox.SetActive(false);
+        Instance.hitbox.gameObject.SetActive(false);
         moveSpeed *= 2;
         swingCooldownTimer = 0f;
     }
