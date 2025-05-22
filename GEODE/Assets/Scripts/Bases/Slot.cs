@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.Serialization.Json;
 using TMPro;
 using Unity.IO.LowLevel.Unsafe;
 using Unity.VisualScripting;
@@ -307,17 +308,25 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         switch (item.Type)
         {
             case ItemType.Tool:
-                tooltipItemStats.gameObject.SetActive(true);
+                ToolItem tool = item as ToolItem;
+                if (tool != null)
+                {
+                    tooltipItemStats.gameObject.SetActive(true);
 
-                //tooltipItemStats.text += item.speed; HAVENT ACTUALLY IMPLEMENTED SWING SPEED YET (or damage)
-                tooltipItemStats.text += "DMG | NA\nSPD | NA";
-
+                    //tooltipItemStats.text += item.speed; HAVENT ACTUALLY IMPLEMENTED SWING SPEED YET (or damage)
+                    tooltipItemStats.text += $"DMG | {tool.damage}";
+                }
                 break;
 
             case ItemType.Weapon:
-                tooltipItemStats.gameObject.SetActive(true);
-                //tooltipItemStats.text += item.speed; HAVENT ACTUALLY IMPLEMENTED SWING SPEED YET (or damage)
-                tooltipItemStats.text += "DMG | NA\nSPD | NA";
+                WeaponItem weapon = item as WeaponItem;
+                if (weapon != null)
+                {
+                    tooltipItemStats.gameObject.SetActive(true);
+                    //tooltipItemStats.text += item.speed; HAVENT ACTUALLY IMPLEMENTED SWING SPEED YET (or damage)
+                    tooltipItemStats.text += $"DMG | {weapon.damage}";
+                }
+                
                 break;
 
             case ItemType.Upgrade:

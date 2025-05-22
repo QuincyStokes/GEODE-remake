@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Stone Pickaxe
   description: Used for breaking rocks and things!
-  type: 1
+  type: 0
   icon: {fileID: -4518530809162081342, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
   id: 25
   quality: 0

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Stone Shovel
   description: Used for digging!
-  type: 1
+  type: 0
   icon: {fileID: -960962964086912434, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
   id: 27
   quality: 0
