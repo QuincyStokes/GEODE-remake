@@ -75,7 +75,7 @@ public class PathToObstructingState : BaseEnemyState
         if(attackTimer >= owner.attackCooldown)
         {
             // if current target is in range, attack!
-            if(Vector3.Distance(owner.corePosition, owner.transform.position) <= owner.attackRange)
+            if(Vector3.Distance(owner.currentTarget.ObjectTransform.position, owner.transform.position) <= owner.attackRange)
             {
                 //Switch to attack state
                 stateMachine.ChangeState(new AttackState());

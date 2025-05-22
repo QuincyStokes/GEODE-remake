@@ -267,8 +267,7 @@ MonoBehaviour:
   rb: {fileID: 7670961486429863952}
   attackDamage: 10
   attackRange: 1.5
-  attackCooldown: 3
-  movementSpeed: 2
+  movementSpeed: 4
   BASE_MAX_HEALTH: 25
   BASE_XP_REQUIRED: 100
   DROPPED_ITEMS:
@@ -280,10 +279,14 @@ MonoBehaviour:
     minAmount: 1
     maxAmount: 2
     chance: 25
+  idealToolType: 0
   structureLayerMask:
     serializedVersion: 2
     m_Bits: 2176
   knockbackDecay: 0.5
+  attackWindupTime: 0.25
+  attackRecoveryTime: 1
+  attackCooldown: 3
   coreTransform: {fileID: 0}
   corePosition: {x: 0, y: 0}
   playerTransform: {fileID: 0}

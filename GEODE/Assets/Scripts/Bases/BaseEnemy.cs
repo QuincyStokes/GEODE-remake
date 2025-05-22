@@ -30,7 +30,6 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
     [Header("Enemy Stats")]
     public float attackDamage;
     public float attackRange;
-    public float attackCooldown;
     public float movementSpeed;
     [SerializeField] private int BASE_MAX_HEALTH;
     [SerializeField] private int BASE_XP_REQUIRED;
@@ -42,6 +41,11 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
     [Header("Movement Settings")]
     public LayerMask structureLayerMask;
     [SerializeField] private float knockbackDecay;
+
+    [Header("Attack Settings")]
+    public float attackWindupTime;
+    public float attackRecoveryTime;
+    public float attackCooldown;
 
     public NetworkVariable<float> MaxHealth { get; set; } = new NetworkVariable<float>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public NetworkVariable<float> CurrentHealth { get; set; } = new NetworkVariable<float>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
