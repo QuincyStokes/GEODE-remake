@@ -66,7 +66,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 1, y: 0.4369852}
+  m_Offset: {x: 1, y: 0.7}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -76,7 +76,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.3400002, y: 0.8539704}
+  m_Size: {x: 2, y: 1.5}
   m_EdgeRadius: 0
 --- !u!1 &3134673240426498127
 GameObject:
@@ -105,7 +105,7 @@ Transform:
   m_GameObject: {fileID: 3134673240426498127}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.884, y: 0.915, z: 0}
+  m_LocalPosition: {x: 1.162, y: 1.07, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5325,7 +5325,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -7668920765334974227, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
+  m_Sprite: {fileID: 2359099410382991999, guid: 35d9d5fc183c1f84785bbdc22135bb95, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5435,9 +5435,8 @@ MonoBehaviour:
     maxAmount: 3
     chance: 100
   healthStateSprites:
-  - {fileID: -3158003992202558021, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
-  - {fileID: -1547942300781208690, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
-  - {fileID: -6834586105120604424, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
+  - {fileID: 9000587929662370451, guid: 35d9d5fc183c1f84785bbdc22135bb95, type: 3}
+  - {fileID: 6544243133919810639, guid: 35d9d5fc183c1f84785bbdc22135bb95, type: 3}
   breakParticles: {fileID: 3604720264474228420}
   objectName: Red Geode
   centerPoint: {fileID: 5222662708037614757}

@@ -61,7 +61,7 @@ Transform:
   m_GameObject: {fileID: 2928207964876413474}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.985034, y: -2.6816807, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -206,8 +206,8 @@ MonoBehaviour:
     maxAmount: 10
     chance: 100
   - Id: 24
-    minAmount: 2
-    maxAmount: 6
+    minAmount: 1
+    maxAmount: 3
     chance: 100
   healthStateSprites: []
   breakParticles: {fileID: 0}

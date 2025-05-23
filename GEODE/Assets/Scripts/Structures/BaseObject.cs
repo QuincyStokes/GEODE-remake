@@ -230,15 +230,20 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
         float healthPercentage = CurrentHealth.Value / MaxHealth.Value;
 
         int stateCount = healthStateSprites.Count;
-        float fIndex = (1f - healthPercentage) * stateCount;
-        int newState = Mathf.FloorToInt(fIndex);
-        newState = Mathf.Clamp(newState, 0, stateCount - 1);
-
-        if (newState != healthState)
+        //a bit of a bandaid fix, but prevents any sprite change from happening above 75%
+        if (healthPercentage < .75)
         {
-            ApplyHealthState(newState);
-            healthState = newState;
+            float fIndex = (1f - healthPercentage) * stateCount;
+            int newState = Mathf.FloorToInt(fIndex);
+            newState = Mathf.Clamp(newState, 0, stateCount - 1);
+
+            if (newState != healthState)
+            {
+                ApplyHealthState(newState);
+                healthState = newState;
+            }
         }
+        
     }
 
     private void ApplyHealthState(int i)

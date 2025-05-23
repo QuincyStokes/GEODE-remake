@@ -68,4 +68,19 @@ MonoBehaviour:
   - entryName: Yellow Geode
     baseItem: {fileID: 11400000, guid: ff4657d69cb2e7a4597396f94d7c57e4, type: 2}
     weight: 1
-  totalWeight: 206
+  - entryName: Forest Bush
+    baseItem: {fileID: 11400000, guid: 84435a6135500534581d8e088fa89de6, type: 2}
+    weight: 3
+  - entryName: Forest Grass Huge
+    baseItem: {fileID: 11400000, guid: 197753de4f23f2942a12540d53b98d95, type: 2}
+    weight: 3
+  - entryName: Forest Boulder 1
+    baseItem: {fileID: 11400000, guid: 2e619d5cc4b3b8048870e489bc4020dd, type: 2}
+    weight: 2
+  - entryName: Forest Boulder 2
+    baseItem: {fileID: 11400000, guid: 3afeeba9c900fb84da466d61a8eb8aac, type: 2}
+    weight: 2
+  - entryName: Forest Grass Huge
+    baseItem: {fileID: 11400000, guid: 197753de4f23f2942a12540d53b98d95, type: 2}
+    weight: 2
+  totalWeight: 218

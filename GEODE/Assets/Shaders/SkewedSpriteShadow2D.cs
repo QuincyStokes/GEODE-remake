@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 /// <summary>
 /// Generates a custom mesh behind a sprite to act as a skewed shadow,
@@ -53,6 +54,7 @@ public class SkewedSpriteShadow2D : MonoBehaviour
     // Internal references
     private SpriteRenderer mainSpriteRenderer;
     private MeshRenderer shadowMeshRenderer;
+    private SortingGroup shadowSortingGroup;
     private MeshFilter shadowMeshFilter;
     private Mesh shadowMesh;
 
@@ -101,9 +103,10 @@ public class SkewedSpriteShadow2D : MonoBehaviour
         shadowObj.transform.localRotation = Quaternion.identity;
         shadowObj.transform.localScale    = Vector3.one;
 
-        // 4. Add MeshFilter / MeshRenderer
+        // 4. Add MeshFilter / MeshRenderer / Sorting Group
         shadowMeshFilter   = shadowObj.AddComponent<MeshFilter>();
         shadowMeshRenderer = shadowObj.AddComponent<MeshRenderer>();
+        shadowSortingGroup = shadowObj.AddComponent<SortingGroup>();
 
         // 5. Create the mesh
         shadowMesh = new Mesh { name = "ShadowMesh" };

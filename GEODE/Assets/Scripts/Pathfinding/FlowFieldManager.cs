@@ -192,7 +192,7 @@ public class FlowFieldManager : NetworkBehaviour
         //now we run BFS
         Queue<Vector2Int> queue = new Queue<Vector2Int>();
 
-        Vector2Int centerPosition = new Vector2Int(fieldWidth/2+1, fieldHeight/2+1);
+        Vector2Int centerPosition = new Vector2Int(fieldWidth/2, fieldHeight/2);
         //initialize goal cell
         flowField[centerPosition.x, centerPosition.y].integrationCost = 0;
         //queue.Enqueue(centerPosition);

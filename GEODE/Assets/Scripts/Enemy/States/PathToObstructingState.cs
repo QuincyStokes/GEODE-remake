@@ -110,7 +110,7 @@ public class PathToObstructingState : BaseEnemyState
         if (obstructingObject != null && attackTimer >= owner.attackCooldown)
         {
             // if current target is in range, attack!
-            float sqrDist = (nearestBlockingPoint-(Vector2)owner.transform.position).sqrMagnitude;
+            float sqrDist = ((Vector2)owner.currentTarget.ObjectTransform.position-(Vector2)owner.transform.position).sqrMagnitude;
             //Switch to attack state
 
             if (sqrDist <= owner.attackRange * owner.attackRange)

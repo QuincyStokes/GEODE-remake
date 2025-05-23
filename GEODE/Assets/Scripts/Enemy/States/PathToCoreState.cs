@@ -93,7 +93,7 @@ public class PathToCoreState : BaseEnemyState
         if (attackTimer >= owner.attackCooldown && distance <= owner.attackRange)
         {
             // if current target is in range, attack!
-            if (Vector3.Distance(owner.corePosition, owner.transform.position) <= owner.attackRange)
+            if (Vector3.Distance((Vector2)owner.currentTarget.ObjectTransform.position, owner.transform.position) <= owner.attackRange)
             {
                 //Switch to attack state\
                 owner.targetClosestPoint = nearestCorePoint;

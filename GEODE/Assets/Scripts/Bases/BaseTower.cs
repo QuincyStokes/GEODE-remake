@@ -203,10 +203,38 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
 
     private void RotateTowardsTarget()
     {
-        if (isRotating)
+       if (!isRotating) return;
+
+    // How many degrees remain to target?
+    float angleDiff = Quaternion.Angle(tower.transform.rotation, targetRotation);
+
+    if (angleDiff > 45)
+    {
+        // “Fast” approach for large angles, using Lerp
+        // We pick a relatively large t so it snaps roughly in a few frames:
+        float t = Mathf.Clamp01(6 * Time.deltaTime);
+        tower.transform.rotation = Quaternion.Lerp(
+            tower.transform.rotation,
+            targetRotation,
+            t
+        );
+    }
+    else
+    {
+        // Once within threshold, switch to constant‐speed rotation
+        float step = rotationSpeed * Time.deltaTime;
+        tower.transform.rotation = Quaternion.RotateTowards(
+            tower.transform.rotation,
+            targetRotation,
+            step
+        );
+    }
+
+        // When super close, snap exactly on and fire
+        if (angleDiff < .5f)
         {
-            Debug.Log($"Tower is rotating towards {targetRotation}");
-            tower.transform.rotation = Quaternion.Lerp(tower.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            tower.transform.rotation = targetRotation;
+            isRotating = false;
         }
     }
 
