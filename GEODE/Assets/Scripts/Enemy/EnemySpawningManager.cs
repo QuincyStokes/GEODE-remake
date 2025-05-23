@@ -54,7 +54,7 @@ public class EnemySpawningManager : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if(!IsServer)
+        if (!IsServer)
         {
             enabled = false;
         }
@@ -213,8 +213,10 @@ public class EnemySpawningManager : NetworkBehaviour
 
     private void ChangeToDaySettings()
     {
+        nightSpawnRateModifier += .1f;
         currentMaxSpawns = (int)(dayMaxSpawns * dayMaxSpawnsModifier);
         currentSpawnRate = daySpawnRate * dayMaxSpawnsModifier;
+
     }
 
     private void ChangeToNightSettings()
@@ -222,7 +224,6 @@ public class EnemySpawningManager : NetworkBehaviour
         currentMaxSpawns = (int)(nightMaxSpawns * nightMaxSpawnsModifier);
         currentSpawnRate = nightSpawnRate * nightSpawnRateModifier;
     }
-
 
     [System.Serializable]
     public struct EnemySpawnWeight{

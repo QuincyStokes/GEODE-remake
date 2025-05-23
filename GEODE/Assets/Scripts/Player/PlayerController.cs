@@ -109,6 +109,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
             if (DayCycleManager.Instance != null)
             {
                 DayCycleManager.Instance.becameDay += dayNumber.IncreaseDay;
+                DayCycleManager.Instance.becameNight += dayNumber.IncreaseNight;
             }
 
             playerUICanvas.SetActive(true);
@@ -168,6 +169,12 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
         //Escape
         playerInput.Player.Menu.performed += OnMenuOpened;
         playerInput.Player.Menu.Enable();
+
+        if (DayCycleManager.Instance != null)
+        {
+            DayCycleManager.Instance.becameDay -= dayNumber.IncreaseDay;
+            DayCycleManager.Instance.becameNight -= dayNumber.IncreaseNight;
+        }
 
 
     }

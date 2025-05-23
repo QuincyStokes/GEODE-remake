@@ -270,9 +270,9 @@ MonoBehaviour:
   aggroRadius: {fileID: 4507244449337361817}
   attackDamage: 10
   attackRange: 1
-  movementSpeed: 4
+  movementSpeed: 8
   BASE_MAX_HEALTH: 25
-  BASE_XP_REQUIRED: 100
+  BASE_XP_REQUIRED: 50
   DROPPED_ITEMS:
   - Id: 29
     minAmount: 1
@@ -286,7 +286,7 @@ MonoBehaviour:
   structureLayerMask:
     serializedVersion: 2
     m_Bits: 2176
-  knockbackDecay: 0.1
+  knockbackDecay: 0.9
   attackWindupTime: 0.25
   attackRecoveryTime: 1
   attackCooldown: 3

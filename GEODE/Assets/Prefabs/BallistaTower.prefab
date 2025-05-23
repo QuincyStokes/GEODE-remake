@@ -316,16 +316,19 @@ MonoBehaviour:
     minAmount: 0
     maxAmount: 0
     chance: 0
+  healthStateSprites: []
+  breakParticles: {fileID: 0}
   objectName: Ballista Tower
   centerPoint: {fileID: 0}
   description: 
   objectSprite: {fileID: 0}
   sr: {fileID: 6878977793782977151}
   collisionHitbox: {fileID: 2570471915127480501}
+  matchingItemId: 0
   BASE_SPEED: 1
   BASE_STRENGTH: 10
   BASE_SIZE: 4
-  rotationSpeed: 40
+  rotationSpeed: 8
   rotates: 1
   maximumLevelXp: 100
   currentXp: 0

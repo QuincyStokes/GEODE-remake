@@ -25,7 +25,7 @@ MonoBehaviour:
     weight: 7
   - entryName: ForestTreeFallen
     baseItem: {fileID: 11400000, guid: 01d0242a2e97e8c49a9851ff9e628ce2, type: 2}
-    weight: 4
+    weight: 3
   - entryName: ForestTreeDead
     baseItem: {fileID: 11400000, guid: e84fee3bc1edc864881e4adf06cb2880, type: 2}
     weight: 6
@@ -68,4 +68,4 @@ MonoBehaviour:
   - entryName: Yellow Geode
     baseItem: {fileID: 11400000, guid: ff4657d69cb2e7a4597396f94d7c57e4, type: 2}
     weight: 1
-  totalWeight: 207
+  totalWeight: 206

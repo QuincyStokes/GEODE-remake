@@ -977,7 +977,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4287413730
-  m_fontColor: {r: 0.8862746, g: 0.7411765, b: 0.54901963, a: 1}
+  m_fontColor: {r: 0.8862745, g: 0.7411765, b: 0.54901963, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -7695,8 +7695,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dayNumText: {fileID: 2639942549144480079}
   dayNum: 1
+  nightNum: 0
   scaleTime: 1
   scaleAmount: 2
+  dayTextColor: {r: 0.8862746, g: 0.7411765, b: 0.54901963, a: 1}
+  nightTextColor: {r: 0.25013348, g: 0.40784314, b: 0.79607844, a: 1}
 --- !u!1 &7899298344766753431
 GameObject:
   m_ObjectHideFlags: 0
@@ -8313,10 +8316,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  devMode: 1
+  devMode: 0
   numSlots: 27
   startingItems:
-  - item: {fileID: 11400000, guid: a1cb9bfd804f74e468769ad9e11ffd58, type: 2}
+  - item: {fileID: 11400000, guid: b655818b047415248a0995e091c067d3, type: 2}
     amount: 1
   maxItemStack: 0
   inventoryObject: {fileID: 3774294273146469442}

@@ -207,14 +207,17 @@ MonoBehaviour:
     chance: 100
   - Id: 24
     minAmount: 1
-    maxAmount: 2
-    chance: 60
+    maxAmount: 4
+    chance: 100
+  healthStateSprites: []
+  breakParticles: {fileID: 0}
   objectName: 
   centerPoint: {fileID: 2863551799263110279}
   description: 
   objectSprite: {fileID: 0}
   sr: {fileID: 0}
   collisionHitbox: {fileID: 9018619495699395412}
+  matchingItemId: 0
 --- !u!1 &1505347995116985693
 GameObject:
   m_ObjectHideFlags: 0

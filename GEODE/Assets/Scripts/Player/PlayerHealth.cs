@@ -11,7 +11,7 @@ using System.Collections;
 public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
 {
     [Header("Health")]
-    [SerializeField] public NetworkVariable<float> MaxHealth { get; set; }  = new NetworkVariable<float>(100); 
+    [SerializeField] public NetworkVariable<float> MaxHealth { get; set; } = new NetworkVariable<float>(100);
     [SerializeField] public NetworkVariable<float> CurrentHealth { get; set; } = new NetworkVariable<float>(100);
 
     [Header("XP")]
@@ -48,7 +48,7 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
     {
         get => droppedItems;
     }
-    public Collider2D CollisionHitbox{ get => collisionHitbox; }
+    public Collider2D CollisionHitbox { get => collisionHitbox; }
     public int MaximumLevelXp { get => maxLevelXp; set => maxLevelXp = value; }
     public int CurrentXp { get => currentLevelXp; set => currentLevelXp = value; }
     public int CurrentTotalXp { get => totalXp; set => totalXp = value; }
@@ -175,14 +175,14 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
 
     public void OnLevelUp()
     {
-        
+
     }
-    
+
     public void AddXp(int amount)
     {
-        
+
         CurrentXp += amount;
-        
+
         CheckLevelUp();
         OnXpGain();
         //maybe in the future this can be a coroutine that does it slowly for cool effect
@@ -190,7 +190,7 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
 
     public void CheckLevelUp()
     {
-        if(CurrentXp > MaximumLevelXp)
+        if (CurrentXp > MaximumLevelXp)
         {
             int newXp = CurrentXp - MaximumLevelXp;
             CurrentXp = 0;
@@ -211,6 +211,8 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
     {
         Level = level;
     }
+    
+    
 
 
 }

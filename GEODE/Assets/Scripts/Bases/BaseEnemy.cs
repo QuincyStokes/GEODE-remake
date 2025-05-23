@@ -176,7 +176,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
         if (source != Vector2.zero)
         {
             Vector3 dir = (Vector2)transform.position - source;
-            TakeKnockback(dir, amount);
+            TakeKnockback(dir, Mathf.Clamp(amount, 1, 10));
         }
 
     }
@@ -297,7 +297,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
 
     public void TakeKnockback(Vector2 direction, float force)
     {
-        externalVelocity += direction.normalized * Mathf.Log(force);
+        externalVelocity += direction.normalized * (Mathf.Log(force)/2);
     }
 
     public void NewDayStats()
@@ -329,7 +329,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
     public void LevelUp()
     {
         Level++;
-        MaximumLevelXp = Mathf.RoundToInt(MaximumLevelXp * 1.2f);
+        MaximumLevelXp = Mathf.RoundToInt(MaximumLevelXp * 1.1f);
         //need some way for this to interact with stats.. OnLevelUp()? then it's up to the base classes to figure out what they wanna do
         OnLevelUp();
     }
@@ -349,6 +349,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
         attackDamage *= 1.1f;
         movementSpeed *= 1.04f;
         attackCooldown *= .97f;
+        MaxHealth.Value *= 1.1f;
     }
 
     [HideInInspector] public bool canAggro;
@@ -369,6 +370,4 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
             playerTransform = null;
         }
     }
-
-
 }
