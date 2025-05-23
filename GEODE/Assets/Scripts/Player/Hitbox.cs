@@ -7,9 +7,9 @@ public class Hitbox : MonoBehaviour
 {
     public ToolType tool;
     public float damage;
-    public Vector2 parentDirection;
+    public Vector2 sourceDirection;
     public bool dropItems;
-    public List<string> hittableTags;
+    [SerializeField] private List<string> hittableTags;
 
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -22,7 +22,7 @@ public class Hitbox : MonoBehaviour
                 Debug.Log($"Comparing object {tag} ?= {collision.tag}");
                 if (collision.CompareTag(tag))
                 {
-                    damageable.TakeDamageServerRpc(new DamageInfo(damage, parentDirection, tool, dropItems));
+                    damageable.TakeDamageServerRpc(new DamageInfo(damage, sourceDirection, tool, dropItems));
                     return;
                 }
             }

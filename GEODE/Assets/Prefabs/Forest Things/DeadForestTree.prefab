@@ -283,6 +283,7 @@ MonoBehaviour:
   description: 
   objectSprite: {fileID: 0}
   sr: {fileID: 0}
+  collisionHitbox: {fileID: 6556151738904023588}
 --- !u!1 &7384950776458695469
 GameObject:
   m_ObjectHideFlags: 0

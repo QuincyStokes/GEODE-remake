@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.VisualScripting;
@@ -124,6 +125,7 @@ public class GridManager : NetworkBehaviour
             if(bo != null)
             {
                 Debug.Log($"Initializing Description with item id {itemId}");
+                bo.InitializeItemId(itemId);
                 bo.InitializeDescriptionAndSpriteClientRpc(itemId);
             }
 
@@ -136,11 +138,29 @@ public class GridManager : NetworkBehaviour
         }
     }
 
+    [ServerRpc]
+    public void RemoveGridObjectServerRpc(Vector3Int position, int itemId)
+    {
+        BaseItem go = ItemDatabase.Instance.GetItem(itemId);
+        StructureItem structItem = go as StructureItem;
+        if (structItem != null)
+        {
+            for (int i = 0; i < structItem.width; i++)
+            {
+                for (int j = 0; j < structItem.height; j++)
+                {
+                    FlowFieldManager.Instance.SetWalkable(new Vector3(position.x + i, position.y + j, 0), true);
+                }
+            }
+            FlowFieldManager.Instance.CalculateFlowField();
+        }
+    }
+
     public bool IsPositionOccupied(Vector3Int position)
     {
         //raycast at the target location
-        Collider2D colhit = Physics2D.OverlapPoint(new Vector2(position.x+.5f, position.y+.5f), structureLayer);
-        if(colhit == null)
+        Collider2D colhit = Physics2D.OverlapPoint(new Vector2(position.x + .5f, position.y + .5f), structureLayer);
+        if (colhit == null)
         {
             return false;
         }

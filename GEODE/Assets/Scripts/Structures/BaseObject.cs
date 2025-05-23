@@ -27,14 +27,17 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
     {
         get => centerPoint;
     }
+    public Collider2D CollisionHitbox{ get => collisionHitbox; }
     
     [HideInInspector] public string description;
     [HideInInspector] public Sprite objectSprite;
 
     [SerializeField]private SpriteRenderer sr;
+    [SerializeField] private Collider2D collisionHitbox;
+    [HideInInspector] public int matchingItemId;
 
-    public Transform ObjectTransform 
-    { 
+    public Transform ObjectTransform
+    {
         get => transform;
     }
 
@@ -52,6 +55,11 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
         {   
             InitializeHealthServerRpc();
         }
+    }
+
+    public void InitializeItemId(int id)
+    {
+        matchingItemId = id;
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -194,6 +202,7 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
         {
            DropItems();
         }
+        GridManager.Instance.RemoveGridObjectServerRpc(new Vector3Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.y), 0), matchingItemId);
         ChunkManager.Instance.DeregisterObject(gameObject);
         GetComponent<NetworkObject>().Despawn(true);
     }

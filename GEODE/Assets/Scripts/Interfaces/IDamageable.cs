@@ -8,7 +8,8 @@ public interface IDamageable
    public NetworkVariable<float> CurrentHealth { get; set; }
    public Transform ObjectTransform { get; }
    public Transform CenterPoint { get; }
-   public List<DroppedItem> DroppedItems{get;}
+   public Collider2D CollisionHitbox { get; }
+   public List<DroppedItem> DroppedItems { get; }
    public abstract void TakeDamageServerRpc(DamageInfo info);
    public abstract void ApplyDamage(DamageInfo info);
    public abstract void RestoreHealthServerRpc(float amount);

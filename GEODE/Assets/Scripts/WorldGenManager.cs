@@ -284,6 +284,7 @@ public class WorldGenManager : NetworkBehaviour
             if(structureItem.prefab != null)
             {
                 GameObject newObject = Instantiate(structureItem.prefab, position, Quaternion.identity);
+                newObject.GetComponent<BaseObject>()?.InitializeItemId(itemId);
                 foreach (Vector3 pos in positionsToBlock)
                 {
                     FlowFieldManager.Instance.SetWalkable(pos, false);

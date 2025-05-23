@@ -8,14 +8,12 @@ public class AttackState : BaseEnemyState
 
     public override void EnterState(BaseEnemy owner, EnemyStateMachine sm)
     {
-        // 1) Stop movement so you can play the attack anim
         owner.rb.linearVelocity = Vector2.zero;
-        owner.animator.ResetTrigger("Attack");        // clear any old triggers
-        owner.animator.SetTrigger("Attack");          // start your wind-up anim
+        owner.animator.ResetTrigger("Attack");        
+        owner.animator.SetTrigger("Attack");          
 
-        // 2) Configure your timings from the owner
         currentPhase = Phase.Windup;
-        phaseTimer   = owner.attackWindupTime;        // e.g. 0.3s before the hit
+        phaseTimer   = owner.attackWindupTime;        
     }
 
     public override void UpdateState(BaseEnemy owner, EnemyStateMachine sm)
@@ -38,7 +36,7 @@ public class AttackState : BaseEnemyState
             case Phase.Recovery:
                 // Recovery done: go back to your default behavior
                 // (you could inspect the time of day, target, etc., here too)
-                sm.ChangeState(new PathToCoreState());
+                sm.ChangeState(new IdleState());
                 break;
         }
     }

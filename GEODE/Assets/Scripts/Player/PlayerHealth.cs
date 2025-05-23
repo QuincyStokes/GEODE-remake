@@ -25,6 +25,7 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
 
     [Header("References")]
     [SerializeField] private SpriteRenderer sr;
+    [SerializeField] private Collider2D collisionHitbox;
     [SerializeField] private Transform objectTransform;
     [SerializeField] private Slider healthbarSlider;
     [SerializeField] private TMP_Text healthbarText;
@@ -47,6 +48,7 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
     {
         get => droppedItems;
     }
+    public Collider2D CollisionHitbox{ get => collisionHitbox; }
     public int MaximumLevelXp { get => maxLevelXp; set => maxLevelXp = value; }
     public int CurrentXp { get => currentLevelXp; set => currentLevelXp = value; }
     public int CurrentTotalXp { get => totalXp; set => totalXp = value; }

@@ -192,6 +192,7 @@ GameObject:
   - component: {fileID: 5106031408755526819}
   - component: {fileID: 2680197266402830272}
   - component: {fileID: 2448939792321823289}
+  - component: {fileID: 4507244449337361817}
   m_Layer: 9
   m_Name: Enemy
   m_TagString: Enemy
@@ -265,8 +266,10 @@ MonoBehaviour:
     drawDebug: 1
   animator: {fileID: 6878477634410811571}
   rb: {fileID: 7670961486429863952}
+  collisionHitbox: {fileID: 5654494770542405513}
+  aggroRadius: {fileID: 4507244449337361817}
   attackDamage: 10
-  attackRange: 1.5
+  attackRange: 1
   movementSpeed: 4
   BASE_MAX_HEALTH: 25
   BASE_XP_REQUIRED: 100
@@ -279,19 +282,25 @@ MonoBehaviour:
     minAmount: 1
     maxAmount: 2
     chance: 25
-  idealToolType: 0
+  idealToolType: 1
   structureLayerMask:
     serializedVersion: 2
     m_Bits: 2176
-  knockbackDecay: 0.5
+  knockbackDecay: 0.1
   attackWindupTime: 0.25
   attackRecoveryTime: 1
   attackCooldown: 3
+  wanderRadius: 5
+  wanderTimeMin: 2
+  wanderTimeMax: 5
+  aggroRange: 5
   coreTransform: {fileID: 0}
   corePosition: {x: 0, y: 0}
   playerTransform: {fileID: 0}
+  targetClosestPoint: {x: 0, y: 0}
   externalVelocity: {x: 0, y: 0}
-  attackHitbox: {fileID: 4117687670939969054}
+  canAggro: 0
+  attackHitbox: {fileID: 557264030553699562}
 --- !u!50 &7670961486429863952
 Rigidbody2D:
   serializedVersion: 5
@@ -408,6 +417,42 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.5
+--- !u!58 &4507244449337361817
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1160243913533736849}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 256
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 3831
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 1.56
 --- !u!1 &3255993581449078809
 GameObject:
   m_ObjectHideFlags: 0
@@ -449,13 +494,14 @@ GameObject:
   m_Component:
   - component: {fileID: 7186009135097747369}
   - component: {fileID: 4117687670939969054}
+  - component: {fileID: 557264030553699562}
   m_Layer: 9
   m_Name: AttackHitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7186009135097747369
 Transform:
   m_ObjectHideFlags: 0
@@ -517,3 +563,23 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.75, y: 0.75}
   m_EdgeRadius: 0
+--- !u!114 &557264030553699562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5906243830527534231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a761681cb91a0064c88d907e17fdcf9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tool: 0
+  damage: 0
+  sourceDirection: {x: 0, y: 0}
+  dropItems: 0
+  hittableTags:
+  - Player
+  - Structure
+  - EnvironmentObject

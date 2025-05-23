@@ -19,10 +19,13 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
     [Header("References")]
     [SerializeField] private SpriteRenderer sr;
     [SerializeField] public Transform CenterPoint { get; set; }
+    [SerializeField] public Collider2D CollisionHitbox { get => collisionHitbox; }
     public Transform ObjectTransform { get; set; }
     public EnemySteering steering;
     public Animator animator;
     public Rigidbody2D rb;
+    public Collider2D collisionHitbox;
+    public CircleCollider2D aggroRadius;
 
 
     //*         ----------------------------- PUBLIC PROPERTIES ---------------------------
@@ -35,7 +38,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
     [SerializeField] private int BASE_XP_REQUIRED;
 
     [Header("Drops")]
-    [SerializeField] private  List<DroppedItem> DROPPED_ITEMS = new List<DroppedItem>();
+    [SerializeField] private List<DroppedItem> DROPPED_ITEMS = new List<DroppedItem>();
     [SerializeField] private ToolType idealToolType;
 
     [Header("Movement Settings")]
@@ -46,6 +49,11 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
     public float attackWindupTime;
     public float attackRecoveryTime;
     public float attackCooldown;
+    [Header("Idle Settings")]
+    public float wanderRadius = 5f;
+    public float wanderTimeMin = 2f;
+    public float wanderTimeMax = 5f;
+    public float aggroRange = 5f;
 
     public NetworkVariable<float> MaxHealth { get; set; } = new NetworkVariable<float>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public NetworkVariable<float> CurrentHealth { get; set; } = new NetworkVariable<float>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
@@ -57,7 +65,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
     public int MaximumLevelXp { set; get; }
     public int CurrentXp { set; get; }
     public int CurrentTotalXp { set; get; }
-    public int Level { set; get; }    
+    public int Level { set; get; }
 
 
     //*         ----------------------------- EVENTS ---------------------------
@@ -69,7 +77,9 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
     [HideInInspector] public Vector2 corePosition;
     [HideInInspector] public Transform playerTransform;
     [HideInInspector] public IDamageable currentTarget;
+    [HideInInspector] public Vector2 targetClosestPoint;
     [HideInInspector] public Vector2 externalVelocity;
+
 
 
 
@@ -95,6 +105,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
         MaximumLevelXp = BASE_XP_REQUIRED;
         ObjectTransform = transform;
         DroppedItems = DROPPED_ITEMS;
+        aggroRadius.radius = aggroRange;
         if (DayCycleManager.Instance != null)
         {
             DayCycleManager.Instance.becameDay += NewDayStats;
@@ -118,7 +129,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
         DayCycleManager.Instance.becameDay -= NewDayStats;
         FlowFieldManager.Instance.corePlaced -= SetCorePosition;
         OnDeath -= SetDeathState;
-        
+
     }
     private void Start()
     {
@@ -235,10 +246,10 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
         }
         else
         {
-            CurrentHealth.Value -= info.amount/4;
-            OnTakeDamage(info.amount/4, info.sourceDirection);
+            CurrentHealth.Value -= info.amount / 4;
+            OnTakeDamage(info.amount / 4, info.sourceDirection);
         }
-        
+
 
         if (CurrentHealth.Value <= 0)
         {
@@ -296,9 +307,9 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
 
     public void AddXp(int amount)
     {
-        
+
         CurrentXp += amount;
-        
+
         CheckLevelUp();
         OnXpGain();
         //maybe in the future this can be a coroutine that does it slowly for cool effect
@@ -306,7 +317,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
 
     public void CheckLevelUp()
     {
-        if(CurrentXp > MaximumLevelXp)
+        if (CurrentXp > MaximumLevelXp)
         {
             int newXp = CurrentXp - MaximumLevelXp;
             CurrentXp = 0;
@@ -338,6 +349,25 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
         attackDamage *= 1.1f;
         movementSpeed *= 1.04f;
         attackCooldown *= .97f;
+    }
+
+    [HideInInspector] public bool canAggro;
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (!canAggro) return;
+        if (other.CompareTag("Player"))
+        {
+            playerTransform = other.transform;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log("Player left aggro range.");
+            playerTransform = null;
+        }
     }
 
 

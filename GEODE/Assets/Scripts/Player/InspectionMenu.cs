@@ -81,7 +81,7 @@ public class InspectionMenu : MonoBehaviour
         IUpgradeable upg = go.GetComponent<IUpgradeable>();
         //since we have passed in our stats, xp, and theobject, we can guarantee that we have:
         //all of the necessary information to populate the menu
-        if(bo != null) //health, description, sprite
+        if (bo != null) //health, description, sprite
         {
             SetGroup(objectThings, true);
             inspectName.text = bo.ObjectName;
@@ -92,6 +92,8 @@ public class InspectionMenu : MonoBehaviour
             health.text = $"{bo.CurrentHealth.Value}/{bo.MaxHealth.Value}";
             sturdy.text = bo.MaxHealth.Value.ToString();
             description.text = bo.description;
+
+            bo.CurrentHealth.OnValueChanged += RefreshHealth;
         }
         else
         {
@@ -196,28 +198,41 @@ public class InspectionMenu : MonoBehaviour
         PopulateMenu(go);
     }
 
+    private void RefreshHealth(float oldValue, float newValue)
+    {
+        BaseObject bo = currentInspectedObject.GetComponent<BaseObject>();
+        if (bo != null)
+        {
+            healthSlider.maxValue = bo.MaxHealth.Value;
+            healthSlider.minValue = 0;
+            healthSlider.value = bo.CurrentHealth.Value;
+            health.text = $"{bo.CurrentHealth.Value}/{bo.MaxHealth.Value}";
+        }
+    }
+    
+
     public void DePopulateMenu()
     {
-        foreach(UpgradeSlot upgradeSlot in upgradeSlots)
+        foreach (UpgradeSlot upgradeSlot in upgradeSlots)
         {
             UnsubscribeFromSlot(upgradeSlot);
             Destroy(upgradeSlot.gameObject);
-           
+
         }
         upgradeSlots.Clear();
 
         if (currentInspectedObject != null)
         {
             IUpgradeable upg = currentInspectedObject.GetComponent<IUpgradeable>();
-            if(upg != null)
+            if (upg != null)
             {
                 upg.OnUpgradesChanged -= RefreshUpgrades;
             }
         }
-        
+
 
         //Clear subscriptions from stat values
-        if(currentInspectedObject != null && currentInspectedObject.GetComponent<IStats>() != null)
+        if (currentInspectedObject != null && currentInspectedObject.GetComponent<IStats>() != null)
         {
             currentInspectedObject.GetComponent<IStats>().strength.OnValueChanged -= RefreshStats;
             currentInspectedObject.GetComponent<IStats>().speed.OnValueChanged -= RefreshStats;
@@ -225,6 +240,15 @@ public class InspectionMenu : MonoBehaviour
             currentInspectedObject.GetComponent<IStats>().sturdy.OnValueChanged -= RefreshStats;
         }
 
+        if (currentInspectedObject != null)
+        {
+            BaseObject bo = currentInspectedObject.GetComponent<BaseObject>();
+            if (bo != null)
+            {
+                bo.CurrentHealth.OnValueChanged -= RefreshHealth;
+            }
+        }
+        
         currentInspectedObject = null;
     }
 

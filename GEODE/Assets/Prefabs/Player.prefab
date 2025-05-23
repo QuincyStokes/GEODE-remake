@@ -2002,7 +2002,7 @@ GameObject:
   - component: {fileID: 2503224019677379507}
   - component: {fileID: 980645611446013924}
   - component: {fileID: 3781256305922087404}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: AttackHitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2161,7 +2161,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tool: 0
   damage: 0
-  parentDirection: {x: 0, y: 0}
+  sourceDirection: {x: 0, y: 0}
   dropItems: 0
   hittableTags:
   - Enemy
@@ -8348,6 +8348,7 @@ MonoBehaviour:
   level: 1
   droppedItems: []
   sr: {fileID: 6936979194301973592}
+  collisionHitbox: {fileID: 0}
   objectTransform: {fileID: 8419501764596933443}
   healthbarSlider: {fileID: 5203703445893816871}
   healthbarText: {fileID: 8603275528986012161}

@@ -383,7 +383,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
         {
             Instance.hitbox.damage = dmg;
             Instance.hitbox.tool = t;
-            Instance.hitbox.parentDirection = transform.position;
+            Instance.hitbox.sourceDirection = transform.position;
             Instance.hitbox.dropItems = drops;
             StartCoroutine(DoAttack());
         }

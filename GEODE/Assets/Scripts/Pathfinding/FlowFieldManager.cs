@@ -34,10 +34,10 @@ public class FlowFieldManager : NetworkBehaviour
         new Vector2Int(1, 0),   //right
         new Vector2Int(0, -1),  //down
         new Vector2Int(0, 1),   //up
-        new Vector2Int(-1, -1), //down left
-        new Vector2Int(-1, 1),  //up left
-        new Vector2Int(1, -1),  //down right
-        new Vector2Int(1, 1)    //up right
+        // new Vector2Int(-1, -1), //down left
+        // new Vector2Int(-1, 1),  //up left
+        // new Vector2Int(1, -1),  //down right
+        // new Vector2Int(1, 1)    //up right
     };
 
     private void Awake()
@@ -192,7 +192,7 @@ public class FlowFieldManager : NetworkBehaviour
         //now we run BFS
         Queue<Vector2Int> queue = new Queue<Vector2Int>();
 
-        Vector2Int centerPosition = new Vector2Int(fieldWidth/2, fieldHeight/2);
+        Vector2Int centerPosition = new Vector2Int(fieldWidth/2+1, fieldHeight/2+1);
         //initialize goal cell
         flowField[centerPosition.x, centerPosition.y].integrationCost = 0;
         //queue.Enqueue(centerPosition);

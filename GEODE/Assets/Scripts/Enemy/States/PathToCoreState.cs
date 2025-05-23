@@ -38,7 +38,8 @@ public class PathToCoreState : BaseEnemyState
             return;
         }
 
-        Vector2 coreDir = owner.corePosition - (Vector2)owner.transform.position;
+        Vector2 nearestCorePoint = GetNearestPointOnTarget(owner);
+        Vector2 coreDir = nearestCorePoint - (Vector2)owner.transform.position;
         float distanceSq = coreDir.sqrMagnitude;
 
         if (!FlowFieldManager.Instance.IsOnFlowField(owner.transform.position))
@@ -87,13 +88,15 @@ public class PathToCoreState : BaseEnemyState
 
         attackTimer += Time.deltaTime;
 
-        float distance = Vector2.Distance(owner.corePosition, owner.transform.position);
+        Vector2 nearestCorePoint = GetNearestPointOnTarget(owner);
+        float distance = Vector2.Distance(nearestCorePoint, owner.transform.position);
         if (attackTimer >= owner.attackCooldown && distance <= owner.attackRange)
         {
             // if current target is in range, attack!
             if (Vector3.Distance(owner.corePosition, owner.transform.position) <= owner.attackRange)
             {
-                //Switch to attack state
+                //Switch to attack state\
+                owner.targetClosestPoint = nearestCorePoint;
                 stateMachine.ChangeState(new AttackState());
             }
         }

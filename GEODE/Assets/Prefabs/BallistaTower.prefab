@@ -320,7 +320,8 @@ MonoBehaviour:
   centerPoint: {fileID: 0}
   description: 
   objectSprite: {fileID: 0}
-  sr: {fileID: 0}
+  sr: {fileID: 6878977793782977151}
+  collisionHitbox: {fileID: 2570471915127480501}
   BASE_SPEED: 1
   BASE_STRENGTH: 10
   BASE_SIZE: 4
