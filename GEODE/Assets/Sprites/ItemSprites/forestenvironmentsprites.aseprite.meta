@@ -242,8 +242,8 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: forestenvironmentsprites_3
     originalName: 
-    pivot: {x: 0, y: 0}
-    alignment: 6
+    pivot: {x: 0.2, y: 0}
+    alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
@@ -1053,8 +1053,8 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: forestenvironmentsprites_4
     originalName: 
-    pivot: {x: 0, y: 0}
-    alignment: 6
+    pivot: {x: 0.2173913, y: 0}
+    alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
@@ -2731,8 +2731,8 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: forestenvironmentsprites_9
     originalName: 
-    pivot: {x: 0, y: 0}
-    alignment: 6
+    pivot: {x: 0.15254237, y: 0}
+    alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
@@ -2883,8 +2883,8 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: forestenvironmentsprites_10
     originalName: 
-    pivot: {x: 0, y: 0}
-    alignment: 6
+    pivot: {x: 0.07826087, y: 0.11111111}
+    alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
@@ -3026,8 +3026,8 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: forestenvironmentsprites_11
     originalName: 
-    pivot: {x: 0, y: 0}
-    alignment: 6
+    pivot: {x: 0.13207547, y: 0.033333335}
+    alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:

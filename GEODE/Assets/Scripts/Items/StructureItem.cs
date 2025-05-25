@@ -23,7 +23,7 @@ public class StructureItem : BaseItem
                         {
                             return false;
                         }
-                        positionsToBlock.Add(new Vector3(position.x+1*x, position.y+1*y));
+                        positionsToBlock.Add(new Vector3(position.x+(1*x), position.y+(1*y)));
                     }
                 }
                 if(snapToGrid)
@@ -33,6 +33,7 @@ public class StructureItem : BaseItem
                 }
                 else
                 {
+                    //GridManager.Instance.PlaceObjectOnGridServerRpc(Id, new Vector3Int((int)position.x, (int)position.y, 0), positionsToBlock.ToArray());
                     WorldGenManager.Instance.PlaceObjectOffGridServerRpc(Id, position, positionsToBlock.ToArray());
                     return true;
                 }

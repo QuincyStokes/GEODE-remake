@@ -25,10 +25,11 @@ public class FlowFieldManager : NetworkBehaviour
 
     public Tilemap debugTilemap;
     public Tile[] debugTiles;
+    public Tile redXTile;
 
 
     //precalculating these to save overhead
-    private static readonly Vector2Int[] neighborOffsets = 
+    private static readonly Vector2Int[] neighborOffsets =
     {
         new Vector2Int(-1, 0),  //left
         new Vector2Int(1, 0),   //right
@@ -95,18 +96,17 @@ public class FlowFieldManager : NetworkBehaviour
 
     public Vector2Int WorldToFlowFieldPositionRaw(Vector3 worldPos)
     {
-        int wx = Mathf.FloorToInt(worldPos.x);
-        int wy = Mathf.FloorToInt(worldPos.y);
+        float x = worldPos.x - flowFieldOrigin.x; //could divide by cell size here, but we are using 1x1 so no need
+        float y = worldPos.y - flowFieldOrigin.y;
 
-
-        int x = wx - flowFieldOrigin.x; //could divide by cell size here, but we are using 1x1 so no need
-        int y = wy - flowFieldOrigin.y;
+        int wx = Mathf.FloorToInt(x);
+        int wy = Mathf.FloorToInt(y);
 
         //int x = Mathf.FloorToInt(localX);
         //int y = Mathf.FloorToInt(localY);
 
         //THIS IS NOT CLAMPED, meaning if we use these coords directly in the grid they may not be in bounds
-        return new Vector2Int(x, y);
+        return new Vector2Int(wx, wy);
     }
 
 
@@ -133,12 +133,14 @@ public class FlowFieldManager : NetworkBehaviour
     public void SetWalkable(Vector3 position, bool walkable)
     {
         //convert world position to flowfield position
-        Vector2Int flowFieldPosition = WorldToFlowFieldPositionRaw(position);
+        Vector3 pos = new Vector3(Mathf.RoundToInt(position.x), Mathf.RoundToInt(position.y), 0);
+        Vector2Int flowFieldPosition = WorldToFlowFieldPositionRaw(pos);
         //First check if this position is actually on the flowfield
         if(IsInBounds(flowFieldPosition))
         {
             //Debug.Log($"Marking  {flowFieldPosition} as non-walkable");
             //if we're here, we have a valid position, set the walkable
+            Debug.Log($"Setting Position {position} walkable to {walkable}");
             flowField[flowFieldPosition.x, flowFieldPosition.y].isWalkable = walkable;
         }
         //for now simply do nothing if its not a valid position to set walkable
@@ -152,9 +154,11 @@ public class FlowFieldManager : NetworkBehaviour
 
     public void SetCorePosition(Transform transfo)
     {
-        Vector2Int flowFieldOriginPos = new Vector2Int((int)transfo.position.x-fieldWidth/2, (int)transfo.position.y-fieldHeight/2);
-        flowFieldOrigin = flowFieldOriginPos;
-        Debug.Log($"New Core position at {flowFieldOriginPos}");
+        int px = Mathf.FloorToInt(transfo.position.x);
+        int py = Mathf.FloorToInt(transfo.position.y);
+        flowFieldOrigin = new Vector2Int(px - fieldWidth/2, py - fieldHeight/2);
+
+        Debug.Log($"New Core position at {flowFieldOrigin}");
         hasCoreBeenPlaced = true;
         coreTransform = transfo;
         corePlaced?.Invoke(transfo);
@@ -242,36 +246,38 @@ public class FlowFieldManager : NetworkBehaviour
         debugTilemap.ClearAllTiles();
         for(int x = 0; x < fieldWidth; x++)
         {
-            for(int y = 0; y < fieldHeight; y++)
+            for (int y = 0; y < fieldHeight; y++)
             {
                 //if the current position isn't walkable, skip it
-                if(!flowField[x, y].isWalkable)
+                if (!flowField[x, y].isWalkable)
                 {
+                    debugTilemap.SetTile(new Vector3Int(x + flowFieldOrigin.x, y + flowFieldOrigin.y, 0), redXTile);
                     continue;
+                    
                 }
 
                 //initialize our best direction, set to 0
                 Vector2 bestDir = Vector2.zero;
                 //grab our current cost, beacuse this is currently our best. Goal is to beat this
-                byte bestCost = flowField[x,y].integrationCost;
+                byte bestCost = flowField[x, y].integrationCost;
 
                 //loop through each neighbor.
-                foreach(Vector2Int offset in neighborOffsets)
+                foreach (Vector2Int offset in neighborOffsets)
                 {
                     //neighbor position up down left right etc
                     Vector2Int neighborPos = new Vector2Int(x + offset.x, y + offset.y);
-                    
+
                     //if the position is within bounds and it's a walkable cell
-                    if(IsInBounds(neighborPos) && flowField[neighborPos.x, neighborPos.y].isWalkable)
+                    if (IsInBounds(neighborPos) && flowField[neighborPos.x, neighborPos.y].isWalkable)
                     {
                         //grab the new neighbor's integration cost, we will use this to compare vs current cost
                         byte neighborCost = flowField[neighborPos.x, neighborPos.y].integrationCost;
                         //IF the new cost is less than our best cost, we want this position's direction to point INTO the neighbor
-                        if(neighborCost < bestCost)
+                        if (neighborCost < bestCost)
                         {
                             bestCost = neighborCost;
 
-                            Vector2 dir = (Vector2) neighborPos - (Vector2)new Vector2Int(x, y);
+                            Vector2 dir = (Vector2)neighborPos - (Vector2)new Vector2Int(x, y);
                             bestDir = dir.normalized;
                         }
                     }
@@ -279,19 +285,21 @@ public class FlowFieldManager : NetworkBehaviour
                 //finally, set our current position's flow direction towards the cheapest neighbor
                 //Debug.Log($"Placing flow direction at ({x}, {y}) with direction {bestDir}");
                 flowField[x, y].flowDirection = bestDir;
-                if(bestDir == neighborOffsets[0])
+
+                //debug tilemap
+                if (bestDir == neighborOffsets[0])
                 {
                     debugTilemap.SetTile(new Vector3Int(x + flowFieldOrigin.x, y + flowFieldOrigin.y, 0), debugTiles[0]);
                 }
-                if(bestDir == neighborOffsets[1])
+                else if (bestDir == neighborOffsets[1])
                 {
                     debugTilemap.SetTile(new Vector3Int(x + flowFieldOrigin.x, y + flowFieldOrigin.y, 0), debugTiles[1]);
                 }
-                if(bestDir == neighborOffsets[2])
+                else if (bestDir == neighborOffsets[2])
                 {
                     debugTilemap.SetTile(new Vector3Int(x + flowFieldOrigin.x, y + flowFieldOrigin.y, 0), debugTiles[2]);
                 }
-                if(bestDir == neighborOffsets[3])
+                else if (bestDir == neighborOffsets[3])
                 {
                     debugTilemap.SetTile(new Vector3Int(x + flowFieldOrigin.x, y + flowFieldOrigin.y, 0), debugTiles[3]);
                 }

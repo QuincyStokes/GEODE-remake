@@ -788,12 +788,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1904933256301116299, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
+      propertyPath: redXTile
+      value: 
+      objectReference: {fileID: 11400000, guid: 045058fd19c51114c8a6a990f6c5693d, type: 2}
+    - target: {fileID: 1904933256301116299, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
       propertyPath: fieldWidth
-      value: 10
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 1904933256301116299, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
       propertyPath: fieldHeight
-      value: 10
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 3194198465578815583, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
       propertyPath: GlobalObjectIdHash

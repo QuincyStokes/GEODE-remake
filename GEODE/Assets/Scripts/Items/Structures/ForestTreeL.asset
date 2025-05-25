@@ -17,8 +17,9 @@ MonoBehaviour:
   type: 2
   icon: {fileID: -1220978815782690769, guid: 72d14c2e801892147bf0400942e6d753, type: 3}
   id: 8
+  quality: 0
   isStackable: 1
   consumeOnUse: 1
   prefab: {fileID: 2928207964876413474, guid: c2bf418b073b0ef44aa34c32dc0e2697, type: 3}
-  width: 2
-  height: 2
+  width: 1
+  height: 1
