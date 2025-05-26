@@ -19,6 +19,16 @@ public class InventoryHandUI : NetworkBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        CursorStack.Instance.OnCursorChanged += Refresh;
+
+    }
+
+    private void OnDisable()
+    {
+        CursorStack.Instance.OnCursorChanged -= Refresh;
+    }
     private void Awake()
     {
         SetHandData(null, 0);
@@ -29,9 +39,19 @@ public class InventoryHandUI : NetworkBehaviour
         transform.position = Input.mousePosition;
     }
 
-    public void SetHandData(Sprite sprite, int count=0)
+    private void Refresh(ItemStack stack)
     {
-        if(sprite == null)
+        if (stack.Id == -1) return;
+        
+        BaseItem item = ItemDatabase.Instance.GetItem(stack.Id);
+        if (item != null)
+        {
+            SetHandData(item.Icon, stack.amount);
+        }
+    }
+    public void SetHandData(Sprite sprite, int count = 0)
+    {
+        if (sprite == null)
         {
             handImageUI.enabled = false;
             handImageUI.sprite = null;
@@ -44,7 +64,7 @@ public class InventoryHandUI : NetworkBehaviour
             handImageUI.enabled = true;
             handImageUI.sprite = sprite;
             isHolding = true;
-            if(count > 1)
+            if (count > 1)
             {
                 handCountUI.text = count.ToString();
             }
@@ -52,7 +72,7 @@ public class InventoryHandUI : NetworkBehaviour
             {
                 handCountUI.text = "";
             }
-            
+
             handImageUI.color = new Color(1, 1, 1, 1);
         }
     }

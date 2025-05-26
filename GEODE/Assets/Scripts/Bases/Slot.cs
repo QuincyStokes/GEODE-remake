@@ -40,28 +40,28 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     //----------
     //PLAYERS "HAND"
     //----------
-    public PlayerInventory playerInventory;
+    public BaseContainer container;
     protected static BaseItem heldItem = null;
     protected static int heldCount = 0;
     public ItemStack displayedStack { get; private set; }
 
-
-    public void InitializeHand(InventoryHandUI hand)
+    public void InitializeContainer(BaseContainer newContainer, int index)
     {
-        inventoryHand = hand;
-    }
-
-    public void InitializeInventory(PlayerInventory pi)
-    {
-        playerInventory = pi;
-        playerInventory.OnInventoryToggled += ToggleCanInteract;
-        ToggleCanInteract(false);
+        container = newContainer;
+        SlotIndex = index;
+        //container.OnInventoryToggled += ToggleCanInteract;
+        ToggleCanInteract(true);
     }
 
     private void ToggleCanInteract(bool active)
     {
         canInteract = active;
         Debug.Log($"Slot canInteract set to {active}");
+    }
+
+    public virtual void SetItem(ItemStack itemStack)
+    {
+        SetItem(itemStack.Id, itemStack.amount, true);
     }
 
     public virtual void SetItem(int id = -1, int newCount = 1, bool interactable = false)
@@ -94,7 +94,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public BaseItem GetItemInSlot()
     {
-        ItemStack stack = playerInventory.InventoryItems[SlotIndex];
+        ItemStack stack = container.ContainerItems[SlotIndex];
         if (!stack.IsEmpty())
         {
             return ItemDatabase.Instance.GetItem(stack.Id);
@@ -109,12 +109,14 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        playerInventory.ShowTooltip(SlotIndex);
+        //TODO
+        //container.ShowTooltip(SlotIndex);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        playerInventory.HideTooltip();
+        //TODO
+        //container.HideTooltip();
     }
 
 
@@ -139,18 +141,20 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     public virtual void HandleLeftClick()
     {
 
-        if (!playerInventory.IsOwner)
+        if (!container.IsOwner)
         {
             return;
         }
-        playerInventory.ProcessSlotClick(this);
+        //TODO
+        //container.ProcessSlotClick(this);
     }
     
     private void OnDestroy()
     {
-        if (playerInventory != null)
+        if (container != null)
         {
-            playerInventory.OnInventoryToggled -= ToggleCanInteract;
+            //TODO
+            //container.OnInventoryToggled -= ToggleCanInteract;
         }
 
     }

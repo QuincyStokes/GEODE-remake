@@ -42,9 +42,6 @@ public class InspectionMenu : MonoBehaviour
 
 
     //* METHODS
-    private void Awake()
-    {
-    }
 
 
     public void DoMenu(GameObject go)
@@ -150,9 +147,7 @@ public class InspectionMenu : MonoBehaviour
                 GameObject slot = Instantiate(upgradeSlotPrefab, upgradeSlotHolder.transform);
                 UpgradeSlot upgradeSlot = slot.GetComponent<UpgradeSlot>();
                 upgradeSlots.Add(upgradeSlot);
-                SubscribeToSlot(upgradeSlot);
-                upgradeSlot.InitializeHand(inventoryHandUI);
-                
+                SubscribeToSlot(upgradeSlot);                
             }
 
             upg.OnUpgradesChanged += RefreshUpgrades;
