@@ -45,28 +45,31 @@ public class Loot : NetworkBehaviour
             return;
         }
 
-        if(other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))
         {
 
             //check if it *can* be added to the player's inventory
             //if it can, call MoveAndCollect
 
             PlayerInventory inv = other.gameObject.GetComponent<PlayerInventory>();
-            if(inv == null)
+            if (inv == null)
             {
                 return;
             }
 
-            if(inv.AddItem(itemId.Value, amount.Value))
-            {
-                Debug.Log("Item added to inventory!");
-                pickedUp = true;
-                col.enabled = false; //this should fix white box error on multiplayer?
+            //OLD
+            // if(inv.AddItem(itemId.Value, amount.Value))
+            // {
+            //     Debug.Log("Item added to inventory!");
+            //     pickedUp = true;
+            //     col.enabled = false; //this should fix white box error on multiplayer?
 
-                PickupClientRpc(other.GetComponent<NetworkObject>().NetworkObjectId);
-                NetworkObject.Despawn(false);
-            }
-            
+            //     PickupClientRpc(other.GetComponent<NetworkObject>().NetworkObjectId);
+            //     NetworkObject.Despawn(false);
+            // }
+            inv.AddItemInternal(itemId.Value, amount.Value);
+            NetworkObject.Despawn(true);
+
         }
     }
 

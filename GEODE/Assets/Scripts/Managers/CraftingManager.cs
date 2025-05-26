@@ -109,12 +109,12 @@ public class CraftingManager : MonoBehaviour
         {
             foreach(ItemAmount ia in currentRecipe.materials)
             {
-                playerInventory.RemoveItem(ia.item, ia.amount);
+                playerInventory.RemoveItemInternal(ia.item.Id, ia.amount);
             }
 
             foreach(ItemAmount ia in currentRecipe.results)
             {
-                playerInventory.AddItem(ia.item.Id, ia.amount);
+                playerInventory.AddItemInternal(ia.item.Id, ia.amount);
             }
             UpdateRecipeUI();
         }
