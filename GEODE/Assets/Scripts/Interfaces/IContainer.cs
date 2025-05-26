@@ -10,8 +10,6 @@ public interface IContainer
         set{slots = value;}
     }
 
-    public void ToggleInventory(InputAction.CallbackContext context);
-
     public BaseItem GetItemAtPosition(int position);
 
     public int FindItem(BaseItem item);

@@ -535,15 +535,6 @@ public class PlayerInventory : NetworkBehaviour, IContainer
         allInventorySlots[index].SetItem(stack.Id, stack.amount, true);
     }
 
-    private void RedrawFromList()
-    {
-        for (int i = 0; i < InventoryItems.Count; i++)
-        {
-            RedrawSlot(i);
-        }
-
-    }
-
     public void UseSelectedItem(Vector3 mousePos)
     {
         // local owner only
