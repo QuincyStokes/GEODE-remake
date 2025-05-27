@@ -13,14 +13,11 @@ public class ContainerUIManager<T> : MonoBehaviour
     [SerializeField] protected Slot slotPrefab;
     protected List<Slot> slots = new();
 
-
-
-
-
     //* --------------- Methods -----------------
 
     protected virtual void Awake()
     {
+        Debug.Log("ContainerManager is awake!");
         container.Ready += OnContainerReady;
     }
 
@@ -33,6 +30,7 @@ public class ContainerUIManager<T> : MonoBehaviour
 
     private void OnContainerReady()
     {
+        Debug.Log($"Container is ready! Initializing Slots.");
         container.OnSlotChanged += OnSlotChanged;
         container.OnContainerChanged += OnContainerChanged;
         InitializeSlots();

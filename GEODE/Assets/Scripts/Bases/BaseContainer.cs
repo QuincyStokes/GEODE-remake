@@ -38,22 +38,28 @@ public class BaseContainer : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if (!IsServer) return;       // only the server seeds the list
 
         InitializeContainers();
         CursorStack.Instance.ItemStack = ItemStack.Empty;
 
-        foreach (ItemAmount itemAmount in startingItems)
-        {
-            AddItemInternal(itemAmount.item.Id, itemAmount.amount);
-        }
-        AddItemInternal(6, 1);
-
+        ContainerItems.OnListChanged += HandleListChanged;
         Ready?.Invoke();
+
+        if (IsServer)
+        {
+            foreach (ItemAmount itemAmount in startingItems)
+            {
+                AddItemInternal(itemAmount.item.Id, itemAmount.amount);
+            }
+            AddItemInternal(6, 1);
+        }    // only the server seeds the list
     }
 
- 
-
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+        ContainerItems.OnListChanged -= HandleListChanged;
+    }
     public virtual void InitializeContainers()
     {
         //Set the indexes of the SubContainers
@@ -71,6 +77,22 @@ public class BaseContainer : NetworkBehaviour
             ContainerItems.Add(ItemStack.Empty);
         }
 
+    }
+
+    private void HandleListChanged(NetworkListEvent<ItemStack> change)
+    { 
+        switch (change.Type)
+        {
+            case NetworkListEvent<ItemStack>.EventType.Value:
+                // A single index was overwritten
+                OnSlotChanged?.Invoke(change.Index, change.Value);
+                break;
+
+            default:
+                // Covers Add, Insert, Remove, Clear, etc.
+                OnContainerChanged?.Invoke();
+                break;
+        }
     }
 
     public virtual ItemStack GetItemAt(int index)
@@ -94,7 +116,7 @@ public class BaseContainer : NetworkBehaviour
                     int overflow = totalAmount - maxItemStack;
                     s.amount += count - (totalAmount - maxItemStack);
 
-                    OnSlotChanged?.Invoke(i, s);
+                    //OnSlotChanged?.Invoke(i, s);
                     ContainerItems[i] = s;
 
                     //add the overflow to a different slot
@@ -115,7 +137,7 @@ public class BaseContainer : NetworkBehaviour
                 else
                 {
                     s.amount += count;
-                    OnSlotChanged?.Invoke(i, s);
+                    //OnSlotChanged?.Invoke(i, s);
                     ContainerItems[i] = s;
                     return;
                 }
@@ -126,7 +148,7 @@ public class BaseContainer : NetworkBehaviour
         int slot2 = GetFirstEmptySlot();
         if (slot2 != -1)
         {
-            OnSlotChanged?.Invoke(slot2, s2);
+            //OnSlotChanged?.Invoke(slot2, s2);
             ContainerItems[slot2] = s2;
         }
 
@@ -163,10 +185,11 @@ public class BaseContainer : NetworkBehaviour
         if (CursorStack.Instance.ItemStack.IsEmpty() && !slotStack.IsEmpty())
         {
             // local prediction — clear slot, fill cursor UI
-            //slot.SetItem();                               // empty the visuals
-            //CursorStack.Instance.ItemStack = slotStack;
+            slot.SetItem();                               // empty the visuals
 
-            MoveStackServerRpc(idx, -1);                  // ask server
+            MoveStackServerRpc(idx, -1, CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount);                  // ask server
+             //locally set the cursor stack.
+            CursorStack.Instance.ItemStack = slotStack;
             return;
         }
 
@@ -184,11 +207,14 @@ public class BaseContainer : NetworkBehaviour
                     int moveAmt = Mathf.Min(CursorStack.Instance.ItemStack.amount, free);
 
                     /* predicted visuals */
-                    //slot.SetItem(slotStack.Id, slotStack.amount + moveAmt, true);
-                    //CursorStack.Instance.Amount -= moveAmt;
-                    //if (CursorStack.Instance.ItemStack.amount == 0) CursorStack.Instance.ItemStack = ItemStack.Empty;
+                    slot.SetItem(slotStack.Id, slotStack.amount + moveAmt, true);
+                    MergeStackServerRpc(idx, moveAmt);
 
-                    MergeStackServerRpc(-1, idx, moveAmt);
+                    CursorStack.Instance.Amount -= moveAmt; //this may not work
+                    if (CursorStack.Instance.ItemStack.amount == 0) CursorStack.Instance.ItemStack = ItemStack.Empty;
+                    //OnSlotChanged?.Invoke(idx, CursorStack.Instance.ItemStack);
+
+                    
                 }
                 return;
             }
@@ -196,71 +222,67 @@ public class BaseContainer : NetworkBehaviour
             /* ----- PLACE (slot empty) ----- */
             if (slotStack.IsEmpty())
             {
-                MoveStackServerRpc(-1, idx);
+                slot.SetItem(CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount, true);
+                MoveStackServerRpc(-1, idx, CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount);
 
-                //CursorStack.Instance.ItemStack = ItemStack.Empty;
+                CursorStack.Instance.ItemStack = ItemStack.Empty;
                 return;
             }
 
             /* ----- SWAP (different item) ----- */
             // predict: slot shows cursor item, cursor shows previous slot item
-            //slot.SetItem(CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount, true);
-            //UpdateCursorVisualWithStack(slotStack);       // helper shown below
-            //CursorStack.Instance.ItemStack = slotStack;
+            slot.SetItem(CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount, true);
+            
 
-            // two RPCs, as before
-            SwapSlotWithCursorServerRpc(idx);
+            //RPC, as before
+            SwapSlotWithCursorServerRpc(idx, CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount);
+            //OnSlotChanged?.Invoke(idx, new ItemStack { Id = CursorStack.Instance.ItemStack.Id, amount = CursorStack.Instance.ItemStack.amount }); 
+            CursorStack.Instance.ItemStack = slotStack;
             return;
         }
     }
 
     [ServerRpc(RequireOwnership = false)]
-    void SwapSlotWithCursorServerRpc(int slotIdx, ServerRpcParams p = default)
+    void SwapSlotWithCursorServerRpc(int slotIdx, int stackId, int stackAmount)
     {
         //temp
         ItemStack slotItemStack = ContainerItems[slotIdx];
-
-        // swap
-        ContainerItems[slotIdx] = CursorStack.Instance.ItemStack;
-        OnSlotChanged?.Invoke(slotIdx, CursorStack.Instance.ItemStack);
-        CursorStack.Instance.ItemStack = slotItemStack;
+        //Fake "Cursor"
+        ItemStack cursorData = new ItemStack { Id = stackId, amount = stackAmount };
+        ContainerItems[slotIdx] = cursorData;
+        
     }
 
 
-    [ServerRpc(RequireOwnership = false)]
-    private void MoveStackServerRpc(int fromIndex, int toIndex)
-    {
-        ApplyMove(fromIndex, toIndex);
-    }
+    
 
     [ServerRpc]
-    public void MergeStackServerRpc(int fromIndex, int toIndex, int amount)
+    public void MergeStackServerRpc(int toIndex, int amount)
     {
         if (amount <= 0) return;
-        ApplyMerge(fromIndex, toIndex, amount);
+        ApplyMerge(toIndex, amount);
     }
 
-    private bool ApplyMerge(int from, int to, int amount)
+    private bool ApplyMerge(int to, int amount)
     {
-        //! I don't quite understand this check
-        if (from == -1 && CursorStack.Instance.ItemStack.amount < amount) return false;
 
         ItemStack toStack = ContainerItems[to];
         toStack.amount += amount;
         ContainerItems[to] = toStack;
-        OnSlotChanged?.Invoke(to, toStack);
 
-        ItemStack newStack = new ItemStack { Id = CursorStack.Instance.ItemStack.Id, amount = CursorStack.Instance.ItemStack.amount - amount };
-        if (newStack.amount == 0) CursorStack.Instance.ItemStack = ItemStack.Empty;
-        else CursorStack.Instance.ItemStack = newStack;
-
-        Debug.Log($"Set cursor stack to {newStack.amount}");
         return true;
     }
-
-    private bool ApplyMove(int from, int to)
+    
+    [ServerRpc(RequireOwnership = false)]
+    private void MoveStackServerRpc(int fromIndex, int toIndex, int stackId, int stackAmount)
     {
-        ItemStack cache = CursorStack.Instance.ItemStack;
+        ApplyMove(fromIndex, toIndex, stackId, stackAmount);
+    }
+
+    private bool ApplyMove(int from, int to, int stackId, int stackAmount)
+    {
+
+        ItemStack cache = new ItemStack { Id = stackId, amount = stackAmount };
         ItemStack fromStack;
         ItemStack toStack;
 
@@ -281,11 +303,11 @@ public class BaseContainer : NetworkBehaviour
             if (to == -1) //to the cursor
             {
                 cache = fromStack;
-            }    
+            }
             else
             {
                 ContainerItems[to] = fromStack;
-                OnSlotChanged?.Invoke(to, fromStack);
+                //OnSlotChanged?.Invoke(to, fromStack); //!
             }
 
 
@@ -297,10 +319,9 @@ public class BaseContainer : NetworkBehaviour
             {
                 Debug.Log($"Set slot {from} to Empty");
                 ContainerItems[from] = ItemStack.Empty;
-                OnSlotChanged?.Invoke(from, ItemStack.Empty);
+                //OnSlotChanged?.Invoke(from, ItemStack.Empty); //!
             }
 
-            CursorStack.Instance.ItemStack = cache;
             return true;
         }
 
@@ -320,15 +341,14 @@ public class BaseContainer : NetworkBehaviour
             else
             {
                 ContainerItems[to] = toStack;
-                OnSlotChanged?.Invoke(to, toStack);
+                //OnSlotChanged?.Invoke(to, toStack); //!
             }
             if (from == -1) cache = fromStack;
             else
             {
                 ContainerItems[from] = fromStack;
-                OnSlotChanged?.Invoke(from, fromStack);
+                //OnSlotChanged?.Invoke(from, fromStack); //!
             }
-            CursorStack.Instance.ItemStack = cache;
             return true;
         }
 
@@ -337,16 +357,14 @@ public class BaseContainer : NetworkBehaviour
         else
         {
             ContainerItems[to] = fromStack;
-            OnSlotChanged?.Invoke(to, fromStack);
+           // OnSlotChanged?.Invoke(to, fromStack); //!
         }
         if (from == -1) cache = toStack;
         else
         {
             ContainerItems[from] = toStack;
-            OnSlotChanged?.Invoke(from, toStack);
+            //OnSlotChanged?.Invoke(from, toStack); //!
         }
-
-        CursorStack.Instance.ItemStack = cache;
         return true;
     }
     //when the network inventory list changes, redraw the inventory
@@ -383,12 +401,12 @@ public class BaseContainer : NetworkBehaviour
             if (st.amount == 0)
             {
                 ContainerItems[idx] = ItemStack.Empty;
-                OnSlotChanged?.Invoke(idx, ItemStack.Empty);
+                //OnSlotChanged?.Invoke(idx, ItemStack.Empty); //!
             }
             else
             {
                 ContainerItems[idx] = st;
-                OnSlotChanged?.Invoke(idx, st);
+                //OnSlotChanged?.Invoke(idx, st); //!
             }
         }
         return true;

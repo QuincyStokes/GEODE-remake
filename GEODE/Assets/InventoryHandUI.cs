@@ -3,21 +3,13 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
-public class InventoryHandUI : NetworkBehaviour
+public class InventoryHandUI : MonoBehaviour
 {
 
     //the image for the item we are currently holding
     [SerializeField] private Image handImageUI;
     [SerializeField] private TMP_Text handCountUI;
     [HideInInspector] public bool isHolding;
-
-    public override void OnNetworkSpawn()
-    {
-        if(!IsOwner)
-        {
-            Destroy(gameObject);
-        }
-    }
 
     private void OnEnable()
     {

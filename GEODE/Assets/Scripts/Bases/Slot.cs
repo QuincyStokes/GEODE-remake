@@ -22,11 +22,6 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     //protected int count;
     public bool canInteract = true;
     public int SlotIndex { get; set; }
-    [HideInInspector] public Transform parentAfterDrag;
-
-    //----------
-    //PLAYERS "HAND"
-    //----------
     public BaseContainer container;
     public ItemStack displayedStack { get; private set; }
 
@@ -77,18 +72,6 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         //CheckItemDepleted();
     }
 
-    public BaseItem GetItemInSlot()
-    {
-        ItemStack stack = container.ContainerItems[SlotIndex];
-        if (!stack.IsEmpty())
-        {
-            return ItemDatabase.Instance.GetItem(stack.Id);
-        }
-        else
-        {
-            return null;
-        }
-    }
 
     //todo
 
