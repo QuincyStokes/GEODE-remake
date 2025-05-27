@@ -12,26 +12,13 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     [SerializeField] protected Image backgroundSprite;
     [SerializeField] protected Image itemSprite;
     [SerializeField] protected TMP_Text itemCount;
-    [HideInInspector] protected InventoryHandUI inventoryHand;
-    [SerializeField] protected GameObject tooltip;
-
-    [Header("Tooltip References")]
-    [SerializeField] protected TMP_Text tooltipItemName;
-    [SerializeField] protected TMP_Text tooltipItemDescription;
-    [SerializeField] protected TMP_Text tooltipItemType;
-    [SerializeField] protected TMP_Text tooltipItemStats;
-    [SerializeField] protected TMP_Text tooltipItemQuality;
-
 
     [Header("Background Images")]
     [SerializeField] protected Sprite selectedBackgroundImage;
     [SerializeField] protected Sprite deselectedBackgroundImage;
 
-
     [Header("Settings")]
-    [SerializeField] protected int maxStackSize;
-    //protected BaseItem item; //item this slot is holding
-    protected Sprite icon;
+
     //protected int count;
     public bool canInteract = true;
     public int SlotIndex { get; set; }
@@ -41,8 +28,6 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     //PLAYERS "HAND"
     //----------
     public BaseContainer container;
-    protected static BaseItem heldItem = null;
-    protected static int heldCount = 0;
     public ItemStack displayedStack { get; private set; }
 
     public void InitializeContainer(BaseContainer newContainer, int index)
@@ -145,8 +130,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         {
             return;
         }
-        //TODO
-        //container.ProcessSlotClick(this);
+        container.ProcessSlotClick(this);
     }
     
     private void OnDestroy()

@@ -9,7 +9,6 @@ public class InspectionMenu : MonoBehaviour
     [Header("Name and Image")]
     [SerializeField] private TMP_Text inspectName;
     [SerializeField] private Image inspectImage;
-    [SerializeField] private InventoryHandUI inventoryHandUI;
 
     [Header("Stats")]    
     [SerializeField] private TMP_Text strength;

@@ -21,10 +21,7 @@ public class ContainerUIManager<T> : MonoBehaviour
 
     protected virtual void Awake()
     {
-        container.OnSlotChanged += OnSlotChanged;
-        container.OnContainerChanged += OnContainerChanged;
         container.Ready += OnContainerReady;
-       
     }
 
     protected virtual void OnDestroy()
@@ -36,6 +33,8 @@ public class ContainerUIManager<T> : MonoBehaviour
 
     private void OnContainerReady()
     {
+        container.OnSlotChanged += OnSlotChanged;
+        container.OnContainerChanged += OnContainerChanged;
         InitializeSlots();
         RedrawAll();
     }
@@ -59,6 +58,7 @@ public class ContainerUIManager<T> : MonoBehaviour
 
     protected virtual void OnSlotChanged(int index, ItemStack stack)
     {
+        Debug.Log($"UI Setting slot {index} to {stack.Id}");
         slots[index].SetItem(stack);
     }
 

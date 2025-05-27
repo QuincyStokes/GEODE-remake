@@ -41,7 +41,11 @@ public class InventoryHandUI : NetworkBehaviour
 
     private void Refresh(ItemStack stack)
     {
-        if (stack.Id == -1) return;
+        if (stack.Id == -1)
+        {
+            SetHandData(null, 0);
+            return;
+        }
         
         BaseItem item = ItemDatabase.Instance.GetItem(stack.Id);
         if (item != null)

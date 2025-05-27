@@ -10,11 +10,11 @@ public class CursorStack
         get => _stack;
         set
         {
-            if (!_stack.Equals(value))
-            {
+            //if (!_stack.Equals(value))
+            //{
                 _stack = value;
                 OnCursorChanged?.Invoke(_stack);
-            }
+            //}
         }
     }
 
