@@ -154,12 +154,14 @@ public class PlayerInventory : BaseContainer
         if (item.Use(mousePos))                // item’s own behaviour
         {
             if (item.ConsumeOnUse)
+
                 ConsumeItemServerRpc(st.Id, 1);   // server-auth removal below
+                OnSelectedSlotChanged?.Invoke(selectedSlotIndex, selectedSlotIndex);
         }
     }
 
     [ServerRpc(RequireOwnership = false)]
-    void ConsumeItemServerRpc(int id, int amount, ServerRpcParams p = default)
+    void ConsumeItemServerRpc(int id, int amount)
     {
         RemoveItemInternal(id, amount);
     }

@@ -307,7 +307,6 @@ public class BaseContainer : NetworkBehaviour
             else
             {
                 ContainerItems[to] = fromStack;
-                //OnSlotChanged?.Invoke(to, fromStack); //!
             }
 
 
@@ -319,7 +318,6 @@ public class BaseContainer : NetworkBehaviour
             {
                 Debug.Log($"Set slot {from} to Empty");
                 ContainerItems[from] = ItemStack.Empty;
-                //OnSlotChanged?.Invoke(from, ItemStack.Empty); //!
             }
 
             return true;
@@ -341,13 +339,11 @@ public class BaseContainer : NetworkBehaviour
             else
             {
                 ContainerItems[to] = toStack;
-                //OnSlotChanged?.Invoke(to, toStack); //!
             }
             if (from == -1) cache = fromStack;
             else
             {
                 ContainerItems[from] = fromStack;
-                //OnSlotChanged?.Invoke(from, fromStack); //!
             }
             return true;
         }
@@ -357,13 +353,11 @@ public class BaseContainer : NetworkBehaviour
         else
         {
             ContainerItems[to] = fromStack;
-           // OnSlotChanged?.Invoke(to, fromStack); //!
         }
         if (from == -1) cache = toStack;
         else
         {
             ContainerItems[from] = toStack;
-            //OnSlotChanged?.Invoke(from, toStack); //!
         }
         return true;
     }
@@ -371,6 +365,7 @@ public class BaseContainer : NetworkBehaviour
     
     internal bool RemoveItemInternal(int id, int amount)
     {
+        Debug.Log($"Removing item {id} with count {amount}");
         // iterate once, gather slots holding the item
         List<int> slotsWithItem = new();
         int total = 0;
@@ -400,13 +395,12 @@ public class BaseContainer : NetworkBehaviour
 
             if (st.amount == 0)
             {
+                Debug.Log("From removing an item, amount is now 0. Setting stack to empty.");
                 ContainerItems[idx] = ItemStack.Empty;
-                //OnSlotChanged?.Invoke(idx, ItemStack.Empty); //!
             }
             else
             {
                 ContainerItems[idx] = st;
-                //OnSlotChanged?.Invoke(idx, st); //!
             }
         }
         return true;

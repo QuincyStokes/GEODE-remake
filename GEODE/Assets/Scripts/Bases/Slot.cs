@@ -109,7 +109,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     public virtual void HandleLeftClick()
     {
 
-        if (!container.IsOwner)
+        if (container == null || !container.IsOwner)
         {
             return;
         }
