@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -79,8 +78,8 @@ public class BaseContainer : NetworkBehaviour
 
     }
 
-    private void HandleListChanged(NetworkListEvent<ItemStack> change)
-    { 
+    protected virtual void HandleListChanged(NetworkListEvent<ItemStack> change)
+    {
         switch (change.Type)
         {
             case NetworkListEvent<ItemStack>.EventType.Value:
@@ -97,6 +96,8 @@ public class BaseContainer : NetworkBehaviour
 
     public virtual ItemStack GetItemAt(int index)
     {
+       if (index < 0 || index >= ContainerItems.Count)
+        return ItemStack.Empty;
         return ContainerItems[index];
     }
 
@@ -123,16 +124,6 @@ public class BaseContainer : NetworkBehaviour
 
                     AddItemInternal(id, overflow);
                     return;
-                    // int slot1 = GetFirstEmptySlot(); //shouldn't actually be the first empty slot. What if we just called AddItemInternal again..
-                    // if (slot1 != -1)
-                    // {
-                    //     ItemStack st = new ItemStack { Id = id, amount = overflow };
-                    //     OnSlotChanged?.Invoke(slot1, st);
-                    //     ContainerItems[slot1] = st;
-                    // }
-
-
-                    // return;
                 }
                 else
                 {
@@ -176,7 +167,7 @@ public class BaseContainer : NetworkBehaviour
     }
 
     //called by Slot.cs
-    public void ProcessSlotClick(Slot slot)
+    public virtual void ProcessSlotClick(Slot slot)
     {
         int idx = slot.SlotIndex;
         ItemStack slotStack = ContainerItems[idx];       // server truth (read-only)
@@ -186,10 +177,9 @@ public class BaseContainer : NetworkBehaviour
         {
             // local prediction — clear slot, fill cursor UI
             slot.SetItem();                               // empty the visuals
-
-            MoveStackServerRpc(idx, -1, CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount);                  // ask server
-             //locally set the cursor stack.
             CursorStack.Instance.ItemStack = slotStack;
+
+            MoveStackServerRpc(idx, -1, -1, 0);                  // ask server
             return;
         }
 
@@ -214,7 +204,7 @@ public class BaseContainer : NetworkBehaviour
                     if (CursorStack.Instance.ItemStack.amount == 0) CursorStack.Instance.ItemStack = ItemStack.Empty;
                     //OnSlotChanged?.Invoke(idx, CursorStack.Instance.ItemStack);
 
-                    
+
                 }
                 return;
             }
@@ -232,7 +222,7 @@ public class BaseContainer : NetworkBehaviour
             /* ----- SWAP (different item) ----- */
             // predict: slot shows cursor item, cursor shows previous slot item
             slot.SetItem(CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount, true);
-            
+
 
             //RPC, as before
             SwapSlotWithCursorServerRpc(idx, CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount);
@@ -243,18 +233,18 @@ public class BaseContainer : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    void SwapSlotWithCursorServerRpc(int slotIdx, int stackId, int stackAmount)
+    protected void SwapSlotWithCursorServerRpc(int slotIdx, int stackId, int stackAmount)
     {
         //temp
         ItemStack slotItemStack = ContainerItems[slotIdx];
         //Fake "Cursor"
         ItemStack cursorData = new ItemStack { Id = stackId, amount = stackAmount };
         ContainerItems[slotIdx] = cursorData;
-        
+
     }
 
 
-    
+
 
     [ServerRpc]
     public void MergeStackServerRpc(int toIndex, int amount)
@@ -263,7 +253,7 @@ public class BaseContainer : NetworkBehaviour
         ApplyMerge(toIndex, amount);
     }
 
-    private bool ApplyMerge(int to, int amount)
+    protected bool ApplyMerge(int to, int amount)
     {
 
         ItemStack toStack = ContainerItems[to];
@@ -272,14 +262,14 @@ public class BaseContainer : NetworkBehaviour
 
         return true;
     }
-    
+
     [ServerRpc(RequireOwnership = false)]
-    private void MoveStackServerRpc(int fromIndex, int toIndex, int stackId, int stackAmount)
+    protected void MoveStackServerRpc(int fromIndex, int toIndex, int stackId, int stackAmount)
     {
         ApplyMove(fromIndex, toIndex, stackId, stackAmount);
     }
 
-    private bool ApplyMove(int from, int to, int stackId, int stackAmount)
+    protected bool ApplyMove(int from, int to, int stackId, int stackAmount)
     {
 
         ItemStack cache = new ItemStack { Id = stackId, amount = stackAmount };
@@ -362,7 +352,7 @@ public class BaseContainer : NetworkBehaviour
         return true;
     }
     //when the network inventory list changes, redraw the inventory
-    
+
     internal bool RemoveItemInternal(int id, int amount)
     {
         Debug.Log($"Removing item {id} with count {amount}");
@@ -430,6 +420,10 @@ public class BaseContainer : NetworkBehaviour
     public int FindItem(BaseItem item)
     {
         return -1;
+    }
+    public void RaiseOnContainerChanged()
+    {
+        OnContainerChanged?.Invoke();
     }
     
 }

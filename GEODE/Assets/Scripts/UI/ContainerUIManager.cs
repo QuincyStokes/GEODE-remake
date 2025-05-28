@@ -33,13 +33,14 @@ public class ContainerUIManager<T> : MonoBehaviour
         Debug.Log($"Container is ready! Initializing Slots.");
         container.OnSlotChanged += OnSlotChanged;
         container.OnContainerChanged += OnContainerChanged;
+        ClearSlots();
         InitializeSlots();
         RedrawAll();
     }
 
-    private void InitializeSlots()
+    protected void InitializeSlots()
     {
-        slots.Clear();
+        //slots.Clear();
         Debug.Log("Initializing Slots!");
         foreach (SubContainer sc in container.subContainers)
         {
@@ -51,6 +52,14 @@ public class ContainerUIManager<T> : MonoBehaviour
                 currSlot.InitializeContainer(container, globalIndex);
                 slots.Add(currSlot);
             }
+        }
+    }
+
+    protected void ClearSlots()
+    {
+        foreach (Slot slot in slots)
+        {
+            Destroy(slot.gameObject);
         }
     }
 

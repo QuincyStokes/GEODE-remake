@@ -1,0 +1,237 @@
+using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+
+public class InspectionMenuUI : ContainerUIManager<InspectionMenu>
+{
+    //* --------------- InspectionMenu Holder --------------*/
+    [Header("Inspection Menu")]
+    //* --------------- Name and Image --------------*/
+    [Header("Name and Image")]
+    [SerializeField] private TMP_Text inspectName;
+    [SerializeField] private Image inspectImage;
+
+
+    //* --------------- Stat TMP References --------------*/
+    [Header("Stats")]
+    [SerializeField] private TMP_Text strength;
+    [SerializeField] private TMP_Text speed;
+    [SerializeField] private TMP_Text size;
+    [SerializeField] private TMP_Text sturdy;
+
+    //* --------------- Health and XP --------------*/
+    [Header("Health and XP")]
+    [SerializeField] private TMP_Text description;
+    [SerializeField] private TMP_Text level;
+    [SerializeField] private TMP_Text health;
+    [SerializeField] private TMP_Text xp;
+    [SerializeField] private Slider healthSlider;
+    [SerializeField] private Slider xpSlider;
+
+    //* --------------- Slots--------------*/
+    [Header("Slots")]
+    [SerializeField] private GameObject upgradeSlotPrefab;
+
+    //* --------------- Inspection Menu Groups --------------*/
+    [Header("Groups")]
+    [SerializeField] private List<GameObject> objectThings; //ui elements pertaining to base object
+    [SerializeField] private List<GameObject> statsThings; //ui elements pertaining to stats
+    [SerializeField] private List<GameObject> xpThings; //ui elements pertaining to xp
+    [SerializeField] private List<GameObject> upgradeThings;
+
+
+    //* ------- PRIVATE INTERNAL -------------
+
+
+    //* ---------------- Methods ---------------------- */
+
+    private new void Awake()
+    {
+        base.Awake();
+        container.Ready += InitialSync;
+    }
+
+    private void InitialSync()
+    {
+        container.OnMenuOpened += PopulateMenu;
+        container.OnMenuOpened += container.SyncUpgradesToContainer;
+    }
+
+
+    public void PopulateMenu()
+    {
+        if (container.currentInspectedObject == null) return;
+
+        //need to clear and populate Slots. Don't need to actually destroy them, just fill them?
+
+        BaseObject bo = container.currentInspectedObject.GetComponent<BaseObject>();
+        IStats stats = container.currentInspectedObject.GetComponent<IStats>();
+        IExperienceGain exp = container.currentInspectedObject.GetComponent<IExperienceGain>();
+        IUpgradeable upg = container.currentInspectedObject.GetComponent<IUpgradeable>();
+        //since we have passed in our stats, xp, and theobject, we can guarantee that we have:
+        //all of the necessary information to populate the menu
+        if (bo != null) //health, description, sprite
+        {
+            SetGroup(objectThings, true);
+            inspectName.text = bo.ObjectName;
+            inspectImage.sprite = bo.objectSprite;
+            healthSlider.maxValue = bo.MaxHealth.Value;
+            healthSlider.minValue = 0;
+            healthSlider.value = bo.CurrentHealth.Value;
+            health.text = $"{bo.CurrentHealth.Value}/{bo.MaxHealth.Value}";
+            sturdy.text = bo.MaxHealth.Value.ToString();
+            description.text = bo.description;
+
+            bo.CurrentHealth.OnValueChanged += RefreshHealth;
+        }
+        else
+        {
+            Debug.Log("BaseObject was null");
+            SetGroup(objectThings, false);
+        }
+
+        if (stats != null) //all of the stat modifiers
+        {
+            SetGroup(statsThings, true);
+
+            //* Subscribe to the NV's callbacks
+
+            stats.strength.OnValueChanged += RefreshStats;
+            stats.speed.OnValueChanged += RefreshStats;
+            stats.size.OnValueChanged += RefreshStats;
+            stats.sturdy.OnValueChanged += RefreshStats;
+
+            RefreshStats(0f, 0f);
+
+        }
+        else
+        {
+            Debug.Log("Stats was null");
+            SetGroup(statsThings, false);
+        }
+
+        if (exp != null) //xp things like current/total/level
+        {
+            SetGroup(xpThings, true);
+            level.text = "Level " + exp.Level.ToString();
+            xpSlider.maxValue = exp.MaximumLevelXp;
+            xpSlider.minValue = 0;
+            xpSlider.value = exp.CurrentXp;
+            xp.text = $"{exp.CurrentXp}/{exp.MaximumLevelXp}";
+        }
+        else
+        {
+            Debug.Log("Xp was null");
+            SetGroup(xpThings, false);
+        }
+
+        if (upg != null)
+        {
+            SetGroup(upgradeThings, true);
+
+            upg.OnUpgradesChanged += RefreshUpgrades;
+
+            // //SET THE SLOTS
+            // for (int i = 0; i < upg.UpgradeItems.Count; ++i)
+            // {
+            //     slots[i].SetItem(upg.UpgradeItems[i].Id, 1, true);
+            // }
+        }
+        else
+        {
+            SetGroup(upgradeThings, false);
+        }
+    }
+
+
+
+
+    private void RefreshStats(float oldValue, float newValue)
+    {
+        IStats stats = container.currentInspectedObject.GetComponent<IStats>();
+        if (container.currentInspectedObject != null && stats != null)
+        {
+            strength.text = $"<color=red>{stats.strength.Value}</color> = {stats.baseStrength.Value}(<color=red>+{(stats.baseStrength.Value * ((stats.strengthModifier.Value / 100) + 1)) - stats.baseStrength.Value}</color>)";
+
+            //SPEED
+            speed.text = $"<color=yellow>{stats.speed.Value}</color> = {stats.baseSpeed.Value}(<color=yellow>+{(stats.baseSpeed.Value * ((stats.speedModifier.Value / 100) + 1)) - stats.baseSpeed.Value}</color>)";
+
+            //SIZE
+            size.text = $"<color=green>{stats.size.Value}</color> = {stats.baseSize.Value}(<color=green>+{(stats.baseSize.Value * ((stats.sizeModifier.Value / 100) + 1)) - stats.baseSize.Value}</color>)";
+        }
+
+        BaseObject bo = container.currentInspectedObject.GetComponent<BaseObject>();
+        if (container.currentInspectedObject != null && bo != null)
+        {
+            //STURDY
+            sturdy.text = $"<color=blue>{stats.sturdy.Value}</color> = {bo.BASE_HEALTH}(<color=blue>+{(bo.MaxHealth.Value * ((stats.sturdyModifier.Value / 100) + 1)) - stats.sturdy.Value}</color>)";
+        }
+    }
+
+    private void RefreshUpgrades()
+    {
+        PopulateMenu();
+    }
+
+    private void RefreshHealth(float oldValue, float newValue)
+    {
+        BaseObject bo = container.currentInspectedObject.GetComponent<BaseObject>();
+        if (bo != null)
+        {
+            healthSlider.maxValue = bo.MaxHealth.Value;
+            healthSlider.minValue = 0;
+            healthSlider.value = bo.CurrentHealth.Value;
+            health.text = $"{bo.CurrentHealth.Value}/{bo.MaxHealth.Value}";
+        }
+    }
+
+
+    public void DePopulateMenu()
+    {
+        slots.Clear();
+
+        if (container.currentInspectedObject != null)
+        {
+            IUpgradeable upg = container.currentInspectedObject.GetComponent<IUpgradeable>();
+            if (upg != null)
+            {
+                upg.OnUpgradesChanged -= RefreshUpgrades;
+            }
+        }
+
+
+        //Clear subscriptions from stat values
+        if (container.currentInspectedObject != null && container.currentInspectedObject.GetComponent<IStats>() != null)
+        {
+            container.currentInspectedObject.GetComponent<IStats>().strength.OnValueChanged -= RefreshStats;
+            container.currentInspectedObject.GetComponent<IStats>().speed.OnValueChanged -= RefreshStats;
+            container.currentInspectedObject.GetComponent<IStats>().size.OnValueChanged -= RefreshStats;
+            container.currentInspectedObject.GetComponent<IStats>().sturdy.OnValueChanged -= RefreshStats;
+        }
+
+        if (container.currentInspectedObject != null)
+        {
+            BaseObject bo = container.currentInspectedObject.GetComponent<BaseObject>();
+            if (bo != null)
+            {
+                bo.CurrentHealth.OnValueChanged -= RefreshHealth;
+            }
+        }
+
+        container.currentInspectedObject = null;
+    }
+    
+    private void SetGroup(List<GameObject> group, bool set)
+    {
+        foreach (GameObject go in group)
+        {
+            go.SetActive(set);
+        }
+    }
+
+
+
+
+}

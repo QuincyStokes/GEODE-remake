@@ -87,28 +87,6 @@ public class PlayerInventory : BaseContainer
         }
     }
 
-
-    public void ChangeSelectedSlot(int newValue)
-    {
-        //TODO need to hook up callback to something that controls the structure placing tilemap
-        // if (allContainerSlots[selectedSlotIndex].GetItemInSlot() != null && allContainerSlots[selectedSlotIndex].GetItemInSlot().Type == ItemType.Structure)
-        // {
-        //     if (GridManager.Instance != null)
-        //     {
-        //         GridManager.Instance.holdingStructure = true;
-        //         GridManager.Instance.currentItemId = allContainerSlots[selectedSlotIndex].GetItemInSlot().Id;
-        //     }
-        // }
-        // else
-        // {
-        //     if (GridManager.Instance != null)
-        //     {
-        //         GridManager.Instance.holdingStructure = false;
-        //         GridManager.Instance.currentItemId = -1;
-        //     }
-        // }
-    }
-
     public void OnNumberPressed(InputAction.CallbackContext context)
     {
         int oldSlotIndex = selectedSlotIndex;

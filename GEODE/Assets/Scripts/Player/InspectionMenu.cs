@@ -1,296 +1,138 @@
-using System.Collections.Generic;
-using TMPro;
+using System;
+using System.ComponentModel;
 using UnityEngine;
-using UnityEngine.UI;
-public class InspectionMenu : MonoBehaviour
+
+public class InspectionMenu : BaseContainer
 {
-    public static InspectionMenu Instance;
+    //* ---------------- Current Inspected Object ---------------------- */
+    [HideInInspector] public GameObject currentInspectedObject;
     [SerializeField] private GameObject InspectionMenuHolder;
-    [Header("Name and Image")]
-    [SerializeField] private TMP_Text inspectName;
-    [SerializeField] private Image inspectImage;
-
-    [Header("Stats")]    
-    [SerializeField] private TMP_Text strength;
-    [SerializeField] private TMP_Text speed;
-    [SerializeField] private TMP_Text size;
-    [SerializeField] private TMP_Text sturdy;
-
-    [Header("Health and XP")]
-    [SerializeField] private TMP_Text description;
-    [SerializeField] private TMP_Text level;
-    [SerializeField] private TMP_Text health;
-    [SerializeField] private TMP_Text xp;
-    [SerializeField] private Slider healthSlider;
-    [SerializeField] private Slider xpSlider;
-    
-    [Header("Upgrades")]
-    [SerializeField] private GameObject upgradeSlotHolder;
-    [SerializeField] private List<Slot> upgradeSlots;
-    [SerializeField] private GameObject upgradeSlotPrefab;
-
-    [Header("Groups")]
-    [SerializeField] private List<GameObject> objectThings; //ui elements pertaining to base object
-
-    [SerializeField] private List<GameObject> statsThings; //ui elements pertaining to stats
-    [SerializeField] private List<GameObject> xpThings; //ui elements pertaining to xp
-    [SerializeField] private List<GameObject> upgradeThings;
-
-    //* ------- PRIVATE INTERNAL -------------
-    private GameObject currentInspectedObject;
+    private IUpgradeable currentUpgradeableObject;
 
 
-    //* METHODS
-
+    //* ---------------- Events ---------------------- */
+    public event Action OnMenuOpened;
 
     public void DoMenu(GameObject go)
     {
-        if(currentInspectedObject == null)
+        if (go == currentInspectedObject)
         {
-            PopulateMenu(go);
-        }
-        else if (go != currentInspectedObject)
-        {
-            DePopulateMenu();
-            PopulateMenu(go);
+            return;
         }
         else
         {
-            //do nothing since we're already inspecting this object
+            currentInspectedObject = go;
         }
 
-    }
-
-    public void PopulateMenu(GameObject go)
-    {
-        //TODO think about having these things constantly set in Update, so we can see changes live        
-        currentInspectedObject = go;
-
-        if(InspectionMenuHolder.activeSelf == false)
+        if (InspectionMenuHolder.activeSelf == false)
         {
             InspectionMenuHolder.SetActive(true);
         }
+
+        currentUpgradeableObject = currentInspectedObject.GetComponent<IUpgradeable>();
+        if (currentUpgradeableObject != null)
+        {
+            currentUpgradeableObject.OnUpgradesChanged += SyncUpgradesToContainer;
+        }
+        SyncUpgradesToContainer();
+
+        OnMenuOpened?.Invoke();
         
-        BaseObject bo = go.GetComponent<BaseObject>();
-        IStats stats = go.GetComponent<IStats>();
-        IExperienceGain exp = go.GetComponent<IExperienceGain>();
-        IUpgradeable upg = go.GetComponent<IUpgradeable>();
-        //since we have passed in our stats, xp, and theobject, we can guarantee that we have:
-        //all of the necessary information to populate the menu
-        if (bo != null) //health, description, sprite
-        {
-            SetGroup(objectThings, true);
-            inspectName.text = bo.ObjectName;
-            inspectImage.sprite = bo.objectSprite;
-            healthSlider.maxValue = bo.MaxHealth.Value;
-            healthSlider.minValue = 0;
-            healthSlider.value = bo.CurrentHealth.Value;
-            health.text = $"{bo.CurrentHealth.Value}/{bo.MaxHealth.Value}";
-            sturdy.text = bo.MaxHealth.Value.ToString();
-            description.text = bo.description;
-
-            bo.CurrentHealth.OnValueChanged += RefreshHealth;
-        }
-        else
-        {
-            Debug.Log("BaseObject was null");
-            SetGroup(objectThings, false);
-        }
-
-        if(stats != null) //all of the stat modifiers
-        {
-            SetGroup(statsThings, true);
-            //CAN DO CUSTOM COLOR BY DOING <COLOR=#ffffff>
-            //STRENGTH
-        
-            //* Subscribe to the NV's callbacks
-
-            stats.strength.OnValueChanged += RefreshStats;
-            stats.speed.OnValueChanged += RefreshStats;
-            stats.size.OnValueChanged += RefreshStats;
-            stats.sturdy.OnValueChanged += RefreshStats;
-
-            RefreshStats(0f,0f);
-
-        }
-        else
-        {
-            Debug.Log("Stats was null");
-            SetGroup(statsThings, false);
-        }
-
-        if(exp != null) //xp things like current/total/level
-        {
-            SetGroup(xpThings, true);
-            level.text = "Level " + exp.Level.ToString();
-            xpSlider.maxValue = exp.MaximumLevelXp;
-            xpSlider.minValue = 0;
-            xpSlider.value = exp.CurrentXp;
-            xp.text = $"{exp.CurrentXp}/{exp.MaximumLevelXp}";
-        }
-        else
-        {
-            Debug.Log("Xp was null");
-            SetGroup(xpThings, false);
-        }
-
-        if(upg != null)
-        {
-            SetGroup(upgradeThings, true);
-            //! FOR NOW HARD CODING AMOUNT OF SLOTS, THIS NEEDS TO BE DYNAMIC WITH THE LEVEL LATER ON
-            int numUpgradeSlots = 3;
-
-            //CREATE THE SLOTS
-            for(int i = 0; i < numUpgradeSlots; i++)
-            {
-                GameObject slot = Instantiate(upgradeSlotPrefab, upgradeSlotHolder.transform);
-                UpgradeSlot upgradeSlot = slot.GetComponent<UpgradeSlot>();
-                upgradeSlots.Add(upgradeSlot);
-                SubscribeToSlot(upgradeSlot);                
-            }
-
-            upg.OnUpgradesChanged += RefreshUpgrades;
-
-            //SET THE SLOTS
-            for(int i = 0; i < upg.UpgradeItems.Count; ++i)
-            {
-                upgradeSlots[i].SetItem(upg.UpgradeItems[i].Id, 1, true);
-            }
-        }
-        else
-        {
-            SetGroup(upgradeThings, false);
-        }
-    }
-
-    private void RefreshStats(float oldValue, float newValue)
-    {
-        IStats stats = currentInspectedObject.GetComponent<IStats>();
-        if(currentInspectedObject != null && stats != null)
-        {
-            strength.text = $"<color=red>{stats.strength.Value}</color> = {stats.baseStrength.Value}(<color=red>+{(stats.baseStrength.Value * ((stats.strengthModifier.Value/100)+1))-stats.baseStrength.Value}</color>)";
-
-            //SPEED
-            speed.text = $"<color=yellow>{stats.speed.Value}</color> = {stats.baseSpeed.Value}(<color=yellow>+{(stats.baseSpeed.Value * ((stats.speedModifier.Value/100)+1))-stats.baseSpeed.Value}</color>)";
-
-            //SIZE
-            size.text = $"<color=green>{stats.size.Value}</color> = {stats.baseSize.Value}(<color=green>+{(stats.baseSize.Value * ((stats.sizeModifier.Value/100)+1))-stats.baseSize.Value}</color>)";
-        }
-
-        BaseObject bo = currentInspectedObject.GetComponent<BaseObject>();
-        if(currentInspectedObject != null && bo != null)
-        {
-            //STURDY
-            sturdy.text = $"<color=blue>{stats.sturdy.Value}</color> = {bo.BASE_HEALTH}(<color=blue>+{(bo.MaxHealth.Value * ((stats.sturdyModifier.Value/100)+1))-stats.sturdy.Value}</color>)";
-        }
-    }
-
-    private void RefreshUpgrades()
-    {
-        GameObject go = currentInspectedObject;
-        DePopulateMenu();
-        PopulateMenu(go);
-    }
-
-    private void RefreshHealth(float oldValue, float newValue)
-    {
-        BaseObject bo = currentInspectedObject.GetComponent<BaseObject>();
-        if (bo != null)
-        {
-            healthSlider.maxValue = bo.MaxHealth.Value;
-            healthSlider.minValue = 0;
-            healthSlider.value = bo.CurrentHealth.Value;
-            health.text = $"{bo.CurrentHealth.Value}/{bo.MaxHealth.Value}";
-        }
-    }
-    
-
-    public void DePopulateMenu()
-    {
-        foreach (UpgradeSlot upgradeSlot in upgradeSlots)
-        {
-            UnsubscribeFromSlot(upgradeSlot);
-            Destroy(upgradeSlot.gameObject);
-
-        }
-        upgradeSlots.Clear();
-
-        if (currentInspectedObject != null)
-        {
-            IUpgradeable upg = currentInspectedObject.GetComponent<IUpgradeable>();
-            if (upg != null)
-            {
-                upg.OnUpgradesChanged -= RefreshUpgrades;
-            }
-        }
-
-
-        //Clear subscriptions from stat values
-        if (currentInspectedObject != null && currentInspectedObject.GetComponent<IStats>() != null)
-        {
-            currentInspectedObject.GetComponent<IStats>().strength.OnValueChanged -= RefreshStats;
-            currentInspectedObject.GetComponent<IStats>().speed.OnValueChanged -= RefreshStats;
-            currentInspectedObject.GetComponent<IStats>().size.OnValueChanged -= RefreshStats;
-            currentInspectedObject.GetComponent<IStats>().sturdy.OnValueChanged -= RefreshStats;
-        }
-
-        if (currentInspectedObject != null)
-        {
-            BaseObject bo = currentInspectedObject.GetComponent<BaseObject>();
-            if (bo != null)
-            {
-                bo.CurrentHealth.OnValueChanged -= RefreshHealth;
-            }
-        }
-        
-        currentInspectedObject = null;
-    }
-
-    private void SubscribeToSlot(UpgradeSlot upgradeSlot)
-    {
-        upgradeSlot.itemAdded += HandleUpgradeAdded;
-        upgradeSlot.itemRemoved += HandleUpgradeRemoved;
-        upgradeSlot.itemSwapped += HandleUpgradeSwapped;
-    }
-
-    private void UnsubscribeFromSlot(UpgradeSlot upgradeSlot)
-    {
-        upgradeSlot.itemAdded -= HandleUpgradeAdded;
-        upgradeSlot.itemRemoved -= HandleUpgradeRemoved;
-        upgradeSlot.itemSwapped -= HandleUpgradeSwapped;
-    }
-
-    private void HandleUpgradeAdded(UpgradeItem upgradeItem)
-    {
-        //we have access to the Upgrade and our CurrentItem, should be able to handle all of the logic here..?
-        ///currentInspectedObject
-        currentInspectedObject.GetComponent<IUpgradeable>().ApplyUpgradeServerRpc(upgradeItem.Id);
-        
-    }
-
-    private void HandleUpgradeRemoved(UpgradeItem upgradeItem)
-    {
-        currentInspectedObject.GetComponent<IUpgradeable>().RemoveUpgradeServerRpc(upgradeItem.Id);
-        
-    }
-
-    private void HandleUpgradeSwapped(UpgradeItem oldUpgradeItem, UpgradeItem newUpgradeItem)
-    {
-        currentInspectedObject.GetComponent<IUpgradeable>().RemoveUpgradeServerRpc(oldUpgradeItem.Id);
-        currentInspectedObject.GetComponent<IUpgradeable>().ApplyUpgradeServerRpc(newUpgradeItem.Id);
     }
 
     public void CloseInspectionMenu()
     {
-        DePopulateMenu();
         InspectionMenuHolder.SetActive(false);
+        currentInspectedObject = null;
     }
 
-    private void SetGroup(List<GameObject> group, bool set)
+    public override void ProcessSlotClick(Slot slot)
     {
-        foreach (GameObject go in group)
+        int idx = slot.SlotIndex;
+        ItemStack slotStack = ContainerItems[idx];       // server truth (read-only)
+        
+
+        /* ---------- CURSOR EMPTY → PICK UP ---------- */
+        if (CursorStack.Instance.ItemStack.IsEmpty() && !slotStack.IsEmpty())
         {
-            go.SetActive(set);
+            // local prediction — clear slot, fill cursor UI
+            slot.SetItem();                               // empty the visuals
+
+            //! remove upgrade?
+            Debug.Log($"Removing Upgrade {slotStack.Id}");
+            IUpgradeable removeUpg = currentInspectedObject.GetComponent<IUpgradeable>();
+            removeUpg?.RemoveUpgradeServerRpc(slotStack.Id);
+
+
+            CursorStack.Instance.ItemStack = slotStack;
+            MoveStackServerRpc(idx, -1, -1, 0);                  // ask server
+            return;
+        }
+
+        /* ---------- CURSOR HAS SOMETHING ---------- */
+        if (!CursorStack.Instance.ItemStack.IsEmpty())
+        {
+            //! Note, removed COMBINE logic, we dont want to combine upgrades
+            /* ----- PLACE (slot empty) ----- */
+            if (slotStack.IsEmpty())
+            {
+                //only allow upgrade items
+                if (ItemDatabase.Instance.GetItem(CursorStack.Instance.ItemStack.Id).Type != ItemType.Upgrade) return;
+
+                slot.SetItem(CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount, true);
+                //! apply upgrade
+                Debug.Log($"Applying Upgrade {CursorStack.Instance.ItemStack.Id}");
+                IUpgradeable applyUpg = currentInspectedObject.GetComponent<IUpgradeable>();
+                applyUpg?.ApplyUpgradeServerRpc(CursorStack.Instance.ItemStack.Id);
+
+                MoveStackServerRpc(-1, idx, CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount);
+
+                CursorStack.Instance.ItemStack = ItemStack.Empty;
+                return;
+            }
+
+            /* ----- SWAP (different item) ----- */
+            // predict: slot shows cursor item, cursor shows previous slot item
+            slot.SetItem(CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount, true);
+
+
+            //RPC, as before
+            //! swap upgrades
+            IUpgradeable swapApplyUpg = currentInspectedObject.GetComponent<IUpgradeable>();
+            Debug.Log($"Swapping upgrades {ContainerItems[idx].Id} for {CursorStack.Instance.ItemStack.Id}");
+            swapApplyUpg?.ApplyUpgradeServerRpc(CursorStack.Instance.ItemStack.Id);
+            swapApplyUpg?.RemoveUpgradeServerRpc(ContainerItems[idx].Id);
+
+
+            SwapSlotWithCursorServerRpc(idx, CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount);
+            //OnSlotChanged?.Invoke(idx, new ItemStack { Id = CursorStack.Instance.ItemStack.Id, amount = CursorStack.Instance.ItemStack.amount }); 
+            CursorStack.Instance.ItemStack = slotStack;
+            return;
         }
     }
+
+    public void SyncUpgradesToContainer()
+    {
+        ContainerItems.Clear();
+        var upg = currentInspectedObject.GetComponent<IUpgradeable>();
+        if (upg != null)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                if (i < upg.UpgradeItems.Count)
+                {
+                    ContainerItems.Add(new ItemStack { Id = upg.UpgradeItems[i].Id, amount = 1 });
+                }
+                else
+                {
+                    ContainerItems.Add(ItemStack.Empty);
+                }
+            }
+
+            RaiseOnContainerChanged();
+        }
+        
+    }
+
+  
 }
