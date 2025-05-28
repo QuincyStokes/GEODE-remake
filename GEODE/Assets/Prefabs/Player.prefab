@@ -8346,7 +8346,7 @@ MonoBehaviour:
   startingItems:
   - item: {fileID: 11400000, guid: b655818b047415248a0995e091c067d3, type: 2}
     amount: 1
-  devMode: 0
+  devMode: 1
   inventoryObject: {fileID: 3774294273146469442}
   tooltip: {fileID: 1514216840994062489}
   hotbarObject: {fileID: 3669146933921313452}

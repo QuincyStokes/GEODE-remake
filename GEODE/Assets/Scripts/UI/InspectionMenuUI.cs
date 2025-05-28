@@ -2,7 +2,6 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 
 public class InspectionMenuUI : ContainerUIManager<InspectionMenu>
 {
@@ -56,7 +55,7 @@ public class InspectionMenuUI : ContainerUIManager<InspectionMenu>
     private void InitialSync()
     {
         container.OnMenuOpened += PopulateMenu;
-        container.OnMenuOpened += container.SyncUpgradesToContainer;
+        //container.OnMenuOpened += container.SyncUpgradesToContainerServerRpc;
     }
 
 

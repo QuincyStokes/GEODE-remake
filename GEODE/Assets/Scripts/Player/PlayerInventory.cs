@@ -60,14 +60,14 @@ public class PlayerInventory : BaseContainer
         }
         if (devMode)
         {
-            AddItemInternal(1, 20);
-            AddItemInternal(2, 20);
-            AddItemInternal(24, 20);
-            AddItemInternal(26, 1);
-            AddItemInternal(27, 1);
-            AddItemInternal(28, 1);
-            AddItemInternal(31, 5);
-            AddItemInternal(32, 1);
+            AddItemServerRpc(1, 20);
+            AddItemServerRpc(2, 20);
+            AddItemServerRpc(24, 20);
+            AddItemServerRpc(26, 1);
+            AddItemServerRpc(27, 1);
+            AddItemServerRpc(28, 1);
+            AddItemServerRpc(31, 5);
+            AddItemServerRpc(32, 1);
         }
 
     }

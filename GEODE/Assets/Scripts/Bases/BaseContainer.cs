@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -38,20 +39,16 @@ public class BaseContainer : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
 
-        InitializeContainers();
+        BuildSubContainerIndices();
+        if (IsServer)
+        {
+            SeedItemList();
+        }
+       
         CursorStack.Instance.ItemStack = ItemStack.Empty;
 
         ContainerItems.OnListChanged += HandleListChanged;
         Ready?.Invoke();
-
-        if (IsServer)
-        {
-            foreach (ItemAmount itemAmount in startingItems)
-            {
-                AddItemInternal(itemAmount.item.Id, itemAmount.amount);
-            }
-            AddItemInternal(6, 1);
-        }    // only the server seeds the list
     }
 
     public override void OnNetworkDespawn()
@@ -59,6 +56,7 @@ public class BaseContainer : NetworkBehaviour
         base.OnNetworkDespawn();
         ContainerItems.OnListChanged -= HandleListChanged;
     }
+
     public virtual void InitializeContainers()
     {
         //Set the indexes of the SubContainers
@@ -77,6 +75,32 @@ public class BaseContainer : NetworkBehaviour
         }
 
     }
+
+    
+    private void BuildSubContainerIndices()
+    {
+        int running = 0;
+        foreach (var sc in subContainers)
+        {
+            sc.startIndex = running;
+            running += sc.numSlots;
+        }
+    }
+
+    private void SeedItemList()
+    {
+        ContainerItems.Clear();
+
+        // make list as long as total slots
+        int totalSlots = subContainers.Sum(sc => sc.numSlots);
+        for (int i = 0; i < totalSlots; i++)
+            ContainerItems.Add(ItemStack.Empty);
+
+        foreach (var item in startingItems)
+            AddItemInternal(item.item.Id, item.amount);
+        AddItemInternal(6, 1);
+    }
+
 
     protected virtual void HandleListChanged(NetworkListEvent<ItemStack> change)
     {
@@ -394,6 +418,12 @@ public class BaseContainer : NetworkBehaviour
             }
         }
         return true;
+    }
+
+    [ServerRpc]
+    public void RemoveItemServerRpc(int id, int amount)
+    {
+        RemoveItemInternal(id, amount);
     }
 
 

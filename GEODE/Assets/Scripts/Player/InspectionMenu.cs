@@ -1,5 +1,5 @@
 using System;
-using System.ComponentModel;
+using Unity.Netcode;
 using UnityEngine;
 
 public class InspectionMenu : BaseContainer
@@ -7,7 +7,6 @@ public class InspectionMenu : BaseContainer
     //* ---------------- Current Inspected Object ---------------------- */
     [HideInInspector] public GameObject currentInspectedObject;
     [SerializeField] private GameObject InspectionMenuHolder;
-    private IUpgradeable currentUpgradeableObject;
 
 
     //* ---------------- Events ---------------------- */
@@ -29,15 +28,10 @@ public class InspectionMenu : BaseContainer
             InspectionMenuHolder.SetActive(true);
         }
 
-        currentUpgradeableObject = currentInspectedObject.GetComponent<IUpgradeable>();
-        if (currentUpgradeableObject != null)
-        {
-            currentUpgradeableObject.OnUpgradesChanged += SyncUpgradesToContainer;
-        }
-        SyncUpgradesToContainer();
+        SyncUpgradesToContainerServerRpc(go);
 
         OnMenuOpened?.Invoke();
-        
+
     }
 
     public void CloseInspectionMenu()
@@ -48,9 +42,12 @@ public class InspectionMenu : BaseContainer
 
     public override void ProcessSlotClick(Slot slot)
     {
+        Debug.Log($"Slot {slot.SlotIndex} pressed");
+        Debug.Log($"Container Length = {ContainerItems.Count}");
         int idx = slot.SlotIndex;
+        if (idx >= ContainerItems.Count) return;
         ItemStack slotStack = ContainerItems[idx];       // server truth (read-only)
-        
+
 
         /* ---------- CURSOR EMPTY → PICK UP ---------- */
         if (CursorStack.Instance.ItemStack.IsEmpty() && !slotStack.IsEmpty())
@@ -111,28 +108,41 @@ public class InspectionMenu : BaseContainer
         }
     }
 
-    public void SyncUpgradesToContainer()
+    [ServerRpc(RequireOwnership = false)]
+    public void SyncUpgradesToContainerServerRpc(NetworkObjectReference towerRef)
     {
+        if (!towerRef.TryGet(out var towerGo)) return;
+        currentInspectedObject = towerGo.gameObject;
+
         ContainerItems.Clear();
         var upg = currentInspectedObject.GetComponent<IUpgradeable>();
         if (upg != null)
         {
-            for (int i = 0; i < 4; i++)
-            {
-                if (i < upg.UpgradeItems.Count)
-                {
-                    ContainerItems.Add(new ItemStack { Id = upg.UpgradeItems[i].Id, amount = 1 });
-                }
-                else
-                {
-                    ContainerItems.Add(ItemStack.Empty);
-                }
-            }
-
-            RaiseOnContainerChanged();
+            upg.OnUpgradesChanged -= ServerRebuildList;
+            upg.OnUpgradesChanged += ServerRebuildList;
+            
         }
-        
+        ServerRebuildList();
+
     }
+
+    private void ServerRebuildList()
+    {
+        ContainerItems.Clear();
+
+        var upg = currentInspectedObject.GetComponent<IUpgradeable>();
+        for (int i = 0; i < 4; i++)
+        {
+            if (upg != null && i < upg.UpgradeItems.Count)
+                ContainerItems.Add(new ItemStack { Id = upg.UpgradeItems[i].Id, amount = 1 });
+            else
+                ContainerItems.Add(ItemStack.Empty);
+        }
+
+        // Notify local UI & replicate to clients.
+        RaiseOnContainerChanged();
+    }
+    
 
   
 }

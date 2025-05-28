@@ -67,7 +67,7 @@ public class Loot : NetworkBehaviour
             //     PickupClientRpc(other.GetComponent<NetworkObject>().NetworkObjectId);
             //     NetworkObject.Despawn(false);
             // }
-            inv.AddItemInternal(itemId.Value, amount.Value);
+            inv.AddItemServerRpc(itemId.Value, amount.Value);
             NetworkObject.Despawn(true);
 
         }
