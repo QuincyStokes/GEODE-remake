@@ -55,6 +55,7 @@ public class InspectionMenuUI : ContainerUIManager<InspectionMenu>
     private void InitialSync()
     {
         container.OnMenuOpened += PopulateMenu;
+        container.InspectedObjectChanged += ChangeSubscription;
         //container.OnMenuOpened += container.SyncUpgradesToContainerServerRpc;
     }
 
@@ -129,22 +130,33 @@ public class InspectionMenuUI : ContainerUIManager<InspectionMenu>
         if (upg != null)
         {
             SetGroup(upgradeThings, true);
-
-            upg.OnUpgradesChanged += RefreshUpgrades;
-
-            // //SET THE SLOTS
-            // for (int i = 0; i < upg.UpgradeItems.Count; ++i)
-            // {
-            //     slots[i].SetItem(upg.UpgradeItems[i].Id, 1, true);
-            // }
         }
         else
         {
             SetGroup(upgradeThings, false);
         }
     }
+    private void ChangeSubscription(GameObject old, GameObject newObj)
+    {
+        if (old != null)
+        {
+            IUpgradeable upg = old.GetComponent<IUpgradeable>();
+            if (upg != null)
+            {
+                upg.OnUpgradesChanged -= RefreshUpgrades;
+            }
+            
+        }
 
-
+        if (newObj != null)
+        {
+            IUpgradeable newUpg = newObj.GetComponent<IUpgradeable>();
+            if (newUpg != null)
+            {
+                newUpg.OnUpgradesChanged += RefreshUpgrades;
+            }
+        }
+    }
 
 
     private void RefreshStats(float oldValue, float newValue)
@@ -165,7 +177,7 @@ public class InspectionMenuUI : ContainerUIManager<InspectionMenu>
         if (container.currentInspectedObject != null && bo != null)
         {
             //STURDY
-            sturdy.text = $"<color=blue>{stats.sturdy.Value}</color> = {bo.BASE_HEALTH}(<color=blue>+{(bo.MaxHealth.Value * ((stats.sturdyModifier.Value / 100) + 1)) - stats.sturdy.Value}</color>)";
+            sturdy.text = $"<color=blue>{stats.sturdy.Value}</color> = {bo.BASE_HEALTH}(<color=blue>+{(bo.MaxHealth.Value * ((stats.sturdyModifier.Value / 100) + 1)) - bo.MaxHealth.Value}</color>)";
         }
     }
 
@@ -186,41 +198,6 @@ public class InspectionMenuUI : ContainerUIManager<InspectionMenu>
         }
     }
 
-
-    public void DePopulateMenu()
-    {
-        slots.Clear();
-
-        if (container.currentInspectedObject != null)
-        {
-            IUpgradeable upg = container.currentInspectedObject.GetComponent<IUpgradeable>();
-            if (upg != null)
-            {
-                upg.OnUpgradesChanged -= RefreshUpgrades;
-            }
-        }
-
-
-        //Clear subscriptions from stat values
-        if (container.currentInspectedObject != null && container.currentInspectedObject.GetComponent<IStats>() != null)
-        {
-            container.currentInspectedObject.GetComponent<IStats>().strength.OnValueChanged -= RefreshStats;
-            container.currentInspectedObject.GetComponent<IStats>().speed.OnValueChanged -= RefreshStats;
-            container.currentInspectedObject.GetComponent<IStats>().size.OnValueChanged -= RefreshStats;
-            container.currentInspectedObject.GetComponent<IStats>().sturdy.OnValueChanged -= RefreshStats;
-        }
-
-        if (container.currentInspectedObject != null)
-        {
-            BaseObject bo = container.currentInspectedObject.GetComponent<BaseObject>();
-            if (bo != null)
-            {
-                bo.CurrentHealth.OnValueChanged -= RefreshHealth;
-            }
-        }
-
-        container.currentInspectedObject = null;
-    }
     
     private void SetGroup(List<GameObject> group, bool set)
     {

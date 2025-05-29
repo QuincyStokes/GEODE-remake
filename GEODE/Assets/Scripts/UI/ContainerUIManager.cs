@@ -40,7 +40,7 @@ public class ContainerUIManager<T> : MonoBehaviour
 
     protected void InitializeSlots()
     {
-        //slots.Clear();
+        slots.Clear();
         Debug.Log("Initializing Slots!");
         foreach (SubContainer sc in container.subContainers)
         {

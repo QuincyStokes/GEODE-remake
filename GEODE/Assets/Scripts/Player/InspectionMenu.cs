@@ -7,21 +7,37 @@ public class InspectionMenu : BaseContainer
     //* ---------------- Current Inspected Object ---------------------- */
     [HideInInspector] public GameObject currentInspectedObject;
     [SerializeField] private GameObject InspectionMenuHolder;
+    private IUpgradeable currentUpgradeObject;
 
 
     //* ---------------- Events ---------------------- */
     public event Action OnMenuOpened;
+    public event Action<GameObject, GameObject> InspectedObjectChanged;
 
     public void DoMenu(GameObject go)
     {
+        if (currentUpgradeObject != null)
+        {
+            currentUpgradeObject.OnUpgradesChanged -= ServerRebuildList;
+        }
+
         if (go == currentInspectedObject)
         {
             return;
         }
         else
         {
+            InspectedObjectChanged?.Invoke(currentInspectedObject, go);
             currentInspectedObject = go;
+            currentUpgradeObject = currentInspectedObject.GetComponent<IUpgradeable>();
+            if (currentUpgradeObject != null)
+            {
+                currentUpgradeObject.OnUpgradesChanged += ServerRebuildList;
+            }
+            
         }
+
+
 
         if (InspectionMenuHolder.activeSelf == false)
         {
@@ -34,10 +50,25 @@ public class InspectionMenu : BaseContainer
 
     }
 
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+        if (currentUpgradeObject != null)
+        {
+            currentUpgradeObject.OnUpgradesChanged -= ServerRebuildList;
+        }
+    }
+
     public void CloseInspectionMenu()
     {
+        if (currentUpgradeObject != null)
+        {
+            currentUpgradeObject.OnUpgradesChanged -= ServerRebuildList;
+        }
+
         InspectionMenuHolder.SetActive(false);
         currentInspectedObject = null;
+        currentUpgradeObject = null;
     }
 
     public override void ProcessSlotClick(Slot slot)
@@ -81,11 +112,22 @@ public class InspectionMenu : BaseContainer
                 Debug.Log($"Applying Upgrade {CursorStack.Instance.ItemStack.Id}");
                 IUpgradeable applyUpg = currentInspectedObject.GetComponent<IUpgradeable>();
                 applyUpg?.ApplyUpgradeServerRpc(CursorStack.Instance.ItemStack.Id);
+                int after = CursorStack.Instance.ItemStack.amount - 1;
+                if (after == 0)
+                {
+                    MoveStackServerRpc(-1, idx, CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount);
+                    CursorStack.Instance.ItemStack = ItemStack.Empty;
+                    return;
+                }
+                else
+                {
+                    MoveStackServerRpc(-1, idx, CursorStack.Instance.ItemStack.Id, 1);
+                    CursorStack.Instance.Amount -= 1;
+                    return;
+                }
+                
 
-                MoveStackServerRpc(-1, idx, CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount);
-
-                CursorStack.Instance.ItemStack = ItemStack.Empty;
-                return;
+                
             }
 
             /* ----- SWAP (different item) ----- */
@@ -113,21 +155,20 @@ public class InspectionMenu : BaseContainer
     {
         if (!towerRef.TryGet(out var towerGo)) return;
         currentInspectedObject = towerGo.gameObject;
+        currentUpgradeObject = currentInspectedObject.GetComponent<IUpgradeable>();
 
-        ContainerItems.Clear();
-        var upg = currentInspectedObject.GetComponent<IUpgradeable>();
-        if (upg != null)
+        if (currentUpgradeObject != null)
         {
-            upg.OnUpgradesChanged -= ServerRebuildList;
-            upg.OnUpgradesChanged += ServerRebuildList;
-            
+            currentUpgradeObject.OnUpgradesChanged += ServerRebuildList;
         }
+
         ServerRebuildList();
 
     }
 
     private void ServerRebuildList()
     {
+        if(!IsServer) return;
         ContainerItems.Clear();
 
         var upg = currentInspectedObject.GetComponent<IUpgradeable>();
