@@ -804,6 +804,14 @@ PrefabInstance:
       value: 3986128031
       objectReference: {fileID: 0}
     - target: {fileID: 4194063451765114128, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
+      propertyPath: numGlades
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4194063451765114128, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
+      propertyPath: gladeRadius
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4194063451765114128, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
       propertyPath: itemDatabase
       value: 
       objectReference: {fileID: 11400000, guid: 0a58dca2e5972ce40a34720b6bce51ee, type: 2}
@@ -815,6 +823,10 @@ PrefabInstance:
       propertyPath: worldBoundaryTile
       value: 
       objectReference: {fileID: 11400000, guid: e345b30b36ce11548b95fdb407d49a76, type: 2}
+    - target: {fileID: 4194063451765114128, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
+      propertyPath: objectLayer.m_Bits
+      value: 128
+      objectReference: {fileID: 0}
     - target: {fileID: 4194063451765114128, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
       propertyPath: worldBoundaryTilemap
       value: 
@@ -1155,6 +1167,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: nightLengthInSeconds
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
+      propertyPath: additionalDayOneLength
       value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}

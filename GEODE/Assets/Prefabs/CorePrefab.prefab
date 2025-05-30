@@ -408,13 +408,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  BASE_HEALTH: 100
+  BASE_HEALTH: 200
+  idealToolType: 0
   droppedItems: []
+  healthStateSprites: []
+  breakParticles: {fileID: 0}
   objectName: Core
   centerPoint: {fileID: 5430396142544517340}
   description: 
   objectSprite: {fileID: 0}
   sr: {fileID: 4730815865388357885}
+  collisionHitbox: {fileID: 0}
+  matchingItemId: 0
   buildRadius: 10
   areaLight: {fileID: 7661953336904614246}
 --- !u!1 &8921447153874432411

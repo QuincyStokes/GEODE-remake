@@ -15,7 +15,7 @@ public class DayCycleManager : NetworkBehaviour
     [Header("Lengths (sec)")]
     [SerializeField] private float dayLengthInSeconds;
     [SerializeField] private float nightLengthInSeconds;
-
+    [SerializeField] private float additionalDayOneLength;
     
     [Header("Transitions")]
     [Tooltip("Fraction of the night after the darkest point that counts as 'sunrise'")]
@@ -60,7 +60,7 @@ public class DayCycleManager : NetworkBehaviour
 
     private void Start()
     {
-        _cycleLength = dayLengthInSeconds + nightLengthInSeconds;
+        _cycleLength = dayLengthInSeconds + nightLengthInSeconds + additionalDayOneLength;
         _worldSizeX = WorldGenManager.Instance?.WorldSizeX ?? 100f;   // fallback
 
         sunlight.intensity = intensityCurve.Evaluate(0f);
@@ -68,9 +68,11 @@ public class DayCycleManager : NetworkBehaviour
         // since we're using *one* clock, the time at which night starts will be the amount of seconds that dayLength is.
         sunriseTime = _cycleLength * sunrisePercent;
         nightStart = dayLengthInSeconds + sunriseTime;
-        
+
 
         timeOfDay.Value = sunriseTime;
+
+        becameDay += AfterDayOne;
     }
 
     public override void OnNetworkSpawn()
@@ -78,6 +80,7 @@ public class DayCycleManager : NetworkBehaviour
         base.OnNetworkSpawn();
         if (!IsServer) { return; }        
     }
+
     private void Update()
     {
         if (IsServer)
@@ -146,6 +149,12 @@ public class DayCycleManager : NetworkBehaviour
             DayNum++;
             becameDay?.Invoke();
         }
+    }
+
+    private void AfterDayOne()
+    {
+        _cycleLength -= additionalDayOneLength;
+        becameDay -= AfterDayOne;
     }
 
     public enum DayType

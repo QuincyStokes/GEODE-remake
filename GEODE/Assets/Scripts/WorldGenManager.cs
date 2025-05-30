@@ -2,14 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Unity.Collections;
+using JetBrains.Annotations;
 using Unity.Netcode;
-using Unity.VisualScripting;
-using UnityEditor;
+
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.UIElements;
+
 
 public class WorldGenManager : NetworkBehaviour
 {
@@ -17,8 +15,12 @@ public class WorldGenManager : NetworkBehaviour
     [SerializeField] private GameObject playerPrefab;
 
     [SerializeField] private const int worldSizeX = 300;
-    [SerializeField] private const int worldSizeY = 250
-    ;
+    [SerializeField] private const int worldSizeY = 250;
+    [Header("Glades")]
+    [SerializeField] private int numGlades;
+    [SerializeField] private float gladeRadius;
+    private List<Vector2> gladePositions = new List<Vector2>();
+    [SerializeField] private LayerMask objectLayer;
    
     [SerializeField] Tilemap backgroundTilemap;
     [SerializeField] Tilemap worldBoundaryTilemap;
@@ -72,7 +74,8 @@ public class WorldGenManager : NetworkBehaviour
 
     public IEnumerator InitializeWorldGen(int newseed, float noiseScale, Vector2 offset)
     {
-        InitializeBiomeTilesSeededClientRpc(newseed, noiseScale, offset, new ClientRpcParams{});
+        InitializeBiomeTilesSeededClientRpc(newseed, noiseScale, offset, new ClientRpcParams { });
+        GenerateGladeLocations();
         //yield return StartCoroutine(InitializeBiomeTiles(newseed, noiseScale, offset));
         yield return StartCoroutine(SpawnEnvironmentFluff());
 
@@ -136,7 +139,6 @@ public class WorldGenManager : NetworkBehaviour
             }
         }
         IsWorldGenerating = false;
-
     }
     
     [ContextMenu("Test-fire table 10 000×")]
@@ -201,22 +203,33 @@ public class WorldGenManager : NetworkBehaviour
 
                 if (!GridManager.Instance.IsPositionOccupied(currentPos) && toSpawn != -1)
                 {
-                    BaseItem item = ItemDatabase.Instance.GetItem(toSpawn);
-                    StructureItem structItem = item as StructureItem;
-
-                    Vector3 newPos = new Vector3(x + UnityEngine.Random.Range(-.2f, .2f), y + UnityEngine.Random.Range(-.2f, .2f), 0);
-                    if (structItem != null)
+                    bool place = true;
+                    foreach (Vector2 vec in gladePositions)
                     {
-                        structItem.Use(newPos, false, true);
+                        Vector2 vec2 = new Vector2(currentPos.x, currentPos.y);
+                        if (Vector2.Distance(vec2, vec) < gladeRadius)
+                        {
+                            place = false;
+                        }
                     }
-                    else
+                    if (place)
                     {
-                        
+                        BaseItem item = ItemDatabase.Instance.GetItem(toSpawn);
+                        StructureItem structItem = item as StructureItem;
+
+                        Vector3 newPos = new Vector3(x + UnityEngine.Random.Range(-.2f, .2f), y + UnityEngine.Random.Range(-.2f, .2f), 0);
+                        if (structItem != null)
+                        {
+                            structItem.Use(newPos, false, true);
+                        }
+                        else
+                        {
+
+                        }
+
+                        //PlaceObjectOffGridServerRpc(toSpawn, new Vector3(x+UnityEngine.Random.Range(-.2f , .2f), y+UnityEngine.Random.Range(-.2f, .2f), 0), positionsToBlock.ToArray());
+                        //PlaceObjectOffGridServerRpc(toSpawn, new Vector3(x, y, 0), positionsToBlock.ToArray());
                     }
-
-                    //PlaceObjectOffGridServerRpc(toSpawn, new Vector3(x+UnityEngine.Random.Range(-.2f , .2f), y+UnityEngine.Random.Range(-.2f, .2f), 0), positionsToBlock.ToArray());
-                    //PlaceObjectOffGridServerRpc(toSpawn, new Vector3(x, y, 0), positionsToBlock.ToArray());
-
                 }
                 
 
@@ -234,8 +247,19 @@ public class WorldGenManager : NetworkBehaviour
         }
         
     }
-    
-    
+
+    public void GenerateGladeLocations()
+    {
+        for (int i = 0; i < numGlades; ++i)
+        {
+            //choose a random world position
+            float x = UnityEngine.Random.Range(0 + gladeRadius, WorldSizeX - gladeRadius);
+            float y = UnityEngine.Random.Range(0 + gladeRadius, WorldSizeY - gladeRadius);
+            Vector2 gladePos = new Vector2(x, y);
+            gladePositions.Add(gladePos);
+            Debug.Log($"Glade position: {gladePos}");
+        }
+    }
 
 
     private int GetRandomSpawn(BiomeSpawnTable bst)
