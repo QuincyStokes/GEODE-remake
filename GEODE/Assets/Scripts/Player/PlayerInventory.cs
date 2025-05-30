@@ -29,6 +29,7 @@ public class PlayerInventory : BaseContainer
     //-------------------------- EVENTS ------------------------
     public event Action<bool> OnInventoryToggled;
     public event Action<int, int> OnSelectedSlotChanged;
+    public event Action<BaseItem> OnItemUsed;
 
     // ------------------------- Methods -----------------------
 
@@ -131,6 +132,7 @@ public class PlayerInventory : BaseContainer
 
         if (item.Use(mousePos))                // item’s own behaviour
         {
+            OnItemUsed?.Invoke(item);
             if (item.ConsumeOnUse)
 
                 ConsumeItemServerRpc(st.Id, 1);   // server-auth removal below

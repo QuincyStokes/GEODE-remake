@@ -222,13 +222,6 @@ public class WorldGenManager : NetworkBehaviour
                         {
                             structItem.Use(newPos, false, true);
                         }
-                        else
-                        {
-
-                        }
-
-                        //PlaceObjectOffGridServerRpc(toSpawn, new Vector3(x+UnityEngine.Random.Range(-.2f , .2f), y+UnityEngine.Random.Range(-.2f, .2f), 0), positionsToBlock.ToArray());
-                        //PlaceObjectOffGridServerRpc(toSpawn, new Vector3(x, y, 0), positionsToBlock.ToArray());
                     }
                 }
                 

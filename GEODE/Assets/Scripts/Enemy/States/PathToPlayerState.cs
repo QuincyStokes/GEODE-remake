@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Analytics;
 
 public class PathToPlayer : BaseEnemyState
 {
@@ -18,10 +19,16 @@ public class PathToPlayer : BaseEnemyState
 
     public override void FixedUpdateState(BaseEnemy owner, EnemyStateMachine stateMachine)
     {
+        //we can stay in the PathToPlayer state during nighttime **as long as there is no core** 
         if (DayCycleManager.Instance.IsNighttime())
         {
-            stateMachine.ChangeState(new PathToCoreState());
-            return;
+
+            if (owner.coreTransform != null)
+            {
+                stateMachine.ChangeState(new PathToCoreState());
+                return;
+            }
+
         }
 
         if (owner.playerTransform == null)

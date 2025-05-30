@@ -53,9 +53,12 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
     private Vector3Int previousMousePosInt;
     [SerializeField] private float swingCooldown;
     private float swingCooldownTimer = 0f;
+    public bool movementLocked;
 
     [Header("Interaction Layer Mask")]
     [SerializeField] private LayerMask interactableLayerMask;
+
+    public event Action OnInventoryOpened;
 
 
     //PRIVATE INTERNAL
@@ -199,8 +202,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
 
         if (playerHealth != null)
         {
-            playerHealth.UpdateHealthbar();
-            playerHealth.UpdateXpbar();
+            playerHealth.playerController = this; 
         }
         CameraManager.Instance.FollowPlayer(transform);
 
@@ -223,7 +225,11 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
         {
             return;
         }
-        MovementUpdate();
+        if (!movementLocked)
+        {
+            MovementUpdate();
+        }  
+        
     }
 
     private void MovementUpdate()
@@ -291,7 +297,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
         externalVelocity += direction.normalized * Mathf.Log(force);
     }
 
-    private void SetPositionCenterWorld()
+    public void SetPositionCenterWorld()
     {
         transform.position = new Vector3Int(WorldGenManager.Instance.WorldSizeX / 2, WorldGenManager.Instance.WorldSizeY / 2);
     }
@@ -379,7 +385,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
     //     //     if (baseEnemy != null)
     //     //     {
     //     //         baseEnemy.TakeDamageServerRpc(4, gameObject.transform.position, true);
-                
+
     //     //     }
     //     // }
     // }
@@ -425,6 +431,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
     public void TogglePauseMenu()
     {
         pauseMenu.SetActive(!pauseMenu.activeSelf);
+        movementLocked = pauseMenu.activeSelf;
     }
 
     public bool IsPointerOverUI()

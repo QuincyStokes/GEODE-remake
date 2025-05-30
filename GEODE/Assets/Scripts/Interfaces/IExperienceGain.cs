@@ -24,7 +24,6 @@ public interface IExperienceGain
     public abstract void CheckLevelUp();
     public abstract void LevelUp();
     public void SetLevel(int level);
-    public void OnXpGain();
     //this needs functions like AddXp, 
     public void OnLevelUp();
 }

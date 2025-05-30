@@ -32,9 +32,10 @@ public class PathToCoreState : BaseEnemyState
             return;
         }
 
+        //at this point we know its nighttime, so safe to assume below
         if (owner.coreTransform == null)
         {
-            stateMachine.ChangeState(new IdleState());
+            stateMachine.ChangeState(new PathToPlayer());
             return;
         }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
@@ -15,6 +16,9 @@ public class CraftingManager : MonoBehaviour
     
     public CraftingRecipe currentRecipe;
     public TMP_Text descriptionText;
+
+    //* --------------------------- Events ----------------------
+    public event Action<CraftingRecipe> OnItemCrafted;
 
 
     //need a few different important functions
@@ -107,7 +111,8 @@ public class CraftingManager : MonoBehaviour
         //attempt to craft the current recipe
         if(CheckCanCraft(currentRecipe))
         {
-            foreach(ItemAmount ia in currentRecipe.materials)
+            OnItemCrafted?.Invoke(currentRecipe);
+            foreach (ItemAmount ia in currentRecipe.materials)
             {
                 playerInventory.RemoveItemServerRpc(ia.item.Id, ia.amount);
             }
