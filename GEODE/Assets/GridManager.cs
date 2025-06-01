@@ -110,10 +110,6 @@ public class GridManager : NetworkBehaviour
             //Vector3 placePos = new Vector3(position.x-structureItem.width/2, position.y-structureItem.height/2, 0);
             //GameObject newObject = Instantiate(structureItem.prefab, placePos, Quaternion.identity);
             GameObject newObject = Instantiate(structureItem.prefab, position, Quaternion.identity);
-            foreach (Vector3 pos in positionsToBlock)
-            {
-                FlowFieldManager.Instance.SetWalkable(pos, false);
-            } 
             FlowFieldManager.Instance.CalculateFlowField();
 
             newObject.GetComponent<NetworkObject>().Spawn();
@@ -133,24 +129,6 @@ public class GridManager : NetworkBehaviour
         else
         {
             Debug.Log("Error. Item is not a structure.");
-        }
-    }
-
-    [ServerRpc]
-    public void RemoveGridObjectServerRpc(Vector3Int position, int itemId)
-    {
-        BaseItem go = ItemDatabase.Instance.GetItem(itemId);
-        StructureItem structItem = go as StructureItem;
-        if (structItem != null)
-        {
-            for (int i = 0; i < structItem.width; i++)
-            {
-                for (int j = 0; j < structItem.height; j++)
-                {
-                    FlowFieldManager.Instance.SetWalkable(new Vector3(position.x + i, position.y + j, 0), true);
-                }
-            }
-            FlowFieldManager.Instance.CalculateFlowField();
         }
     }
 

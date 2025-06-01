@@ -35,10 +35,10 @@ public class FlowFieldManager : NetworkBehaviour
         new Vector2Int(1, 0),   //right
         new Vector2Int(0, -1),  //down
         new Vector2Int(0, 1),   //up
-        // new Vector2Int(-1, -1), //down left
-        // new Vector2Int(-1, 1),  //up left
-        // new Vector2Int(1, -1),  //down right
-        // new Vector2Int(1, 1)    //up right
+        new Vector2Int(-1, -1), //down left
+        new Vector2Int(-1, 1),  //up left
+        new Vector2Int(1, -1),  //down right
+        new Vector2Int(1, 1)    //up right
     };
 
     private void Awake()
@@ -94,22 +94,6 @@ public class FlowFieldManager : NetworkBehaviour
         return new Vector2Int(x, y);
     }
 
-    public Vector2Int WorldToFlowFieldPositionRaw(Vector3 worldPos)
-    {
-        float x = worldPos.x - flowFieldOrigin.x; //could divide by cell size here, but we are using 1x1 so no need
-        float y = worldPos.y - flowFieldOrigin.y;
-
-        int wx = Mathf.FloorToInt(x);
-        int wy = Mathf.FloorToInt(y);
-
-        //int x = Mathf.FloorToInt(localX);
-        //int y = Mathf.FloorToInt(localY);
-
-        //THIS IS NOT CLAMPED, meaning if we use these coords directly in the grid they may not be in bounds
-        return new Vector2Int(wx, wy);
-    }
-
-
     public Vector2 GetFlowDirection(Vector3 worldPos)
     {
         //convert position to our grid position
@@ -128,22 +112,6 @@ public class FlowFieldManager : NetworkBehaviour
 
         return localX >= 0 && localX < fieldWidth && localY >= 0 && localY < fieldHeight;
 
-    }
-
-    public void SetWalkable(Vector3 position, bool walkable)
-    {
-        //convert world position to flowfield position
-        Vector3 pos = new Vector3(Mathf.RoundToInt(position.x), Mathf.RoundToInt(position.y), 0);
-        Vector2Int flowFieldPosition = WorldToFlowFieldPositionRaw(pos);
-        //First check if this position is actually on the flowfield
-        if(IsInBounds(flowFieldPosition))
-        {
-            //Debug.Log($"Marking  {flowFieldPosition} as non-walkable");
-            //if we're here, we have a valid position, set the walkable
-            Debug.Log($"Setting Position {position} walkable to {walkable}");
-            flowField[flowFieldPosition.x, flowFieldPosition.y].isWalkable = walkable;
-        }
-        //for now simply do nothing if its not a valid position to set walkable
     }
 
     private bool IsInBounds(Vector2Int pos)
@@ -186,15 +154,33 @@ public class FlowFieldManager : NetworkBehaviour
             //we clear it because we dont want old data every time we recalculate it
         for(int x = 0; x < fieldWidth; x++)
         {
-            for(int y = 0; y < fieldHeight; y++)
+            for (int y = 0; y < fieldHeight; y++)
             {
-                flowField[x,y].integrationCost = 255;
-                flowField[x,y].flowDirection = Vector2.zero;
+                flowField[x, y].integrationCost = 255;
+                flowField[x, y].flowDirection = Vector2.zero;
+                flowField[x, y].isWalkable = true;
+            }
+        }
+
+
+        for (int x = 0; x < fieldWidth; x++)
+        {
+            for (int y = 0; y < fieldHeight; y++)
+            {
+                Vector3Int worldTile = new Vector3Int(
+                    flowFieldOrigin.x + x,
+                    flowFieldOrigin.y + y,
+                    0
+                );
+                if (GridManager.Instance.IsPositionOccupied(worldTile))
+                {
+                    flowField[x, y].isWalkable = false;
+                }
             }
         }
 
         //now we run BFS
-        Queue<Vector2Int> queue = new Queue<Vector2Int>();
+            Queue<Vector2Int> queue = new Queue<Vector2Int>();
 
         Vector2Int centerPosition = new Vector2Int(fieldWidth/2, fieldHeight/2);
         //initialize goal cell

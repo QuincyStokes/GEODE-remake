@@ -209,9 +209,11 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
         {
             DropItems();
         }
-        GridManager.Instance.RemoveGridObjectServerRpc(new Vector3Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.y), 0), matchingItemId);
+        //GridManager.Instance.RemoveGridObjectServerRpc(new Vector3Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.y), 0), matchingItemId);
         ChunkManager.Instance.DeregisterObject(gameObject);
         GetComponent<NetworkObject>().Despawn(true);
+
+        FlowFieldManager.Instance.CalculateFlowField();
     }
 
     [ClientRpc]
