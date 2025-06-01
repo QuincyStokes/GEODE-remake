@@ -342,18 +342,12 @@ MonoBehaviour:
   backgroundSprite: {fileID: 1541603439606624819}
   itemSprite: {fileID: 8238037377601675367}
   itemCount: {fileID: 1095186100647430245}
-  tooltip: {fileID: 0}
-  tooltipItemName: {fileID: 0}
-  tooltipItemDescription: {fileID: 0}
-  tooltipItemType: {fileID: 0}
-  tooltipItemStats: {fileID: 0}
-  tooltipItemQuality: {fileID: 0}
   selectedBackgroundImage: {fileID: 3875769440782901482, guid: a1474fb9d261c1e45aeebfae61461b67, type: 3}
   deselectedBackgroundImage: {fileID: -81528668887532154, guid: 1ef64a3abf377fa4cbc91ab942e496d9, type: 3}
-  maxStackSize: 10
   canInteract: 0
-  parentAfterDrag: {fileID: 0}
-  playerInventory: {fileID: 0}
+  container: {fileID: 0}
+  scaleUpTime: 0.4
+  goalScaleAmount: 1.3
 --- !u!222 &4887469498953003861
 CanvasRenderer:
   m_ObjectHideFlags: 0

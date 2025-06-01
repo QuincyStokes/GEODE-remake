@@ -15,7 +15,7 @@ public class DamageFloater : MonoBehaviour
     
     public void Initialize(float damage)
     {
-        damageTextUI.text = damage.ToString();
+        damageTextUI.text = Mathf.RoundToInt(damage).ToString();
         textColor = damageTextUI.color;
     }
 

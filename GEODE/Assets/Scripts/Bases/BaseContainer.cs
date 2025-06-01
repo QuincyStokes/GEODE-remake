@@ -30,6 +30,7 @@ public class BaseContainer : NetworkBehaviour
     public event Action<int, ItemStack> OnSlotChanged;
     public event Action OnContainerChanged;
     public event Action Ready;
+    public event Action<Slot> OnSlotHovered;
 
 
 
@@ -44,7 +45,7 @@ public class BaseContainer : NetworkBehaviour
         {
             SeedItemList();
         }
-       
+
         CursorStack.Instance.ItemStack = ItemStack.Empty;
 
         ContainerItems.OnListChanged += HandleListChanged;
@@ -76,7 +77,7 @@ public class BaseContainer : NetworkBehaviour
 
     }
 
-    
+
     private void BuildSubContainerIndices()
     {
         int running = 0;
@@ -120,8 +121,8 @@ public class BaseContainer : NetworkBehaviour
 
     public virtual ItemStack GetItemAt(int index)
     {
-       if (index < 0 || index >= ContainerItems.Count)
-        return ItemStack.Empty;
+        if (index < 0 || index >= ContainerItems.Count)
+            return ItemStack.Empty;
         return ContainerItems[index];
     }
 
@@ -454,6 +455,11 @@ public class BaseContainer : NetworkBehaviour
     public void RaiseOnContainerChanged()
     {
         OnContainerChanged?.Invoke();
+    }
+
+    public void HandleSlotHovered(Slot slot)
+    {
+        OnSlotHovered?.Invoke(slot);
     }
     
 }

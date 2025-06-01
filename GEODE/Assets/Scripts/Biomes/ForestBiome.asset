@@ -16,7 +16,7 @@ MonoBehaviour:
   spawnEntries:
   - entryName: Nothing
     baseItem: {fileID: 11400000, guid: 1caf887cd127e3b42b6167adfe82a6f5, type: 2}
-    weight: 110
+    weight: 130
   - entryName: ForestTree
     baseItem: {fileID: 11400000, guid: 01dd4bbb0ea1ba1448077fa66c98c7fb, type: 2}
     weight: 10
@@ -83,4 +83,4 @@ MonoBehaviour:
   - entryName: Forest Grass Huge
     baseItem: {fileID: 11400000, guid: 197753de4f23f2942a12540d53b98d95, type: 2}
     weight: 2
-  totalWeight: 218
+  totalWeight: 238

@@ -18,6 +18,12 @@ public class PlayerHealthUI : MonoBehaviour
 
     private void Start()
     {
+        if (!playerHp.IsOwner)
+        {
+            enabled = false;
+            gameObject.SetActive(false);
+            return;
+        }   
         playerHp.OnDeath += DeathScreen;
         playerHp.OnRevive += EndDeathScreen;
         playerHp.CurrentHealth.OnValueChanged += UpdateHealthbar;

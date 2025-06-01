@@ -1,43 +1,39 @@
-using System.ComponentModel;
-using System.Linq.Expressions;
-using Unity.Burst.Intrinsics;
-using UnityEditor;
-using UnityEngine;
-using UnityEngine.UIElements.Experimental;
 
+using UnityEngine;
+using TMPro;
 
 public abstract class BaseItem : ScriptableObject
 {
-    
 
-    [SerializeField]private new string name;
-    [SerializeField]private string description;
-    [SerializeField]private ItemType type;
-    [SerializeField]private Sprite icon;
-    [SerializeField]private int id;
-    [SerializeField]private int quality;
-    [SerializeField]private bool isStackable;
-    [SerializeField]private bool consumeOnUse;
 
-    public string Name 
+    public new string name;
+    public string description;
+    public ItemType type;
+    public Sprite icon;
+    public int id;
+    public int quality;
+    public bool isStackable;
+    public bool consumeOnUse;
+
+    public string Name
     {
         get => name;
         private set => name = value;
     }
 
-    public string Description 
+    public string Description
     {
         get => description;
         private set => description = value;
     }
 
-    public ItemType Type 
+    public ItemType Type
     {
         get => type;
         private set => type = value;
     }
 
-    public Sprite Icon 
+    public Sprite Icon
     {
         get => icon;
         private set => icon = value;
@@ -57,13 +53,13 @@ public abstract class BaseItem : ScriptableObject
 
     public bool IsStackable
     {
-        get=>isStackable;
+        get => isStackable;
         private set => isStackable = value;
     }
 
     public bool ConsumeOnUse
     {
-        get=>consumeOnUse;
+        get => consumeOnUse;
         private set => consumeOnUse = value;
     }
     public abstract bool Use(Vector3 position, bool snapToGrid = true, bool force = false);

@@ -115,12 +115,12 @@ public class ConnectionManager : NetworkBehaviour
     private void DoClientConnectedThings(ulong clientId)
     {
 
-        SpawnPlayerForClient(clientId);
-        WorldGenManager.Instance.InitializeBiomeTilesSeededClientRpc(0, 5, new Vector2(10,10), new ClientRpcParams 
+
+        WorldGenManager.Instance.InitializeBiomeTilesSeededClientRpc(0, 5, new Vector2(10, 10), new ClientRpcParams
         {
-            Send = new ClientRpcSendParams 
+            Send = new ClientRpcSendParams
             {
-                TargetClientIds = new[] {clientId}
+                TargetClientIds = new[] { clientId }
             }
         });
         //the last ting we do for the client is unload the loading screen, this should make a clean transition into game.
@@ -128,9 +128,10 @@ public class ConnectionManager : NetworkBehaviour
         {
             Send = new ClientRpcSendParams
             {
-                TargetClientIds = new[] {clientId}
+                TargetClientIds = new[] { clientId }
             }
         });
+        SpawnPlayerForClient(clientId);
     }
 
     [ClientRpc]

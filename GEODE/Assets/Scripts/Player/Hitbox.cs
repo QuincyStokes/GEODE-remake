@@ -33,13 +33,13 @@ public class Hitbox : MonoBehaviour
 
 public struct DamageInfo : INetworkSerializable, IEquatable<DamageInfo>
 {
-    public float amount;
+    public int amount;
     public ToolType tool;
     public Vector2 sourceDirection;
     public bool dropItems;
     public DamageInfo(float amt, Vector2 srcDir, ToolType t = ToolType.None, bool drops = false)
     {
-        amount = amt;
+        amount = Mathf.RoundToInt(amt);
         tool = t;
         sourceDirection = srcDir;
         dropItems = drops;

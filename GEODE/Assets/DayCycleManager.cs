@@ -13,8 +13,8 @@ public class DayCycleManager : NetworkBehaviour
     [SerializeField] private Light2D sunlight;
 
     [Header("Lengths (sec)")]
-    [SerializeField] private float dayLengthInSeconds;
-    [SerializeField] private float nightLengthInSeconds;
+    [SerializeField] private float baseDayLengthInSeconds;
+    [SerializeField] private float baseNightLengthInSeconds;
     [SerializeField] private float additionalDayOneLength;
     
     [Header("Transitions")]
@@ -28,51 +28,49 @@ public class DayCycleManager : NetworkBehaviour
     //* ----------------Events---------------
     public event Action becameNight;
     public event Action becameDay;
+    public event Action OnDay1Finished;
 
     //* ----------------State ---------------
-    private NetworkVariable<float> timeOfDay =
+    public NetworkVariable<float> timeOfDay =
         new NetworkVariable<float>(0f, NetworkVariableReadPermission.Everyone,
                                        NetworkVariableWritePermission.Server);
 
     public int DayNum { get; private set; } =  1;
-    private bool isNightCached = false;
-
     private float _cycleLength;
+    //public getter for it
     private float _worldSizeX;
 
-    // since we're using *one* clock, the time at which night starts will be the amount of seconds that dayLength is.
-    float nightStart; 
-    float sunriseTime;
+     // ------------ Internal state -----------------
+    float _currentDayLength;   // daylight length for *this* cycle
+    float _nightStart;         // seconds after sunrise when night begins
+    private bool _isNightCached = false;
 
 
     //* ------------------------------Methods--------------------------------------
-    private void Awake()
+    void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
+        if (Instance == null) Instance = this;
         else
         {
-            //Destroy
+            //Destroy(gameObject);
+            return;
         }
     }
 
-    private void Start()
+     void Start()
     {
-        _cycleLength = dayLengthInSeconds + nightLengthInSeconds + additionalDayOneLength;
-        _worldSizeX = WorldGenManager.Instance?.WorldSizeX ?? 100f;   // fallback
+        //  Day 1 is extended
+        _currentDayLength = baseDayLengthInSeconds + additionalDayOneLength;
+        RebuildCycleValues();
 
+        // Begin at sunrise
+        timeOfDay.Value = 0f;
         sunlight.intensity = intensityCurve.Evaluate(0f);
 
-        // since we're using *one* clock, the time at which night starts will be the amount of seconds that dayLength is.
-        sunriseTime = _cycleLength * sunrisePercent;
-        nightStart = dayLengthInSeconds + sunriseTime;
+        // After the first full cycle, revert to regular day length
+        becameDay += HandleBecameDay;
 
-
-        timeOfDay.Value = sunriseTime;
-
-        becameDay += AfterDayOne;
+        _worldSizeX = WorldGenManager.Instance?.WorldSizeX ?? 100f;
     }
 
     public override void OnNetworkSpawn()
@@ -95,7 +93,7 @@ public class DayCycleManager : NetworkBehaviour
     //* --------------------------- HELPERS ---------------------------
     public bool IsNighttime()
     {
-        return isNightCached;
+        return _isNightCached;
     }
 
     private void AdvanceClock()
@@ -106,55 +104,67 @@ public class DayCycleManager : NetworkBehaviour
     }
 
     //the percentage through the day we are.
-    private float NormalizedTime => timeOfDay.Value / _cycleLength;
+    public float NormalizedTime => timeOfDay.Value / _cycleLength;
 
-    private void UpdateLighting()
+    void UpdateLighting()
     {
-        float t = NormalizedTime;
+        // Colour + intensity follow the whole normalised 0-1 cycle
+        float tCycle = NormalizedTime;
+        sunlight.color = lightGradient.Evaluate(tCycle);
+        sunlight.intensity = intensityCurve.Evaluate(tCycle);
 
-        //Update sunlight color and position
-        sunlight.color = lightGradient.Evaluate(t);
-        sunlight.intensity = intensityCurve.Evaluate(t);
+        // Horizontal travel: rightwards during day, leftwards during night
+        bool isDay = timeOfDay.Value < _nightStart;
+        float x;
 
-        float xPos;
-        //if the time is less than the daylength, it's daytime! move the sun right
-        if (timeOfDay.Value < dayLengthInSeconds)
+        if (isDay)
         {
-            xPos = Mathf.Lerp(0, _worldSizeX, timeOfDay.Value / dayLengthInSeconds);
+            float t = timeOfDay.Value / _currentDayLength;              // 0-1 across daylight
+            x = Mathf.Lerp(0f, _worldSizeX, t);
         }
-        else //its nightime! move the sun left
+        else
         {
-            float nightT = (timeOfDay.Value - dayLengthInSeconds) / nightLengthInSeconds;
-            xPos = Mathf.Lerp(_worldSizeX, 0, nightT);
+            float t = (timeOfDay.Value - _nightStart) / baseNightLengthInSeconds;    // 0-1 across night
+            x = Mathf.Lerp(_worldSizeX, 0f, t);
         }
 
-        //set the suns position from above
         Vector3 p = sunlight.transform.position;
-        sunlight.transform.position = new Vector3(xPos, p.y, p.z);
+        sunlight.transform.position = new Vector3(x, p.y, p.z);
     }
 
-    private void CheckDayNightTransition()
+    void CheckDayNightTransition()
     {
-      
-        //if it's not night, but its NowNight, that means we should change to nighttime
-        if (!isNightCached && timeOfDay.Value >= nightStart)
+        // → Became night
+        if (!_isNightCached && timeOfDay.Value >= _nightStart)
         {
-            isNightCached = true;
+            _isNightCached = true;
             becameNight?.Invoke();
         }
-        //else if its night but the time of day is daytime, this means we need to switch to daytime.
-        else if (isNightCached && timeOfDay.Value >= sunriseTime && timeOfDay.Value < nightStart)
+        // → Became day
+        else if (_isNightCached && timeOfDay.Value < _nightStart)
         {
-            isNightCached = false;
-            DayNum++;
+            _isNightCached = false;
             becameDay?.Invoke();
         }
     }
 
-    private void AfterDayOne()
+    private void HandleBecameDay()
     {
-        _cycleLength -= additionalDayOneLength;
-        becameDay -= AfterDayOne;
+        DayNum++;
+
+        // After the very first night, remove the bonus daylight for all remaining cycles
+        if (DayNum == 2 && additionalDayOneLength > 0f)
+        {
+            OnDay1Finished?.Invoke();
+            _currentDayLength = baseDayLengthInSeconds;      // back to normal
+            RebuildCycleValues();
+        }
+    }
+
+     void RebuildCycleValues()
+    {
+        _cycleLength = _currentDayLength + baseNightLengthInSeconds;
+        _nightStart  = _currentDayLength;           // sunset happens after the daylight span
     }
 
     public enum DayType

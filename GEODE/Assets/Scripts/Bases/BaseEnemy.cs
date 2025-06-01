@@ -238,7 +238,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
         {
             return;
         }
-
+        
         if (info.tool == idealToolType || info.tool == ToolType.None)
         {
             CurrentHealth.Value -= info.amount;

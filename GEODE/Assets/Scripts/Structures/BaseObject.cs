@@ -125,7 +125,7 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
             OnTakeDamage(info.amount / 4, info.sourceDirection);
         }
 
-
+        Debug.Log($"Current Health < 0? {CurrentHealth.Value}");
         if (CurrentHealth.Value <= 0)
         {
             DestroyThis(info.dropItems);
@@ -199,7 +199,7 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
 
     }
 
-    public void DestroyThis(bool dropItems)
+    public virtual void DestroyThis(bool dropItems)
     {
         if (!IsServer)
         {

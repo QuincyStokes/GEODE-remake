@@ -63,7 +63,6 @@ public class GridManager : NetworkBehaviour
             }
             if(structurePreviewObject.activeSelf == true)
             {
-                Cursor.visible = false;
                 //structurePreviewObject.transform.position = new Vector3Int(currentMousePosition.x - structurePreview.width/2, currentMousePosition.y-structurePreview.height/2, 0);
                 structurePreviewObject.transform.position = currentMousePosition;
             }
@@ -93,7 +92,6 @@ public class GridManager : NetworkBehaviour
         {
             highlightTilemap.gameObject.SetActive(false);
             currentItemId = -1;
-            Cursor.visible = true;
             if(structurePreviewObject.activeSelf == true)
             {
                 structurePreviewObject.SetActive(false);

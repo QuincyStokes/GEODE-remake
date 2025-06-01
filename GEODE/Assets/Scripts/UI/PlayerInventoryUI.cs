@@ -22,6 +22,7 @@ public class PlayerInventoryUI : ContainerUIManager<PlayerInventory>
         {
             if (GridManager.Instance != null)
             {
+                Cursor.visible = false;
                 GridManager.Instance.holdingStructure = true;
                 GridManager.Instance.currentItemId = newItemId;
             }
@@ -30,6 +31,7 @@ public class PlayerInventoryUI : ContainerUIManager<PlayerInventory>
         {
             if (GridManager.Instance != null)
             {
+                Cursor.visible = true;
                 GridManager.Instance.holdingStructure = false;
                 GridManager.Instance.currentItemId = -1;
             }

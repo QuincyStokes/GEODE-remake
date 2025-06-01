@@ -610,7 +610,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5.625
+  orthographic size: 6.66
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1071,7 +1071,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: lightGradient.ctime1
-      value: 16384
+      value: 13107
       objectReference: {fileID: 0}
     - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: lightGradient.ctime2
@@ -1079,27 +1079,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: lightGradient.ctime3
-      value: 49151
+      value: 45875
       objectReference: {fileID: 0}
     - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: lightGradient.ctime4
-      value: 65535
+      value: 57841
       objectReference: {fileID: 0}
     - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: lightGradient.ctime5
-      value: 0
+      value: 65535
       objectReference: {fileID: 0}
     - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: lightGradient.key0.b
-      value: 0.34117648
+      value: 0.34070018
       objectReference: {fileID: 0}
     - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: lightGradient.key0.g
-      value: 0.22745098
+      value: 0.23735796
       objectReference: {fileID: 0}
     - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: lightGradient.key0.r
-      value: 0.13725491
+      value: 0.1576404
       objectReference: {fileID: 0}
     - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: lightGradient.key1.b
@@ -1151,15 +1151,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: lightGradient.key5.b
-      value: 0
+      value: 0.34117648
       objectReference: {fileID: 0}
     - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: lightGradient.key5.g
-      value: 0
+      value: 0.22745098
       objectReference: {fileID: 0}
     - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: lightGradient.key5.r
-      value: 0
+      value: 0.13725491
       objectReference: {fileID: 0}
     - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: lightGradient.m_Mode
@@ -1172,6 +1172,18 @@ PrefabInstance:
     - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: additionalDayOneLength
       value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
+      propertyPath: baseDayLengthInSeconds
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
+      propertyPath: baseNightLengthInSeconds
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
+      propertyPath: lightGradient.m_ColorSpace
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: lightGradient.m_NumColorKeys
@@ -1187,11 +1199,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: intensityCurve.m_Curve.Array.data[0].time
-      value: 0
+      value: -0.13213006
       objectReference: {fileID: 0}
     - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: intensityCurve.m_Curve.Array.data[1].time
-      value: 0.5002532
+      value: 0.36812314
       objectReference: {fileID: 0}
     - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: intensityCurve.m_Curve.Array.data[2].time
@@ -1207,11 +1219,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: intensityCurve.m_Curve.Array.data[0].value
-      value: 0.102996826
+      value: 0.042785645
       objectReference: {fileID: 0}
     - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: intensityCurve.m_Curve.Array.data[1].value
-      value: 1.0000925
+      value: 0.9398813
       objectReference: {fileID: 0}
     - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: intensityCurve.m_Curve.Array.data[2].value

@@ -145,6 +145,11 @@ public class InspectionMenuUI : ContainerUIManager<InspectionMenu>
             {
                 upg.OnUpgradesChanged -= RefreshUpgrades;
             }
+            BaseObject obj = old.GetComponent<BaseObject>();
+            if (obj != null)
+            {
+                obj.CurrentHealth.OnValueChanged -= RefreshHealth;
+            }
             
         }
 
@@ -188,6 +193,7 @@ public class InspectionMenuUI : ContainerUIManager<InspectionMenu>
 
     private void RefreshHealth(float oldValue, float newValue)
     {
+        if (container.currentInspectedObject == null) return;
         BaseObject bo = container.currentInspectedObject.GetComponent<BaseObject>();
         if (bo != null)
         {

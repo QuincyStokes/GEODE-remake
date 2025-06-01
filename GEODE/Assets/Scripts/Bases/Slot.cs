@@ -1,4 +1,6 @@
+using System.Collections;
 using TMPro;
+using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -20,6 +22,10 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     public int SlotIndex { get; set; }
     public BaseContainer container;
     public ItemStack displayedStack { get; private set; }
+    public float scaleUpTime;
+    public float goalScaleAmount;
+
+    public bool HasTooltip => !displayedStack.Equals(ItemStack.Empty);
 
     public void InitializeContainer(BaseContainer newContainer, int index)
     {
@@ -63,7 +69,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         }
         canInteract = interactable;
         displayedStack = new ItemStack { Id = id, amount = newCount };
-
+        //StartCoroutine(ScaleUp());
         //set the UI to match
         //CheckItemDepleted();
     }
@@ -73,14 +79,13 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        //TODO
-        //container.ShowTooltip(SlotIndex);
+        Debug.Log("Slot entered.");
+        TooltipService.Instance.RequestShow(this);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        //TODO
-        //container.HideTooltip();
+        TooltipService.Instance.Hide();
     }
 
 
@@ -111,7 +116,38 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         }
         container.ProcessSlotClick(this);
     }
-    
+
+    //! not a bad idea, but the way everything depends on the same ApplyMove function, having it *always* happen is kinda weird
+    // public void DoScaleup()
+    // {
+    //     if (gameObject.activeSelf)
+    //     {
+    //         StartCoroutine(ScaleUp());
+    //     }
+    // }
+
+    // private IEnumerator ScaleUp()
+    // {
+    //     float elapsed = 0f;
+    //     while (elapsed < scaleUpTime)
+    //     {
+    //         elapsed += Time.deltaTime;
+    //         float t = elapsed / scaleUpTime;
+    //         if (t < .5)
+    //         {
+    //             //first half, scale up
+    //             float scale = t * 2 * (goalScaleAmount - 1);
+    //             itemSprite.transform.localScale = new Vector3(scale + 1, scale + 1, 0);
+    //         }
+    //         else
+    //         {
+    //             float scale = (1 - t) * 2 * (goalScaleAmount - 1);
+    //             itemSprite.transform.localScale = new Vector3(scale + 1, scale + 1, 0);
+    //         }
+    //         yield return null;
+    //     }
+    // }
+
     private void OnDestroy()
     {
         if (container != null)
@@ -121,4 +157,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         }
 
     }
+
 }
+
+

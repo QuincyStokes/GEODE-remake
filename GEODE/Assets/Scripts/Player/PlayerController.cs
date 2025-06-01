@@ -62,7 +62,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
 
 
     //PRIVATE INTERNAL
-
+    private Transform _coreTransform;
 
     public override void OnNetworkSpawn()
     {
@@ -113,6 +113,11 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
             {
                 DayCycleManager.Instance.becameDay += dayNumber.IncreaseDay;
                 DayCycleManager.Instance.becameNight += dayNumber.IncreaseNight;
+            }
+
+            if (FlowFieldManager.Instance != null)
+            {
+                FlowFieldManager.Instance.corePlaced += HandleCorePlaced;
             }
 
             playerUICanvas.SetActive(true);
@@ -200,10 +205,11 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
             Debug.Log("WorldGenManager is null, cannot place player.");
         }
 
-        if (playerHealth != null)
+        if (IsOwner && playerHealth != null)
         {
-            playerHealth.playerController = this; 
+             playerHealth.playerController = this;
         }
+       
         CameraManager.Instance.FollowPlayer(transform);
 
 
@@ -228,8 +234,8 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
         if (!movementLocked)
         {
             MovementUpdate();
-        }  
-        
+        }
+
     }
 
     private void MovementUpdate()
@@ -436,7 +442,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
 
     public bool IsPointerOverUI()
     {
-         var pointerData = new PointerEventData(EventSystem.current)
+        var pointerData = new PointerEventData(EventSystem.current)
         {
             position = Mouse.current.position.ReadValue()
         };
@@ -459,6 +465,17 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
 
         SceneManager.LoadScene("Lobby");
 
+    }
+
+    private void HandleCorePlaced(Transform core)
+    {
+        Core.CORE.OnCoreDestroyed += HandleCoreDestroyed;
+        _coreTransform = core;
+    }
+
+    private void HandleCoreDestroyed()
+    {
+        movementLocked = true;
     }
 
 

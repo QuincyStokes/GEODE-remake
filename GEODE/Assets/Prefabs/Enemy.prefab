@@ -277,11 +277,11 @@ MonoBehaviour:
   - Id: 29
     minAmount: 1
     maxAmount: 1
-    chance: 25
+    chance: 5
   - Id: 2
     minAmount: 1
-    maxAmount: 2
-    chance: 25
+    maxAmount: 1
+    chance: 10
   idealToolType: 1
   structureLayerMask:
     serializedVersion: 2

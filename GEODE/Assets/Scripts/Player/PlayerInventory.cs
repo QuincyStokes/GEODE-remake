@@ -18,7 +18,6 @@ public class PlayerInventory : BaseContainer
     // -------------------------- Public References ----------------------
     [Header("Public References")]
     [SerializeField] private GameObject inventoryObject; //PlayerInventoryUImanager ideally
-    [SerializeField] private Tooltip tooltip; //actually not sure how to handle tooltips
     [SerializeField] private GameObject hotbarObject; //PlayerInventoryUIManager
     [SerializeField] private GameObject healthbarObject; // I think this should go in PlayerController? or maybe a PlayerUIHandler
 
@@ -57,7 +56,6 @@ public class PlayerInventory : BaseContainer
             inventoryObject.SetActive(false);
             hotbarObject.SetActive(false);
             healthbarObject.SetActive(false);
-            tooltip.gameObject.SetActive(false);
         }
         if (devMode)
         {
@@ -145,21 +143,5 @@ public class PlayerInventory : BaseContainer
     {
         RemoveItemInternal(id, amount);
     }
-
-    
-
-    public void ShowTooltip(int slotIndex)
-    {
-        int id = ContainerItems[slotIndex].Id;
-        if (id == -1) return;
-        tooltip.Build(id);
-        tooltip.gameObject.SetActive(true);
-    }
-
-    public void HideTooltip()
-    {
-        tooltip.gameObject.SetActive(false);
-    }
-
 
 }

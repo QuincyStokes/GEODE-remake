@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using TMPro;
 using UnityEngine;
 
@@ -6,6 +8,7 @@ public class QuestUI : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private List<TMP_Text> quests;
+    [SerializeField] private Transform questBackground;
 
     [Header("Colors")]
     [SerializeField] private Color questCompletedColor;
@@ -13,13 +16,20 @@ public class QuestUI : MonoBehaviour
     [Header("Player Scripts")]
     [SerializeField] private CraftingManager craftingManger;
     [SerializeField] private PlayerInventory playerInventory;
+    private int completedQuests;
 
     private void Start()
     {
+        if (!playerInventory.IsOwner)
+        {
+            enabled = false;
+            gameObject.SetActive(false);
+            return;
+        }
         craftingManger.OnItemCrafted += HandleItemCrafted;
-        //Core.CORE.OnCorePlaced += HandleCorePlaced;
         playerInventory.OnItemUsed += HandleItemUsed;
         playerInventory.OnInventoryToggled += HandleInventoryOpened;
+        FlowFieldManager.Instance.corePlaced += HandleCorePlaced;
 
     }
 
@@ -27,8 +37,8 @@ public class QuestUI : MonoBehaviour
     {
         craftingManger.OnItemCrafted -= HandleItemCrafted;
         playerInventory.OnItemUsed -= HandleItemUsed;
-        Core.CORE.OnCorePlaced -= HandleCorePlaced;
         playerInventory.OnInventoryToggled -= HandleInventoryOpened;
+        FlowFieldManager.Instance.corePlaced -= HandleCorePlaced;
     }
 
     //* QUEST 1
@@ -36,15 +46,14 @@ public class QuestUI : MonoBehaviour
     {
         CompleteQuest(0);
         playerInventory.OnInventoryToggled -= HandleInventoryOpened;
-        
-
     }
 
     //* QUEST 2
-    private void HandleCorePlaced()
+    private void HandleCorePlaced(Transform t)
     {
         CompleteQuest(1);
-        Core.CORE.OnCorePlaced -= HandleCorePlaced;
+        FlowFieldManager.Instance.corePlaced -= HandleCorePlaced;
+
     }
 
     //* QUEST 3
@@ -73,5 +82,26 @@ public class QuestUI : MonoBehaviour
         Debug.Log($"QUEST COMPLETED #{questNum}");
         quests[questNum].text = $"<s>{quests[questNum].text}</s>";
         quests[questNum].color = questCompletedColor;
+        completedQuests++;
+
+        if (completedQuests >= 4)
+        {
+            StartCoroutine(QuestsComplete());
+        }
+    }
+
+    private IEnumerator QuestsComplete()
+    {
+
+        float elapsed = 0f;
+        yield return new WaitForSeconds(2);
+        while (elapsed <= 3)
+        {
+            elapsed += Time.deltaTime;
+            questBackground.position = new Vector3(questBackground.position.x + 5, questBackground.position.y, 0);
+            yield return null;
+        }
+        gameObject.SetActive(false);
+    
     }
 }

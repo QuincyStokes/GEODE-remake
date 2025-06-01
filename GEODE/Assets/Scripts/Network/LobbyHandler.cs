@@ -62,7 +62,7 @@ public class LobbyHandler : MonoBehaviour
         maxPlayersSlider.value = maxPlayersSlider.minValue + 1;
 
         createALobbyScreen.SetActive(true);
-        customizeLobbyScreen.SetActive(true);
+        //customizeLobbyScreen.SetActive(true);
         yourLobbyScreen.SetActive(false);
     }
 
@@ -83,12 +83,12 @@ public class LobbyHandler : MonoBehaviour
         try
         {
             string lobbyName = lobbyNameField.text; //lobby name, will let the user change this 
-            int maxPlayers = (int)maxPlayersSlider.value; //this will be a setting maybe
+            //int maxPlayers = (int)maxPlayersSlider.value; //this will be a setting maybe
 
             //here we will create the options that the player has chosen for this lobby
             CreateLobbyOptions createLobbyOptions = new CreateLobbyOptions
             {
-                IsPrivate = privateToggle.isOn,
+                //IsPrivate = privateToggle.isOn,
                 Player = new Player
                 {
                     Data = new Dictionary<string, PlayerDataObject>
@@ -107,16 +107,19 @@ public class LobbyHandler : MonoBehaviour
             };
 
             //create the lobby!
-            if (lobbyNameField.text != "")
-            {
-                Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, createLobbyOptions);
-                Debug.Log("Created lobby " + lobby.Name + " with max players: " + lobby.MaxPlayers + "CODE: " + lobby.LobbyCode);
-                hostLobby = lobby;
-            }
-            else
-            {
-                Debug.Log("Error, cannot have a blank lobby name.");
-            }
+            // if (lobbyNameField.text != "")
+            // {
+            //Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, createLobbyOptions);
+            //     Debug.Log("Created lobby " + lobby.Name + " with max players: " + lobby.MaxPlayers + "CODE: " + lobby.LobbyCode);
+            //hostLobby = lobby;
+                
+            // }
+            // else
+            // {
+            //     Debug.Log("Error, cannot have a blank lobby name.");
+            // }
+            Lobby lobby = await LobbyService.Instance.CreateLobbyAsync("lobbyName", 8, createLobbyOptions);
+            hostLobby = lobby;
             PrintCurrentPlayers();
             yourLobby.SetLobby(hostLobby);
             joinedLobby = hostLobby;
@@ -287,11 +290,11 @@ public class LobbyHandler : MonoBehaviour
 
     public void CreateALobbyButton()
     {
-        if (lobbyNameField.text == "")
-        {
-            LobbyErrorMessages.Instance.SetError("Please enter a lobby name.");
-            return;
-        }
+        // if (lobbyNameField.text == "")
+        // {
+        //     LobbyErrorMessages.Instance.SetError("Please enter a lobby name.");
+        //     return;
+        // }
 
         if (playerName.text == "")
         {
@@ -301,7 +304,7 @@ public class LobbyHandler : MonoBehaviour
 
         CreateLobby();
         yourLobbyScreen.SetActive(true);
-        customizeLobbyScreen.SetActive(false);
+        //customizeLobbyScreen.SetActive(false);
         createALobbyScreen.SetActive(false);
         
     }

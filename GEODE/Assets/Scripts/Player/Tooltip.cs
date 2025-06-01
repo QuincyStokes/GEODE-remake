@@ -1,17 +1,44 @@
 using TMPro;
 using UnityEngine;
 
-public class Tooltip : MonoBehaviour
+public class TooltipService : MonoBehaviour
 {
+    public static TooltipService Instance { get; private set; }
+
+    private Slot currentProvider;
+    [SerializeField] private Transform tooltipRoot;
     [SerializeField] private TMP_Text _itemNameTMP;
     [SerializeField] private TMP_Text _itemDescriptionTMP;
     [SerializeField] private TMP_Text _itemTypeTMP;
     [SerializeField] private TMP_Text _itemStatsTMP;
     [SerializeField] private TMP_Text _itemQualityTMP;
 
-    public void Build(int itemId)
+
+    private void Awake()
     {
-        BaseItem item = ItemDatabase.Instance.GetItem(itemId);
+        Instance = this;
+    }
+
+    private void LateUpdate()
+    {
+        if (currentProvider != null)
+        {
+            tooltipRoot.position = Input.mousePosition;
+        }
+    }
+
+    public void RequestShow(Slot provider)
+    {
+        Debug.Log("Attempting to show tooltip.");
+        if (!provider.HasTooltip)
+        {
+            return;
+        }
+        currentProvider = provider;
+        int id = provider.displayedStack.Id;
+        if (id == -1) return;
+        Debug.Log($"Made it past guards, id = {id}");
+        BaseItem item = ItemDatabase.Instance.GetItem(id);
 
         _itemNameTMP.gameObject.SetActive(false);
         _itemDescriptionTMP.gameObject.SetActive(false);
@@ -32,7 +59,7 @@ public class Tooltip : MonoBehaviour
         //Now we need to cover different itemTypes
         _itemStatsTMP.text = "";
         _itemTypeTMP.text = item.Type.ToString();
-        
+
         switch (item.Type)
         {
             case ItemType.Tool:
@@ -54,7 +81,7 @@ public class Tooltip : MonoBehaviour
                     //tooltipItemStats.text += item.speed; HAVENT ACTUALLY IMPLEMENTED SWING SPEED YET (or damage)
                     _itemStatsTMP.text += $"DMG | {weapon.damage}";
                 }
-                
+
                 break;
 
             case ItemType.Upgrade:
@@ -80,11 +107,16 @@ public class Tooltip : MonoBehaviour
 
                 break;
         }
-
+        //lastly, enable it!
+        Debug.Log("Enabling tooltip!");
+        tooltipRoot.gameObject.SetActive(true);
+        
     }
 
-    public void Reset()
+
+    public void Hide()
     {
-        
+        currentProvider = null;
+        tooltipRoot.gameObject.SetActive(false);
     }
 }
