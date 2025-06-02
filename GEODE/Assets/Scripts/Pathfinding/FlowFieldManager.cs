@@ -35,10 +35,10 @@ public class FlowFieldManager : NetworkBehaviour
         new Vector2Int(1, 0),   //right
         new Vector2Int(0, -1),  //down
         new Vector2Int(0, 1),   //up
-        new Vector2Int(-1, -1), //down left
-        new Vector2Int(-1, 1),  //up left
-        new Vector2Int(1, -1),  //down right
-        new Vector2Int(1, 1)    //up right
+        // new Vector2Int(-1, -1), //down left
+        // new Vector2Int(-1, 1),  //up left
+        // new Vector2Int(1, -1),  //down right
+        // new Vector2Int(1, 1)    //up right
     };
 
     private void Awake()

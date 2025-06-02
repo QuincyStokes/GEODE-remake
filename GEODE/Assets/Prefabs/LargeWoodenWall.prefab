@@ -103,7 +103,7 @@ Transform:
   m_GameObject: {fileID: 2487961743699920423}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 1.5, z: 0}
+  m_LocalPosition: {x: 1, y: 1.295, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -326,12 +326,15 @@ MonoBehaviour:
     minAmount: 2
     maxAmount: 4
     chance: 100
+  healthStateSprites: []
+  breakParticles: {fileID: 0}
   objectName: Large Wooden Wall
   centerPoint: {fileID: 8841543173283872296}
   description: 
   objectSprite: {fileID: 0}
   sr: {fileID: 4730815865388357885}
   collisionHitbox: {fileID: 4120678448555162002}
+  matchingItemId: 0
 --- !u!114 &-5197024450714403594
 MonoBehaviour:
   m_ObjectHideFlags: 0

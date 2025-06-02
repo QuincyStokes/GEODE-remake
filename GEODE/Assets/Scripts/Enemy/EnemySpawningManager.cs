@@ -213,7 +213,7 @@ public class EnemySpawningManager : NetworkBehaviour
 
     private void ChangeToDaySettings()
     {
-        nightSpawnRateModifier += .1f;
+        nightSpawnRateModifier += .15f;
         currentMaxSpawns = (int)(dayMaxSpawns * dayMaxSpawnsModifier);
         currentSpawnRate = daySpawnRate * dayMaxSpawnsModifier;
 

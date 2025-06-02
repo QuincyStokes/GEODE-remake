@@ -7601,7 +7601,7 @@ Transform:
   m_GameObject: {fileID: 4282996150033522589}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.697, z: 0}
+  m_LocalPosition: {x: 0, y: 0.719, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12342,7 +12342,7 @@ MonoBehaviour:
   startingItems:
   - item: {fileID: 11400000, guid: b655818b047415248a0995e091c067d3, type: 2}
     amount: 1
-  devMode: 1
+  devMode: 0
   inventoryObject: {fileID: 3774294273146469442}
   hotbarObject: {fileID: 3669146933921313452}
   healthbarObject: {fileID: 944747294854935516}

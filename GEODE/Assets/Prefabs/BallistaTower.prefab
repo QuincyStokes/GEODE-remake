@@ -234,6 +234,7 @@ Transform:
   - {fileID: 7112010404013433743}
   - {fileID: 6434122198691912326}
   - {fileID: 569111093344052423}
+  - {fileID: 7615864097540678996}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4323253366736924403
@@ -320,7 +321,7 @@ MonoBehaviour:
   healthStateSprites: []
   breakParticles: {fileID: 0}
   objectName: Ballista Tower
-  centerPoint: {fileID: 0}
+  centerPoint: {fileID: 7615864097540678996}
   description: 
   objectSprite: {fileID: 0}
   sr: {fileID: 6878977793782977151}
@@ -570,6 +571,37 @@ MonoBehaviour:
   autoSetSortingLayer: 1
   shadowSortingLayerName: 
   shadowSortingOrderOffset: -1
+--- !u!1 &8331703509302534424
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7615864097540678996}
+  m_Layer: 10
+  m_Name: CenterPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7615864097540678996
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8331703509302534424}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9172145158948065018}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8369999520770922627
 GameObject:
   m_ObjectHideFlags: 0

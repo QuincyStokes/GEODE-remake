@@ -217,7 +217,7 @@ public class WorldGenManager : NetworkBehaviour
                         BaseItem item = ItemDatabase.Instance.GetItem(toSpawn);
                         StructureItem structItem = item as StructureItem;
 
-                        Vector3 newPos = new Vector3(x + UnityEngine.Random.Range(-.2f, .2f), y + UnityEngine.Random.Range(-.2f, .2f), 0);
+                        Vector3 newPos = new Vector3(x + UnityEngine.Random.Range(-.4f, 0.4f), y + UnityEngine.Random.Range(-.4f, .4f), 0);
                         if (structItem != null)
                         {
                             structItem.Use(newPos, false, true);

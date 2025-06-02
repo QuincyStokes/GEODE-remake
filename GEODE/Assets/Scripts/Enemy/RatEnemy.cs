@@ -16,8 +16,8 @@ public class RatEnemy : BaseEnemy
         Debug.Log("RAT ATTACK");
         if(currentTarget != null)
         {
-            if (currentTarget.ObjectTransform == null) return;
-            Vector3 dir = (currentTarget.ObjectTransform.position - transform.position).normalized;
+            if (currentTarget.CenterPoint == null) return;
+            Vector3 dir = (currentTarget.CenterPoint.position - transform.position).normalized;
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             attackHitbox.transform.localRotation = Quaternion.Euler(0f, 0f, angle);
 
