@@ -68,6 +68,10 @@ public class PlayerInventory : BaseContainer
             AddItemServerRpc(31, 5);
             AddItemServerRpc(32, 1);
         }
+        if (OwnerClientId == 0)
+        {
+            AddItemInternal(6, 1);
+        }
 
     }
 

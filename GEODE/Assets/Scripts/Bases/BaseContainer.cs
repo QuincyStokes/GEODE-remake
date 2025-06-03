@@ -99,7 +99,7 @@ public class BaseContainer : NetworkBehaviour
 
         foreach (var item in startingItems)
             AddItemInternal(item.item.Id, item.amount);
-        AddItemInternal(6, 1);
+        
     }
 
 
