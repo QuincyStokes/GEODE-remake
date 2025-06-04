@@ -58,7 +58,7 @@ public class PathToPlayer : BaseEnemyState
 
             if (sqrDist <= owner.attackRange * owner.attackRange)
             {
-                owner.targetClosestPoint = owner.transform.position;
+                owner.targetClosestPoint = owner.playerTransform.position;
                 stateMachine.ChangeState(new AttackState());
                 return;
             }

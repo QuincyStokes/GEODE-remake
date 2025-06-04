@@ -106,16 +106,16 @@ public class PathToObstructingState : BaseEnemyState
     {
         attackTimer += Time.deltaTime;
         Vector2 nearestBlockingPoint = GetNearestPointOnTarget(owner);
+        owner.targetClosestPoint = nearestBlockingPoint;
 
         if (obstructingObject != null && attackTimer >= owner.attackCooldown)
         {
             // if current target is in range, attack!
-            float sqrDist = ((Vector2)owner.currentTarget.ObjectTransform.position-(Vector2)owner.transform.position).sqrMagnitude;
+            float sqrDist = (owner.targetClosestPoint-(Vector2)owner.transform.position).sqrMagnitude;
             //Switch to attack state
 
             if (sqrDist <= owner.attackRange * owner.attackRange)
             {
-                owner.targetClosestPoint = nearestBlockingPoint;
                 stateMachine.ChangeState(new AttackState());
                 return;
             }

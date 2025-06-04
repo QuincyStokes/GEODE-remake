@@ -90,14 +90,15 @@ public class PathToCoreState : BaseEnemyState
         attackTimer += Time.deltaTime;
 
         Vector2 nearestCorePoint = GetNearestPointOnTarget(owner);
+        owner.targetClosestPoint = nearestCorePoint;
         float distance = Vector2.Distance(nearestCorePoint, owner.transform.position);
         if (attackTimer >= owner.attackCooldown && distance <= owner.attackRange)
         {
+            
             // if current target is in range, attack!
-            if (Vector3.Distance((Vector2)owner.currentTarget.CenterPoint.position, owner.transform.position) <= owner.attackRange)
+            if (Vector3.Distance(owner.targetClosestPoint, owner.transform.position) <= owner.attackRange)
             {
                 //Switch to attack state\
-                owner.targetClosestPoint = nearestCorePoint;
                 stateMachine.ChangeState(new AttackState());
             }
         }

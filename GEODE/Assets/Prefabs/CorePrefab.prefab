@@ -418,7 +418,7 @@ MonoBehaviour:
   description: 
   objectSprite: {fileID: 0}
   sr: {fileID: 4730815865388357885}
-  collisionHitbox: {fileID: 0}
+  collisionHitbox: {fileID: 3792986849769939562}
   matchingItemId: 0
   buildRadius: 10
   areaLight: {fileID: 7661953336904614246}
