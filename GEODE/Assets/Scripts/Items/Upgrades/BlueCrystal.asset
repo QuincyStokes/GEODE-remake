@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BlueCrystal
   m_EditorClassIdentifier: 
   name: Blue Crystal
-  description: A glowing blue crystal. Upgrades Health!
+  description: A glowing blue crystal. Upgrades RANGE!
   type: 5
   icon: {fileID: 8974179435539756478, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
   id: 31
@@ -21,5 +21,5 @@ MonoBehaviour:
   isStackable: 1
   consumeOnUse: 0
   upgradeList:
-  - upgradeType: 3
-    percentIncrease: 30
+  - upgradeType: 2
+    percentIncrease: 20

@@ -144,6 +144,14 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
     private void Update()
     {
         stateMachine.CurrentState?.UpdateState(this, stateMachine);
+        if (rb.linearVelocity.x < 0)
+        {
+            sr.flipX = true;
+        }
+        else
+        {
+            sr.flipX = false;
+        }
     }
 
     private void FixedUpdate()

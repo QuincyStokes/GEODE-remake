@@ -82,11 +82,17 @@ public class PlayerInventory : BaseContainer
 
     public void ToggleInventory(InputAction.CallbackContext context)
     {
+
         inventoryObject.SetActive(!inventoryObject.activeSelf);
+        isOpen = inventoryObject.activeSelf;
         OnInventoryToggled?.Invoke(inventoryObject.activeSelf);
         if (inventoryObject.activeSelf)
         {
             Cursor.visible = true;
+        }
+        else
+        {
+            TooltipService.Instance.Hide();
         }
     }
 

@@ -22,8 +22,16 @@ public class Hitbox : MonoBehaviour
                 Debug.Log($"Comparing object {tag} ?= {collision.tag}");
                 if (collision.CompareTag(tag))
                 {
-                    damageable.TakeDamageServerRpc(new DamageInfo(damage, sourceDirection, tool, dropItems));
-                    return;
+                    if (tool != ToolType.Hammer)
+                    {
+                        damageable.TakeDamageServerRpc(new DamageInfo(damage, sourceDirection, tool, dropItems));
+                        return;
+                    }
+                    else
+                    {
+                        damageable.RestoreHealthServerRpc(damage);
+                    }
+                    
                 }
             }
         }  

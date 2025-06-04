@@ -81,6 +81,7 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
         {
             return;
         }
+        Debug.Log($"Restoring {amount} health to {name}");
         CurrentHealth.Value += amount;
         if (CurrentHealth.Value > MaxHealth.Value)
         {

@@ -53,8 +53,8 @@ public class IdleState : BaseEnemyState
         }
 
         Vector2 targetDir = (wanderTarget - (Vector2)owner.transform.position).normalized;
-        Vector2 desiredVel = targetDir * owner.movementSpeed;
-        Vector2 steerVel = owner.steering.GetSteeredDirection(owner, desiredVel);
+        Vector2 desiredVel = targetDir;
+        Vector2 steerVel = owner.steering.GetSteeredDirection(owner, desiredVel) * owner.movementSpeed;
 
         owner.rb.linearVelocity = steerVel + owner.externalVelocity;
     }

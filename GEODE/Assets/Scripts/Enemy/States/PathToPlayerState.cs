@@ -38,9 +38,9 @@ public class PathToPlayer : BaseEnemyState
         }
 
         Vector2 playerDir = ((Vector2)owner.playerTransform.position - (Vector2)owner.transform.position).normalized;
-        Vector2 desiredVel = playerDir * owner.movementSpeed;
+        Vector2 desiredVel = playerDir;
 
-        Vector2 steerDir = owner.steering.GetSteeredDirection(owner, desiredVel);
+        Vector2 steerDir = owner.steering.GetSteeredDirection(owner, desiredVel) * owner.movementSpeed;
 
         owner.rb.linearVelocity = steerDir + owner.externalVelocity;
 

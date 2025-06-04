@@ -75,13 +75,23 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     //todo
 
-    public void OnPointerEnter(PointerEventData eventData)
+    public virtual void OnPointerEnter(PointerEventData eventData)
     {
         Debug.Log("Slot entered.");
-        TooltipService.Instance.RequestShow(this);
+        if (container == null)
+        {
+            TooltipService.Instance.RequestShow(this);
+            return;
+        }
+        if (container.isOpen)
+        {
+            TooltipService.Instance.RequestShow(this);
+            return;
+        }
+    
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    public virtual void OnPointerExit(PointerEventData eventData)
     {
         TooltipService.Instance.Hide();
     }

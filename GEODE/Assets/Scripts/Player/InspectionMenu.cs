@@ -42,6 +42,7 @@ public class InspectionMenu : BaseContainer
         if (InspectionMenuHolder.activeSelf == false)
         {
             InspectionMenuHolder.SetActive(true);
+            isOpen = InspectionMenuHolder.activeSelf;
         }
 
         SyncUpgradesToContainerServerRpc(go);
@@ -73,6 +74,7 @@ public class InspectionMenu : BaseContainer
 
     public override void ProcessSlotClick(Slot slot)
     {
+        if (!isOpen) return;
         Debug.Log($"Slot {slot.SlotIndex} pressed");
         Debug.Log($"Container Length = {ContainerItems.Count}");
         int idx = slot.SlotIndex;

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CoreItem
   m_EditorClassIdentifier: 
   name: Core
-  description: You must protect it
+  description: Protect it at all costs.
   type: 2
   icon: {fileID: 2833242549449789950, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
   id: 6

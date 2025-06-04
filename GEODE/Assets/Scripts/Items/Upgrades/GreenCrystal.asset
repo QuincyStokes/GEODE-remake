@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GreenCrystal
   m_EditorClassIdentifier: 
   name: Green Crystal
-  description: A glowing green crystal, upgrades size!
+  description: A glowing green crystal, upgrades HEALTH!
   type: 5
   icon: {fileID: -1561941736606595945, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
   id: 30
@@ -21,5 +21,5 @@ MonoBehaviour:
   isStackable: 1
   consumeOnUse: 0
   upgradeList:
-  - upgradeType: 2
-    percentIncrease: 50
+  - upgradeType: 3
+    percentIncrease: 25

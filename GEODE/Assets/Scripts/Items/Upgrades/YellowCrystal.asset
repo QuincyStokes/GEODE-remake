@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: YellowCrystal
   m_EditorClassIdentifier: 
   name: Yellow Crystal
-  description: A glowing yellow crystal. Upgrades speed!
+  description: A glowing yellow crystal. Upgrades SPEED!
   type: 5
   icon: {fileID: 275367399833583520, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
   id: 32

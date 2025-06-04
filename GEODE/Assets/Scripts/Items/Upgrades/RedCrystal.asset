@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RedCrystal
   m_EditorClassIdentifier: 
   name: Red Crystal
-  description: A glowing red crystal shard. Upgrades strength!
+  description: A glowing red crystal shard. Upgrades DAMAGE!
   type: 5
   icon: {fileID: -2819067472943657855, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
   id: 29
@@ -22,4 +22,4 @@ MonoBehaviour:
   consumeOnUse: 0
   upgradeList:
   - upgradeType: 0
-    percentIncrease: 50
+    percentIncrease: 30

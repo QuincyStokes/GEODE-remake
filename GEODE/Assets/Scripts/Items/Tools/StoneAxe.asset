@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StoneAxe
   m_EditorClassIdentifier: 
   name: Stone Axe
-  description: Used to chop!
+  description: Deals more damage to wood!
   type: 0
   icon: {fileID: -895672226148424724, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
   id: 26

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StoneSword
   m_EditorClassIdentifier: 
   name: Stone Sword
-  description: Its a Sword
+  description: Deals more damage to flesh
   type: 1
   icon: {fileID: 6645774616090122732, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
   id: 22

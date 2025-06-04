@@ -48,8 +48,8 @@ public class PathToCoreState : BaseEnemyState
             //owner.rb.linearVelocity = (owner.corePosition - owner.transform.position).normalized;
             //HERE might be a little cringe, but can we just add (1, 1) to the position, so that way the enemies path towards the center of it?
 
-            Vector2 desiredVel = coreDir.normalized * owner.movementSpeed;
-            Vector2 steerVel = owner.steering.GetSteeredDirection(owner, desiredVel);
+            Vector2 desiredVel = coreDir.normalized;
+            Vector2 steerVel = owner.steering.GetSteeredDirection(owner, desiredVel) * owner.movementSpeed;
 
             owner.rb.linearVelocity = steerVel + owner.externalVelocity;
         }
@@ -73,9 +73,9 @@ public class PathToCoreState : BaseEnemyState
             {
                 //owner.rb.linearVelocity = FlowFieldManager.Instance.GetFlowDirection(owner.transform.position) * owner.movementSpeed;
                 //now with steering!
-                Vector2 desiredVel = flowDir * owner.movementSpeed;
+                Vector2 desiredVel = flowDir;
 
-                Vector2 finalDir = owner.steering.GetSteeredDirection(owner, desiredVel);
+                Vector2 finalDir = owner.steering.GetSteeredDirection(owner, desiredVel)  * owner.movementSpeed;
 
                 owner.rb.linearVelocity = finalDir + owner.externalVelocity;
             }

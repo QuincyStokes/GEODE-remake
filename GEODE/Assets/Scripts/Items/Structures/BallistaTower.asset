@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BallistaTower
   m_EditorClassIdentifier: 
   name: Ballista Tower
-  description: A Ballista Tower
+  description: Your first tower! Shoots at enemies with slow speed and low damage
   type: 2
   icon: {fileID: -6777421769219088599, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
   id: 23

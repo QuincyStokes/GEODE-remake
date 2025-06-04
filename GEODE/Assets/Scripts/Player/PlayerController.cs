@@ -21,6 +21,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
     [SerializeField] private GameObject pauseMenu;
     private Rigidbody2D rb;
     [SerializeField] public Hitbox hitbox; //TEMP
+    [SerializeField] public Hitbox repairHitbox;
     [SerializeField] public GameObject hitboxParent;
     [SerializeField] public Animator attackAnimator;
     [SerializeField] private DayNumber dayNumber;
@@ -400,11 +401,25 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
     {
         if (swingCooldownTimer >= swingCooldown)
         {
-            Instance.hitbox.damage = dmg;
-            Instance.hitbox.tool = t;
-            Instance.hitbox.sourceDirection = transform.position;
-            Instance.hitbox.dropItems = drops;
-            StartCoroutine(DoAttack());
+            Debug.Log($"Attacking with {t}");
+            if (t != ToolType.Hammer)
+            {
+                Instance.hitbox.damage = dmg;
+                Instance.hitbox.tool = t;
+                Instance.hitbox.sourceDirection = transform.position;
+                Instance.hitbox.dropItems = drops;
+                StartCoroutine(DoAttack());
+            }
+            //if we're holding a hammer, we want to do the healy thing instead
+            else
+            {
+                Instance.repairHitbox.damage = dmg;
+                Instance.repairHitbox.tool = t;
+                Instance.repairHitbox.sourceDirection = transform.position;
+                Instance.repairHitbox.dropItems = drops;
+                StartCoroutine(DoRepairAttack());
+            }
+           
         }
 
     }
@@ -417,6 +432,17 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
         moveSpeed /= 2;
         yield return new WaitForSeconds(.1f);
         Instance.hitbox.gameObject.SetActive(false);
+        moveSpeed *= 2;
+        swingCooldownTimer = 0f;
+    }
+
+    private IEnumerator DoRepairAttack()
+    {
+        Instance.repairHitbox.gameObject.SetActive(true);
+        attackAnimator.SetTrigger("Swing");
+        moveSpeed /= 2;
+        yield return new WaitForSeconds(.1f);
+        Instance.repairHitbox.gameObject.SetActive(false);
         moveSpeed *= 2;
         swingCooldownTimer = 0f;
     }

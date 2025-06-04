@@ -175,14 +175,14 @@ public class InspectionMenuUI : ContainerUIManager<InspectionMenu>
             speed.text = $"<color=yellow>{stats.speed.Value}</color> = {stats.baseSpeed.Value}(<color=yellow>+{(stats.baseSpeed.Value * ((stats.speedModifier.Value / 100) + 1)) - stats.baseSpeed.Value}</color>)";
 
             //SIZE
-            size.text = $"<color=green>{stats.size.Value}</color> = {stats.baseSize.Value}(<color=green>+{(stats.baseSize.Value * ((stats.sizeModifier.Value / 100) + 1)) - stats.baseSize.Value}</color>)";
+            size.text = $"<color=blue>{stats.size.Value}</color> = {stats.baseSize.Value}(<color=blue>+{(stats.baseSize.Value * ((stats.sizeModifier.Value / 100) + 1)) - stats.baseSize.Value}</color>)";
         }
 
         BaseObject bo = container.currentInspectedObject.GetComponent<BaseObject>();
         if (container.currentInspectedObject != null && bo != null)
         {
             //STURDY
-            sturdy.text = $"<color=blue>{stats.sturdy.Value}</color> = {bo.BASE_HEALTH}(<color=blue>+{(bo.MaxHealth.Value * ((stats.sturdyModifier.Value / 100) + 1)) - bo.MaxHealth.Value}</color>)";
+            sturdy.text = $"<color=green>{stats.sturdy.Value}</color> = {bo.BASE_HEALTH}(<color=green>+{(bo.MaxHealth.Value * ((stats.sturdyModifier.Value / 100) + 1)) - bo.MaxHealth.Value}</color>)";
         }
     }
 

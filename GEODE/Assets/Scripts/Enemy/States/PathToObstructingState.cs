@@ -90,9 +90,9 @@ public class PathToObstructingState : BaseEnemyState
                 Vector2 nearestBlockingPoint = GetNearestPointOnTarget(owner);
 
                 Vector2 blockingDir = nearestBlockingPoint - (Vector2)owner.transform.position;
-                Vector2 desiredVelocity = blockingDir.normalized * owner.movementSpeed;
+                Vector2 desiredVelocity = blockingDir.normalized;
 
-                Vector2 steerDir = owner.steering.GetSteeredDirection(owner, desiredVelocity);
+                Vector2 steerDir = owner.steering.GetSteeredDirection(owner, desiredVelocity) * owner.movementSpeed;
 
                 owner.rb.linearVelocity = steerDir + owner.externalVelocity;
 

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CraftingSlot : Slot
 {
@@ -17,4 +18,14 @@ public class CraftingSlot : Slot
         //set the crafting menu's current recipe
         craftingManager.SetRecipe(craftingRecipe);
     }
+
+     public override void OnPointerEnter(PointerEventData eventData)
+    {
+        Debug.Log("Slot entered.");
+        TooltipService.Instance.RequestShow(this);
+        
+        
+    }
+
+
 }

@@ -26,6 +26,10 @@ public class BaseContainer : NetworkBehaviour
     [SerializeField] protected List<ItemAmount> startingItems;
 
 
+    //*------------ Internal ----------------- */
+    public bool isOpen = false;
+
+
     //* ------------- Events ---------------
     public event Action<int, ItemStack> OnSlotChanged;
     public event Action OnContainerChanged;
@@ -194,6 +198,7 @@ public class BaseContainer : NetworkBehaviour
     //called by Slot.cs
     public virtual void ProcessSlotClick(Slot slot)
     {
+        if (!isOpen) return;
         int idx = slot.SlotIndex;
         ItemStack slotStack = ContainerItems[idx];       // server truth (read-only)
 
