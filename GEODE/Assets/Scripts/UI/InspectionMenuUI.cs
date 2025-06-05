@@ -39,6 +39,7 @@ public class InspectionMenuUI : ContainerUIManager<InspectionMenu>
     [SerializeField] private List<GameObject> statsThings; //ui elements pertaining to stats
     [SerializeField] private List<GameObject> xpThings; //ui elements pertaining to xp
     [SerializeField] private List<GameObject> upgradeThings;
+    [SerializeField] private List<GameObject> dismantleThings;
 
 
     //* ------- PRIVATE INTERNAL -------------
@@ -70,6 +71,7 @@ public class InspectionMenuUI : ContainerUIManager<InspectionMenu>
         IStats stats = container.currentInspectedObject.GetComponent<IStats>();
         IExperienceGain exp = container.currentInspectedObject.GetComponent<IExperienceGain>();
         IUpgradeable upg = container.currentInspectedObject.GetComponent<IUpgradeable>();
+        IDismantleable dis = container.currentInspectedObject.GetComponent<IDismantleable>();
         //since we have passed in our stats, xp, and theobject, we can guarantee that we have:
         //all of the necessary information to populate the menu
         if (bo != null) //health, description, sprite
@@ -135,6 +137,15 @@ public class InspectionMenuUI : ContainerUIManager<InspectionMenu>
         {
             SetGroup(upgradeThings, false);
         }
+
+        if (dis != null)
+        {
+            SetGroup(dismantleThings, true);
+        }
+        else
+        {
+            SetGroup(dismantleThings, false);
+        }
     }
     private void ChangeSubscription(GameObject old, GameObject newObj)
     {
@@ -150,7 +161,7 @@ public class InspectionMenuUI : ContainerUIManager<InspectionMenu>
             {
                 obj.CurrentHealth.OnValueChanged -= RefreshHealth;
             }
-            
+
         }
 
         if (newObj != null)
@@ -204,13 +215,19 @@ public class InspectionMenuUI : ContainerUIManager<InspectionMenu>
         }
     }
 
-    
+
     private void SetGroup(List<GameObject> group, bool set)
     {
         foreach (GameObject go in group)
         {
             go.SetActive(set);
         }
+    }
+
+    public void DismantleCurrentObject()
+    {
+        container.currentInspectedObject.GetComponent<BaseObject>().DestroyThis(true);
+        container.CloseInspectionMenu();
     }
 
 

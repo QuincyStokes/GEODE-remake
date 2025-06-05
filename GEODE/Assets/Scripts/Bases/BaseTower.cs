@@ -5,7 +5,7 @@ using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperienceGain, IUpgradeable
+public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperienceGain, IUpgradeable, IDismantleable
 {
     //all towers shall inherit from this script, so we must include all things that *all* towers need
     //hold up, should towers have states? i think that doin too much, towers are simple
