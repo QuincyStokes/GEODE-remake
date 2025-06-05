@@ -8,6 +8,7 @@ using Unity.VisualScripting;
 using System.Collections;
 using System;
 using System.Runtime.Serialization.Json;
+using UnityEngine.Events;
 
 
 public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
@@ -64,7 +65,6 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
     public event Action OnRevive;
     public event Action OnXpGain;
 
-
     //* -------------- Internal ----------------- */
     private float timeSinceDamaged;
     private bool isRegenning;
@@ -72,14 +72,14 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
     private void Update()
     {
         if (!IsServer) return;
-        
+
         timeSinceDamaged += Time.deltaTime;
         if (timeSinceDamaged > regenCooldown && !isRegenning)
         {
             regenCoroutine = StartCoroutine(RegenHealth());
         }
-        
-        
+
+
     }
 
     public void DestroyThis(bool dropItems)

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Rendering;
 
 /// <summary>
@@ -57,18 +58,22 @@ public class SkewedSpriteShadow2D : MonoBehaviour
     private SortingGroup shadowSortingGroup;
     private MeshFilter shadowMeshFilter;
     private Mesh shadowMesh;
+    private GameObject shadowObj;
 
     // We store the original sprite geometry
     private Vector2[] spriteVertices2D;
     private Vector2[] spriteUVs2D;
     private ushort[] spriteTriangles;
 
+
     private void Awake()
     {
+
         // 1. Grab the SpriteRenderer
         mainSpriteRenderer = GetComponent<SpriteRenderer>();
 
-        // If no shadowSprite is set, default to the main sprite
+        
+
         if (shadowSprite == null)
             shadowSprite = mainSpriteRenderer.sprite;
 
@@ -85,10 +90,47 @@ public class SkewedSpriteShadow2D : MonoBehaviour
             lightSource = GameObject.Find("Sunlight");
         }
 
+        InitializeShadowMesh(mainSpriteRenderer);
+    }
+
+    private void OnEnable()
+    {
+        if (mainSpriteRenderer != null)
+            mainSpriteRenderer.RegisterSpriteChangeCallback(InitializeShadowMesh);
+    }
+
+    private void OnDisable()
+    {
+        if (mainSpriteRenderer != null)
+            mainSpriteRenderer.UnregisterSpriteChangeCallback(InitializeShadowMesh);
+    }
+
+    private void LateUpdate()
+    {
+        // Update shadow each frame, or throttle if needed
+        UpdateShadowMesh();
+    }
+
+    private void InitializeShadowMesh(SpriteRenderer sr)
+    {
+
+        //Check if there's already a shadow, if so, destroy it.
+        if (shadowObj != null)
+        {
+            Destroy(shadowObj);
+        }
+
+        // If no shadowSprite is set, default to the main sprite
+
+        //Reassign shadow sprite to update during runtime
+        shadowSprite = mainSpriteRenderer.sprite;
+        
+        
+
         // 2. Extract the sprite's TIGHT geometry (local coords, UVs, indices)
-        spriteVertices2D = shadowSprite.vertices;   
-        spriteUVs2D      = shadowSprite.uv;
-        spriteTriangles  = shadowSprite.triangles;
+            spriteVertices2D = shadowSprite.vertices;
+        spriteUVs2D = shadowSprite.uv;
+        spriteTriangles = shadowSprite.triangles;
 
         if (spriteVertices2D == null || spriteVertices2D.Length < 3)
         {
@@ -97,14 +139,19 @@ public class SkewedSpriteShadow2D : MonoBehaviour
         }
 
         // 3. Create a child for the mesh
-        GameObject shadowObj = new GameObject("SkewedShadowMesh");
+        shadowObj = new GameObject("SkewedShadowMesh");
         shadowObj.transform.SetParent(this.transform);
         shadowObj.transform.localPosition = Vector3.zero;
         shadowObj.transform.localRotation = Quaternion.identity;
-        shadowObj.transform.localScale    = Vector3.one;
+        shadowObj.transform.localScale = Vector3.one;
+
+        if (mainSpriteRenderer.flipX)
+        {
+            shadowObj.transform.localScale = new Vector3(-1, 1, 1);
+        }
 
         // 4. Add MeshFilter / MeshRenderer / Sorting Group
-        shadowMeshFilter   = shadowObj.AddComponent<MeshFilter>();
+        shadowMeshFilter = shadowObj.AddComponent<MeshFilter>();
         shadowMeshRenderer = shadowObj.AddComponent<MeshRenderer>();
         shadowSortingGroup = shadowObj.AddComponent<SortingGroup>();
 
@@ -133,7 +180,7 @@ public class SkewedSpriteShadow2D : MonoBehaviour
         if (autoSetSortingLayer)
         {
             shadowMeshRenderer.sortingLayerID = mainSpriteRenderer.sortingLayerID;
-            shadowMeshRenderer.sortingOrder   = mainSpriteRenderer.sortingOrder + shadowSortingOrderOffset;
+            shadowMeshRenderer.sortingOrder = mainSpriteRenderer.sortingOrder + shadowSortingOrderOffset;
         }
         if (!string.IsNullOrEmpty(shadowSortingLayerName))
         {
@@ -142,12 +189,6 @@ public class SkewedSpriteShadow2D : MonoBehaviour
 
         // Generate mesh data (with positions = original sprite geometry)
         GenerateShadowMesh();
-    }
-
-    private void LateUpdate()
-    {
-        // Update shadow each frame, or throttle if needed
-        UpdateShadowMesh();
     }
 
     /// <summary>
@@ -159,10 +200,12 @@ public class SkewedSpriteShadow2D : MonoBehaviour
         if (shadowMesh == null || spriteVertices2D == null)
             return;
 
+        
+
         // We'll create arrays for the 3D data
         Vector3[] meshVertices3D = new Vector3[spriteVertices2D.Length];
-        Vector2[] meshUVs        = new Vector2[spriteVertices2D.Length];
-        int[] meshTriangles      = new int[spriteTriangles.Length];
+        Vector2[] meshUVs = new Vector2[spriteVertices2D.Length];
+        int[] meshTriangles = new int[spriteTriangles.Length];
 
         // Copy the UVs
         for (int i = 0; i < spriteUVs2D.Length; i++)
@@ -179,8 +222,8 @@ public class SkewedSpriteShadow2D : MonoBehaviour
         }
 
         shadowMesh.Clear();
-        shadowMesh.vertices  = meshVertices3D;
-        shadowMesh.uv        = meshUVs;
+        shadowMesh.vertices = meshVertices3D;
+        shadowMesh.uv = meshUVs;
         shadowMesh.triangles = meshTriangles;
 
         shadowMesh.RecalculateBounds();

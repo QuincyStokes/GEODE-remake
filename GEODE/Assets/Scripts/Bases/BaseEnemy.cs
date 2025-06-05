@@ -6,6 +6,7 @@ using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations;
+using UnityEngine.Events;
 
 public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable, IExperienceGain
 {
@@ -84,11 +85,11 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
 
 
 
-    //*         ----------------------------- METHODS ---------------------------
+    //*----------------------------- METHODS ---------------------------
     private void Awake()
     {
         stateMachine = new EnemyStateMachine(this);
-
+        
     }
 
     public override void OnNetworkSpawn()

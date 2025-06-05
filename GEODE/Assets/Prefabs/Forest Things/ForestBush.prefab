@@ -137,7 +137,7 @@ MonoBehaviour:
   shadowColor: {r: 0, g: 0, b: 0, a: 1}
   shadowAlpha: 0.5
   shadowLength: 1
-  verticalScale: 1
+  verticalScale: 0.5
   autoSetSortingLayer: 1
   shadowSortingLayerName: 
   shadowSortingOrderOffset: -1

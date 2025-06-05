@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Events;
 
 public abstract class BaseObject : NetworkBehaviour, IDamageable
 {
@@ -41,10 +43,14 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
     [HideInInspector] public int matchingItemId;
     private int healthState = -1;
 
+
+    //* ----------------------- EVENTS ----------------------------
+
     public Transform ObjectTransform
     {
         get => transform;
     }
+    
 
     //METHODS
 
@@ -179,15 +185,15 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
                 if (item.chance < 100)
                 {
                     //roll the dice to see if we should spawn this item
-                    float rolledChance = Random.Range(0f, 100f);
+                    float rolledChance = UnityEngine.Random.Range(0f, 100f);
                     if (rolledChance <= item.chance)
                     {
-                        LootManager.Instance.SpawnLootServerRpc(transform.position, item.Id, Random.Range(item.minAmount, item.maxAmount + 1));
+                        LootManager.Instance.SpawnLootServerRpc(transform.position, item.Id, UnityEngine.Random.Range(item.minAmount, item.maxAmount + 1));
                     }
                 }
                 else
                 {
-                    LootManager.Instance.SpawnLootServerRpc(transform.position, item.Id, Random.Range(item.minAmount, item.maxAmount + 1));
+                    LootManager.Instance.SpawnLootServerRpc(transform.position, item.Id, UnityEngine.Random.Range(item.minAmount, item.maxAmount + 1));
                 }
 
 
@@ -252,6 +258,7 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
     private void ApplyHealthState(int i)
     {
         sr.sprite = healthStateSprites[i];
+        //OnSpriteChanged?.Invoke(sr);
 
         if (breakParticles != null)
         {
