@@ -146,6 +146,8 @@ public class InspectionMenuUI : ContainerUIManager<InspectionMenu>
         {
             SetGroup(dismantleThings, false);
         }
+
+        
     }
     private void ChangeSubscription(GameObject old, GameObject newObj)
     {

@@ -4,6 +4,7 @@ using Unity.Netcode;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UIElements;
 
 public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperienceGain, IUpgradeable, IDismantleable
 {
@@ -40,6 +41,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     [SerializeField] protected LayerMask targetLayer;
     [SerializeField] protected CircleCollider2D detectionCollider;
     [SerializeField] protected GameObject tower; //separate the tower from the "base" for towers that may rotate
+    [SerializeField] protected GameObject rangeIndicator;
 
 
 
@@ -103,6 +105,14 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
         sturdy.Value = MaxHealth.Value * (sturdyModifier.Value / 100 + 1);
 
         MaxHealth.Value = sturdy.Value;
+        RefreshRangeIndicator(0, size.Value);
+        size.OnValueChanged += RefreshRangeIndicator;
+    }
+
+    private new void OnDestroy()
+    {
+        base.OnDestroy();
+        size.OnValueChanged -= RefreshRangeIndicator;
     }
 
     private void Update()
@@ -391,13 +401,6 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
 
         }
 
-        
-        
-        
-        
-
-        
-
         SyncUpgradesAndStatsClientRpc(serverUpgradeItemIds.ToArray());
     }
 
@@ -443,6 +446,21 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
             LevelUp();
             AddXp(newXp);
         }
+    }
+
+    private void RefreshRangeIndicator(float old, float curr)
+    {
+        rangeIndicator.transform.localScale = new Vector3(curr * 2, curr * 2);
+    }
+
+    public void ShowRangeIndicator()
+    {
+        rangeIndicator.SetActive(true);
+    }
+
+    public void HideRangeIndicator()
+    {
+        rangeIndicator.SetActive(false);
     }
 
     public void LevelUp()

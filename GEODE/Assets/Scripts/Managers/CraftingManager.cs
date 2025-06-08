@@ -43,12 +43,22 @@ public class CraftingManager : MonoBehaviour
             slot.gameObject.SetActive(false);
         }
         recipeResultSlot.canInteract = false;
-        
         foreach(CraftingTab ct in craftingTabs)
         {
             ct.DeselectTab();
         }
+        playerInventory.OnContainerChanged += CheckHasRecipeItems;
+        playerInventory.OnInventoryToggled += CheckHasRecipeItemsWrapper;
+        playerInventory.OnSlotChanged += CheckHasRecipeItemsSlotWrapper;
         craftingTabs[0].SelectTab();
+    }
+
+
+    private void OnDestroy()
+    {
+        playerInventory.OnContainerChanged -= CheckHasRecipeItems;
+        playerInventory.OnInventoryToggled -= CheckHasRecipeItemsWrapper;
+        playerInventory.OnSlotChanged -= CheckHasRecipeItemsSlotWrapper;
     }
 
     public void SetRecipe(CraftingRecipe cr)
@@ -72,6 +82,7 @@ public class CraftingManager : MonoBehaviour
             recipeDisplaySlots[i].gameObject.SetActive(true);
             recipeDisplaySlots[i].SetItem(currentRecipe.materials[i].item.Id, currentRecipe.materials[i].amount, false);
         }
+        CheckHasRecipeItems();
 
         recipeResultSlot.SetItem(currentRecipe.results[0].item.Id, currentRecipe.results[0].amount, false);
         descriptionText.text = currentRecipe.results[0].item.Description;
@@ -106,10 +117,38 @@ public class CraftingManager : MonoBehaviour
         return true;
     }
 
+    //wrapper for checkrecipeitems
+    public void CheckHasRecipeItemsWrapper(bool useless)
+    {
+        CheckHasRecipeItems();
+    }
+
+
+    public void CheckHasRecipeItemsSlotWrapper(int num, ItemStack stack)
+    {
+        CheckHasRecipeItems();
+    }
+    public void CheckHasRecipeItems()
+    {
+        for (int i = 0; i < currentRecipe.materials.Count && i < recipeDisplaySlots.Count; i++)
+        {
+            BaseItem requiredItem = currentRecipe.materials[i].item;
+            int requiredCount = currentRecipe.materials[i].amount;
+            if (playerInventory.GetItemCount(requiredItem) >= requiredCount)
+            {
+                //light up the slot homehow
+                recipeDisplaySlots[i].SetSlotHighlight(true);
+            }
+            else
+            {
+                recipeDisplaySlots[i].SetSlotHighlight(false);
+            }
+        }
+    }
     public void Craft()
     {
         //attempt to craft the current recipe
-        if(CheckCanCraft(currentRecipe))
+        if (CheckCanCraft(currentRecipe))
         {
             OnItemCrafted?.Invoke(currentRecipe);
             foreach (ItemAmount ia in currentRecipe.materials)
@@ -117,7 +156,7 @@ public class CraftingManager : MonoBehaviour
                 playerInventory.RemoveItemServerRpc(ia.item.Id, ia.amount);
             }
 
-            foreach(ItemAmount ia in currentRecipe.results)
+            foreach (ItemAmount ia in currentRecipe.results)
             {
                 playerInventory.AddItemServerRpc(ia.item.Id, ia.amount);
             }

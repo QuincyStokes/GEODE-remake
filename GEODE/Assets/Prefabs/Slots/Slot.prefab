@@ -344,6 +344,7 @@ MonoBehaviour:
   itemCount: {fileID: 1095186100647430245}
   selectedBackgroundImage: {fileID: 3875769440782901482, guid: a1474fb9d261c1e45aeebfae61461b67, type: 3}
   deselectedBackgroundImage: {fileID: -81528668887532154, guid: 1ef64a3abf377fa4cbc91ab942e496d9, type: 3}
+  highlightedBackgroundImage: {fileID: 6260374620269511307, guid: 883dd80735144ef42a3428a981380df3, type: 3}
   canInteract: 0
   container: {fileID: 0}
   scaleUpTime: 0.4

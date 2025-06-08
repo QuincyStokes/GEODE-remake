@@ -124,10 +124,11 @@ public class SkewedSpriteShadow2D : MonoBehaviour
 
         //Reassign shadow sprite to update during runtime
         shadowSprite = mainSpriteRenderer.sprite;
-        
-        
+
+
 
         // 2. Extract the sprite's TIGHT geometry (local coords, UVs, indices)
+        if (shadowSprite == null) return;
             spriteVertices2D = shadowSprite.vertices;
         spriteUVs2D = shadowSprite.uv;
         spriteTriangles = shadowSprite.triangles;

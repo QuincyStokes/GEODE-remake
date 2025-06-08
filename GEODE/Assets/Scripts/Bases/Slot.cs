@@ -12,6 +12,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     [Header("Background Images")]
     [SerializeField] protected Sprite selectedBackgroundImage;
     [SerializeField] protected Sprite deselectedBackgroundImage;
+    [SerializeField] protected Sprite highlightedBackgroundImage;
 
     [Header("Settings")]
 
@@ -123,6 +124,18 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
             return;
         }
         container.ProcessSlotClick(this);
+    }
+
+    public void SetSlotHighlight(bool highlight)
+    {
+        if (highlight)
+        {
+            backgroundSprite.sprite = highlightedBackgroundImage;
+        }
+        else
+        {
+            backgroundSprite.sprite = deselectedBackgroundImage;
+        }
     }
 
     //! not a bad idea, but the way everything depends on the same ApplyMove function, having it *always* happen is kinda weird
