@@ -236,6 +236,7 @@ Transform:
   - {fileID: 569111093344052423}
   - {fileID: 7615864097540678996}
   - {fileID: 4788089938128382637}
+  - {fileID: 2052563808128784492}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4323253366736924403
@@ -320,7 +321,10 @@ MonoBehaviour:
     maxAmount: 0
     chance: 0
   healthStateSprites: []
-  breakParticles: {fileID: 0}
+  particleSpawnPoint: {fileID: 2052563808128784492}
+  hitParticleEffectType: 0
+  destroyParticleEffectType: 0
+  healParticleEffectType: 4
   objectName: Ballista Tower
   centerPoint: {fileID: 7615864097540678996}
   description: 
@@ -461,6 +465,37 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 2, y: 2}
   m_EdgeRadius: 0
+--- !u!1 &6848454822580227570
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2052563808128784492}
+  m_Layer: 0
+  m_Name: ParticleSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2052563808128784492
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6848454822580227570}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.98964363, y: 1.6369871, z: 0.032971237}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9172145158948065018}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7750405966191835993
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,15 +1,8 @@
 using System.Collections.Generic;
 using Unity.Netcode;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
-using Unity.VisualScripting;
 using System.Collections;
 using System;
-using System.Runtime.Serialization.Json;
-using UnityEngine.Events;
-
 
 public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
 {
@@ -43,14 +36,17 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
 
 
     //* --------------- References ---------------- */
-    //! Later on this should move into PlayerHealthUIManager
+    
     [Header("References")]
     [SerializeField] private SpriteRenderer sr;
     [SerializeField] private Collider2D collisionHitbox;
     [SerializeField] private Transform objectTransform;
+    [SerializeField] private Transform particleSpawnPoint;
 
-
+    [SerializeField] private EffectType hitParticleEffectType;
+    public EffectType HitParticleEffectType { get => hitParticleEffectType; }
     public Transform ObjectTransform { get => objectTransform; }
+    public Transform ParticleSpawnPoint { get => particleSpawnPoint; }
     [SerializeField] private Transform centerPoint;
     public Transform CenterPoint { get => centerPoint; }
     public Collider2D CollisionHitbox { get => collisionHitbox; }
@@ -256,13 +252,6 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
     {
         transform.position = spawnPos;
     }
-
-    [ServerRpc(RequireOwnership = false)]
-    private void TeleportServerRpc(Vector3 spawnPos)
-    {
-        transform.position = spawnPos;
-    }
-
 
     private IEnumerator DoInvulnerableFrame(float time = 1f)
     {

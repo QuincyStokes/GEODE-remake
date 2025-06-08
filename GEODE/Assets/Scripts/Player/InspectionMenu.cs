@@ -67,6 +67,7 @@ public class InspectionMenu : BaseContainer
 
     public void CloseInspectionMenu()
     {
+        if (currentInspectedObject == null) return;
         if (currentUpgradeObject != null)
         {
             currentUpgradeObject.OnUpgradesChanged -= ServerRebuildList;

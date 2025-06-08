@@ -1,56 +1,51 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.Events;
+
 
 public abstract class BaseObject : NetworkBehaviour, IDamageable
 {
+    //* ----------------- Health --------------- */
     [Header("Health")]
-    [SerializeField] public float BASE_HEALTH;
+    public float BASE_HEALTH;
     public NetworkVariable<float> MaxHealth { get; set; } = new NetworkVariable<float>(1);
     public NetworkVariable<float> CurrentHealth { get; set; } = new NetworkVariable<float>(1);
 
+    //* ----------------- Breaking ----------------- */
     [Header("Breaking")]
     [SerializeField] private ToolType idealToolType;
     [SerializeField] private List<DroppedItem> droppedItems;
-    [Tooltip("2 Elements, higher health first.")]
-    [SerializeField] private List<Sprite> healthStateSprites;
-    [SerializeField] private ParticleSystem breakParticles;
-    public List<DroppedItem> DroppedItems
-    {
-        get => droppedItems;
-    }
+    [Tooltip("2 Elements, higher health first.")][SerializeField] private List<Sprite> healthStateSprites;
+    [SerializeField] private Transform particleSpawnPoint;
+    [SerializeField] private EffectType hitParticleEffectType;
+    [SerializeField] private EffectType destroyParticleEffectType;
+    [SerializeField] private EffectType healParticleEffectType;
+    public EffectType HitParticleEffectType { get => hitParticleEffectType; }
+    public List<DroppedItem> DroppedItems { get => droppedItems; }
+    public Transform ParticleSpawnPoint {get => particleSpawnPoint; set => particleSpawnPoint = value; }
+
+
+    //* ---------------- Object Info -------------------- */
+    [Header("Object Info")]
     [SerializeField] private string objectName;
-    public string ObjectName
-    {
-        get => objectName; set => objectName = value;
-    }
-
+    public string ObjectName{ get => objectName; set => objectName = value;}
     [SerializeField] private Transform centerPoint;
-    public Transform CenterPoint
-    {
-        get => centerPoint;
-    }
+    public Transform CenterPoint { get => centerPoint; }
+    public Transform ObjectTransform{ get => transform; }
     public Collider2D CollisionHitbox { get => collisionHitbox; }
-
     [HideInInspector] public string description;
     [HideInInspector] public Sprite objectSprite;
 
+    //* ------------------ Inspector References ---------------- */
+    [Header("Private References")]
     [SerializeField] private SpriteRenderer sr;
     [SerializeField] private Collider2D collisionHitbox;
+
+    //* ------------------ Internal Use -------------------- */
     [HideInInspector] public int matchingItemId;
     private int healthState = -1;
 
-
-    //* ----------------------- EVENTS ----------------------------
-
-    public Transform ObjectTransform
-    {
-        get => transform;
-    }
-    
 
     //METHODS
 
@@ -87,12 +82,18 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
         {
             return;
         }
-        Debug.Log($"Restoring {amount} health to {name}");
-        CurrentHealth.Value += amount;
-        if (CurrentHealth.Value > MaxHealth.Value)
+        float amountToHeal = Mathf.Min(amount, MaxHealth.Value - CurrentHealth.Value);
+
+        if(amountToHeal > 0)
         {
-            CurrentHealth.Value = MaxHealth.Value;
+            CurrentHealth.Value += amountToHeal;
+
+            if (healParticleEffectType != EffectType.None)
+            {
+                ParticleService.Instance.Play(healParticleEffectType, particleSpawnPoint.position);
+            }   
         }
+        Debug.Log($"Restoring {amount} health to {name}");
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -160,6 +161,11 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
         OnDamageColorChangeClientRpc();
         DisplayDamageFloaterClientRpc(amount);
         CheckSpriteChangeClientRpc();
+        if (particleSpawnPoint != null)
+        {
+            ParticleService.Instance.Play(hitParticleEffectType, particleSpawnPoint.position);
+        }
+            
     }
 
     [ClientRpc]
@@ -259,18 +265,7 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
     {
         sr.sprite = healthStateSprites[i];
         //OnSpriteChanged?.Invoke(sr);
-
-        if (breakParticles != null)
-        {
-            breakParticles.Play();
-        }
-
+        ParticleService.Instance.Play(destroyParticleEffectType, particleSpawnPoint.position);
         //TODO here could do lighting changes
-    }
-
-    [ClientRpc]
-    public void SpriteChangeParticlesClientRpc()
-    {
-        breakParticles.Play();
     }
 }

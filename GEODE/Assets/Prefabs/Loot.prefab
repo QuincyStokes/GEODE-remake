@@ -158,7 +158,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 3
+  m_Radius: 2
 --- !u!114 &1146592805714258359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,8 +207,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0.0031471252
-      value: 0.9981308
+      time: 0.005054474
+      value: 0.9907875
       inSlope: 0.01090996
       outSlope: 0.01090996
       tangentMode: 0
@@ -216,67 +216,40 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.07822979
     - serializedVersion: 3
-      time: 0.26647526
-      value: 0.49879962
-      inSlope: -6.128927
-      outSlope: -6.128927
+      time: 0.431459
+      value: 0.43932316
+      inSlope: -3.531891
+      outSlope: -3.531891
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.19013193
+      outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.38091525
-      value: -0.003789194
-      inSlope: 0.09393546
-      outSlope: 0.09393546
+      time: 0.55996597
+      value: -0.020883799
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.5204883
+      inWeight: 0
+      outWeight: 0
     - serializedVersion: 3
-      time: 0.43778878
-      value: 0.19388053
-      inSlope: 5.091658
-      outSlope: 5.091658
+      time: 0.7144059
+      value: 0.22153196
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.025421698
+      inWeight: 0
+      outWeight: 0
     - serializedVersion: 3
-      time: 0.52557355
-      value: 0.3612165
-      inSlope: -0.077845
-      outSlope: -0.077845
+      time: 0.9926881
+      value: 0.0011703372
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.12803927
-    - serializedVersion: 3
-      time: 0.6180326
-      value: 0.14459531
-      inSlope: -2.6842911
-      outSlope: -2.6842911
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.11817045
-    - serializedVersion: 3
-      time: 0.6715761
-      value: 0.0020956919
-      inSlope: -0.020576213
-      outSlope: -0.020576213
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.1924946
-    - serializedVersion: 3
-      time: 0.9999564
-      value: 0.0006122184
-      inSlope: -0.0045175464
-      outSlope: -0.0045175464
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

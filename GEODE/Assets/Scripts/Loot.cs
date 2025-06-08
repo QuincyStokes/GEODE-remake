@@ -64,10 +64,9 @@ public class Loot : NetworkBehaviour
             {
                 return;
             }
-
+            col.enabled = false;
+            StartCoroutine(MoveAndCollect(other.transform, inv));
             
-            inv.AddItemServerRpc(itemId.Value, amount.Value);
-            NetworkObject.Despawn(true);
 
         }
     }
@@ -108,7 +107,6 @@ public class Loot : NetworkBehaviour
         }
 
         // Snap back exactly
-        transform.position = basePos;
         OnBounceComplete();
     }
 
@@ -120,25 +118,22 @@ public class Loot : NetworkBehaviour
 
 
 
-    [ClientRpc]
-    private void PickupClientRpc(ulong playerObjectId)
-    {
-        var player = NetworkManager.Singleton.SpawnManager.SpawnedObjects[playerObjectId];
-        if (player == null) return;
-
-        // Start a local coroutine only for visual flair.
-        StartCoroutine(MoveAndCollect(player.transform));
-    }
-
-    private IEnumerator MoveAndCollect(Transform target)
+    private IEnumerator MoveAndCollect(Transform target, PlayerInventory inv)
     {
         //do something to move towards the player
-        while(transform.position !=  target.position && Vector3.Distance(transform.position, target.position) > .01f) {
+        while(Vector3.Distance(transform.position, target.position) > .01f) {
             transform.position = Vector3.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
+            
+            //the idea here is to fix the issue where if the player is moving, the item will never "reach" them.
+            if (Vector3.Distance(transform.position, target.position) <= .01f)
+            {
+                break;
+            }
             yield return null;
         }
         //AudioManager.instance.Play(popSFX[Random.Range(0,popSFX.Count-1)], .3f);
-        Destroy(gameObject);
+        inv.AddItemServerRpc(itemId.Value, amount.Value);
+        NetworkObject.Despawn(true);
     }
 
     private void OnItemIdChanged(int oldValue, int newValue)

@@ -130,6 +130,7 @@ public class CraftingManager : MonoBehaviour
     }
     public void CheckHasRecipeItems()
     {
+        if (currentRecipe == null) return;
         for (int i = 0; i < currentRecipe.materials.Count && i < recipeDisplaySlots.Count; i++)
         {
             BaseItem requiredItem = currentRecipe.materials[i].item;

@@ -156,6 +156,7 @@ Transform:
   - {fileID: 7225126294287865365}
   - {fileID: 3052727544360688670}
   - {fileID: 1898723605522029104}
+  - {fileID: 715796298555642099}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1782641716518158989
@@ -298,7 +299,8 @@ MonoBehaviour:
     maxAmount: 3
     chance: 100
   healthStateSprites: []
-  breakParticles: {fileID: 0}
+  particleSpawnPoint: {fileID: 715796298555642099}
+  hitParticleEffectType: 1
   objectName: 
   centerPoint: {fileID: 3052727544360688670}
   description: 
@@ -453,3 +455,34 @@ CapsuleCollider2D:
   m_Offset: {x: 0.6, y: 0.25316018}
   m_Size: {x: 1, y: 0.45994216}
   m_Direction: 1
+--- !u!1 &7929037883161281557
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 715796298555642099}
+  m_Layer: 0
+  m_Name: ParticleSpawnPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &715796298555642099
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7929037883161281557}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.61, y: 6.34, z: -0.018054087}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 24666575525327246}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

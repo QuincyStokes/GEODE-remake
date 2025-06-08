@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e763952a76f6a724b9f9793738d1cf81, type: 3}
+  m_Name: ParticleServiceLoader
+  m_EditorClassIdentifier: 
+  effectPrefabPairs:
+  - prefab: {fileID: 8513573060334561312, guid: ed13d1fd171898b49b2d08a043659d3c, type: 3}
+    type: 1
+  - prefab: {fileID: 1729423231052477008, guid: 2f40827c139eee54da29d932ac80765f, type: 3}
+    type: 2
+  - prefab: {fileID: 1729423231052477008, guid: c0b24deb1c642184c9acd2b5fa1abc03, type: 3}
+    type: 3
+  - prefab: {fileID: 6726887260577967341, guid: 65163759e45ef8c47ab1f644a582bc84, type: 3}
+    type: 4

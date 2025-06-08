@@ -19,8 +19,13 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
 
     [Header("References")]
     [SerializeField] private SpriteRenderer sr;
-    [SerializeField] public Transform CenterPoint { get; set; }
-    [SerializeField] public Collider2D CollisionHitbox { get => collisionHitbox; }
+    public Transform CenterPoint { get; set; }
+    [SerializeField] private Transform particleSpawnPoint;
+    public Transform ParticleSpawnPoint { get => particleSpawnPoint; set => ParticleSpawnPoint = value; }
+
+    [SerializeField] private EffectType hitParticleEffectType;
+    public EffectType HitParticleEffectType { get => hitParticleEffectType; }
+    public Collider2D CollisionHitbox { get => collisionHitbox; }
     public Transform ObjectTransform { get; set; }
     public EnemySteering steering;
     public Animator animator;
