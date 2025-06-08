@@ -197,13 +197,94 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  itemId:
-    m_InternalValue: 0
-  count:
-    m_InternalValue: 0
   sr: {fileID: 6927848955901099657}
   col: {fileID: 8100281337956636407}
   moveSpeed: 25
+  duration: 0.4
+  peakHeight: 0.5
+  maxXOffset: 0.3
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.0031471252
+      value: 0.9981308
+      inSlope: 0.01090996
+      outSlope: 0.01090996
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.07822979
+    - serializedVersion: 3
+      time: 0.26647526
+      value: 0.49879962
+      inSlope: -6.128927
+      outSlope: -6.128927
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.19013193
+    - serializedVersion: 3
+      time: 0.38091525
+      value: -0.003789194
+      inSlope: 0.09393546
+      outSlope: 0.09393546
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.5204883
+    - serializedVersion: 3
+      time: 0.43778878
+      value: 0.19388053
+      inSlope: 5.091658
+      outSlope: 5.091658
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.025421698
+    - serializedVersion: 3
+      time: 0.52557355
+      value: 0.3612165
+      inSlope: -0.077845
+      outSlope: -0.077845
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.12803927
+    - serializedVersion: 3
+      time: 0.6180326
+      value: 0.14459531
+      inSlope: -2.6842911
+      outSlope: -2.6842911
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.11817045
+    - serializedVersion: 3
+      time: 0.6715761
+      value: 0.0020956919
+      inSlope: -0.020576213
+      outSlope: -0.020576213
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.1924946
+    - serializedVersion: 3
+      time: 0.9999564
+      value: 0.0006122184
+      inSlope: -0.0045175464
+      outSlope: -0.0045175464
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  itemId:
+    m_InternalValue: 0
+  amount:
+    m_InternalValue: 0
 --- !u!114 &3980576923376180894
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -203,12 +203,12 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
                     float rolledChance = UnityEngine.Random.Range(0f, 100f);
                     if (rolledChance <= item.chance)
                     {
-                        LootManager.Instance.SpawnLootServerRpc(transform.position, item.Id, UnityEngine.Random.Range(item.minAmount, item.maxAmount + 1));
+                        LootManager.Instance.SpawnLootServerRpc(CenterPoint.position, item.Id, UnityEngine.Random.Range(item.minAmount, item.maxAmount + 1));
                     }
                 }
                 else
                 {
-                    LootManager.Instance.SpawnLootServerRpc(transform.position, item.Id, UnityEngine.Random.Range(item.minAmount, item.maxAmount + 1));
+                    LootManager.Instance.SpawnLootServerRpc(CenterPoint.position, item.Id, UnityEngine.Random.Range(item.minAmount, item.maxAmount + 1));
                 }
             }
         }

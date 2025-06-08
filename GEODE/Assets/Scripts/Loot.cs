@@ -5,6 +5,22 @@ using UnityEngine;
 
 public class Loot : NetworkBehaviour
 {
+
+    [Header("Inspector References")]
+    [SerializeField] private SpriteRenderer sr;
+
+
+    [SerializeField] private CircleCollider2D col;
+    [Header("Movement Settings")]
+    [SerializeField] private float moveSpeed;
+    [SerializeField] private float duration = 0.4f;           // total bounce time
+    [SerializeField] private float peakHeight = 0.5f;         // how “high” it hops, in world units
+    [SerializeField] private float maxXOffset = 0.3f;         // max horizontal pop distance
+    [SerializeField] private AnimationCurve curve;
+    private float horizontalOffset;
+    private bool pickedUp;
+
+
     public NetworkVariable<int> itemId = new NetworkVariable<int>(
         0,
         NetworkVariableReadPermission.Everyone,
@@ -16,10 +32,7 @@ public class Loot : NetworkBehaviour
         NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Server
     );
-    [SerializeField] private SpriteRenderer sr;
-    [SerializeField] private CircleCollider2D col;
-    [SerializeField] private float moveSpeed;
-    private bool pickedUp;
+   
     
 
     public override void OnNetworkSpawn()
@@ -27,15 +40,10 @@ public class Loot : NetworkBehaviour
         itemId.OnValueChanged += OnItemIdChanged;
 
         OnItemIdChanged(0, itemId.Value);
-        StartCoroutine(DelayCollider());
-    }
 
-
-    private IEnumerator DelayCollider()
-    {
-        col.enabled = false;                 
-        yield return new WaitForSeconds(0.1f);
-        col.enabled = true;                
+        horizontalOffset = Random.Range(-maxXOffset, +maxXOffset);
+        BeginSpawnAnimation();
+        //StartCoroutine(DelayCollider());
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -57,21 +65,60 @@ public class Loot : NetworkBehaviour
                 return;
             }
 
-            //OLD
-            // if(inv.AddItem(itemId.Value, amount.Value))
-            // {
-            //     Debug.Log("Item added to inventory!");
-            //     pickedUp = true;
-            //     col.enabled = false; //this should fix white box error on multiplayer?
-
-            //     PickupClientRpc(other.GetComponent<NetworkObject>().NetworkObjectId);
-            //     NetworkObject.Despawn(false);
-            // }
+            
             inv.AddItemServerRpc(itemId.Value, amount.Value);
             NetworkObject.Despawn(true);
 
         }
     }
+
+    void BeginSpawnAnimation()
+    {
+        // Disable pickup while we animate
+        col.enabled = false;
+        StartCoroutine(PlayBounceRoutine());
+    }
+
+    private IEnumerator PlayBounceRoutine()
+    {
+        
+        Vector3 basePos = transform.position;
+        // Use an AnimationCurve for ease of tweaking (0→1→0)
+        
+        curve.AddKey(1f, 0);
+
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+
+            // vertical bounce factor (0->1->0)
+            float heightFactor = curve.Evaluate(t);
+            float y = peakHeight * heightFactor;
+
+            // horizontal lerp back to zero (offset -> 0)
+            float x = Mathf.Lerp(0, horizontalOffset, t);
+
+            transform.position = basePos
+                                + Vector3.right * x
+                                + Vector3.up    * y;
+
+            yield return null;
+        }
+
+        // Snap back exactly
+        transform.position = basePos;
+        OnBounceComplete();
+    }
+
+    private void OnBounceComplete()
+    {
+        col.enabled = true;
+        // Optional: play a “thud” SFX or spawn a tiny dust particle here
+    }
+
+
 
     [ClientRpc]
     private void PickupClientRpc(ulong playerObjectId)
