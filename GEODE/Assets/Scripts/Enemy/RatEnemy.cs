@@ -13,7 +13,6 @@ public class RatEnemy : BaseEnemy
 
     public override void Attack()
     {
-        Debug.Log("RAT ATTACK");
         if(currentTarget != null)
         {
             if (targetClosestPoint == null) return;

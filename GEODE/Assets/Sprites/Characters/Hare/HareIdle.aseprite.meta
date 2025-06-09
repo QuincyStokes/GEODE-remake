@@ -98,7 +98,7 @@ ScriptedImporter:
     addSortingGroup: 1
     addShadowCasters: 0
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638844945414214235
+  platformSettingsDirtyTick: 638849902296827031
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -337,7 +337,92 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 4, y: 4}
-  spriteSheetImportData: []
+  spriteSheetImportData:
+  - name: HareIdle_0
+    originalName: 
+    pivot: {x: 0.5, y: 0}
+    alignment: 7
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 4
+      width: 49
+      height: 48
+    spriteID: 1928f4f74c0e1de4dab031bfc06ab244
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: HareIdle_1
+    originalName: 
+    pivot: {x: 0.5, y: 0}
+    alignment: 7
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 4
+      width: 49
+      height: 48
+    spriteID: 4869533501104aa4f93ef3d2e10485b7
+    spriteBone: []
+    spriteOutline:
+    - outline:
+      - {x: 15.5, y: 17}
+      - {x: 14.5, y: 17}
+      - {x: 14.5, y: 16}
+      - {x: 13.5, y: 16}
+      - {x: 13.5, y: 15}
+      - {x: 12.5, y: 15}
+      - {x: 12.5, y: 13}
+      - {x: 15.5, y: 13}
+      - {x: 15.5, y: 14}
+      - {x: 19.5, y: 14}
+      - {x: 20.5, y: 14}
+      - {x: 20.5, y: 18}
+      - {x: 19.5, y: 18}
+      - {x: 19.5, y: 19}
+      - {x: 18.5, y: 19}
+      - {x: 18.5, y: 16}
+      - {x: 17.5, y: 16}
+      - {x: 17.5, y: 18}
+      - {x: 16.5, y: 18}
+      - {x: 16.5, y: 19}
+      - {x: 15.5, y: 19}
+    - outline:
+      - {x: 15.5, y: 10}
+      - {x: 16.5, y: 10}
+      - {x: 16.5, y: 9}
+      - {x: 17.5, y: 9}
+      - {x: 17.5, y: 8}
+      - {x: 18.5, y: 8}
+      - {x: 18.5, y: 9}
+      - {x: 19.5, y: 9}
+      - {x: 19.5, y: 10}
+      - {x: 20.5, y: 10}
+      - {x: 20.5, y: 11}
+      - {x: 19.5, y: 11}
+      - {x: 19.5, y: 12}
+      - {x: 18.5, y: 12}
+      - {x: 18.5, y: 13}
+      - {x: 17.5, y: 13}
+      - {x: 17.5, y: 12}
+      - {x: 16.5, y: 12}
+      - {x: 16.5, y: 11}
+      - {x: 15.5, y: 11}
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
   asepriteLayers:
   - layerIndex: 0
     guid: -367062182

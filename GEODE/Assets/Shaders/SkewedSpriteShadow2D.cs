@@ -80,7 +80,6 @@ public class SkewedSpriteShadow2D : MonoBehaviour
         // Safety checks
         if (shadowSprite == null)
         {
-            Debug.LogError("SkewedSpriteShadow2D: No sprite assigned and no SpriteRenderer sprite found.");
             return;
         }
 
@@ -135,7 +134,6 @@ public class SkewedSpriteShadow2D : MonoBehaviour
 
         if (spriteVertices2D == null || spriteVertices2D.Length < 3)
         {
-            Debug.LogError("SkewedSpriteShadow2D: Sprite has no valid geometry. Did you set Mesh Type to 'Tight'?");
             return;
         }
 
@@ -168,7 +166,6 @@ public class SkewedSpriteShadow2D : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("No shadowMaterial assigned. Using 'Sprites/Default' as fallback.");
             shadowMeshRenderer.material = new Material(Shader.Find("Sprites/Default"));
         }
 

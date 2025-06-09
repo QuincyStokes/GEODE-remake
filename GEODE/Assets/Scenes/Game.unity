@@ -610,7 +610,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5.625
+  orthographic size: 6.66
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -793,11 +793,11 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 045058fd19c51114c8a6a990f6c5693d, type: 2}
     - target: {fileID: 1904933256301116299, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
       propertyPath: fieldWidth
-      value: 13
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 1904933256301116299, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
       propertyPath: fieldHeight
-      value: 13
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 3194198465578815583, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
       propertyPath: GlobalObjectIdHash
@@ -1383,15 +1383,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: forestEnemies.Array.size
-      value: 2
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
+      propertyPath: forestEnemies.Array.data[0].weight
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: forestEnemies.Array.data[1].weight
-      value: 50
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
+      propertyPath: forestEnemies.Array.data[2].weight
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
+      propertyPath: forestEnemies.Array.data[3].weight
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
+      propertyPath: forestEnemies.Array.data[4].weight
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: forestEnemies.Array.data[1].enemyId
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
+      propertyPath: forestEnemies.Array.data[2].enemyId
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
+      propertyPath: forestEnemies.Array.data[3].enemyId
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
+      propertyPath: forestEnemies.Array.data[4].enemyId
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5676695610016749919, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: GlobalObjectIdHash

@@ -212,7 +212,7 @@ GameObject:
   - component: {fileID: 2077050480769059596}
   m_Layer: 10
   m_Name: BallistaTower
-  m_TagString: Structure
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

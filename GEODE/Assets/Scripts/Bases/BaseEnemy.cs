@@ -150,13 +150,17 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
     private void Update()
     {
         stateMachine.CurrentState?.UpdateState(this, stateMachine);
+
+        var s = sr.gameObject.transform.localScale;
         if (rb.linearVelocity.x < 0)
         {
-            sr.flipX = true;
+            s.x = -Mathf.Abs(s.x);
+            sr.gameObject.transform.localScale = s;
         }
         else
         {
-            sr.flipX = false;
+            s.x = Mathf.Abs(s.x);
+            sr.gameObject.transform.localScale = s;
         }
     }
 
@@ -380,7 +384,6 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player left aggro range.");
             playerTransform = null;
         }
     }

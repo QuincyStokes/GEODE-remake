@@ -146,7 +146,6 @@ public class FlowFieldManager : NetworkBehaviour
     {
         if(!hasCoreBeenPlaced)
         {
-            //Debug.Log("Cannot calculate flow field, core position has not been set.");
             return;
         }
 

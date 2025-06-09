@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: HareAttack
+  m_Name: GreenHareAttack
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,9 +21,9 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: -8205019488678073441, guid: 2fe481dcb5df2674489e0787685cc9f9, type: 3}
+      value: {fileID: 0}
     - time: 0.083333336
-      value: {fileID: 8729420830920734284, guid: 2fe481dcb5df2674489e0787685cc9f9, type: 3}
+      value: {fileID: 0}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -46,8 +46,8 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: -8205019488678073441, guid: 2fe481dcb5df2674489e0787685cc9f9, type: 3}
-    - {fileID: 8729420830920734284, guid: 2fe481dcb5df2674489e0787685cc9f9, type: 3}
+    - {fileID: 0}
+    - {fileID: 0}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

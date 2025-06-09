@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: HareIdle
+  m_Name: GreenHareIdle
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,7 +21,7 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: -7285458159265132611, guid: 2907ef8fa38dbc241a1cf8a82143db88, type: 3}
+      value: {fileID: -7884713298328498694, guid: 95c8726492405124584648857e9bfb63, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -44,7 +44,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: -7285458159265132611, guid: 2907ef8fa38dbc241a1cf8a82143db88, type: 3}
+    - {fileID: -7884713298328498694, guid: 95c8726492405124584648857e9bfb63, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
