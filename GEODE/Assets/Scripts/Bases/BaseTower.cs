@@ -42,6 +42,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     [SerializeField] protected CircleCollider2D detectionCollider;
     [SerializeField] protected GameObject tower; //separate the tower from the "base" for towers that may rotate
     [SerializeField] protected GameObject rangeIndicator;
+    public bool ShowingRange { get => rangeIndicator.activeSelf; set => rangeIndicator.SetActive(value); }    
 
 
 
@@ -112,6 +113,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     private new void OnDestroy()
     {
         base.OnDestroy();
+        HideRangeIndicator();
         size.OnValueChanged -= RefreshRangeIndicator;
     }
 
@@ -461,6 +463,11 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     public void HideRangeIndicator()
     {
         rangeIndicator.SetActive(false);
+    }
+
+    public void ToggleRangeIndicator()
+    {
+        rangeIndicator.SetActive(!rangeIndicator.activeSelf);
     }
 
     public void LevelUp()

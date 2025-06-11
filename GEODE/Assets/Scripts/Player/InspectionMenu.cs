@@ -36,11 +36,7 @@ public class InspectionMenu : BaseContainer
             }
         }
 
-        BaseTower to = currentInspectedObject.GetComponent<BaseTower>();
-        if (to != null)
-        {
-            to.ShowRangeIndicator();
-        }
+        
 
 
 
@@ -71,12 +67,6 @@ public class InspectionMenu : BaseContainer
         if (currentUpgradeObject != null)
         {
             currentUpgradeObject.OnUpgradesChanged -= ServerRebuildList;
-        }
-
-        BaseTower to = currentInspectedObject.GetComponent<BaseTower>();
-        if (to != null)
-        {
-            to.HideRangeIndicator();
         }
 
         InspectionMenuHolder.SetActive(false);

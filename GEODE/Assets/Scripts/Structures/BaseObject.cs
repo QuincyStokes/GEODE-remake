@@ -232,7 +232,6 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
     [ClientRpc]
     public void InitializeDescriptionAndSpriteClientRpc(int itemId=-1, ClientRpcParams rpcParams = default)
     {
-        Debug.Log($"Initializing item with ID {itemId}, MatchingId: {matchingItemId}");
         BaseItem item;
         if (itemId == -1 && matchingItemId != -1)
             item = ItemDatabase.Instance.GetItem(matchingItemId);

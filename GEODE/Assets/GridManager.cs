@@ -118,7 +118,6 @@ public class GridManager : NetworkBehaviour
             BaseObject bo = newObject.GetComponent<BaseObject>();
             if(bo != null)
             {
-                Debug.Log($"Initializing Description with item id {itemId}");
                 bo.InitializeItemId(itemId);
                 bo.InitializeDescriptionAndSpriteClientRpc(itemId);
             }

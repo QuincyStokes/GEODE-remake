@@ -309,7 +309,6 @@ public class WorldGenManager : NetworkBehaviour
                 BaseObject bo = newObject.GetComponent<BaseObject>();
                 if (bo != null)
                 {
-                    Debug.Log($"Initializing from WorldGenManager with ItemID {itemId}");
                     bo.InitializeItemId(itemId);
                     bo.InitializeDescriptionAndSpriteClientRpc(itemId);
                 }

@@ -19,6 +19,7 @@ public class InspectionMenuUI : ContainerUIManager<InspectionMenu>
     [SerializeField] private TMP_Text speed;
     [SerializeField] private TMP_Text size;
     [SerializeField] private TMP_Text sturdy;
+    [SerializeField] private Toggle rangeToggle;
 
     //* --------------- Health and XP --------------*/
     [Header("Health and XP")]
@@ -104,6 +105,9 @@ public class InspectionMenuUI : ContainerUIManager<InspectionMenu>
             stats.speed.OnValueChanged += RefreshStats;
             stats.size.OnValueChanged += RefreshStats;
             stats.sturdy.OnValueChanged += RefreshStats;
+
+            rangeToggle.isOn = stats.ShowingRange;
+            Debug.Log($"Set rangeToggle to {rangeToggle.isOn}");
 
             RefreshStats(0f, 0f);
 
@@ -232,7 +236,15 @@ public class InspectionMenuUI : ContainerUIManager<InspectionMenu>
         container.CloseInspectionMenu();
     }
 
-
+    public void ToggleRange()
+    {
+        BaseTower to = container.currentInspectedObject.GetComponent<BaseTower>();
+        if (to != null)
+        {
+            to.ToggleRangeIndicator();
+        }
+    }
+   
 
 
 }

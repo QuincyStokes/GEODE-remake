@@ -37,6 +37,9 @@ public interface IStats
         get; set;
     }
 
+    public bool ShowingRange { get; set; }    
+
+
     //* ---------- INTERNAL FINAL STATS ---------------
     public NetworkVariable<float> speed
     {
