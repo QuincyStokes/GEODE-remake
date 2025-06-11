@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 801184ae3a0d9d2479257a43cc174ad5, type: 3}
   m_Name: ForestMushroomTall
   m_EditorClassIdentifier: 
-  name: ForestMushroomsTall
-  description: Tall Forest Mushrooms
+  name: Mushrooms.
+  description: Not edible.
   type: 2
   icon: {fileID: 5932137622652317463, guid: 72d14c2e801892147bf0400942e6d753, type: 3}
   id: 16
+  quality: 0
   isStackable: 1
   consumeOnUse: 1
   prefab: {fileID: 6170721216139416327, guid: 953d5032756d4be4b8e9bce8d7c03b72, type: 3}

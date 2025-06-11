@@ -121,7 +121,7 @@ public class InspectionMenu : BaseContainer
                 //only allow upgrade items
                 if (ItemDatabase.Instance.GetItem(CursorStack.Instance.ItemStack.Id).Type != ItemType.Upgrade) return;
 
-                slot.SetItem(CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount, true);
+                //slot.SetItem(CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount, true);
                 //! apply upgrade
                 Debug.Log($"Applying Upgrade {CursorStack.Instance.ItemStack.Id}");
                 IUpgradeable applyUpg = currentInspectedObject.GetComponent<IUpgradeable>();
@@ -129,13 +129,13 @@ public class InspectionMenu : BaseContainer
                 int after = CursorStack.Instance.ItemStack.amount - 1;
                 if (after == 0)
                 {
-                    MoveStackServerRpc(-1, idx, CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount);
+                    //MoveStackServerRpc(-1, idx, CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount);
                     CursorStack.Instance.ItemStack = ItemStack.Empty;
                     return;
                 }
                 else
                 {
-                    MoveStackServerRpc(-1, idx, CursorStack.Instance.ItemStack.Id, 1);
+                    //MoveStackServerRpc(-1, idx, CursorStack.Instance.ItemStack.Id, 1);
                     CursorStack.Instance.Amount -= 1;
                     return;
                 }

@@ -18,7 +18,7 @@ public class Loot : NetworkBehaviour
     [SerializeField] private float maxXOffset = 0.3f;         // max horizontal pop distance
     [SerializeField] private AnimationCurve curve;
     private float horizontalOffset;
-    private bool pickedUp;
+    public NetworkVariable<bool> pickedUp = new NetworkVariable<bool>(false);
 
 
     public NetworkVariable<int> itemId = new NetworkVariable<int>(
@@ -48,14 +48,15 @@ public class Loot : NetworkBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(!IsServer || pickedUp)
+        if(!IsServer || pickedUp.Value)
         {
             return;
         }
 
         if (other.gameObject.CompareTag("Player"))
         {
-
+            pickedUp.Value = true;
+            col.enabled = false;
             //check if it *can* be added to the player's inventory
             //if it can, call MoveAndCollect
 
@@ -64,7 +65,7 @@ public class Loot : NetworkBehaviour
             {
                 return;
             }
-            col.enabled = false;
+            
             StartCoroutine(MoveAndCollect(other.transform, inv));
             
 

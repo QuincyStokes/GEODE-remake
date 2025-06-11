@@ -312,16 +312,17 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
 
     private void OnPrimaryFire(InputAction.CallbackContext context)
     {
-        if (!IsPointerOverUI())
-        {
-            playerInventory.UseSelectedItem(Camera.main.ScreenToWorldPoint(mouseInput.ReadValue<Vector2>()));
-        }
+        if (IsPointerOverUI()) return;
+        
+        playerInventory.UseSelectedItem(Camera.main.ScreenToWorldPoint(mouseInput.ReadValue<Vector2>()));
+        
     }
 
     private void OnSecondaryFire(InputAction.CallbackContext context)
     {
+        if (IsPointerOverUI()) return;
+
         //raycast at mouse position, check for any IInteractables?
-        Debug.Log("Secondary Fire!");
         Vector3 pos = Camera.main.ScreenToWorldPoint(mouseInput.ReadValue<Vector2>());
 
         RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero, 10, interactableLayerMask);

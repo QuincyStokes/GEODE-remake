@@ -12,9 +12,11 @@ GameObject:
   - component: {fileID: 1016752932821773909}
   - component: {fileID: 804572995617965159}
   - component: {fileID: -4686865303483233370}
-  m_Layer: 0
+  - component: {fileID: -9057688147868789942}
+  - component: {fileID: 3806093020975008282}
+  m_Layer: 11
   m_Name: ForestFlowers
-  m_TagString: Untagged
+  m_TagString: EnvironmentObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31,7 +33,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 7198648534854907382}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1016752932821773909
@@ -127,3 +130,103 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   registerd: 0
+--- !u!114 &-9057688147868789942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 766448324896291475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 468fcc394db2ac342a3ace6fee009f19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  BASE_HEALTH: 1
+  idealToolType: 0
+  droppedItems:
+  - Id: 24
+    minAmount: 1
+    maxAmount: 1
+    chance: 100
+  healthStateSprites: []
+  particleSpawnPoint: {fileID: 0}
+  hitParticleEffectType: 0
+  destroyParticleEffectType: 0
+  healParticleEffectType: 0
+  objectName: Flowers
+  centerPoint: {fileID: 7198648534854907382}
+  description: 
+  objectSprite: {fileID: 0}
+  sr: {fileID: 0}
+  collisionHitbox: {fileID: 3806093020975008282}
+  matchingItemId: 0
+--- !u!70 &3806093020975008282
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 766448324896291475}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 256
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.45802376, y: 0.34231818}
+  m_Size: {x: 0.6846593, y: 0.6846593}
+  m_Direction: 1
+--- !u!1 &3217550944941158732
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7198648534854907382}
+  m_Layer: 0
+  m_Name: Centerpoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7198648534854907382
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3217550944941158732}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.493, y: 0.097, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8856259643130128067}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

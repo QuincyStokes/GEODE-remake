@@ -221,6 +221,7 @@ public class WorldGenManager : NetworkBehaviour
                         if (structItem != null)
                         {
                             structItem.Use(newPos, false, true);
+                            
                         }
                     }
                 }
@@ -289,7 +290,7 @@ public class WorldGenManager : NetworkBehaviour
 
 
     [ServerRpc(RequireOwnership = false)]
-    public void PlaceObjectOffGridServerRpc(int itemId, Vector3 position, Vector3[] positionsToBlock)
+    public void PlaceObjectOffGridServerRpc(int itemId, Vector3 position)
     {
         
         BaseItem baseItem = ItemDatabase.Instance.GetItem(itemId);
@@ -301,10 +302,18 @@ public class WorldGenManager : NetworkBehaviour
             if(structureItem.prefab != null)
             {
                 GameObject newObject = Instantiate(structureItem.prefab, position, Quaternion.identity);
-                newObject.GetComponent<BaseObject>()?.InitializeItemId(itemId);
                 
                 FlowFieldManager.Instance.CalculateFlowField();
                 newObject.GetComponent<NetworkObject>().Spawn(destroyWithScene:false);
+
+                BaseObject bo = newObject.GetComponent<BaseObject>();
+                if (bo != null)
+                {
+                    Debug.Log($"Initializing from WorldGenManager with ItemID {itemId}");
+                    bo.InitializeItemId(itemId);
+                    bo.InitializeDescriptionAndSpriteClientRpc(itemId);
+                }
+                
             }
         }
         else

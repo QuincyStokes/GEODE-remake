@@ -176,8 +176,11 @@ MonoBehaviour:
     maxAmount: 2
     chance: 100
   healthStateSprites: []
-  breakParticles: {fileID: 0}
-  objectName: 
+  particleSpawnPoint: {fileID: 0}
+  hitParticleEffectType: 0
+  destroyParticleEffectType: 0
+  healParticleEffectType: 0
+  objectName: Tree Stump
   centerPoint: {fileID: 6647818183751251631}
   description: 
   objectSprite: {fileID: 0}

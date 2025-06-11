@@ -1,8 +1,11 @@
 using System.Collections.Generic;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class ParticleService : MonoBehaviour
+
+
+public class ParticleService : NetworkBehaviour
 {
     public static ParticleService Instance;
 
@@ -54,7 +57,8 @@ public class ParticleService : MonoBehaviour
 
     }
 
-    public void Play(EffectType type, Vector3 position, Quaternion rotation = default, Color? overrideColor = null, float? overrideSize = null)
+    [ClientRpc]
+    public void PlayClientRpc(EffectType type, Vector3 position, Quaternion rotation = default)
     {
         if (type == EffectType.None) return;
         //First, try to get an effect from its pool.
@@ -85,14 +89,6 @@ public class ParticleService : MonoBehaviour
 
         //Set up the main values of our particle system incase we override them
         ParticleSystem.MainModule main = ps.main;
-        if (overrideColor.HasValue)
-        {
-            main.startColor = overrideColor.Value;
-        }
-        if (overrideSize.HasValue)
-        {
-            main.startSize = overrideSize.Value;
-        }
 
         //Turn on the particle object and play it!
         ps.gameObject.SetActive(true);

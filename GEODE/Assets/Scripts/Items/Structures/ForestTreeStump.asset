@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: ForestTreeStump
   m_EditorClassIdentifier: 
   name: Forest Tree Stump
-  description: Its the stump of a forest tree.
+  description: It's the stump of a forest tree.
   type: 2
   icon: {fileID: 2568507564648809397, guid: 72d14c2e801892147bf0400942e6d753, type: 3}
   id: 12
+  quality: 0
   isStackable: 1
   consumeOnUse: 1
   prefab: {fileID: 924637941774536388, guid: 919bdc041e08d5c4c968da38a36a17cc, type: 3}

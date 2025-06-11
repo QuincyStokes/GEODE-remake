@@ -43,7 +43,7 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
     [SerializeField] private Collider2D collisionHitbox;
 
     //* ------------------ Internal Use -------------------- */
-    [HideInInspector] public int matchingItemId;
+    [HideInInspector] public int matchingItemId = -1;
     private int healthState = -1;
 
 
@@ -90,7 +90,7 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
 
             if (healParticleEffectType != EffectType.None)
             {
-                ParticleService.Instance.Play(healParticleEffectType, particleSpawnPoint.position);
+                ParticleService.Instance.PlayClientRpc(healParticleEffectType, particleSpawnPoint.position);
             }   
         }
         Debug.Log($"Restoring {amount} health to {name}");
@@ -163,7 +163,7 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
         CheckSpriteChangeClientRpc();
         if (particleSpawnPoint != null)
         {
-            ParticleService.Instance.Play(hitParticleEffectType, particleSpawnPoint.position);
+            ParticleService.Instance.PlayClientRpc(hitParticleEffectType, particleSpawnPoint.position);
         }
             
     }
@@ -230,9 +230,14 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
     }
 
     [ClientRpc]
-    public void InitializeDescriptionAndSpriteClientRpc(int itemId, ClientRpcParams rpcParams = default)
+    public void InitializeDescriptionAndSpriteClientRpc(int itemId=-1, ClientRpcParams rpcParams = default)
     {
-        BaseItem item = ItemDatabase.Instance.GetItem(itemId);
+        Debug.Log($"Initializing item with ID {itemId}, MatchingId: {matchingItemId}");
+        BaseItem item;
+        if (itemId == -1 && matchingItemId != -1)
+            item = ItemDatabase.Instance.GetItem(matchingItemId);
+        else
+            item = ItemDatabase.Instance.GetItem(itemId);
         description = item.Description;
         objectSprite = item.Icon;
     }
@@ -265,7 +270,7 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
     {
         sr.sprite = healthStateSprites[i];
         //OnSpriteChanged?.Invoke(sr);
-        ParticleService.Instance.Play(destroyParticleEffectType, particleSpawnPoint.position);
+        ParticleService.Instance.PlayClientRpc(destroyParticleEffectType, particleSpawnPoint.position);
         //TODO here could do lighting changes
     }
 }

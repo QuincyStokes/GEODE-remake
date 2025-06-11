@@ -100,7 +100,7 @@ public class GridManager : NetworkBehaviour
     }   
 
     [ServerRpc(RequireOwnership = false)]
-    public void PlaceObjectOnGridServerRpc(int itemId, Vector3Int position, Vector3[] positionsToBlock)
+    public void PlaceObjectOnGridServerRpc(int itemId, Vector3Int position)
     {
         
         BaseItem baseItem = ItemDatabase.Instance.GetItem(itemId);

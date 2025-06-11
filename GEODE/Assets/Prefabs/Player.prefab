@@ -4589,9 +4589,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -3158003992202558021, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
+  m_Sprite: {fileID: 3535398065002480956, guid: 72d14c2e801892147bf0400942e6d753, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -13184,6 +13184,8 @@ MonoBehaviour:
   sr: {fileID: 6936979194301973592}
   collisionHitbox: {fileID: 0}
   objectTransform: {fileID: 8419501764596933443}
+  particleSpawnPoint: {fileID: 0}
+  hitParticleEffectType: 0
   centerPoint: {fileID: 6151581760922582343}
   playerController: {fileID: 5170530430319516246}
 --- !u!61 &7391063462178417633

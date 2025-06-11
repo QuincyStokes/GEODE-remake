@@ -151,7 +151,10 @@ MonoBehaviour:
     maxAmount: 1
     chance: 100
   healthStateSprites: []
-  breakParticles: {fileID: 0}
+  particleSpawnPoint: {fileID: 0}
+  hitParticleEffectType: 0
+  destroyParticleEffectType: 0
+  healParticleEffectType: 0
   objectName: Forest Floor Rock
   centerPoint: {fileID: 7757110238357635914}
   description: 
@@ -175,7 +178,7 @@ CapsuleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -193,8 +196,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.37495908, y: 0.10220371}
-  m_Size: {x: 0.57024145, y: 0.1943894}
+  m_Offset: {x: 0.37495905, y: 0.11529133}
+  m_Size: {x: 0.6588431, y: 0.22056574}
   m_Direction: 1
 --- !u!1 &5129322514558550496
 GameObject:

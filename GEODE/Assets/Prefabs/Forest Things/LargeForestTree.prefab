@@ -301,7 +301,9 @@ MonoBehaviour:
   healthStateSprites: []
   particleSpawnPoint: {fileID: 715796298555642099}
   hitParticleEffectType: 1
-  objectName: 
+  destroyParticleEffectType: 0
+  healParticleEffectType: 0
+  objectName: Massive Tree
   centerPoint: {fileID: 3052727544360688670}
   description: 
   objectSprite: {fileID: 0}

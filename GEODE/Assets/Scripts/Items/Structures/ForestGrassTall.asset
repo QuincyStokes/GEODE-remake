@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 801184ae3a0d9d2479257a43cc174ad5, type: 3}
   m_Name: ForestGrassTall
   m_EditorClassIdentifier: 
-  name: ForestGrassTall
-  description: Tall forest grass
+  name: Grass
+  description: A tall patch of grass.
   type: 2
   icon: {fileID: -1217397334378526082, guid: 72d14c2e801892147bf0400942e6d753, type: 3}
   id: 14
+  quality: 0
   isStackable: 1
   consumeOnUse: 1
   prefab: {fileID: 703987965292749244, guid: 9943e9efe7ad4144cbcbcfd641e72ef1, type: 3}

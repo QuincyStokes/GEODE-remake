@@ -15,8 +15,9 @@ MonoBehaviour:
   name: Red Geode
   description: What lies inside?
   type: 2
-  icon: {fileID: -7668920765334974227, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
+  icon: {fileID: 2359099410382991999, guid: 35d9d5fc183c1f84785bbdc22135bb95, type: 3}
   id: 3
+  quality: 0
   isStackable: 1
   consumeOnUse: 1
   prefab: {fileID: 8370947462149780993, guid: 6e72f3c81a7f8764a9f02d16c4645c60, type: 3}

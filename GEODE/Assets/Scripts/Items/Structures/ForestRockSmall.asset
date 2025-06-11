@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 801184ae3a0d9d2479257a43cc174ad5, type: 3}
   m_Name: ForestRockSmall
   m_EditorClassIdentifier: 
-  name: ForestRockSmall
-  description: Big Forest Rock
+  name: Pebble
+  description: A pebble.
   type: 2
   icon: {fileID: -4304774098500853693, guid: 72d14c2e801892147bf0400942e6d753, type: 3}
   id: 18
+  quality: 0
   isStackable: 1
   consumeOnUse: 1
   prefab: {fileID: 5501855046544406104, guid: 74ea1a196d9d1994f814e6d897534f8a, type: 3}

@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Yellow Geode
   description: What lies inside?
   type: 2
-  icon: {fileID: -6834586105120604424, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
+  icon: {fileID: -5996240492104620402, guid: 35d9d5fc183c1f84785bbdc22135bb95, type: 3}
   id: 35
   quality: 0
   isStackable: 1
