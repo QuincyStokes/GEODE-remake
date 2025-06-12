@@ -19,7 +19,7 @@ public class InspectionMenuUI : ContainerUIManager<InspectionMenu>
     [SerializeField] private TMP_Text speed;
     [SerializeField] private TMP_Text size;
     [SerializeField] private TMP_Text sturdy;
-    [SerializeField] private Toggle rangeToggle;
+    [SerializeField] private SimpleToggle rangeToggle;
 
     //* --------------- Health and XP --------------*/
     [Header("Health and XP")]
@@ -106,8 +106,8 @@ public class InspectionMenuUI : ContainerUIManager<InspectionMenu>
             stats.size.OnValueChanged += RefreshStats;
             stats.sturdy.OnValueChanged += RefreshStats;
 
-            rangeToggle.isOn = stats.ShowingRange;
-            Debug.Log($"Set rangeToggle to {rangeToggle.isOn}");
+            rangeToggle.SetToggle(stats.ShowingRange);
+
 
             RefreshStats(0f, 0f);
 
@@ -186,20 +186,20 @@ public class InspectionMenuUI : ContainerUIManager<InspectionMenu>
         IStats stats = container.currentInspectedObject.GetComponent<IStats>();
         if (container.currentInspectedObject != null && stats != null)
         {
-            strength.text = $"<color=#b4202a>DMG {stats.strength.Value}</color> | {stats.baseStrength.Value}(<color=#b4202a>+{(stats.baseStrength.Value * ((stats.strengthModifier.Value / 100) + 1)) - stats.baseStrength.Value}</color>)";
+            strength.text = $"<color=#b4202a>DMG {stats.strength.Value}</color>\n{stats.baseStrength.Value}(<color=#b4202a>+{(stats.baseStrength.Value * ((stats.strengthModifier.Value / 100) + 1)) - stats.baseStrength.Value}</color>)";
 
             //SPEED
-            speed.text = $"<color=#fffc40>SPD {stats.speed.Value}</color> | {stats.baseSpeed.Value}(<color=#fffc40>+{(stats.baseSpeed.Value * ((stats.speedModifier.Value / 100) + 1)) - stats.baseSpeed.Value}</color>)";
+            speed.text = $"<color=#fffc40>SPD {stats.speed.Value}</color>\n{stats.baseSpeed.Value}(<color=#fffc40>+{(stats.baseSpeed.Value * ((stats.speedModifier.Value / 100) + 1)) - stats.baseSpeed.Value}</color>)";
 
             //SIZE
-            size.text = $"<color=#249fde>RNG {stats.size.Value}</color> | {stats.baseSize.Value}(<color=#249fde>+{(stats.baseSize.Value * ((stats.sizeModifier.Value / 100) + 1)) - stats.baseSize.Value}</color>)";
+            size.text = $"<color=#249fde>RNG {stats.size.Value}</color>\n{stats.baseSize.Value}(<color=#249fde>+{(stats.baseSize.Value * ((stats.sizeModifier.Value / 100) + 1)) - stats.baseSize.Value}</color>)";
         }
 
         BaseObject bo = container.currentInspectedObject.GetComponent<BaseObject>();
         if (container.currentInspectedObject != null && bo != null)
         {
             //STURDY
-            sturdy.text = $"<color=#14a02e>HP {stats.sturdy.Value}</color> | {bo.BASE_HEALTH}(<color=#14a02e>+{(bo.BASE_HEALTH * ((stats.sturdyModifier.Value / 100) + 1)) - bo.BASE_HEALTH}</color>)";
+            sturdy.text = $"<color=#14a02e>HP {stats.sturdy.Value}</color>\n{bo.BASE_HEALTH}(<color=#14a02e>+{(bo.BASE_HEALTH * ((stats.sturdyModifier.Value / 100) + 1)) - bo.BASE_HEALTH}</color>)";
         }
     }
 
@@ -242,6 +242,7 @@ public class InspectionMenuUI : ContainerUIManager<InspectionMenu>
         if (to != null)
         {
             to.ToggleRangeIndicator();
+            rangeToggle.SetToggle(to.ShowingRange);
         }
     }
    
