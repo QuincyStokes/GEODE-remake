@@ -28,10 +28,10 @@ public class LootManager : NetworkBehaviour
     }
 
     [ServerRpc]
-    public void SpawnLootServerRpc(Vector3 position, int itemId, int amount)
+    public void SpawnLootServerRpc(Vector3 position, int itemId, int amount, float delay=0f, float horizOffset = 0f)
     {
         GameObject lootGO = Instantiate(lootPrefab, position, Quaternion.identity);
-        lootGO.GetComponent<Loot>().Initialize(itemId, amount);
+        lootGO.GetComponent<Loot>().Initialize(itemId, amount, delay, horizOffset);
         lootGO.GetComponent<NetworkObject>().Spawn();
     }
 

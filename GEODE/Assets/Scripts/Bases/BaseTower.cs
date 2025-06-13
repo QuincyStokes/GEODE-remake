@@ -122,25 +122,20 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
         if (Time.frameCount % 4 == 0)
         {
             currentTarget = GetNearestTarget();
-            Debug.Log($"Current target: {currentTarget}");
             if (currentTarget != null)
             {
-                Debug.Log("Current target isn't null!");
                 if (rotates)
                 {
-                    Debug.Log("It rotates!");
                     SetTargetRotation();
                     RotateTowardsTarget();
                     if (Time.time >= nextFireTime && IsRotationComplete()) // 
                     {
                         Fire();
-                        Debug.Log("Firing.");
                         nextFireTime = Time.time + 1f / speed.Value;
                     }
                 }
                 else if (Time.time >= nextFireTime)
                 {
-                    Debug.Log("Does not rotate. Firing!");
                     Fire();
                     nextFireTime = Time.time + 1f / speed.Value;
                 }

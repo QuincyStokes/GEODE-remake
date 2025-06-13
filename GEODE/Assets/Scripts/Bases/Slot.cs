@@ -48,6 +48,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     public virtual void SetItem(int id = -1, int newCount = 1, bool interactable = false)
     {
         //set the internal item data
+        itemSprite.preserveAspect = true;
         if (id == -1)
         {
             itemSprite.color = new Color(1, 1, 1, 0);

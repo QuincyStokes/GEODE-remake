@@ -11,6 +11,7 @@ public class CraftingSlot : Slot
         craftingRecipe = cr;
         craftingManager = cm;
         SetItem(cr.results[0].item.Id, cr.results[0].amount, false);
+        itemSprite.preserveAspect = true;
     }
 
     public override void HandleLeftClick()

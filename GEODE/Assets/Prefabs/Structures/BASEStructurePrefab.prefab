@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4362482351808134440}
   - component: {fileID: 4120678448555162002}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: CollisionHitbox
-  m_TagString: Untagged
+  m_TagString: Structure
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -78,6 +78,37 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!1 &5532261739530052432
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7331806938830357301}
+  m_Layer: 7
+  m_Name: Centerpoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7331806938830357301
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5532261739530052432}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.5, y: 0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8045205515108008951}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8039156519530699757
 GameObject:
   m_ObjectHideFlags: 0
@@ -168,6 +199,7 @@ GameObject:
   - component: {fileID: 4730815865388357885}
   - component: {fileID: 7359029905104181308}
   - component: {fileID: -5197024450714403594}
+  - component: {fileID: -2070835521441719553}
   m_Layer: 7
   m_Name: BASEStructurePrefab
   m_TagString: Untagged
@@ -190,6 +222,7 @@ Transform:
   m_Children:
   - {fileID: 4061266094706242322}
   - {fileID: 4362482351808134440}
+  - {fileID: 7331806938830357301}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4730815865388357885
@@ -246,7 +279,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!114 &7359029905104181308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,3 +341,31 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &-2070835521441719553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8370947462149780993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fe9a5c4f547f5c41a17de642178a563, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  BASE_HEALTH: 0
+  idealToolType: 0
+  droppedItems: []
+  healthStateSprites: []
+  particleSpawnPoint: {fileID: 0}
+  hitParticleEffectType: 0
+  destroyParticleEffectType: 0
+  healParticleEffectType: 0
+  objectName: 
+  centerPoint: {fileID: 0}
+  description: 
+  objectSprite: {fileID: 0}
+  sr: {fileID: 0}
+  collisionHitbox: {fileID: 0}
+  matchingItemId: -1

@@ -47,15 +47,15 @@ public class PlayerInventory : BaseContainer
         if (IsOwner)
         {
             //RedrawFromList();
-            inventoryObject.SetActive(false);
-            hotbarObject.SetActive(true);
+            //inventoryObject.SetActive(false);
+            //hotbarObject.SetActive(true);
         }
         else
         {
             //turn off UI objects if not the owner of this object
-            inventoryObject.SetActive(false);
-            hotbarObject.SetActive(false);
-            healthbarObject.SetActive(false);
+            //inventoryObject.SetActive(false);
+            //hotbarObject.SetActive(false);
+            //healthbarObject.SetActive(false);
         }
         if (devMode)
         {

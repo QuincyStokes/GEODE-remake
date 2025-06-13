@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4362482351808134440}
   - component: {fileID: 4120678448555162002}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: CollisionHitbox
   m_TagString: Structure
   m_Icon: {fileID: 0}
@@ -78,7 +78,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!1 &2487961743699920423
+--- !u!1 &1324955798937016645
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -86,7 +86,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8841543173283872296}
+  - component: {fileID: 6703938316760475473}
   m_Layer: 7
   m_Name: Centerpoint
   m_TagString: Untagged
@@ -94,16 +94,16 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8841543173283872296
+--- !u!4 &6703938316760475473
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2487961743699920423}
+  m_GameObject: {fileID: 1324955798937016645}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0.75, z: 0}
+  m_LocalPosition: {x: 0.5, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -157,7 +157,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 768
+    m_Bits: 0
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -198,11 +198,11 @@ GameObject:
   - component: {fileID: 8045205515108008951}
   - component: {fileID: 4730815865388357885}
   - component: {fileID: 7359029905104181308}
-  - component: {fileID: -1494241910855161627}
   - component: {fileID: -5197024450714403594}
-  - component: {fileID: -3200612377003113778}
+  - component: {fileID: -2070835521441719553}
+  - component: {fileID: 3076275574789457795}
   m_Layer: 7
-  m_Name: WoodenChest
+  m_Name: SmallWoodenWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -223,7 +223,7 @@ Transform:
   m_Children:
   - {fileID: 4061266094706242322}
   - {fileID: 4362482351808134440}
-  - {fileID: 8841543173283872296}
+  - {fileID: 6703938316760475473}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4730815865388357885
@@ -270,12 +270,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7075466253502155572, guid: 01bbede6e3b95ef48ba0fe915f04c614, type: 3}
+  m_Sprite: {fileID: -2835975914823920240, guid: 01bbede6e3b95ef48ba0fe915f04c614, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 1, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -293,7 +293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 826151227
+  GlobalObjectIdHash: 16748561
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -306,38 +306,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &-1494241910855161627
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8370947462149780993}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fe9a5c4f547f5c41a17de642178a563, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  BASE_HEALTH: 80
-  idealToolType: 4
-  droppedItems:
-  - Id: 1
-    minAmount: 2
-    maxAmount: 4
-    chance: 100
-  healthStateSprites: []
-  particleSpawnPoint: {fileID: 0}
-  hitParticleEffectType: 0
-  destroyParticleEffectType: 0
-  healParticleEffectType: 4
-  objectName: Large Wooden Wall
-  centerPoint: {fileID: 8841543173283872296}
-  description: 
-  objectSprite: {fileID: 0}
-  sr: {fileID: 4730815865388357885}
-  collisionHitbox: {fileID: 4120678448555162002}
-  matchingItemId: 0
 --- !u!114 &-5197024450714403594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -374,7 +342,39 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &-3200612377003113778
+--- !u!114 &-2070835521441719553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8370947462149780993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fe9a5c4f547f5c41a17de642178a563, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  BASE_HEALTH: 50
+  idealToolType: 4
+  droppedItems:
+  - Id: 1
+    minAmount: 2
+    maxAmount: 4
+    chance: 100
+  healthStateSprites: []
+  particleSpawnPoint: {fileID: 0}
+  hitParticleEffectType: 0
+  destroyParticleEffectType: 0
+  healParticleEffectType: 4
+  objectName: Small Wooden Wall
+  centerPoint: {fileID: 6703938316760475473}
+  description: 
+  objectSprite: {fileID: 0}
+  sr: {fileID: 4730815865388357885}
+  collisionHitbox: {fileID: 4120678448555162002}
+  matchingItemId: -1
+--- !u!114 &3076275574789457795
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -392,7 +392,7 @@ MonoBehaviour:
   shadowColor: {r: 0, g: 0, b: 0, a: 1}
   shadowAlpha: 0.5
   shadowLength: 1
-  verticalScale: 0.5
+  verticalScale: 1
   autoSetSortingLayer: 1
   shadowSortingLayerName: 
   shadowSortingOrderOffset: -1

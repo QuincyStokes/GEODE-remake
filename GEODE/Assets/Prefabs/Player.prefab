@@ -4559,7 +4559,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 27.5, y: 5.4}
-  m_SizeDelta: {x: 55, y: 55}
+  m_SizeDelta: {x: 55, y: 51.1722}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &664342329724318186
 CanvasRenderer:
@@ -4589,7 +4589,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 3535398065002480956, guid: 72d14c2e801892147bf0400942e6d753, type: 3}
+  m_Sprite: {fileID: 1545021824684939692, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -13445,6 +13445,7 @@ GameObject:
   - component: {fileID: 7797876280817481097}
   - component: {fileID: 4512977395983589908}
   - component: {fileID: 5210510195182125950}
+  - component: {fileID: 8051460741845487366}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -13756,6 +13757,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   container: {fileID: 2285968976491174105}
   slotPrefab: {fileID: 5960605606518251643, guid: fba2035405594244d86b130da5a462ca, type: 3}
+--- !u!114 &8051460741845487366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8265714030686749453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc9797d1f19613d41bbf435a723493eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  LocalUI:
+  - {fileID: 3774294273146469442}
+  - {fileID: 3669146933921313452}
+  - {fileID: 6239911499135694755}
+  - {fileID: 5497276275180237251}
+  - {fileID: 944747294854935516}
+  - {fileID: 444107408407615123}
+  - {fileID: 1451218426392072417}
+  - {fileID: 7173465593183778216}
+  - {fileID: 925876403441532553}
+  - {fileID: 8275343582830561532}
+  - {fileID: 1395375061418743693}
+  ActiveOnStart:
+  - {fileID: 3669146933921313452}
+  - {fileID: 944747294854935516}
+  - {fileID: 5497276275180237251}
+  - {fileID: 1451218426392072417}
+  - {fileID: 8275343582830561532}
+  - {fileID: 925876403441532553}
+  - {fileID: 7173465593183778216}
+  - {fileID: 444107408407615123}
+  - {fileID: 6239911499135694755}
 --- !u!1 &8275343582830561532
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,7 +17,8 @@ public class Loot : NetworkBehaviour
     [SerializeField] private float peakHeight = 0.5f;         // how “high” it hops, in world units
     [SerializeField] private float maxXOffset = 0.3f;         // max horizontal pop distance
     [SerializeField] private AnimationCurve curve;
-    private float horizontalOffset;
+    private float horizontalOffset = 0;
+    private float pickupDelay;
     public NetworkVariable<bool> pickedUp = new NetworkVariable<bool>(false);
 
 
@@ -40,8 +41,8 @@ public class Loot : NetworkBehaviour
         itemId.OnValueChanged += OnItemIdChanged;
 
         OnItemIdChanged(0, itemId.Value);
-
-        horizontalOffset = Random.Range(-maxXOffset, +maxXOffset);
+        if(horizontalOffset == 0)
+            horizontalOffset = Random.Range(-maxXOffset, +maxXOffset);
         BeginSpawnAnimation();
         //StartCoroutine(DelayCollider());
     }
@@ -113,8 +114,13 @@ public class Loot : NetworkBehaviour
 
     private void OnBounceComplete()
     {
+        StartCoroutine(DelayPickup());
+    }
+
+    private IEnumerator DelayPickup()
+    {
+        yield return new WaitForSeconds(pickupDelay);
         col.enabled = true;
-        // Optional: play a “thud” SFX or spawn a tiny dust particle here
     }
 
 
@@ -122,9 +128,10 @@ public class Loot : NetworkBehaviour
     private IEnumerator MoveAndCollect(Transform target, PlayerInventory inv)
     {
         //do something to move towards the player
-        while(Vector3.Distance(transform.position, target.position) > .01f) {
+        while (Vector3.Distance(transform.position, target.position) > .01f)
+        {
             transform.position = Vector3.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
-            
+
             //the idea here is to fix the issue where if the player is moving, the item will never "reach" them.
             if (Vector3.Distance(transform.position, target.position) <= .01f)
             {
@@ -150,10 +157,15 @@ public class Loot : NetworkBehaviour
         }
     }
 
-    public void Initialize(int Id, int itemAmount)
+    public void Initialize(int Id, int itemAmount, float delay=0f, float horizOffset=0f)
     {
         itemId.Value = Id;
         amount.Value = itemAmount;
+        pickupDelay = delay;
+        if (horizOffset != 0)
+        {
+            horizontalOffset = horizOffset;
+        }
         OnItemIdChanged(Id, Id);
     }
 }

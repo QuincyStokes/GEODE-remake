@@ -159,7 +159,28 @@ ScriptedImporter:
       height: 48
     spriteID: 6a4ba97802f307445bbf2acbbc74f2a9
     spriteBone: []
-    spriteOutline: []
+    spriteOutline:
+    - outline:
+      - {x: -16, y: -23}
+      - {x: -15, y: -23}
+      - {x: -15, y: -24}
+      - {x: 15, y: -24}
+      - {x: 15, y: -23}
+      - {x: 16, y: -23}
+      - {x: 16, y: 20}
+      - {x: 15, y: 20}
+      - {x: 15, y: 22}
+      - {x: 14, y: 22}
+      - {x: 14, y: 23}
+      - {x: 12, y: 23}
+      - {x: 12, y: 24}
+      - {x: -12, y: 24}
+      - {x: -12, y: 23}
+      - {x: -14, y: 23}
+      - {x: -14, y: 22}
+      - {x: -15, y: 22}
+      - {x: -15, y: 20}
+      - {x: -16, y: 20}
     vertices: []
     spritePhysicsOutline: []
     indices: 
@@ -244,6 +265,48 @@ ScriptedImporter:
     spriteID: 3374aedb65b4ece4fb1a7afb73517d21
     spriteBone: []
     spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: 32x32Sprites_1
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 6
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 32
+      y: 0
+      width: 32
+      height: 48
+    spriteID: 816d101c0ea4a3d4fad58b3a7fdc991a
+    spriteBone: []
+    spriteOutline:
+    - outline:
+      - {x: -16, y: -23}
+      - {x: -15, y: -23}
+      - {x: -15, y: -24}
+      - {x: -7, y: -24}
+      - {x: -7, y: -23}
+      - {x: -6, y: -23}
+      - {x: -6, y: -24}
+      - {x: 6, y: -24}
+      - {x: 6, y: -23}
+      - {x: 7, y: -23}
+      - {x: 7, y: -24}
+      - {x: 15, y: -24}
+      - {x: 15, y: -23}
+      - {x: 16, y: -23}
+      - {x: 16, y: 23}
+      - {x: 15, y: 23}
+      - {x: 15, y: 24}
+      - {x: -15, y: 24}
+      - {x: -15, y: 23}
+      - {x: -16, y: 23}
     vertices: []
     spritePhysicsOutline: []
     indices: 

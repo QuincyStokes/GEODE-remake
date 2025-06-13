@@ -186,6 +186,8 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
             DayCycleManager.Instance.becameNight -= dayNumber.IncreaseNight;
         }
 
+        
+
 
     }
 
@@ -361,8 +363,19 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
         }
         else
         {
-            inspectionMenu.CloseInspectionMenu();
-            Debug.Log($"Raycast Hit nothing");
+            //if our CursorStack isn't empty, we are holding something! Which means we should drop it.
+            if (!CursorStack.Instance.ItemStack.Equals(ItemStack.Empty))
+            {
+                float horizOffset;
+                if (lastMovedDir.x < 0) horizOffset = -1.5f;
+                else horizOffset = 1.5f;
+                    LootManager.Instance.SpawnLootServerRpc(transform.position, CursorStack.Instance.ItemStack.Id, CursorStack.Instance.Amount, 2f, horizOffset);
+                CursorStack.Instance.ItemStack = ItemStack.Empty;
+            }
+            else
+            {
+                inspectionMenu.CloseInspectionMenu();
+            }
         }
     }
 
