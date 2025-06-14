@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 
-public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperienceGain, IUpgradeable, IDismantleable
+public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperienceGain, IUpgradeable, IDismantleable, ITracksHits
 {
     //all towers shall inherit from this script, so we must include all things that *all* towers need
     //hold up, should towers have states? i think that doin too much, towers are simple
@@ -42,7 +42,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     [SerializeField] protected CircleCollider2D detectionCollider;
     [SerializeField] protected GameObject tower; //separate the tower from the "base" for towers that may rotate
     [SerializeField] protected GameObject rangeIndicator;
-    public bool ShowingRange { get => rangeIndicator.activeSelf; set => rangeIndicator.SetActive(value); }    
+    public bool ShowingRange { get => rangeIndicator.activeSelf; set => rangeIndicator.SetActive(value); }
 
 
 
@@ -210,32 +210,32 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
 
     private void RotateTowardsTarget()
     {
-       if (!isRotating) return;
+        if (!isRotating) return;
 
-    // How many degrees remain to target?
-    float angleDiff = Quaternion.Angle(tower.transform.rotation, targetRotation);
+        // How many degrees remain to target?
+        float angleDiff = Quaternion.Angle(tower.transform.rotation, targetRotation);
 
-    if (angleDiff > 45)
-    {
-        // “Fast” approach for large angles, using Lerp
-        // We pick a relatively large t so it snaps roughly in a few frames:
-        float t = Mathf.Clamp01(6 * Time.deltaTime);
-        tower.transform.rotation = Quaternion.Lerp(
-            tower.transform.rotation,
-            targetRotation,
-            t
-        );
-    }
-    else
-    {
-        // Once within threshold, switch to constant‐speed rotation
-        float step = rotationSpeed * Time.deltaTime;
-        tower.transform.rotation = Quaternion.RotateTowards(
-            tower.transform.rotation,
-            targetRotation,
-            step
-        );
-    }
+        if (angleDiff > 45)
+        {
+            // “Fast” approach for large angles, using Lerp
+            // We pick a relatively large t so it snaps roughly in a few frames:
+            float t = Mathf.Clamp01(6 * Time.deltaTime);
+            tower.transform.rotation = Quaternion.Lerp(
+                tower.transform.rotation,
+                targetRotation,
+                t
+            );
+        }
+        else
+        {
+            // Once within threshold, switch to constant‐speed rotation
+            float step = rotationSpeed * Time.deltaTime;
+            tower.transform.rotation = Quaternion.RotateTowards(
+                tower.transform.rotation,
+                targetRotation,
+                step
+            );
+        }
 
         // When super close, snap exactly on and fire
         if (angleDiff < .5f)
@@ -309,7 +309,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
                 {
                     case UpgradeType.Strength:
                         strengthModifier.Value += upgrade.percentIncrease;
-                         strength.Value = baseStrength.Value * (strengthModifier.Value / 100 + 1);
+                        strength.Value = baseStrength.Value * (strengthModifier.Value / 100 + 1);
                         break;
                     case UpgradeType.Speed:
                         speedModifier.Value += upgrade.percentIncrease;
@@ -324,7 +324,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
                         float missingHp = MaxHealth.Value - CurrentHealth.Value;
                         sturdyModifier.Value += upgrade.percentIncrease;
 
-                        
+
                         sturdy.Value = BASE_HEALTH * (sturdyModifier.Value / 100 + 1);
                         MaxHealth.Value = sturdy.Value;
                         CurrentHealth.Value = MaxHealth.Value - missingHp;
@@ -341,10 +341,10 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
             Debug.Log("Did not apply stats. UpgradeItem is null");
         }
 
-       
-        
-        
-        
+
+
+
+
         SyncUpgradesAndStatsClientRpc(serverUpgradeItemIds.ToArray());
     }
 
@@ -382,7 +382,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
                         break;
                     case UpgradeType.Sturdy:
                         sturdyModifier.Value -= upgrade.percentIncrease;
-                        
+
                         sturdy.Value = BASE_HEALTH * (sturdyModifier.Value / 100 + 1);
                         MaxHealth.Value = sturdy.Value;
                         if (CurrentHealth.Value > MaxHealth.Value)
@@ -426,9 +426,9 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
 
     public void AddXp(int amount)
     {
-        
+
         CurrentXp += amount;
-        
+
         CheckLevelUp();
         OnXpGain();
         //maybe in the future this can be a coroutine that does it slowly for cool effect
@@ -436,7 +436,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
 
     public void CheckLevelUp()
     {
-        if(CurrentXp > MaximumLevelXp)
+        if (CurrentXp > MaximumLevelXp)
         {
             int newXp = CurrentXp - MaximumLevelXp;
             CurrentXp = 0;
@@ -477,6 +477,16 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     {
         Level = level;
     }
+
+    public void HitSomething(IDamageable damageable)
+    {
+        //unsubscribe BEFORE subscribing, this prevents ever subscribing to the same enemy twice. i love this
+        damageable.OnDeath -= AddXp;
+        damageable.OnDeath += AddXp;
+        //how do we unsubscribe..
+    }
+
+
     #endregion
 
 }

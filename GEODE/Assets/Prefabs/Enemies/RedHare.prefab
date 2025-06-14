@@ -305,6 +305,7 @@ MonoBehaviour:
     maxAmount: 1
     chance: 5
   idealToolType: 5
+  droppedXp: 100
   structureLayerMask:
     serializedVersion: 2
     m_Bits: 2176

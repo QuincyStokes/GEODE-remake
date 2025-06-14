@@ -42,7 +42,7 @@ public class PlayerHealthUI : MonoBehaviour
 
     }
 
-    private void DeathScreen()
+    private void DeathScreen(int ignore)
     {
         StartCoroutine(DeathScreenCountdown());
     }
@@ -51,6 +51,7 @@ public class PlayerHealthUI : MonoBehaviour
     {
 
     }
+    
     public void UpdateHealthbar(float old, float current)
     {
         healthbarSlider.maxValue = playerHp.MaxHealth.Value;

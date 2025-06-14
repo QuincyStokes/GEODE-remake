@@ -46,6 +46,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
     [Header("Drops")]
     [SerializeField] private List<DroppedItem> DROPPED_ITEMS = new List<DroppedItem>();
     [SerializeField] private ToolType idealToolType;
+    [SerializeField] private int droppedXp;
 
     [Header("Movement Settings")]
     public LayerMask structureLayerMask;
@@ -65,6 +66,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
     public NetworkVariable<float> CurrentHealth { get; set; } = new NetworkVariable<float>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public List<DroppedItem> DroppedItems { get; set; }
     private EnemyStateMachine stateMachine;
+    [HideInInspector] public int DroppedXP {get => droppedXp;}
 
 
     //*         ----------------------------- IExperienceGain ---------------------------
@@ -75,7 +77,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
 
 
     //*         ----------------------------- EVENTS ---------------------------
-    public event Action OnDeath;
+    public event Action<int> OnDeath;
 
 
     //*         ---------------------------- INTERNAL ----------------------------
@@ -171,7 +173,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
         externalVelocity = Vector2.Lerp(externalVelocity, Vector2.zero, knockbackDecay * Time.fixedDeltaTime);
     }
 
-    private void SetDeathState()
+    private void SetDeathState(int ignore)
     {
         stateMachine.ChangeState(new DeathState());
     }
@@ -305,11 +307,13 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
 
     public void DestroyThis(bool dropItems)
     {
+        //here can also do something like KillTracker.Instance.Kills++;
+        OnDeath?.Invoke(DroppedXP);
         if (dropItems)
         {
             DropItems();
         }
-        OnDeath?.Invoke();
+        
         GetComponent<NetworkObject>()?.Despawn();
     }
 
@@ -320,7 +324,8 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
 
     public void NewDayStats()
     {
-        AddXp(125);
+        //AddXp(125);
+        LevelUp();
     }
 
     public void AddXp(int amount)

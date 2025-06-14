@@ -22,6 +22,7 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
     [SerializeField] private int currentLevelXp;
     [SerializeField] private int totalXp;
     [SerializeField] private int level;
+    [SerializeField] private int droppedXp;
 
     public int MaximumLevelXp { get => maxLevelXp; set => maxLevelXp = value; }
     public int CurrentXp { get => currentLevelXp; set => currentLevelXp = value; }
@@ -50,6 +51,7 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
     [SerializeField] private Transform centerPoint;
     public Transform CenterPoint { get => centerPoint; }
     public Collider2D CollisionHitbox { get => collisionHitbox; }
+    public int DroppedXP { get => droppedXp; }
     public PlayerController playerController;
     private bool invulnerable = false;
     private Coroutine regenCoroutine;
@@ -57,7 +59,7 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
     //* --------------- Events ---------------- */
 
     public event Action OnDamageTaken;
-    public event Action OnDeath;
+    public event Action<int> OnDeath;
     public event Action OnRevive;
     public event Action OnXpGain;
 
@@ -220,7 +222,7 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
      [ClientRpc]
     private void NotifyDeathClientRpc()
     {
-        OnDeath?.Invoke();
+        OnDeath?.Invoke(DroppedXP);
         if (sr != null) 
             sr.color = new Color(1, 1, 1, 0);
 

@@ -6,14 +6,16 @@ public abstract class BaseProjectile : MonoBehaviour
     public float speed;
     public float damage;
     public float lifetime;
+    private ITracksHits parentTower;
     [SerializeField] private Rigidbody2D rb;
 
 
     //Methods
-    public void Initialize(float damageAmount, Vector2 velocity)
+    public void Initialize(float damageAmount, Vector2 velocity, ITracksHits iHits=null)
     {
         damage = damageAmount;
         rb.linearVelocity = velocity * speed;
+        parentTower = iHits;
         Destroy(gameObject, lifetime);
     }
 
@@ -23,6 +25,10 @@ public abstract class BaseProjectile : MonoBehaviour
         {
             IDamageable dmg = collision.gameObject.GetComponentInParent<IDamageable>();
             dmg?.ApplyDamage(new DamageInfo(damage, transform.position, drops:true));
+            if (dmg != null)
+            {
+                parentTower.HitSomething(dmg);
+            }
             Destroy(gameObject);
         }
         

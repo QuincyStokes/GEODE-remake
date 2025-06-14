@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -12,6 +13,8 @@ public interface IDamageable
    public Collider2D CollisionHitbox { get; }
    public List<DroppedItem> DroppedItems { get; }
    public EffectType HitParticleEffectType { get; }
+   public int DroppedXP { get; }
+   public event Action<int> OnDeath;
    public abstract void TakeDamageServerRpc(DamageInfo info);
    public abstract void ApplyDamage(DamageInfo info);
    public abstract void RestoreHealthServerRpc(float amount);

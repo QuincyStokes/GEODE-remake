@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -16,6 +17,7 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
     [Header("Breaking")]
     [SerializeField] private ToolType idealToolType;
     [SerializeField] private List<DroppedItem> droppedItems;
+    [SerializeField] private int droppedXp;
     [Tooltip("2 Elements, higher health first.")][SerializeField] private List<Sprite> healthStateSprites;
     [SerializeField] private Transform particleSpawnPoint;
     [SerializeField] private EffectType hitParticleEffectType;
@@ -23,7 +25,8 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
     [SerializeField] private EffectType healParticleEffectType;
     public EffectType HitParticleEffectType { get => hitParticleEffectType; }
     public List<DroppedItem> DroppedItems { get => droppedItems; }
-    public Transform ParticleSpawnPoint {get => particleSpawnPoint; set => particleSpawnPoint = value; }
+    public int DroppedXP { get => droppedXp; }
+    public Transform ParticleSpawnPoint { get => particleSpawnPoint; set => particleSpawnPoint = value; }
 
 
     //* ---------------- Object Info -------------------- */
@@ -46,6 +49,8 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
     [HideInInspector] public int matchingItemId = -1;
     private int healthState = -1;
 
+    //* ------------------- Events ----------------
+    public event Action<int> OnDeath;
 
     //METHODS
 
