@@ -106,6 +106,9 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
             mouseInput = playerInput.Player.Mouse;
             mouseInput.Enable();
 
+            //Throw
+            playerInput.Player.Throw.performed += ThrowHeldItemWrapper;
+            playerInput.Player.Throw.Enable();
 
 
             Instance = this;
@@ -178,7 +181,12 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
 
         //Escape
         playerInput.Player.Menu.performed += OnMenuOpened;
-        playerInput.Player.Menu.Enable();
+        playerInput.Player.Menu.Disable();
+
+        
+        //Throw
+        playerInput.Player.Throw.performed -= ThrowHeldItemWrapper;
+        playerInput.Player.Throw.Disable();
 
         if (DayCycleManager.Instance != null)
         {
@@ -389,6 +397,14 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
         }
     }
 
+    private void ThrowHeldItemWrapper(InputAction.CallbackContext context)
+    {
+
+        float offset;
+        if (lastMovedDir.x < 0) offset = -1.5f;
+        else offset = 1.5f;
+        playerInventory.ThrowCurrentlySelectedHeldItem(horizOffset:offset);
+    }
 
     // private void OnTriggerEnter2D(Collider2D collision)
     // {
@@ -434,7 +450,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
                 Instance.repairHitbox.dropItems = drops;
                 StartCoroutine(DoRepairAttack());
             }
-           
+
         }
 
     }
@@ -488,11 +504,9 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
             position = Mouse.current.position.ReadValue()
         };
 
-        // 2. Ray-cast through **all** raycasters
         List<RaycastResult> hits = new List<RaycastResult>();
         EventSystem.current.RaycastAll(pointerData, hits);
 
-        // 3. Accept only hits coming from a GraphicRaycaster (i.e. real Canvas UI)
         return hits.Exists(h => h.module is GraphicRaycaster);
     }
 

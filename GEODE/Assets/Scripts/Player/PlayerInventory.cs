@@ -109,7 +109,7 @@ public class PlayerInventory : BaseContainer
         if (context.ReadValue<float>() < 0)
         {
             selectedSlotIndex += 1;
-            if(selectedSlotIndex > 8)
+            if (selectedSlotIndex > 8)
             {
                 selectedSlotIndex = 0;
             }
@@ -119,7 +119,7 @@ public class PlayerInventory : BaseContainer
         else if (context.ReadValue<float>() > 0)
         {
             selectedSlotIndex -= 1;
-            if(selectedSlotIndex < 0)
+            if (selectedSlotIndex < 0)
             {
                 selectedSlotIndex = 8;
             }
@@ -144,14 +144,23 @@ public class PlayerInventory : BaseContainer
             if (item.ConsumeOnUse)
 
                 ConsumeItemServerRpc(st.Id, 1);   // server-auth removal below
-                OnSelectedSlotChanged?.Invoke(selectedSlotIndex, selectedSlotIndex);
+            OnSelectedSlotChanged?.Invoke(selectedSlotIndex, selectedSlotIndex);
         }
     }
+
 
     [ServerRpc(RequireOwnership = false)]
     void ConsumeItemServerRpc(int id, int amount)
     {
         RemoveItemInternal(id, amount);
+    }
+
+    public void ThrowCurrentlySelectedHeldItem(float pickupDelay = 2f, float horizOffset = 0f)
+    {
+        ItemStack st = ContainerItems[GetSelectedSlotIndex()];
+        if (st.IsEmpty()) return;
+        LootManager.Instance.SpawnLootServerRpc(transform.position, st.Id, st.amount, pickupDelay, horizOffset);
+        ContainerItems[GetSelectedSlotIndex()] = ItemStack.Empty;
     }
 
 }
