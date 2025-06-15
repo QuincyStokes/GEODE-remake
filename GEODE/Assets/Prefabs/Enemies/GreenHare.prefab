@@ -282,6 +282,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   Id: 3
   sr: {fileID: 6974662852891349937}
+  centerPoint: {fileID: 4547582025547477451}
   particleSpawnPoint: {fileID: 0}
   hitParticleEffectType: 0
   steering:
@@ -305,7 +306,7 @@ MonoBehaviour:
     maxAmount: 1
     chance: 5
   idealToolType: 5
-  droppedXp: 100
+  droppedXp: 15
   structureLayerMask:
     serializedVersion: 2
     m_Bits: 2176

@@ -62,6 +62,7 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
     public event Action<int> OnDeath;
     public event Action OnRevive;
     public event Action OnXpGain;
+    public event Action OnPlayerLevelUp;
 
     //* -------------- Internal ----------------- */
     private float timeSinceDamaged;
@@ -278,7 +279,7 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
 
     public void OnLevelUp()
     {
-
+        OnPlayerLevelUp?.Invoke();
     }
 
     public void AddXp(int amount)
@@ -327,6 +328,6 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
         isRegenning = false;
         regenCoroutine = null;
     }
-    
 
+   
 }

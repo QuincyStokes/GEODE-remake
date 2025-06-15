@@ -285,6 +285,7 @@ MonoBehaviour:
     minAmount: 3
     maxAmount: 6
     chance: 100
+  droppedXp: 15
   healthStateSprites: []
   particleSpawnPoint: {fileID: 453477923966925585}
   hitParticleEffectType: 2

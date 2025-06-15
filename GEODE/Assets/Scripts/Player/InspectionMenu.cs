@@ -29,16 +29,18 @@ public class InspectionMenu : BaseContainer
         {
             InspectedObjectChanged?.Invoke(currentInspectedObject, go);
             currentInspectedObject = go;
+
+            IDamageable dmg = currentInspectedObject.GetComponent<IDamageable>();
+            if (dmg != null)
+            {
+                dmg.OnDeath += HandleObjectDeath;
+            }
             currentUpgradeObject = currentInspectedObject.GetComponent<IUpgradeable>();
             if (currentUpgradeObject != null)
             {
                 currentUpgradeObject.OnUpgradesChanged += ServerRebuildList;
             }
         }
-
-        
-
-
 
         if (InspectionMenuHolder.activeSelf == false)
         {
@@ -47,7 +49,6 @@ public class InspectionMenu : BaseContainer
         }
 
         SyncUpgradesToContainerServerRpc(go);
-
         OnMenuOpened?.Invoke();
 
     }
@@ -129,9 +130,9 @@ public class InspectionMenu : BaseContainer
                     CursorStack.Instance.Amount -= 1;
                     return;
                 }
-                
 
-                
+
+
             }
 
             /* ----- SWAP (different item) ----- */
@@ -172,7 +173,7 @@ public class InspectionMenu : BaseContainer
 
     private void ServerRebuildList()
     {
-        if(!IsServer) return;
+        if (!IsServer) return;
         ContainerItems.Clear();
 
         var upg = currentInspectedObject.GetComponent<IUpgradeable>();
@@ -186,6 +187,11 @@ public class InspectionMenu : BaseContainer
 
         // Notify local UI & replicate to clients.
         RaiseOnContainerChanged();
+    }
+
+    private void HandleObjectDeath(int ignore)
+    {
+        CloseInspectionMenu();
     }
     
 

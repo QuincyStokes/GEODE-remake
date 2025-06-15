@@ -198,9 +198,9 @@ GameObject:
   - component: {fileID: 8045205515108008951}
   - component: {fileID: 4730815865388357885}
   - component: {fileID: 7359029905104181308}
-  - component: {fileID: -1494241910855161627}
   - component: {fileID: -5197024450714403594}
   - component: {fileID: -3200612377003113778}
+  - component: {fileID: 1155145354223491276}
   m_Layer: 7
   m_Name: WoodenChest
   m_TagString: Untagged
@@ -306,38 +306,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &-1494241910855161627
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8370947462149780993}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fe9a5c4f547f5c41a17de642178a563, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  BASE_HEALTH: 80
-  idealToolType: 4
-  droppedItems:
-  - Id: 1
-    minAmount: 2
-    maxAmount: 4
-    chance: 100
-  healthStateSprites: []
-  particleSpawnPoint: {fileID: 0}
-  hitParticleEffectType: 0
-  destroyParticleEffectType: 0
-  healParticleEffectType: 4
-  objectName: Large Wooden Wall
-  centerPoint: {fileID: 8841543173283872296}
-  description: 
-  objectSprite: {fileID: 0}
-  sr: {fileID: 4730815865388357885}
-  collisionHitbox: {fileID: 4120678448555162002}
-  matchingItemId: 0
 --- !u!114 &-5197024450714403594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -396,3 +364,33 @@ MonoBehaviour:
   autoSetSortingLayer: 1
   shadowSortingLayerName: 
   shadowSortingOrderOffset: -1
+--- !u!114 &1155145354223491276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8370947462149780993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcf4678e666990742bec1349e9bad5a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  BASE_HEALTH: 50
+  idealToolType: 0
+  droppedItems: []
+  droppedXp: 0
+  healthStateSprites: []
+  particleSpawnPoint: {fileID: 0}
+  hitParticleEffectType: 0
+  destroyParticleEffectType: 0
+  healParticleEffectType: 4
+  objectName: Wooden Chest
+  centerPoint: {fileID: 8841543173283872296}
+  description: 
+  objectSprite: {fileID: 0}
+  sr: {fileID: 4730815865388357885}
+  collisionHitbox: {fileID: 4120678448555162002}
+  matchingItemId: -1
+  higlightColor: {r: 0.49622637, g: 1, b: 0.5871868, a: 1}

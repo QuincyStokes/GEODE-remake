@@ -42,7 +42,7 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
 
     //* ------------------ Inspector References ---------------- */
     [Header("Private References")]
-    [SerializeField] private SpriteRenderer sr;
+    [SerializeField] protected SpriteRenderer sr;
     [SerializeField] private Collider2D collisionHitbox;
 
     //* ------------------ Internal Use -------------------- */
@@ -223,6 +223,7 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
         {
             return;
         }
+        OnDeath?.Invoke(droppedXp);
         if (dropItems)
         {
             DropItems();

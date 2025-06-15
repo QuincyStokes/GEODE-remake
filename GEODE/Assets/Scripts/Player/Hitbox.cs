@@ -10,8 +10,9 @@ public class Hitbox : MonoBehaviour
     public Vector2 sourceDirection;
     public bool dropItems;
     [SerializeField] private List<string> hittableTags;
+    public ITracksHits parentTracker;
 
-
+    //really should have an InitializeHitbox function or something
     private void OnTriggerEnter2D(Collider2D collision)
     {
         IDamageable damageable = collision.GetComponentInParent<IDamageable>();
@@ -24,6 +25,10 @@ public class Hitbox : MonoBehaviour
                 {
                     if (tool != ToolType.Hammer)
                     {
+                        if (parentTracker != null)
+                        {
+                            parentTracker.HitSomething(damageable);
+                        }
                         damageable.TakeDamageServerRpc(new DamageInfo(damage, sourceDirection, tool, dropItems));
                         return;
                     }
@@ -31,10 +36,10 @@ public class Hitbox : MonoBehaviour
                     {
                         damageable.RestoreHealthServerRpc(damage);
                     }
-                    
+
                 }
             }
-        }  
+        }
     }
 }
 

@@ -4,6 +4,7 @@ using Unity.Netcode;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering;
 using UnityEngine.UIElements;
 
 public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperienceGain, IUpgradeable, IDismantleable, ITracksHits
@@ -44,7 +45,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     [SerializeField] protected GameObject rangeIndicator;
     public bool ShowingRange { get => rangeIndicator.activeSelf; set => rangeIndicator.SetActive(value); }
 
-
+    [SerializeField] private Color higlightColor;
 
     // final stats
     [HideInInspector] public NetworkVariable<float> speed { get; set; } = new NetworkVariable<float>(1f);
@@ -108,6 +109,18 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
         MaxHealth.Value = sturdy.Value;
         RefreshRangeIndicator(0, size.Value);
         size.OnValueChanged += RefreshRangeIndicator;
+    }
+
+    private void RefreshStats()
+    {
+        if (!IsServer) return;
+        strength.Value = baseStrength.Value * (strengthModifier.Value / 100 + 1);
+        speed.Value = baseSpeed.Value * (speedModifier.Value / 100 + 1);
+        size.Value = baseSize.Value * (sizeModifier.Value / 100 + 1);
+        sturdy.Value = MaxHealth.Value * (sturdyModifier.Value / 100 + 1);
+
+        MaxHealth.Value = sturdy.Value;
+        RefreshRangeIndicator(0, size.Value);
     }
 
     private new void OnDestroy()
@@ -267,12 +280,12 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("Pointer Entered from BaseTower");
+        sr.color = higlightColor;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("Pointer Exited from BaseTower");
+        sr.color = Color.white;
     }
 
     public void OnXpGain()
@@ -286,6 +299,8 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
         baseSpeed.Value += 1;
         baseSize.Value += 1;
         MaxHealth.Value *= 1.05f;
+
+        RefreshStats();
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -447,6 +462,10 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
 
     private void RefreshRangeIndicator(float old, float curr)
     {
+        if (detectionCollider != null)
+        {
+            detectionCollider.radius = size.Value;
+        }
         rangeIndicator.transform.localScale = new Vector3(curr * 2, curr * 2);
     }
 

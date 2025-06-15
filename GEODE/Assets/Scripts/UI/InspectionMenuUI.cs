@@ -41,6 +41,7 @@ public class InspectionMenuUI : ContainerUIManager<InspectionMenu>
     [SerializeField] private List<GameObject> xpThings; //ui elements pertaining to xp
     [SerializeField] private List<GameObject> upgradeThings;
     [SerializeField] private List<GameObject> dismantleThings;
+    [SerializeField] private List<GameObject> chestThings;
 
 
     //* ------- PRIVATE INTERNAL -------------
@@ -73,6 +74,7 @@ public class InspectionMenuUI : ContainerUIManager<InspectionMenu>
         IExperienceGain exp = container.currentInspectedObject.GetComponent<IExperienceGain>();
         IUpgradeable upg = container.currentInspectedObject.GetComponent<IUpgradeable>();
         IDismantleable dis = container.currentInspectedObject.GetComponent<IDismantleable>();
+        IChest chest = container.currentInspectedObject.GetComponent<IChest>();
         //since we have passed in our stats, xp, and theobject, we can guarantee that we have:
         //all of the necessary information to populate the menu
         if (bo != null) //health, description, sprite
@@ -83,8 +85,8 @@ public class InspectionMenuUI : ContainerUIManager<InspectionMenu>
             healthSlider.maxValue = bo.MaxHealth.Value;
             healthSlider.minValue = 0;
             healthSlider.value = bo.CurrentHealth.Value;
-            health.text = $"{bo.CurrentHealth.Value}/{bo.MaxHealth.Value}";
-            sturdy.text = bo.MaxHealth.Value.ToString();
+            health.text = $"{bo.CurrentHealth.Value:F1}/{bo.MaxHealth.Value:F1}";
+            sturdy.text = bo.MaxHealth.Value.ToString("F1");
             description.text = bo.description;
 
             bo.CurrentHealth.OnValueChanged += RefreshHealth;
@@ -151,6 +153,17 @@ public class InspectionMenuUI : ContainerUIManager<InspectionMenu>
             SetGroup(dismantleThings, false);
         }
 
+        if (chest != null)
+        {
+            SetGroup(chestThings, true);
+        }
+        else
+        {
+            Debug.Log("IChest was null."); 
+            SetGroup(chestThings, false);
+        }
+
+
         
     }
     private void ChangeSubscription(GameObject old, GameObject newObj)
@@ -178,28 +191,33 @@ public class InspectionMenuUI : ContainerUIManager<InspectionMenu>
                 newUpg.OnUpgradesChanged += RefreshUpgrades;
             }
         }
+        else
+        {
+            
+        }
     }
 
 
     private void RefreshStats(float oldValue, float newValue)
     {
+        if (container.currentInspectedObject == null) return;
         IStats stats = container.currentInspectedObject.GetComponent<IStats>();
         if (container.currentInspectedObject != null && stats != null)
         {
-            strength.text = $"<color=#b4202a>DMG {stats.strength.Value}</color>\n{stats.baseStrength.Value}(<color=#b4202a>+{(stats.baseStrength.Value * ((stats.strengthModifier.Value / 100) + 1)) - stats.baseStrength.Value}</color>)";
+            strength.text = $"<color=#b4202a>DMG {stats.strength.Value:F1}</color>\n{stats.baseStrength.Value:F1}(<color=#b4202a>+{(stats.baseStrength.Value * ((stats.strengthModifier.Value / 100) + 1)) - stats.baseStrength.Value:F1}</color>)";
 
             //SPEED
-            speed.text = $"<color=#fffc40>SPD {stats.speed.Value}</color>\n{stats.baseSpeed.Value}(<color=#fffc40>+{(stats.baseSpeed.Value * ((stats.speedModifier.Value / 100) + 1)) - stats.baseSpeed.Value}</color>)";
+            speed.text = $"<color=#fffc40>SPD {stats.speed.Value:F1}</color>\n{stats.baseSpeed.Value:F1}(<color=#fffc40>+{(stats.baseSpeed.Value * ((stats.speedModifier.Value / 100) + 1)) - stats.baseSpeed.Value:F1}</color>)";
 
             //SIZE
-            size.text = $"<color=#249fde>RNG {stats.size.Value}</color>\n{stats.baseSize.Value}(<color=#249fde>+{(stats.baseSize.Value * ((stats.sizeModifier.Value / 100) + 1)) - stats.baseSize.Value}</color>)";
+            size.text = $"<color=#249fde>RNG {stats.size.Value:F1}</color>\n{stats.baseSize.Value:F1}(<color=#249fde>+{(stats.baseSize.Value * ((stats.sizeModifier.Value / 100) + 1)) - stats.baseSize.Value:F1}</color>)";
         }
 
         BaseObject bo = container.currentInspectedObject.GetComponent<BaseObject>();
         if (container.currentInspectedObject != null && bo != null)
         {
             //STURDY
-            sturdy.text = $"<color=#14a02e>HP {stats.sturdy.Value}</color>\n{bo.BASE_HEALTH}(<color=#14a02e>+{(bo.BASE_HEALTH * ((stats.sturdyModifier.Value / 100) + 1)) - bo.BASE_HEALTH}</color>)";
+            sturdy.text = $"<color=#14a02e>HP {stats.sturdy.Value:F1}</color>\n{bo.MaxHealth.Value:F1}(<color=#14a02e>+{(bo.MaxHealth.Value * ((stats.sturdyModifier.Value / 100) + 1)) - bo.MaxHealth.Value:F1}</color>)";
         }
     }
 

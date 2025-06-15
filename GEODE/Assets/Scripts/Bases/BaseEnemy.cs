@@ -19,7 +19,8 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
 
     [Header("References")]
     [SerializeField] private SpriteRenderer sr;
-    public Transform CenterPoint { get; set; }
+    [SerializeField] private Transform centerPoint;
+    public Transform CenterPoint { get => centerPoint; }
     [SerializeField] private Transform particleSpawnPoint;
     public Transform ParticleSpawnPoint { get => particleSpawnPoint; set => ParticleSpawnPoint = value; }
 
@@ -369,10 +370,10 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
 
     public void OnLevelUp()
     {
-        attackDamage *= 1.1f;
+        attackDamage *= 1.2f;
         movementSpeed *= 1.04f;
-        attackCooldown *= .97f;
-        MaxHealth.Value *= 1.1f;
+        attackCooldown *= .95f;
+        MaxHealth.Value *= 1.2f;
     }
 
     [HideInInspector] public bool canAggro;

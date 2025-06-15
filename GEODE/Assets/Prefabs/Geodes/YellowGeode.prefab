@@ -631,12 +631,14 @@ MonoBehaviour:
     minAmount: 1
     maxAmount: 3
     chance: 100
+  droppedXp: 20
   healthStateSprites:
   - {fileID: -5541063576815428689, guid: 35d9d5fc183c1f84785bbdc22135bb95, type: 3}
   - {fileID: -7147286077571016178, guid: 35d9d5fc183c1f84785bbdc22135bb95, type: 3}
   particleSpawnPoint: {fileID: 5222662708037614757}
   hitParticleEffectType: 2
   destroyParticleEffectType: 3
+  healParticleEffectType: 0
   objectName: Yellow Geode
   centerPoint: {fileID: 5222662708037614757}
   description: 

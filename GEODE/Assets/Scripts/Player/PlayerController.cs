@@ -10,7 +10,7 @@ using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class PlayerController : NetworkBehaviour, IKnockbackable
+public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
 {
     public static PlayerController Instance;
     [Header("References")]
@@ -125,6 +125,8 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
                 FlowFieldManager.Instance.corePlaced += HandleCorePlaced;
             }
 
+            playerHealth.OnPlayerLevelUp += HandleLevelUp;
+
             playerUICanvas.SetActive(true);
         }
     }
@@ -183,7 +185,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
         playerInput.Player.Menu.performed += OnMenuOpened;
         playerInput.Player.Menu.Disable();
 
-        
+
         //Throw
         playerInput.Player.Throw.performed -= ThrowHeldItemWrapper;
         playerInput.Player.Throw.Disable();
@@ -194,7 +196,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
             DayCycleManager.Instance.becameNight -= dayNumber.IncreaseNight;
         }
 
-        
+        playerHealth.OnPlayerLevelUp -= HandleLevelUp;
 
 
     }
@@ -219,9 +221,9 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
 
         if (IsOwner && playerHealth != null)
         {
-             playerHealth.playerController = this;
+            playerHealth.playerController = this;
         }
-       
+
         CameraManager.Instance.FollowPlayer(transform);
 
 
@@ -323,9 +325,9 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
     private void OnPrimaryFire(InputAction.CallbackContext context)
     {
         if (IsPointerOverUI()) return;
-        
+
         playerInventory.UseSelectedItem(Camera.main.ScreenToWorldPoint(mouseInput.ReadValue<Vector2>()));
-        
+
     }
 
     private void OnSecondaryFire(InputAction.CallbackContext context)
@@ -377,7 +379,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
                 float horizOffset;
                 if (lastMovedDir.x < 0) horizOffset = -1.5f;
                 else horizOffset = 1.5f;
-                    LootManager.Instance.SpawnLootServerRpc(transform.position, CursorStack.Instance.ItemStack.Id, CursorStack.Instance.Amount, 2f, horizOffset);
+                LootManager.Instance.SpawnLootServerRpc(transform.position, CursorStack.Instance.ItemStack.Id, CursorStack.Instance.Amount, 2f, horizOffset);
                 CursorStack.Instance.ItemStack = ItemStack.Empty;
             }
             else
@@ -403,7 +405,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
         float offset;
         if (lastMovedDir.x < 0) offset = -1.5f;
         else offset = 1.5f;
-        playerInventory.ThrowCurrentlySelectedHeldItem(horizOffset:offset);
+        playerInventory.ThrowCurrentlySelectedHeldItem(horizOffset: offset);
     }
 
     // private void OnTriggerEnter2D(Collider2D collision)
@@ -439,6 +441,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
                 Instance.hitbox.tool = t;
                 Instance.hitbox.sourceDirection = transform.position;
                 Instance.hitbox.dropItems = drops;
+                Instance.hitbox.parentTracker = this;
                 StartCoroutine(DoAttack());
             }
             //if we're holding a hammer, we want to do the healy thing instead
@@ -478,6 +481,12 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
         swingCooldownTimer = 0f;
     }
 
+    //! its a little weird having this here, tracking hits being in the health/xp script kinda wack
+    public void HitSomething(IDamageable damageable)
+    {
+        damageable.OnDeath -= playerHealth.AddXp;
+        damageable.OnDeath += playerHealth.AddXp;
+    }
     private void CooldownTimer()
     {
         if (swingCooldownTimer < swingCooldown)
@@ -531,6 +540,11 @@ public class PlayerController : NetworkBehaviour, IKnockbackable
     private void HandleCoreDestroyed()
     {
         movementLocked = true;
+    }
+
+    private void HandleLevelUp()
+    {
+        moveSpeed *= 1.05f;
     }
 
 
