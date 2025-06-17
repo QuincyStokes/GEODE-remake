@@ -42,7 +42,7 @@ public class EnemySteering
         Vector2 origin      = owner.transform.position;
         Vector2 forwardNorm = desiredDir.normalized;
 
-        // ① Build directions cache
+        //Build directions cache
         int    n        = Mathf.Max(3, rayCount) | 1;                 // force odd
         float  stepDeg  = arc / (n - 1);
         float  startDeg = -arc * 0.5f;
@@ -55,7 +55,7 @@ public class EnemySteering
             float   angle   = startDeg + stepDeg * i;
             Vector2 dir     = Rotate(forwardNorm, angle);
 
-            // ② Cast ray without GC
+            //Cast ray without GC
             bool hit = Physics2D.RaycastNonAlloc(
                            origin, dir, _hitBuffer, rayDistance,
                            owner.structureLayerMask) > 0;
@@ -68,7 +68,7 @@ public class EnemySteering
                     checkInterval);
             }
 
-            // ③ Evaluate this ray (simple scoring: clear > blocked)
+            //Evaluate this ray (simple scoring: clear > blocked)
             float weight = hit ? -1f :               // blocked = bad
                            1f  - Mathf.Abs(angle)/arc; // favour central rays
 

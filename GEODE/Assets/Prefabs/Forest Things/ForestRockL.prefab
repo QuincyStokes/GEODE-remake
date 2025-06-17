@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 675920844120530123}
   - component: {fileID: 1458096613925277815}
   - component: {fileID: 5080745208398576082}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: ForestRockL
   m_TagString: EnvironmentObject
   m_Icon: {fileID: 0}

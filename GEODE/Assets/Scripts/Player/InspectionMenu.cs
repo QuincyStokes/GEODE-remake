@@ -40,6 +40,7 @@ public class InspectionMenu : BaseContainer
             {
                 currentUpgradeObject.OnUpgradesChanged += ServerRebuildList;
             }
+            //here can we also do CurrentChestObject?
         }
 
         if (InspectionMenuHolder.activeSelf == false)
@@ -189,7 +190,7 @@ public class InspectionMenu : BaseContainer
         RaiseOnContainerChanged();
     }
 
-    private void HandleObjectDeath(int ignore)
+    private void HandleObjectDeath(IDamageable damageable)
     {
         CloseInspectionMenu();
     }

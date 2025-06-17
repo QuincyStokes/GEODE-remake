@@ -50,7 +50,7 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
     private int healthState = -1;
 
     //* ------------------- Events ----------------
-    public event Action<int> OnDeath;
+    public event Action<IDamageable> OnDeath;
 
     //METHODS
 
@@ -223,7 +223,7 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
         {
             return;
         }
-        OnDeath?.Invoke(droppedXp);
+        OnDeath?.Invoke(this);
         if (dropItems)
         {
             DropItems();

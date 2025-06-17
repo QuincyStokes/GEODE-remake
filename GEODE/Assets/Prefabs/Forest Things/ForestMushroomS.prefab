@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4473838960476678104}
   - component: {fileID: 5175727427814454046}
   - component: {fileID: 2608204712542847384}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: ForestMushroomS
   m_TagString: EnvironmentObject
   m_Icon: {fileID: 0}

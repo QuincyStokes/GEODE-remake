@@ -289,8 +289,22 @@ MonoBehaviour:
     rayCount: 15
     arc: 270
     rayDistance: 1
-    checkInterval: 0.5
+    checkInterval: 0.1
     drawDebug: 1
+    contactFilter2D:
+      useTriggers: 0
+      useLayerMask: 0
+      useDepth: 0
+      useOutsideDepth: 0
+      useNormalAngle: 0
+      useOutsideNormalAngle: 0
+      layerMask:
+        serializedVersion: 2
+        m_Bits: 0
+      minDepth: 0
+      maxDepth: 0
+      minNormalAngle: 0
+      maxNormalAngle: 0
   animator: {fileID: 6878477634410811571}
   rb: {fileID: 7670961486429863952}
   collisionHitbox: {fileID: 5654494770542405513}
@@ -421,7 +435,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2

@@ -296,8 +296,8 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     public void OnLevelUp()
     {
         baseStrength.Value += 4;
-        baseSpeed.Value += 1;
-        baseSize.Value += 1;
+        baseSpeed.Value += .2f;
+        baseSize.Value += .5f;
         MaxHealth.Value *= 1.05f;
 
         RefreshStats();
@@ -449,6 +449,18 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
         //maybe in the future this can be a coroutine that does it slowly for cool effect
     }
 
+    public void AddXp(IDamageable damageable)
+    {
+
+        CurrentXp += damageable.DroppedXP;
+
+        CheckLevelUp();
+        OnXpGain();
+        damageable.OnDeath -= AddXp;
+        //maybe in the future this can be a coroutine that does it slowly for cool effect
+    }
+
+
     public void CheckLevelUp()
     {
         if (CurrentXp > MaximumLevelXp)
@@ -499,8 +511,6 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
 
     public void HitSomething(IDamageable damageable)
     {
-        //unsubscribe BEFORE subscribing, this prevents ever subscribing to the same enemy twice. i love this
-        damageable.OnDeath -= AddXp;
         damageable.OnDeath += AddXp;
         //how do we unsubscribe..
     }

@@ -59,10 +59,6 @@ public class EnemySpawningManager : NetworkBehaviour
             enabled = false;
         }
     }
-    private void OnEnable()
-    {
-    
-    }
 
     private void Start()
     {
@@ -82,7 +78,7 @@ public class EnemySpawningManager : NetworkBehaviour
         DayCycleManager.Instance.becameNight -= ChangeToNightSettings;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if(activated && NetworkManager.Singleton && NetworkManager.Singleton.ConnectedClientsList.Count > 0)
         {
@@ -114,19 +110,21 @@ public class EnemySpawningManager : NetworkBehaviour
                 Vector3Int randomPlayerPosInt = new Vector3Int((int)randomPlayerPos.x, (int)randomPlayerPos.y, 0);
                 //instead of doing the positional way, lets pick a random 360 direction from the player chosen, and then a random distance
 
-                Vector3Int spawnPosOffset = new Vector3Int(Random.Range(-1, 2) * Random.Range(minSpawnDistanceFromPlayer, maxSpawnDistanceFromPlayer), Random.Range(-1, 2) * Random.Range(minSpawnDistanceFromPlayer, maxSpawnDistanceFromPlayer));
-                spawnPos = randomPlayerPosInt + spawnPosOffset;
+                float angle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
+                float dist = Random.Range(minSpawnDistanceFromPlayer, maxSpawnDistanceFromPlayer);
+                Vector2 offset2D = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * dist;
+                spawnPos = randomPlayerPosInt + Vector3Int.RoundToInt((Vector3)offset2D);
 
 
                 //we have the position of the enemy spawn now
-                    //check biome at that position
-                    //choose an enemy based on weights
-                    //but first, make sure it isnt within a certain range from any of the players
+                //check biome at that position
+                //choose an enemy based on weights
+                //but first, make sure it isnt within a certain range from any of the players
 
-                foreach(NetworkClient networkClient in NetworkManager.Singleton.ConnectedClientsList)
+                foreach (NetworkClient networkClient in NetworkManager.Singleton.ConnectedClientsList)
                 {
                     //if the distance to any player is under a ertain range
-                    if(Vector3.Distance(networkClient.PlayerObject.transform.position, spawnPos) < 10)
+                    if (Vector3.Distance(networkClient.PlayerObject.transform.position, spawnPos) < 10)
                     {
                         return; //don't spawn an enemy here, its too close to a player.
                     }
@@ -203,6 +201,11 @@ public class EnemySpawningManager : NetworkBehaviour
             Debug.Log($"Spawning a {enemyToSpawn.name} at {pos}.");
             GameObject spawnedEnemy = Instantiate(EnemyDatabase.Instance.GetEnemy(enemyId), pos, Quaternion.identity);
             spawnedEnemy.GetComponent<NetworkObject>().Spawn();
+            currentNumSpawns++;
+            BaseEnemy enemy = spawnedEnemy.GetComponent<BaseEnemy>();
+
+            enemy.OnDeath += HandleEnemyDied;
+            enemy.AddLevels(DayCycleManager.Instance.DayNum);
         }
         else
         {
@@ -213,16 +216,24 @@ public class EnemySpawningManager : NetworkBehaviour
 
     private void ChangeToDaySettings()
     {
-        nightSpawnRateModifier += .15f;
+        
         currentMaxSpawns = (int)(dayMaxSpawns * dayMaxSpawnsModifier);
-        currentSpawnRate = daySpawnRate * dayMaxSpawnsModifier;
-
+        currentSpawnRate = daySpawnRate * daySpawnRateModifier;
+        
     }
 
     private void ChangeToNightSettings()
     {
+        nightSpawnRateModifier *= .9f;
         currentMaxSpawns = (int)(nightMaxSpawns * nightMaxSpawnsModifier);
-        currentSpawnRate = nightSpawnRate * nightSpawnRateModifier;
+        currentSpawnRate = Mathf.Clamp(nightSpawnRate * nightSpawnRateModifier, 25, 1000);
+        
+    }
+
+    private void HandleEnemyDied(IDamageable damageable)
+    {
+        currentNumSpawns--;
+        damageable.OnDeath -= HandleEnemyDied;
     }
 
     [System.Serializable]

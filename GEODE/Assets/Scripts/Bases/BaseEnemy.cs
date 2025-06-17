@@ -78,7 +78,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
 
 
     //*         ----------------------------- EVENTS ---------------------------
-    public event Action<int> OnDeath;
+    public event Action<IDamageable> OnDeath;
 
 
     //*         ---------------------------- INTERNAL ----------------------------
@@ -174,7 +174,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
         externalVelocity = Vector2.Lerp(externalVelocity, Vector2.zero, knockbackDecay * Time.fixedDeltaTime);
     }
 
-    private void SetDeathState(int ignore)
+    private void SetDeathState(IDamageable damageable)
     {
         stateMachine.ChangeState(new DeathState());
     }
@@ -309,7 +309,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
     public void DestroyThis(bool dropItems)
     {
         //here can also do something like KillTracker.Instance.Kills++;
-        OnDeath?.Invoke(DroppedXP);
+        OnDeath?.Invoke(this);
         if (dropItems)
         {
             DropItems();
@@ -356,6 +356,14 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
         MaximumLevelXp = Mathf.RoundToInt(MaximumLevelXp * 1.1f);
         //need some way for this to interact with stats.. OnLevelUp()? then it's up to the base classes to figure out what they wanna do
         OnLevelUp();
+    }
+
+    public void AddLevels(int amount)
+    {
+        for (int i = 0; i < amount; i++)
+        {
+            LevelUp();
+        }
     }
 
     public void SetLevel(int level)

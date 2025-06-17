@@ -146,6 +146,7 @@ public class Loot : NetworkBehaviour
 
     private void OnItemIdChanged(int oldValue, int newValue)
     {
+        if (newValue == 0) return;
         BaseItem item = ItemDatabase.Instance.GetItem(newValue);
         if(item != null)
         {

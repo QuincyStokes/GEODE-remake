@@ -1623,7 +1623,6 @@ GameObject:
   - component: {fileID: 5309047052148078689}
   - component: {fileID: 935909374932676044}
   - component: {fileID: 8401031836808139617}
-  - component: {fileID: 6564316095884357835}
   m_Layer: 0
   m_Name: ChestParent
   m_TagString: Untagged
@@ -1683,28 +1682,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8513132dd8612e644b993b96b66b7de5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  container: {fileID: 6564316095884357835}
+  container: {fileID: 0}
   slotPrefab: {fileID: 5960605606518251643, guid: fba2035405594244d86b130da5a462ca, type: 3}
---- !u!114 &6564316095884357835
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 774216607489901702}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e395760cc036b34e83942106de86e21, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  subContainers:
-  - containerObject: {fileID: 3151942341757021749}
-    numSlots: 9
-    startIndex: 0
-  maxItemStack: 999
-  startingItems: []
-  isOpen: 1
 --- !u!1 &775600242920802974
 GameObject:
   m_ObjectHideFlags: 0

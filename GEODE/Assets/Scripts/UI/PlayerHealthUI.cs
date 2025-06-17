@@ -42,7 +42,7 @@ public class PlayerHealthUI : MonoBehaviour
 
     }
 
-    private void DeathScreen(int ignore)
+    private void DeathScreen(IDamageable damageable)
     {
         StartCoroutine(DeathScreenCountdown());
     }

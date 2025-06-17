@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -4219800336882592565}
   - component: {fileID: 4718114756700577364}
   - component: {fileID: 4250457749795718408}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: ForestGrassTall
   m_TagString: EnvironmentObject
   m_Icon: {fileID: 0}

@@ -59,7 +59,7 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
     //* --------------- Events ---------------- */
 
     public event Action OnDamageTaken;
-    public event Action<int> OnDeath;
+    public event Action<IDamageable> OnDeath;
     public event Action OnRevive;
     public event Action OnXpGain;
     public event Action OnPlayerLevelUp;
@@ -223,7 +223,7 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
      [ClientRpc]
     private void NotifyDeathClientRpc()
     {
-        OnDeath?.Invoke(DroppedXP);
+        OnDeath?.Invoke(this);
         if (sr != null) 
             sr.color = new Color(1, 1, 1, 0);
 
@@ -282,15 +282,24 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
         OnPlayerLevelUp?.Invoke();
     }
 
-    public void AddXp(int amount)
+    public void AddXp(IDamageable damageable)
     {
 
+        CurrentXp += damageable.DroppedXP;
+        CurrentTotalXp += damageable.DroppedXP;
+
+        CheckLevelUp();
+        OnXpGain?.Invoke();
+        //maybe in the future this can be a coroutine that does it slowly for cool effect
+    }
+
+    public void AddXp(int amount)
+    {
         CurrentXp += amount;
         CurrentTotalXp += amount;
 
         CheckLevelUp();
         OnXpGain?.Invoke();
-        //maybe in the future this can be a coroutine that does it slowly for cool effect
     }
 
     public void CheckLevelUp()
