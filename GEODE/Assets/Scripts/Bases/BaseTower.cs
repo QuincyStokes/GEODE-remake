@@ -499,7 +499,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     public void LevelUp()
     {
         Level++;
-        MaximumLevelXp = Mathf.RoundToInt(MaximumLevelXp * 1.2f);
+        MaximumLevelXp = Mathf.RoundToInt(MaximumLevelXp * 1.6f);
         //need some way for this to interact with stats.. OnLevelUp()? then it's up to the base classes to figure out what they wanna do
         OnLevelUp();
     }
@@ -512,7 +512,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     public void HitSomething(IDamageable damageable)
     {
         damageable.OnDeath += AddXp;
-        //how do we unsubscribe..
+        //unsubscribes in addXp
     }
 
 
