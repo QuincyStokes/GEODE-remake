@@ -286,12 +286,12 @@ MonoBehaviour:
   particleSpawnPoint: {fileID: 0}
   hitParticleEffectType: 0
   steering:
-    rayCount: 15
-    arc: 270
-    rayDistance: 1
+    rayCount: 9
+    arc: 90
+    rayDistance: 0.7
     checkInterval: 0.1
     drawDebug: 1
-    contactFilter2D:
+    contactFilter:
       useTriggers: 0
       useLayerMask: 0
       useDepth: 0

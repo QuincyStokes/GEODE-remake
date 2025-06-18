@@ -21,8 +21,10 @@ public class EnemySteering
 
     // ──────────────────────────────────────────────────────────────
     private readonly RaycastHit2D[] _hitBuffer = new RaycastHit2D[1]; // NonAlloc
+    public ContactFilter2D contactFilter;
     private Vector2 _cachedDir;
     private float   _nextCheckTime;
+
 
     /// <summary>Returns a steered direction based on ray fan.</summary>
     public Vector2 GetSteeredDirection(BaseEnemy owner, Vector2 desiredDir)
@@ -31,7 +33,7 @@ public class EnemySteering
             return _cachedDir;                               // reuse last result
 
         _nextCheckTime = Time.time + checkInterval;
-        _cachedDir     = CalculateSteer(owner, desiredDir);
+        _cachedDir = CalculateSteer(owner, desiredDir);
 
         return _cachedDir;
     }
@@ -50,32 +52,79 @@ public class EnemySteering
         Vector2 bestDir      = forwardNorm;   // fallback = straight
         float   bestWeight   = float.MinValue;
 
+        contactFilter.useLayerMask = true;
+        contactFilter.layerMask = owner.structureLayerMask;
+        contactFilter.useTriggers = false;
+
+
         for (int i = 0; i < n; i++)
         {
-            float   angle   = startDeg + stepDeg * i;
-            Vector2 dir     = Rotate(forwardNorm, angle);
+            float angle = startDeg + stepDeg * i;
+            Vector2 dir = Rotate(forwardNorm, angle);
 
             //Cast ray without GC
-            bool hit = Physics2D.RaycastNonAlloc(
-                           origin, dir, _hitBuffer, rayDistance,
-                           owner.structureLayerMask) > 0;
+            // bool hit = Physics2D.RaycastNonAlloc(
+            //                origin, dir, _hitBuffer, rayDistance,
+            //                owner.structureLayerMask) > 0;
+
+            //set properties for the contact filter
+
+            //Raycast in the shape of our collider
+            //This is to make sure we can fit through gaps
+            int hitCount = owner.collisionHitbox.Cast(dir, contactFilter, _hitBuffer, rayDistance);
+
+            Vector2 hitNormal = _hitBuffer[0].normal;
+
+            Vector2 tangent = new Vector2(-hitNormal.y, hitNormal.x);
+            if (Vector2.Dot(tangent, desiredDir) < 0) tangent = -tangent;
 
             if (drawDebug)
             {
+                Color c = hitCount == 0 ? Color.green : Color.red;
                 Debug.DrawLine(
                     origin, origin + dir * rayDistance,
-                    hit ? Color.red : Color.green,
+                    c,
                     checkInterval);
             }
 
-            //Evaluate this ray (simple scoring: clear > blocked)
-            float weight = hit ? -1f :               // blocked = bad
-                           1f  - Mathf.Abs(angle)/arc; // favour central rays
+            //Decide which direction to move in
+            //if we have 0 hits, the direction is clear. We give it a positive score
+            //Anything blocked gets a flat negative score, "NO"
+
+            float bias = 1f - Mathf.Abs(angle) / arc;
+            float weight = hitCount == 0 ? bias :               // blocked = bad
+                           -1; // favour central rays
 
             if (weight > bestWeight)
             {
                 bestWeight = weight;
-                bestDir    = hit ? bestDir : dir;     // only switch if clear
+                if (hitCount == 0)
+                {
+                    bestDir = dir;
+                }
+            }
+            
+            
+        }
+
+        //here, we are handling fallback for if every direction is blocked
+        //if our best weight is negative, every direction was blocked.
+        if (bestWeight < 0f)
+        {
+            //raycast directly infront of us
+            int hitCount = owner.collisionHitbox.Cast(forwardNorm, contactFilter, _hitBuffer, rayDistance);
+            //if we hit something
+            if (hitCount > 0)
+            {
+                //walk along the tangent of the blocking object
+                Vector2 hitNormal = _hitBuffer[0].normal;
+                Vector2 tangent = new Vector2(-hitNormal.y, hitNormal.x);
+
+                if (Vector2.Dot(tangent, desiredDir) < 0f)
+                {
+                    tangent = -tangent;
+                }
+                return tangent;
             }
         }
 
