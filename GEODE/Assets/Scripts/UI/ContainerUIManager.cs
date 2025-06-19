@@ -23,6 +23,7 @@ public class ContainerUIManager<T> : MonoBehaviour
 
     protected virtual void OnDestroy()
     {
+        if (container == null) return;
         container.OnSlotChanged -= OnSlotChanged;
         container.OnContainerChanged -= OnContainerChanged;
         container.Ready -= OnContainerReady;

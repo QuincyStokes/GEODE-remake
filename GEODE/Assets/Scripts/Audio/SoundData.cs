@@ -17,5 +17,8 @@ public enum SoundId
     Tree_Hit,
     Sword_Swing,
     Footstep_Grass,
+    Inventory_Open,
+    InventoryClose,
+    
 
 }

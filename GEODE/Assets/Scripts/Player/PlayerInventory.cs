@@ -30,6 +30,10 @@ public class PlayerInventory : BaseContainer
     public event Action<int, int> OnSelectedSlotChanged;
     public event Action<BaseItem> OnItemUsed;
 
+    //* ------------------ Audio ------------------ */
+    [SerializeField] private SoundData inventoryOpenSound;
+    [SerializeField] private SoundData inventoryCloseSound;
+
     // ------------------------- Methods -----------------------
 
 
@@ -88,10 +92,12 @@ public class PlayerInventory : BaseContainer
         OnInventoryToggled?.Invoke(inventoryObject.activeSelf);
         if (inventoryObject.activeSelf)
         {
+            AudioManager.Instance.PlayLocal(inventoryOpenSound);
             Cursor.visible = true;
         }
         else
         {
+            AudioManager.Instance.PlayLocal(inventoryCloseSound);
             TooltipService.Instance.Hide();
         }
     }
