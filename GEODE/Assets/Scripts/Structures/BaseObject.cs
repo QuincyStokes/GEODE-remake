@@ -28,6 +28,11 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
     public int DroppedXP { get => droppedXp; }
     public Transform ParticleSpawnPoint { get => particleSpawnPoint; set => particleSpawnPoint = value; }
 
+    //* ---------------- Audio ------------------------- */
+    [Header("Audio")]
+    [SerializeField] private SoundId hitSoundId;   
+    [SerializeField] private SoundId breakSoundId;   
+
 
     //* ---------------- Object Info -------------------- */
     [Header("Object Info")]
@@ -170,6 +175,11 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
         {
             ParticleService.Instance.PlayClientRpc(hitParticleEffectType, particleSpawnPoint.position);
         }
+
+        if (hitSoundId != SoundId.NONE)
+        {
+            AudioManager.Instance.PlayClientRpc(hitSoundId, transform.position);
+        }
             
     }
 
@@ -228,7 +238,10 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
         {
             DropItems();
         }
-        //GridManager.Instance.RemoveGridObjectServerRpc(new Vector3Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.y), 0), matchingItemId);
+        if (breakSoundId != SoundId.NONE)
+        {
+            AudioManager.Instance.PlayClientRpc(breakSoundId, transform.position);
+        }
         ChunkManager.Instance.DeregisterObject(gameObject);
         GetComponent<NetworkObject>().Despawn(true);
 

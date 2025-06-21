@@ -141,6 +141,7 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
         OnDamageColorChangeClientRpc();
         StartCoroutine(DoInvulnerableFrame());
         timeSinceDamaged = 0f;
+        OnDamageTaken?.Invoke();
         if (regenCoroutine != null)
         {
             StopCoroutine(regenCoroutine);

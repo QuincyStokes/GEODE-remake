@@ -60,9 +60,6 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
     [Header("Interaction Layer Mask")]
     [SerializeField] private LayerMask interactableLayerMask;
 
-    public event Action OnInventoryOpened;
-
-
     //PRIVATE INTERNAL
     private Transform _coreTransform;
 
@@ -462,6 +459,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
     {
         //Debug.Log("Attacking!");
         Instance.hitbox.gameObject.SetActive(true);
+        AudioManager.Instance.PlayClientRpc(SoundId.Sword_Swing, transform.position);
         attackAnimator.SetTrigger("Swing");
         moveSpeed /= 2;
         yield return new WaitForSeconds(.1f);
@@ -481,7 +479,6 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
         swingCooldownTimer = 0f;
     }
 
-    //! its a little weird having this here, tracking hits being in the health/xp script kinda wack
     public void HitSomething(IDamageable damageable)
     {
         damageable.OnDeath -= playerHealth.AddXp;

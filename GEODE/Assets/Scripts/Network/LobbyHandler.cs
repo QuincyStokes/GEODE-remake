@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using TMPro;
 using Unity.Netcode;
 using Unity.Services.Authentication;
@@ -32,6 +31,8 @@ public class LobbyHandler : MonoBehaviour
     public static event Action<Lobby> onLobbyUpdated;
     const string KEY_START_GAME = "StartGame_RelayCode";
 
+    //* ------- Events ---------- */
+    public event Action OnGameStarted; 
 
     void Awake()
     {
@@ -207,6 +208,7 @@ public class LobbyHandler : MonoBehaviour
     {
         try
         {
+            OnGameStarted?.Invoke();
             Debug.Log("Game Started!");
             string relayCode = await RelayHandler.Instance.CreateRelay(hostLobby.MaxPlayers - 1);
 

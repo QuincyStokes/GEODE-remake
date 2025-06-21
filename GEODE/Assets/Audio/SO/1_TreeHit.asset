@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6618335d2393b114eaf48447435fe4e7, type: 3}
+  m_Name: 1_TreeHit
+  m_EditorClassIdentifier: 
+  soundId: 1
+  clips:
+  - {fileID: 8300000, guid: 27aa18ec951f1814fbe2f38bb1cce498, type: 3}
+  - {fileID: 8300000, guid: cfedca7d1f2b08048beea43a025e05f3, type: 3}
+  defaultVolume: 1
+  spatial: 1
+  randomPitchOffsetMax: 0.02
+  amg: {fileID: 7874774452692653096, guid: 089a1120065f0854bb68d7b341999f56, type: 2}

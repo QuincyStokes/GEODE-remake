@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -19,12 +20,13 @@ public class ConnectionManager : NetworkBehaviour
     private List<ulong> waitingClientIds = new List<ulong>();
 
     private bool isWorldReady = false;
+    public event Action OnPlayerSpawned;
 
 
 
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
@@ -155,16 +157,17 @@ public class ConnectionManager : NetworkBehaviour
         Debug.Log($"Spawning player for {clientId}");
         //THIS WILL NEED TO BE REPLACED WHEN WE DO CHARACTER CUSTOMIZATION I THINK
         GameObject playerInstance = Instantiate(playerPrefab);
-        
+
         //can assume worldgenmanager.instance exists because this will only trigger
         //after recieving a message from it
-        int centerX = WorldGenManager.Instance.WorldSizeX/2;
-        int centerY = WorldGenManager.Instance.WorldSizeY/2;
+        int centerX = WorldGenManager.Instance.WorldSizeX / 2;
+        int centerY = WorldGenManager.Instance.WorldSizeY / 2;
 
         playerInstance.transform.position = new Vector3(centerX, centerY, 0);
 
         NetworkObject netObj = playerInstance.GetComponent<NetworkObject>();
         netObj.SpawnAsPlayerObject(clientId, destroyWithScene: false);
+        OnPlayerSpawned?.Invoke();
     }
 
     public void ResetData()

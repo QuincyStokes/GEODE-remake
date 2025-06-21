@@ -28,6 +28,7 @@ public class GameOverUI : MonoBehaviour
     
     private void OnDestroy()
     {
-        Core.CORE.OnCoreDestroyed -= HandleCoreDestroyed;
+        if(Core.CORE)
+            Core.CORE.OnCoreDestroyed -= HandleCoreDestroyed;
     }
 }

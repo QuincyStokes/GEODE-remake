@@ -1629,7 +1629,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5309047052148078689
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13733,8 +13733,6 @@ MonoBehaviour:
   inventoryObject: {fileID: 3774294273146469442}
   hotbarObject: {fileID: 3669146933921313452}
   healthbarObject: {fileID: 944747294854935516}
-  inventoryOpenSound: {fileID: 11400000, guid: b727cd298df2038498639373922c7fd4, type: 2}
-  inventoryCloseSound: {fileID: 11400000, guid: 10d749c0e83ee4b4a9d57d39e09cd9a2, type: 2}
 --- !u!114 &7956074637776842079
 MonoBehaviour:
   m_ObjectHideFlags: 0

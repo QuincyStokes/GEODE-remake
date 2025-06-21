@@ -217,6 +217,8 @@ MonoBehaviour:
   hitParticleEffectType: 1
   destroyParticleEffectType: 0
   healParticleEffectType: 0
+  hitSoundId: 1
+  breakSoundId: 1
   objectName: Forest Tree
   centerPoint: {fileID: 2863551799263110279}
   description: 

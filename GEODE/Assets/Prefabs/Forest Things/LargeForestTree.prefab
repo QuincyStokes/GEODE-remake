@@ -304,6 +304,8 @@ MonoBehaviour:
   hitParticleEffectType: 1
   destroyParticleEffectType: 0
   healParticleEffectType: 0
+  hitSoundId: 1
+  breakSoundId: 1
   objectName: Massive Tree
   centerPoint: {fileID: 3052727544360688670}
   description: 

@@ -139,7 +139,7 @@ public class Loot : NetworkBehaviour
             }
             yield return null;
         }
-        //AudioManager.instance.Play(popSFX[Random.Range(0,popSFX.Count-1)], .3f);
+        AudioManager.Instance.PlayLocal(SoundId.Loot_Pickup);
         inv.AddItemServerRpc(itemId.Value, amount.Value);
         NetworkObject.Despawn(true);
     }

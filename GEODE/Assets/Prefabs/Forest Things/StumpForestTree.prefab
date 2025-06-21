@@ -181,6 +181,8 @@ MonoBehaviour:
   hitParticleEffectType: 0
   destroyParticleEffectType: 0
   healParticleEffectType: 0
+  hitSoundId: 1
+  breakSoundId: 1
   objectName: Tree Stump
   centerPoint: {fileID: 6647818183751251631}
   description: 

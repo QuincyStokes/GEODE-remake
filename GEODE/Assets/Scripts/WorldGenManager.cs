@@ -78,7 +78,7 @@ public class WorldGenManager : NetworkBehaviour
         //yield return StartCoroutine(InitializeBiomeTiles(newseed, noiseScale, offset));
         yield return StartCoroutine(SpawnEnvironmentFluff());
 
-        
+        OnWorldGenerated?.Invoke();
     }
 
     [ClientRpc]
