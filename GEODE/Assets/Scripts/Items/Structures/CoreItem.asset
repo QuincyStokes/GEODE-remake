@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Core
   description: The source of your strength. Protect it at all costs.
   type: 2
-  icon: {fileID: 2833242549449789950, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
+  icon: {fileID: -7719349089912367425, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
   id: 6
   quality: 0
   isStackable: 0

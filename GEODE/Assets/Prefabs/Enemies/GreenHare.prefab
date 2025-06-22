@@ -319,6 +319,10 @@ MonoBehaviour:
     minAmount: 1
     maxAmount: 1
     chance: 5
+  - Id: 43
+    minAmount: 1
+    maxAmount: 1
+    chance: 1.5
   idealToolType: 5
   droppedXp: 15
   structureLayerMask:

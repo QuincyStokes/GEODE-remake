@@ -147,7 +147,7 @@ ScriptedImporter:
   spriteSheetImportData:
   - name: 16x16Sprites_0
     originalName: 
-    pivot: {x: 0, y: 0}
+    pivot: {x: 0.5, y: 0.5}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -168,7 +168,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: 16x16Sprites_1
     originalName: 
-    pivot: {x: 0, y: 0}
+    pivot: {x: 0.5, y: 0.5}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -189,7 +189,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: 16x16Sprites_2
     originalName: 
-    pivot: {x: 0, y: 0}
+    pivot: {x: 0.5, y: 0.5}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -210,7 +210,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: 16x16Sprites_3
     originalName: 
-    pivot: {x: 0, y: 0}
+    pivot: {x: 0.5, y: 0.5}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -231,7 +231,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: 16x16Sprites_4
     originalName: 
-    pivot: {x: 0, y: 0}
+    pivot: {x: 0.5, y: 0.5}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -252,7 +252,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: 16x16Sprites_5
     originalName: 
-    pivot: {x: 0, y: 0}
+    pivot: {x: 0.5, y: 0.5}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -273,7 +273,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: 16x16Sprites_6
     originalName: 
-    pivot: {x: 0, y: 0}
+    pivot: {x: 0.5, y: 0.5}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -294,7 +294,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: 16x16Sprites_7
     originalName: 
-    pivot: {x: 0, y: 0}
+    pivot: {x: 0.5, y: 0.5}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -315,7 +315,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: 16x16Sprites_8
     originalName: 
-    pivot: {x: 0, y: 0}
+    pivot: {x: 0.5, y: 0.5}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -336,7 +336,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: 16x16Sprites_9
     originalName: 
-    pivot: {x: 0, y: 0}
+    pivot: {x: 0.5, y: 0.5}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -410,6 +410,27 @@ ScriptedImporter:
       width: 16
       height: 16
     spriteID: ff5a49cf298afd34a8f09016202122b4
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: 16x16Sprites_13
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 48
+      y: 0
+      width: 16
+      height: 16
+    spriteID: 10ccdcb7cfd15b34995786e0d99781ac
     spriteBone: []
     spriteOutline: []
     vertices: []

@@ -302,12 +302,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1545021824684939692, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
+  m_Sprite: {fileID: 2833242549449789950, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 2, y: 2.5625}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -364,6 +364,8 @@ MonoBehaviour:
   hitParticleEffectType: 0
   destroyParticleEffectType: 0
   healParticleEffectType: 4
+  hitSoundId: 0
+  breakSoundId: 0
   objectName: Large Wooden Wall
   centerPoint: {fileID: 8841543173283872296}
   description: 
@@ -371,6 +373,7 @@ MonoBehaviour:
   sr: {fileID: 4730815865388357885}
   collisionHitbox: {fileID: 4120678448555162002}
   matchingItemId: 0
+  higlightColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &-5197024450714403594
 MonoBehaviour:
   m_ObjectHideFlags: 0
