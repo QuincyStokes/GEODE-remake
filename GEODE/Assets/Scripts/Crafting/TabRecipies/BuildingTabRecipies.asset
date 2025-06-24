@@ -15,4 +15,7 @@ MonoBehaviour:
   recipies:
   - {fileID: 11400000, guid: 0218334d50475e141b8e39c71fa171d1, type: 2}
   - {fileID: 11400000, guid: 16c1de218b710c242ab832afd13f5acf, type: 2}
+  - {fileID: 11400000, guid: 07c10cb2e6def66469bca95c6899a20d, type: 2}
+  - {fileID: 11400000, guid: 8cc849befc5b4344d9be0400b8224242, type: 2}
   - {fileID: 11400000, guid: ce3b24b6b2793e04faf9d4d47fa07253, type: 2}
+  - {fileID: 11400000, guid: fcc0620f4aaef8540b44ff5e9b4ad7ca, type: 2}

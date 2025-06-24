@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Events;
 
-public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable, IExperienceGain
+public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable, IExperienceGain, ITrackable
 {
     ///state machine controlled enemy base class
     ///
@@ -79,6 +79,8 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
 
     //*         ----------------------------- EVENTS ---------------------------
     public event Action<IDamageable> OnDeath;
+    public event Action<StatTrackType, string> OnSingleTrack;
+    public event Action<StatTrackType, string, int> OnMultiTrack;
 
 
     //*         ---------------------------- INTERNAL ----------------------------
@@ -129,6 +131,8 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
             SetCorePosition(FlowFieldManager.Instance.coreTransform);
         }
         OnDeath += SetDeathState;
+        OnSingleTrack += StatTrackManager.Instance.AddOne;
+        OnMultiTrack += StatTrackManager.Instance.AddMultiple;
     }
 
     public override void OnNetworkDespawn()
@@ -138,7 +142,8 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
         DayCycleManager.Instance.becameDay -= NewDayStats;
         FlowFieldManager.Instance.corePlaced -= SetCorePosition;
         OnDeath -= SetDeathState;
-
+        OnSingleTrack -= StatTrackManager.Instance.AddOne;
+        OnMultiTrack -= StatTrackManager.Instance.AddMultiple;
     }
     private void Start()
     {
@@ -310,6 +315,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
     {
         //here can also do something like KillTracker.Instance.Kills++;
         OnDeath?.Invoke(this);
+        OnSingleTrack?.Invoke(StatTrackType.Kill, ObjectTransform.name);
         if (dropItems)
         {
             DropItems();
@@ -317,10 +323,12 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
         
         GetComponent<NetworkObject>()?.Despawn();
     }
+    
+    
 
     public void TakeKnockback(Vector2 direction, float force)
     {
-        externalVelocity += direction.normalized * (Mathf.Log(force)/2);
+        externalVelocity += direction.normalized * (Mathf.Log(force) / 2);
     }
 
     public void NewDayStats()

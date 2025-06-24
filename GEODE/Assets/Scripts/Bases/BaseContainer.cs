@@ -132,6 +132,7 @@ public class BaseContainer : NetworkBehaviour
 
     internal void AddItemInternal(int id, int count)
     {
+        if (!IsServer) return;
         for (int i = 0; i < ContainerItems.Count; i++)
         {
             if (ContainerItems[i].Id == id && ItemDatabase.Instance.GetItem(id).IsStackable && ContainerItems[i].amount < maxItemStack)

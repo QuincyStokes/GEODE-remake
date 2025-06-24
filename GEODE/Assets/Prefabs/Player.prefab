@@ -13704,6 +13704,7 @@ MonoBehaviour:
   interactableLayerMask:
     serializedVersion: 2
     m_Bits: 128
+  openUniqueUI: {fileID: 0}
 --- !u!114 &2285968976491174105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14026,6 +14027,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameOverScreen: {fileID: 4702691512161646575}
+  nightNumText: {fileID: 0}
 --- !u!1 &8383525352726848420
 GameObject:
   m_ObjectHideFlags: 0

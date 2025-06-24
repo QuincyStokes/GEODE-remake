@@ -133,11 +133,11 @@ public class PlayerInventory : BaseContainer
     {
         // local owner only
         if (!IsOwner) return;
-
         ItemStack st = ContainerItems[GetSelectedSlotIndex()];
-        if (st.IsEmpty()) return;
 
+        if (st.IsEmpty()) return;
         BaseItem item = ItemDatabase.Instance.GetItem(st.Id);
+
         if (item == null) return;
 
         if (item.Use(mousePos))                // item’s own behaviour

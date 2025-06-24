@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14062792d9d7a0548b46048a8aa77e95, type: 3}
+  m_Name: StoneWallRecipe
+  m_EditorClassIdentifier: 
+  materials:
+  - item: {fileID: 11400000, guid: 87b8a0e4a971f3e4b820ee7d68187310, type: 2}
+    amount: 8
+  - item: {fileID: 11400000, guid: aaf27205a36d01649975845582b8bc17, type: 2}
+    amount: 1
+  results:
+  - item: {fileID: 11400000, guid: d9714f11328c6ca4a927c7baa45c1a67, type: 2}
+    amount: 1

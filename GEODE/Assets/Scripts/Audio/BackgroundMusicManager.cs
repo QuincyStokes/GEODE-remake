@@ -10,10 +10,10 @@ public class BackgroundMusicManager : MonoBehaviour
     {
         LobbyHandler.Instance.OnGameStarted += StopMusic;
         ConnectionManager.Instance.OnPlayerSpawned += PlayDayMusic;
-        DayCycleManager.Instance.becameNight += PlayNightMusic; //! error, doesn't exist when this awakens. 
-        DayCycleManager.Instance.becameDay += PlayDayMusic; //! error
+        //DayCycleManager.Instance.becameNight += PlayNightMusic; //! error, doesn't exist when this awakens. 
+        //DayCycleManager.Instance.becameDay += PlayDayMusic; //! error
         AudioManager.Instance.OnMusicEnded += PlayMusic;
-        //AudioManager.Instance.PlayMusic(MusicId.Forest_Day); Shoulnd't need this since OnPlayerSpawned does?
+        AudioManager.Instance.PlayMusic(MusicId.Forest_Day);
     }
 
     private void StopMusic()

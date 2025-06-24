@@ -317,9 +317,9 @@ MonoBehaviour:
   idealToolType: 4
   droppedItems:
   - Id: 1
-    minAmount: 0
-    maxAmount: 0
-    chance: 0
+    minAmount: 2
+    maxAmount: 4
+    chance: 100
   droppedXp: 0
   healthStateSprites: []
   particleSpawnPoint: {fileID: 2052563808128784492}
@@ -351,6 +351,7 @@ MonoBehaviour:
   tower: {fileID: 4543848016171230497}
   rangeIndicator: {fileID: 7750405966191835993}
   higlightColor: {r: 0.56205004, g: 1, b: 0.435849, a: 1}
+  uniqueUI: {fileID: 0}
   upgrades: []
   upgradeItems: []
   projectilePrefab: {fileID: 3971315044739012625, guid: 6adc3bbc20934134e95286598253a603, type: 3}

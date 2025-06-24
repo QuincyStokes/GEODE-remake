@@ -1,8 +1,10 @@
+using TMPro;
 using UnityEngine;
 
 public class GameOverUI : MonoBehaviour
 {
-    [SerializeField] private GameObject gameOverScreen; 
+    [SerializeField] private GameObject gameOverScreen;
+    [SerializeField] private TMP_Text nightNumText;
     private Transform coreTransform;
     private void Start()
     {
@@ -23,6 +25,8 @@ public class GameOverUI : MonoBehaviour
     {
         Debug.Log("GameOver hears Core Destroyed!");
         //would be really sick to lerp over to the core's position.
+
+        nightNumText.text = $"Night {DayCycleManager.Instance.DayNum}";
         gameOverScreen.SetActive(true);
     }
     

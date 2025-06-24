@@ -4,7 +4,7 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
-public class CraftingManager : MonoBehaviour
+public class CraftingManager : MonoBehaviour, ITrackable
 {
     //This script shall handle all (or maybe most) logic for the crafting menu
     //including checking player inventory for crafting validation, current selected recipe, etc
@@ -19,6 +19,8 @@ public class CraftingManager : MonoBehaviour
 
     //* --------------------------- Events ----------------------
     public event Action<CraftingRecipe> OnItemCrafted;
+    public event Action<StatTrackType, string> OnSingleTrack;
+    public event Action<StatTrackType, string, int> OnMultiTrack;
 
 
     //need a few different important functions
@@ -50,6 +52,8 @@ public class CraftingManager : MonoBehaviour
         playerInventory.OnContainerChanged += CheckHasRecipeItems;
         playerInventory.OnInventoryToggled += CheckHasRecipeItemsWrapper;
         playerInventory.OnSlotChanged += CheckHasRecipeItemsSlotWrapper;
+        OnSingleTrack += StatTrackManager.Instance.AddOne;
+        OnMultiTrack += StatTrackManager.Instance.AddMultiple;
         craftingTabs[0].SelectTab();
     }
 
@@ -59,6 +63,8 @@ public class CraftingManager : MonoBehaviour
         playerInventory.OnContainerChanged -= CheckHasRecipeItems;
         playerInventory.OnInventoryToggled -= CheckHasRecipeItemsWrapper;
         playerInventory.OnSlotChanged -= CheckHasRecipeItemsSlotWrapper;
+        OnSingleTrack -= StatTrackManager.Instance.AddOne;
+        OnMultiTrack -= StatTrackManager.Instance.AddMultiple;
     }
 
     public void SetRecipe(CraftingRecipe cr)
@@ -161,6 +167,7 @@ public class CraftingManager : MonoBehaviour
             {
                 playerInventory.AddItemServerRpc(ia.item.Id, ia.amount);
             }
+            OnSingleTrack?.Invoke(StatTrackType.ItemCrafted, currentRecipe.name);
             UpdateRecipeUI();
         }
     }

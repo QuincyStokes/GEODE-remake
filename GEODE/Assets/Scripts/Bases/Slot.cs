@@ -113,14 +113,17 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     {
         if (eventData.button == PointerEventData.InputButton.Left)
         {
+            Debug.Log("Slot clicked.");
             HandleLeftClick();
+
         }
     }
 
     public virtual void HandleLeftClick()
     {
-
-        if (container == null || !container.IsOwner)
+        Debug.Log($"In HandleLeftClick, Container={container == null}, Owner={container.IsOwner}");
+        if(container == null)
+        //if (container == null || !container.IsOwner)
         {
             return;
         }

@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
 using UnityEngine.UIElements;
 
-public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperienceGain, IUpgradeable, IDismantleable, ITracksHits
+public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperienceGain, IUpgradeable, IDismantleable, ITracksHits, ITrackable
 {
     //all towers shall inherit from this script, so we must include all things that *all* towers need
     //hold up, should towers have states? i think that doin too much, towers are simple
@@ -44,27 +44,34 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     [SerializeField] protected GameObject tower; //separate the tower from the "base" for towers that may rotate
     [SerializeField] protected GameObject rangeIndicator;
     public bool ShowingRange { get => rangeIndicator.activeSelf; set => rangeIndicator.SetActive(value); }
-
     [SerializeField] private Color higlightColor;
 
-    // final stats
+    [Header("Unique Menu")]
+    [SerializeField] private GameObject uniqueUI;
+    public GameObject UniqueUI { get => uniqueUI; }
+
+    //* ----------------- final stats ------------
     [HideInInspector] public NetworkVariable<float> speed { get; set; } = new NetworkVariable<float>(1f);
     [HideInInspector] public NetworkVariable<float> strength { get; set; } = new NetworkVariable<float>(1f);
     [HideInInspector] public NetworkVariable<float> size { get; set; } = new NetworkVariable<float>(1f);
     [HideInInspector] public NetworkVariable<float> sturdy { get; set; } = new NetworkVariable<float>(1f);
 
-    //Upgrade privates
+    //* -------------- Upgrade privates ----------
     [HideInInspector] public List<Upgrade> upgrades = new List<Upgrade>();
     [HideInInspector] public List<UpgradeItem> upgradeItems = new List<UpgradeItem>();
 
-    //Internal
+    //* ----------------Internal ---------------
     protected List<GameObject> targets = new List<GameObject>();
     protected Transform currentTarget;
     private Quaternion targetRotation;
     private bool isRotating;
     private float nextFireTime;
     private List<int> serverUpgradeItemIds = new();
+
+    //* ---------- Events -------
     public event Action OnUpgradesChanged;
+    public event Action<StatTrackType, string> OnSingleTrack;
+    public event Action<StatTrackType, string, int> OnMultiTrack;
     #endregion
 
     #region ACCESSORS
@@ -92,6 +99,11 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
         {
             detectionCollider.radius = size.Value;
         }
+
+        OnSingleTrack += StatTrackManager.Instance.AddOne;
+        OnMultiTrack += StatTrackManager.Instance.AddMultiple;
+
+        OnSingleTrack?.Invoke(StatTrackType.StructurePlace, ObjectTransform.name);
     }
 
     private void InitializeBaseStats()
@@ -128,6 +140,8 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
         base.OnDestroy();
         HideRangeIndicator();
         size.OnValueChanged -= RefreshRangeIndicator;
+        OnSingleTrack -= StatTrackManager.Instance.AddOne;
+        OnMultiTrack -= StatTrackManager.Instance.AddMultiple;
     }
 
     private void Update()

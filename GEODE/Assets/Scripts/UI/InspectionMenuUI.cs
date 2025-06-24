@@ -153,16 +153,16 @@ public class InspectionMenuUI : ContainerUIManager<InspectionMenu>
             SetGroup(dismantleThings, false);
         }
 
-        if (chest != null)
-        {
-            SetGroup(chestThings, true);
+        // if (chest != null)
+        // {
+        //     SetGroup(chestThings, true);
             
-        }
-        else
-        {
-            Debug.Log("IChest was null.");
-            SetGroup(chestThings, false);
-        }
+        // }
+        // else
+        // {
+        //     Debug.Log("IChest was null.");
+        //     SetGroup(chestThings, false);
+        // }
 
 
         

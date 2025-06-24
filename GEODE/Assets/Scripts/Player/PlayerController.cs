@@ -62,6 +62,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
 
     //PRIVATE INTERNAL
     private Transform _coreTransform;
+    public GameObject openUniqueUI;
 
     public override void OnNetworkSpawn()
     {
@@ -322,7 +323,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
     private void OnPrimaryFire(InputAction.CallbackContext context)
     {
         if (IsPointerOverUI()) return;
-
+        
         playerInventory.UseSelectedItem(Camera.main.ScreenToWorldPoint(mouseInput.ReadValue<Vector2>()));
 
     }
@@ -345,6 +346,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
             MonoBehaviour[] gos = hit.collider.gameObject.GetComponentsInParent<MonoBehaviour>();
 
             GameObject go = null;
+            GameObject uniqueUI = null;
 
             //if any of the retrieved Monos are also of type IInteractable (which Core should be for example), choose that gameObject. 
             foreach (MonoBehaviour mono in gos)
@@ -352,6 +354,15 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
                 if (mono is IInteractable)
                 {
                     go = mono.gameObject;
+                    break;
+                }
+            }
+
+            foreach (MonoBehaviour mono in gos)
+            {
+                if (mono is IUniqueMenu)
+                {
+                    uniqueUI = mono.gameObject;
                     break;
                 }
             }
@@ -365,6 +376,25 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
                 //can just give player a direct reference
                 inspectionMenu.CloseInspectionMenu();
             }
+
+            if (uniqueUI != null)
+            {
+                //turn off the old unique ui
+                if (openUniqueUI != null)
+                    openUniqueUI.GetComponent<IUniqueMenu>().HideMenu();
+
+                //show the new unique ui
+                uniqueUI.GetComponent<IUniqueMenu>().ShowMenu();
+                //set our current open ui to the one we just opened
+                openUniqueUI = uniqueUI;
+            }
+            else
+            {
+                if(openUniqueUI != null)
+                    openUniqueUI.GetComponent<IUniqueMenu>().HideMenu();
+            }
+
+
 
 
         }
@@ -382,6 +412,10 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
             else
             {
                 inspectionMenu.CloseInspectionMenu();
+
+                //if we have a uniqueUI open, close it.
+                if (openUniqueUI != null)
+                    openUniqueUI.GetComponent<IUniqueMenu>().HideMenu();
             }
         }
     }

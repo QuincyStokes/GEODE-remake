@@ -13,11 +13,11 @@ public class StructureItem : BaseItem
         {
             if(Id == 6 ||force || Vector2.Distance(Core.CORE.transform.position, position) < Core.CORE.buildRadius)
             {
-                for(int x = 0; x < width; x++)
+                for (int x = 0; x < width; x++)
                 {
-                    for(int y = 0; y < height; y++)
+                    for (int y = 0; y < height; y++)
                     {
-                        if(GridManager.Instance.IsPositionOccupied(new Vector3Int((int)position.x+(1*x), (int)position.y +(1*y), 0)))
+                        if (GridManager.Instance.IsPositionOccupied(new Vector3Int((int)position.x + (1 * x), (int)position.y + (1 * y), 0)))
                         {
                             return false;
                         }

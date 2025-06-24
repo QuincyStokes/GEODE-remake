@@ -2219,6 +2219,53 @@ MonoBehaviour:
   yourLobbyScreen: {fileID: 1494695903}
   hostOrJoinButtons: {fileID: 1066403423}
   yourLobby: {fileID: 1494695905}
+--- !u!1 &390109065
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 390109067}
+  - component: {fileID: 390109066}
+  m_Layer: 0
+  m_Name: StatTracker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &390109066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 390109065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91eb2e93e168a2745b12acf43983eb82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerStats:
+    nightsSurvived: 0
+    highestNightSurvived: 0
+--- !u!4 &390109067
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 390109065}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1095.7949, y: 600.1269, z: -7.176083}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &392399214
 GameObject:
   m_ObjectHideFlags: 0
@@ -9587,3 +9634,4 @@ SceneRoots:
   - {fileID: 23684284}
   - {fileID: 585131553}
   - {fileID: 79041539}
+  - {fileID: 390109067}
