@@ -117,7 +117,7 @@ public class InspectionMenu : BaseContainer
                 //! apply upgrade
                 Debug.Log($"Applying Upgrade {CursorStack.Instance.ItemStack.Id}");
                 IUpgradeable applyUpg = currentInspectedObject.GetComponent<IUpgradeable>();
-                applyUpg?.ApplyUpgradeServerRpc(CursorStack.Instance.ItemStack.Id);
+                applyUpg?.ApplyUpgradeServerRpc(CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.quality);
                 int after = CursorStack.Instance.ItemStack.amount - 1;
                 if (after == 0)
                 {
@@ -138,18 +138,18 @@ public class InspectionMenu : BaseContainer
 
             /* ----- SWAP (different item) ----- */
             // predict: slot shows cursor item, cursor shows previous slot item
-            slot.SetItem(CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount, true);
+            slot.SetItem(CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount, CursorStack.Instance.ItemStack.quality, interactable:true);
 
 
             //RPC, as before
             //! swap upgrades
             IUpgradeable swapApplyUpg = currentInspectedObject.GetComponent<IUpgradeable>();
             Debug.Log($"Swapping upgrades {ContainerItems[idx].Id} for {CursorStack.Instance.ItemStack.Id}");
-            swapApplyUpg?.ApplyUpgradeServerRpc(CursorStack.Instance.ItemStack.Id);
+            swapApplyUpg?.ApplyUpgradeServerRpc(CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.quality);
             swapApplyUpg?.RemoveUpgradeServerRpc(ContainerItems[idx].Id);
 
 
-            SwapSlotWithCursorServerRpc(idx, CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount);
+            SwapSlotWithCursorServerRpc(idx, CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount, CursorStack.Instance.ItemStack.quality);
             //OnSlotChanged?.Invoke(idx, new ItemStack { Id = CursorStack.Instance.ItemStack.Id, amount = CursorStack.Instance.ItemStack.amount }); 
             CursorStack.Instance.ItemStack = slotStack;
             return;
@@ -181,7 +181,7 @@ public class InspectionMenu : BaseContainer
         for (int i = 0; i < 4; i++)
         {
             if (upg != null && i < upg.UpgradeItems.Count)
-                ContainerItems.Add(new ItemStack { Id = upg.UpgradeItems[i].Id, amount = 1 });
+                ContainerItems.Add(new ItemStack { Id = upg.UpgradeItems[i].Id, amount = 1, quality=upg.UpgradeItems[i].quality });
             else
                 ContainerItems.Add(ItemStack.Empty);
         }

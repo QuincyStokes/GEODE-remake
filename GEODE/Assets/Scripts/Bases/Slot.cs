@@ -42,10 +42,10 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public virtual void SetItem(ItemStack itemStack)
     {
-        SetItem(itemStack.Id, itemStack.amount, true);
+        SetItem(itemStack.Id, itemStack.amount, itemStack.quality, interactable:true);
     }
 
-    public virtual void SetItem(int id = -1, int newCount = 1, bool interactable = false)
+    public virtual void SetItem(int id = -1, int newCount = 1, float quality=0f, bool interactable = false)
     {
         //set the internal item data
         itemSprite.preserveAspect = true;
@@ -68,7 +68,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
             itemCount.text = "";
         }
         canInteract = interactable;
-        displayedStack = new ItemStack { Id = id, amount = newCount };
+        displayedStack = new ItemStack { Id = id, amount = newCount, quality=quality };
         //StartCoroutine(ScaleUp());
         //set the UI to match
         //CheckItemDepleted();

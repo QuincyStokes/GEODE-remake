@@ -86,11 +86,11 @@ public class CraftingManager : MonoBehaviour, ITrackable
         for(int i = 0; i < currentRecipe.materials.Count && i < recipeDisplaySlots.Count; i++)
         {
             recipeDisplaySlots[i].gameObject.SetActive(true);
-            recipeDisplaySlots[i].SetItem(currentRecipe.materials[i].item.Id, currentRecipe.materials[i].amount, false);
+            recipeDisplaySlots[i].SetItem(currentRecipe.materials[i].item.Id, currentRecipe.materials[i].amount, interactable:false);
         }
         CheckHasRecipeItems();
 
-        recipeResultSlot.SetItem(currentRecipe.results[0].item.Id, currentRecipe.results[0].amount, false);
+        recipeResultSlot.SetItem(currentRecipe.results[0].item.Id, currentRecipe.results[0].amount, interactable:false);
         descriptionText.text = currentRecipe.results[0].item.Description;
         Debug.Log($"Can Craft {currentRecipe.name}? => {CheckCanCraft(currentRecipe)}");
     }

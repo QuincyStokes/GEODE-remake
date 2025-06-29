@@ -209,12 +209,12 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
                     float rolledChance = UnityEngine.Random.Range(0f, 100f);
                     if (rolledChance <= item.chance)
                     {
-                        LootManager.Instance.SpawnLootServerRpc(centerPoint.position, item.Id, UnityEngine.Random.Range(item.minAmount, item.maxAmount + 1));
+                        LootManager.Instance.SpawnLootServerRpc(centerPoint.position, item.Id, UnityEngine.Random.Range(item.minAmount, item.maxAmount + 1), minQuality:item.minItemQuality, maxQuality:item.maxItemQuality);
                     }
                 }
                 else
                 {
-                    LootManager.Instance.SpawnLootServerRpc(centerPoint.position, item.Id, UnityEngine.Random.Range(item.minAmount, item.maxAmount + 1));
+                    LootManager.Instance.SpawnLootServerRpc(centerPoint.position, item.Id, UnityEngine.Random.Range(item.minAmount, item.maxAmount + 1), minQuality:item.minItemQuality, maxQuality:item.maxItemQuality);
                 }
 
 

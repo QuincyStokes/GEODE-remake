@@ -112,6 +112,7 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
         damageFloater.GetComponent<DamageFloater>().Initialize(amount);
     }
 
+    //This isn't called for now, not sure how to handle player death.
     public void DropItems()
     {
         foreach (DroppedItem item in DroppedItems)

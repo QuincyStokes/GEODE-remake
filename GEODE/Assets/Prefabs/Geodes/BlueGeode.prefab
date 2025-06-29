@@ -626,11 +626,15 @@ MonoBehaviour:
   - Id: 31
     minAmount: 1
     maxAmount: 1
-    chance: 80
+    chance: 100
+    minItemQuality: 1
+    maxItemQuality: 30
   - Id: 2
     minAmount: 1
     maxAmount: 3
     chance: 100
+    minItemQuality: 0
+    maxItemQuality: 0
   droppedXp: 20
   healthStateSprites:
   - {fileID: 1856684019611383780, guid: 35d9d5fc183c1f84785bbdc22135bb95, type: 3}
@@ -639,6 +643,8 @@ MonoBehaviour:
   hitParticleEffectType: 2
   destroyParticleEffectType: 3
   healParticleEffectType: 0
+  hitSoundId: 0
+  breakSoundId: 0
   objectName: Blue Geode
   centerPoint: {fileID: 5222662708037614757}
   description: 

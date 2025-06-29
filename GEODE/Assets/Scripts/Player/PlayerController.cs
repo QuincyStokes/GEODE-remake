@@ -406,7 +406,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
                 float horizOffset;
                 if (lastMovedDir.x < 0) horizOffset = -1.5f;
                 else horizOffset = 1.5f;
-                LootManager.Instance.SpawnLootServerRpc(transform.position, CursorStack.Instance.ItemStack.Id, CursorStack.Instance.Amount, 2f, horizOffset);
+                LootManager.Instance.SpawnLootServerRpc(transform.position, CursorStack.Instance.ItemStack.Id, CursorStack.Instance.Amount, 2f, horizOffset, CursorStack.Instance.ItemStack.quality);
                 CursorStack.Instance.ItemStack = ItemStack.Empty;
             }
             else

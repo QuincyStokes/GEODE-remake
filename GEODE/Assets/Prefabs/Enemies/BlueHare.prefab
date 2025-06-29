@@ -319,10 +319,14 @@ MonoBehaviour:
     minAmount: 1
     maxAmount: 1
     chance: 5
+    minItemQuality: 0
+    maxItemQuality: 0
   - Id: 43
     minAmount: 1
     maxAmount: 1
     chance: 1.5
+    minItemQuality: 1
+    maxItemQuality: 100
   idealToolType: 5
   droppedXp: 15
   structureLayerMask:

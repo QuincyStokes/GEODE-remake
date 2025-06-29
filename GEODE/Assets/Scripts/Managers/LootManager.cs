@@ -9,14 +9,14 @@ public class LootManager : NetworkBehaviour
 
 
     private void Awake()
-    {   
-        
+    {
+
     }
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
         }
@@ -28,14 +28,11 @@ public class LootManager : NetworkBehaviour
     }
 
     [ServerRpc]
-    public void SpawnLootServerRpc(Vector3 position, int itemId, int amount, float delay=0f, float horizOffset = 0f)
+    public void SpawnLootServerRpc(Vector3 position, int itemId, int amount, float delay = 0f, float horizOffset = 0f, float quality = 0f, float minQuality=1f, float maxQuality=100f)
     {
         if (itemId == 0) return;
         GameObject lootGO = Instantiate(lootPrefab, position, Quaternion.identity);
         lootGO.GetComponent<NetworkObject>().Spawn();
-        lootGO.GetComponent<Loot>().Initialize(itemId, amount, delay, horizOffset);
-        
+        lootGO.GetComponent<Loot>().Initialize(itemId, amount, delay, horizOffset, quality, minQuality, maxQuality);
     }
-
-
 }

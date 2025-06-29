@@ -33,6 +33,12 @@ public class Loot : NetworkBehaviour
         NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Server
     );
+    
+    public NetworkVariable<float> quality = new NetworkVariable<float>(
+        0,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Server
+    );
    
     
 
@@ -41,7 +47,7 @@ public class Loot : NetworkBehaviour
         itemId.OnValueChanged += OnItemIdChanged;
 
         OnItemIdChanged(0, itemId.Value);
-        if(horizontalOffset == 0)
+        if (horizontalOffset == 0)
             horizontalOffset = Random.Range(-maxXOffset, +maxXOffset);
         BeginSpawnAnimation();
         //StartCoroutine(DelayCollider());
@@ -140,7 +146,7 @@ public class Loot : NetworkBehaviour
             yield return null;
         }
         AudioManager.Instance.PlayLocal(SoundId.Loot_Pickup);
-        inv.AddItemServerRpc(itemId.Value, amount.Value);
+        inv.AddItemServerRpc(itemId.Value, amount.Value, quality.Value);
         NetworkObject.Despawn(true);
     }
 
@@ -158,11 +164,26 @@ public class Loot : NetworkBehaviour
         }
     }
 
-    public void Initialize(int Id, int itemAmount, float delay=0f, float horizOffset=0f)
+    public void Initialize(int Id, int itemAmount, float delay=0f, float horizOffset=0f, float qual=0, float minQual=1f, float maxQual = 100f)
     {
         itemId.Value = Id;
         amount.Value = itemAmount;
         pickupDelay = delay;
+        //THIS MEANS only upgrades have Quality's for now, which I think is okay
+            //! Here is where we would change though if we wanted to give tools or something quality.
+        BaseItem item = ItemDatabase.Instance.GetItem(Id);
+        Debug.Log($"Initializing Loot with quality {qual}");
+        if (qual == 0 && item.type == ItemType.Upgrade)
+        {
+            //silly little trick to round to nearest 1 decimal place.
+            float f = Random.Range(minQual, maxQual);
+            f = Mathf.Round(f * 10.0f) * 0.1f;
+            quality.Value = f;
+        }
+        else
+        {
+            quality.Value = qual;
+        }
         if (horizOffset != 0)
         {
             horizontalOffset = horizOffset;
