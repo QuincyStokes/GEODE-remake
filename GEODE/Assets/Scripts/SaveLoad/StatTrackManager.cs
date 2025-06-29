@@ -1,22 +1,41 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
+using System.Collections;
+
 
 public class StatTrackManager : MonoBehaviour
 {
     public static StatTrackManager Instance;
+    public StatPersistence persistence;
     [SerializeField] private PlayerStats playerStats;
-    
+
+    private bool isCoroutineRunning;
+
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+
         }
         else
         {
             Destroy(gameObject);
+            return;
+        }
+
+        persistence = new StatPersistence();
+        playerStats = persistence.Load();
+    }
+
+    private void Update()
+    {
+        if (!isCoroutineRunning)
+        {
+            StartCoroutine(ScheduledSave());
         }
     }
 
@@ -90,7 +109,25 @@ public class StatTrackManager : MonoBehaviour
                 playerStats.itemsCrafted[trackedName] += num;
                 break;
         }
-    }   
+    }
+
+    
+
+    private void OnApplicationQuit()
+    {
+        persistence.Save(playerStats);
+    }
+
+    private IEnumerator ScheduledSave()
+    {
+        isCoroutineRunning = true;
+        yield return new WaitForSeconds(30f);
+        persistence.Save(playerStats);
+        isCoroutineRunning = false;
+    }
+
+
+
 }
 
 

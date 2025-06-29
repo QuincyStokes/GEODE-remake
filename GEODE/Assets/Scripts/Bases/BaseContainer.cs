@@ -211,7 +211,7 @@ public class BaseContainer : NetworkBehaviour
             slot.SetItem();                               // empty the visuals
             CursorStack.Instance.ItemStack = slotStack;
 
-            MoveStackServerRpc(idx, -1, -1, 0);                  // ask server
+            MoveStackServerRpc(idx, -1, -1, 0, 0);                  // ask server
             return;
         }
 
@@ -245,7 +245,7 @@ public class BaseContainer : NetworkBehaviour
             if (slotStack.IsEmpty())
             {
                 slot.SetItem(CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount, CursorStack.Instance.ItemStack.quality, interactable:true);
-                MoveStackServerRpc(-1, idx, CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount);
+                MoveStackServerRpc(-1, idx, CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount, CursorStack.Instance.ItemStack.quality);
 
                 CursorStack.Instance.ItemStack = ItemStack.Empty;
                 return;
@@ -296,15 +296,15 @@ public class BaseContainer : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    protected void MoveStackServerRpc(int fromIndex, int toIndex, int stackId, int stackAmount)
+    protected void MoveStackServerRpc(int fromIndex, int toIndex, int stackId, int stackAmount, float stackQuality)
     {
-        ApplyMove(fromIndex, toIndex, stackId, stackAmount);
+        ApplyMove(fromIndex, toIndex, stackId, stackAmount, stackQuality);
     }
 
-    protected bool ApplyMove(int from, int to, int stackId, int stackAmount)
+    protected bool ApplyMove(int from, int to, int stackId, int stackAmount, float stackQuality)
     {
 
-        ItemStack cache = new ItemStack { Id = stackId, amount = stackAmount };
+        ItemStack cache = new ItemStack { Id = stackId, amount = stackAmount, quality=stackQuality };
         ItemStack fromStack;
         ItemStack toStack;
 
