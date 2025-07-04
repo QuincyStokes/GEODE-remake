@@ -10,13 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 14062792d9d7a0548b46048a8aa77e95, type: 3}
-  m_Name: BallistaTowerRecipe
+  m_Name: SlingshotTowerRecipe
   m_EditorClassIdentifier: 
   materials:
   - item: {fileID: 11400000, guid: 7ce5eb3e969b3624ba325ef6b0d78341, type: 2}
-    amount: 12
+    amount: 10
   - item: {fileID: 11400000, guid: aaf27205a36d01649975845582b8bc17, type: 2}
-    amount: 8
+    amount: 4
+  - item: {fileID: 11400000, guid: 87b8a0e4a971f3e4b820ee7d68187310, type: 2}
+    amount: 4
   results:
-  - item: {fileID: 11400000, guid: 43d00afd958431144adc3eac917f220b, type: 2}
+  - item: {fileID: 11400000, guid: 4bfd1b111e8898241a3e98e44fb4507c, type: 2}
     amount: 1

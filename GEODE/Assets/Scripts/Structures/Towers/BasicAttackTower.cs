@@ -1,7 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class BallistaTower : BaseTower
+public class BasicAttackTower : BaseTower
 {
     [Header("References")]
     [SerializeField] private GameObject projectilePrefab;

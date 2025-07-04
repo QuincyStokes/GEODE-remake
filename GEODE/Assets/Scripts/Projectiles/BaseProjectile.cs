@@ -4,8 +4,9 @@ public abstract class BaseProjectile : MonoBehaviour
 {
     [Header("Properties")]
     public float speed;
-    public float damage;
+    [HideInInspector] public float damage;
     public float lifetime;
+    public float rotationSpeed;
     private ITracksHits parentTower;
     [SerializeField] private Rigidbody2D rb;
 
@@ -15,6 +16,7 @@ public abstract class BaseProjectile : MonoBehaviour
     {
         damage = damageAmount;
         rb.linearVelocity = velocity * speed;
+        rb.angularVelocity = rotationSpeed;
         parentTower = iHits;
         Destroy(gameObject, lifetime);
     }

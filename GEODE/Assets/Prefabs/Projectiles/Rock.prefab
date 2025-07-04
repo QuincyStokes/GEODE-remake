@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 2914130957395414166}
   - component: {fileID: 3892343075904066022}
   m_Layer: 0
-  m_Name: Bolt
+  m_Name: Rock
   m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -82,7 +82,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 5563887230975585060, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
+  m_Sprite: {fileID: 8741364315380650574, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3738221785
+  GlobalObjectIdHash: 491811557
   InScenePlacedSourceGlobalObjectIdHash: 3738221785
   DeferredDespawnTick: 0
   Ownership: 1
@@ -169,6 +169,7 @@ MonoBehaviour:
   speed: 10
   damage: 0
   lifetime: 5
+  rotationSpeed: 100
   rb: {fileID: 2914130957395414166}
 --- !u!70 &5711495471982918324
 CapsuleCollider2D:

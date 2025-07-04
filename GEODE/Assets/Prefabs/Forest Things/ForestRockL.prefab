@@ -149,13 +149,17 @@ MonoBehaviour:
   - Id: 2
     minAmount: 1
     maxAmount: 1
-    chance: 100
+    chance: 65
+    minItemQuality: 0
+    maxItemQuality: 0
   droppedXp: 1
   healthStateSprites: []
   particleSpawnPoint: {fileID: 0}
   hitParticleEffectType: 0
   destroyParticleEffectType: 0
   healParticleEffectType: 0
+  hitSoundId: 0
+  breakSoundId: 0
   objectName: Forest Floor Rock
   centerPoint: {fileID: 7757110238357635914}
   description: 

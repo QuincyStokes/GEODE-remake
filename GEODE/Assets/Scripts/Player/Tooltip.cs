@@ -94,7 +94,7 @@ public class TooltipService : MonoBehaviour
                     _itemQualityTMP.text = "\n" + quality.ToString("N1") + "%";
                     foreach (Upgrade upgrade in upgItem.upgradeList)
                     {
-                        _itemStatsTMP.text += $"{upgrade.upgradeType} : {upgrade.percentIncrease * (quality/100)}\n";
+                        _itemStatsTMP.text += $"{upgrade.upgradeType} : {upgrade.percentIncrease * (quality/100)}%\n";
                     }
                 }
                 break;

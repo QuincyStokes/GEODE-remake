@@ -21,6 +21,7 @@ public class CraftingManager : MonoBehaviour, ITrackable
     public event Action<CraftingRecipe> OnItemCrafted;
     public event Action<StatTrackType, string> OnSingleTrack;
     public event Action<StatTrackType, string, int> OnMultiTrack;
+    public event Action OnRecipeCheck;
 
 
     //need a few different important functions
@@ -136,21 +137,24 @@ public class CraftingManager : MonoBehaviour, ITrackable
     }
     public void CheckHasRecipeItems()
     {
-        if (currentRecipe == null) return;
-        for (int i = 0; i < currentRecipe.materials.Count && i < recipeDisplaySlots.Count; i++)
+        if (currentRecipe != null)
         {
-            BaseItem requiredItem = currentRecipe.materials[i].item;
-            int requiredCount = currentRecipe.materials[i].amount;
-            if (playerInventory.GetItemCount(requiredItem) >= requiredCount)
+            for (int i = 0; i < currentRecipe.materials.Count && i < recipeDisplaySlots.Count; i++)
             {
-                //light up the slot homehow
-                recipeDisplaySlots[i].SetSlotHighlight(true);
-            }
-            else
-            {
-                recipeDisplaySlots[i].SetSlotHighlight(false);
+                BaseItem requiredItem = currentRecipe.materials[i].item;
+                int requiredCount = currentRecipe.materials[i].amount;
+                if (playerInventory.GetItemCount(requiredItem) >= requiredCount)
+                {
+                    //light up the slot homehow
+                    recipeDisplaySlots[i].SetSlotHighlight(true);
+                }
+                else
+                {
+                    recipeDisplaySlots[i].SetSlotHighlight(false);
+                }
             }
         }
+        OnRecipeCheck?.Invoke();
     }
     public void Craft()
     {
@@ -171,5 +175,4 @@ public class CraftingManager : MonoBehaviour, ITrackable
             UpdateRecipeUI();
         }
     }
-
 }

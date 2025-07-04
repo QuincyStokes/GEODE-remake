@@ -178,15 +178,19 @@ MonoBehaviour:
   idealToolType: 0
   droppedItems:
   - Id: 24
-    minAmount: 3
+    minAmount: 1
     maxAmount: 3
-    chance: 100
+    chance: 65
+    minItemQuality: 0
+    maxItemQuality: 0
   droppedXp: 3
   healthStateSprites: []
   particleSpawnPoint: {fileID: 0}
   hitParticleEffectType: 0
   destroyParticleEffectType: 0
   healParticleEffectType: 0
+  hitSoundId: 0
+  breakSoundId: 0
   objectName: Grass
   centerPoint: {fileID: 7947244351379121884}
   description: 

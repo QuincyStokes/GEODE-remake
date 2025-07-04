@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 801184ae3a0d9d2479257a43cc174ad5, type: 3}
+  m_Name: SlingshotTower
+  m_EditorClassIdentifier: 
+  name: Slingshot Tower
+  description: Flings rocks at enemies. Low speed, low damage.
+  type: 2
+  icon: {fileID: 6772751742765087526, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
+  id: 46
+  quality: 0
+  isStackable: 1
+  consumeOnUse: 1
+  prefab: {fileID: 5241912323242780402, guid: 9d161f69341a49f4b8560e3464b1c0fe, type: 3}
+  width: 2
+  height: 2

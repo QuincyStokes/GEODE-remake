@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -10,8 +11,9 @@ public class CraftingSlot : Slot
     {
         craftingRecipe = cr;
         craftingManager = cm;
-        SetItem(cr.results[0].item.Id, cr.results[0].amount, interactable:false);
+        SetItem(cr.results[0].item.Id, cr.results[0].amount, interactable: false);
         itemSprite.preserveAspect = true;
+        cm.OnRecipeCheck += CheckCanCraft;
     }
 
     public override void HandleLeftClick()
@@ -20,12 +22,29 @@ public class CraftingSlot : Slot
         craftingManager.SetRecipe(craftingRecipe);
     }
 
-     public override void OnPointerEnter(PointerEventData eventData)
+    public override void OnPointerEnter(PointerEventData eventData)
     {
         Debug.Log("Slot entered.");
         TooltipService.Instance.RequestShow(this);
-        
-        
+
+
+    }
+
+    private void CheckCanCraft()
+    {
+        if (craftingManager.CheckCanCraft(craftingRecipe))
+        {
+            SetSlotHighlight(true);
+        }
+        else
+        {
+            SetSlotHighlight(false);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        craftingManager.OnRecipeCheck -= CheckCanCraft;
     }
 
 

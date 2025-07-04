@@ -302,16 +302,16 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: 64x64Sprites_5
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
-    alignment: 0
+    pivot: {x: 0.90909094, y: 0.49056605}
+    alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
       serializedVersion: 2
-      x: 356
-      y: 172
-      width: 1
-      height: 1
+      x: 403
+      y: 116
+      width: 22
+      height: 53
     spriteID: 4efe537d958f94842addc770efc0a938
     spriteBone: []
     spriteOutline: []
@@ -342,6 +342,27 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
+  - name: 64x64Sprites_7
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 6
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 384
+      y: 6
+      width: 64
+      height: 82
+    spriteID: eeb827e379127a740a6095f957e91785
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
   asepriteLayers:
   - layerIndex: 0
     guid: 1066965640
@@ -356,7 +377,7 @@ ScriptedImporter:
       cellRect:
         x: 32
         y: 169
-        width: 344
+        width: 448
         height: 184
       spriteId: 9bdb4201716a88e43bcd623209a67237
     linkedCells: []

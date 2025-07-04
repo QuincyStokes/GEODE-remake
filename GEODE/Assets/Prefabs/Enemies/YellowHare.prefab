@@ -309,7 +309,7 @@ MonoBehaviour:
   rb: {fileID: 7670961486429863952}
   collisionHitbox: {fileID: 5654494770542405513}
   aggroRadius: {fileID: 4507244449337361817}
-  attackDamage: 10
+  attackDamage: 5
   attackRange: 1.6
   movementSpeed: 2
   BASE_MAX_HEALTH: 25
@@ -325,8 +325,8 @@ MonoBehaviour:
     minAmount: 1
     maxAmount: 1
     chance: 1.5
-    minItemQuality: 1
-    maxItemQuality: 100
+    minItemQuality: 50
+    maxItemQuality: 75
   idealToolType: 5
   droppedXp: 15
   structureLayerMask:
@@ -335,7 +335,7 @@ MonoBehaviour:
   knockbackDecay: 0.9
   attackWindupTime: 0.25
   attackRecoveryTime: 1
-  attackCooldown: 3
+  attackCooldown: 2.5
   wanderRadius: 5
   wanderTimeMin: 2
   wanderTimeMax: 5

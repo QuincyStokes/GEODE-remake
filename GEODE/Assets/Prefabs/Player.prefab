@@ -312,8 +312,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 50, y: 30}
-  m_SizeDelta: {x: 100, y: 60}
+  m_AnchoredPosition: {x: 60.940166, y: 39.359924}
+  m_SizeDelta: {x: 121.8803, y: 78.7198}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7295852430331996837
 CanvasRenderer:
@@ -1242,7 +1242,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -6957455507187207058, guid: e010ba69420f77f41b67691fe934beff, type: 3}
+  m_Sprite: {fileID: 927179027468805272, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -1776,8 +1776,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 6.2
-  m_fontSizeBase: 6.2
+  m_fontSize: 7
+  m_fontSizeBase: 7
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -3911,7 +3911,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ITEM_NAME
+  m_text: Ballista Tower
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4f67a3aab32a18e40b2fb7f3f3feed80, type: 2}
   m_sharedMaterial: {fileID: 993263750792933106, guid: 4f67a3aab32a18e40b2fb7f3f3feed80, type: 2}
@@ -3938,8 +3938,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 8.63
-  m_fontSizeBase: 8.63
+  m_fontSize: 10
+  m_fontSizeBase: 10
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -4815,8 +4815,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -17.68359}
-  m_SizeDelta: {x: -13.608498, y: -49.597702}
+  m_AnchoredPosition: {x: 0, y: -20.2676}
+  m_SizeDelta: {x: -13.6085, y: -54.7658}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1147111607860313304
 CanvasRenderer:
@@ -4873,8 +4873,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 6.2
-  m_fontSizeBase: 6.2
+  m_fontSize: 7
+  m_fontSizeBase: 7
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -5333,7 +5333,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ITEM_TYPE
+  m_text: Structure
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4f67a3aab32a18e40b2fb7f3f3feed80, type: 2}
   m_sharedMaterial: {fileID: 993263750792933106, guid: 4f67a3aab32a18e40b2fb7f3f3feed80, type: 2}
@@ -5360,8 +5360,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 6.2
-  m_fontSizeBase: 6.2
+  m_fontSize: 7
+  m_fontSizeBase: 7
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -7157,8 +7157,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 6.2
-  m_fontSizeBase: 6.2
+  m_fontSize: 7
+  m_fontSizeBase: 7
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -8968,7 +8968,7 @@ GameObject:
   - component: {fileID: 1261690243897147968}
   - component: {fileID: 759173200609749077}
   m_Layer: 0
-  m_Name: MiscTab
+  m_Name: TowerTab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9008,7 +9008,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a6478e2b74747c4a96a214b32f53221, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tabRecipes: {fileID: 11400000, guid: 7be3232eff478754ca4355c3d004f3d1, type: 2}
+  tabRecipes: {fileID: 11400000, guid: e148ad36c0b91324eb9adfe4e22b8569, type: 2}
   recipeSlotsHolder: {fileID: 9068358260098037072}
   craftingSlotPrefab: {fileID: 6343713965445539214, guid: a0d2d74d7f57dd145b185022d0fa5cc7, type: 3}
   allCraftingTabs:
@@ -12533,7 +12533,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: \n%99
+  m_text: \n100%
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4f67a3aab32a18e40b2fb7f3f3feed80, type: 2}
   m_sharedMaterial: {fileID: 993263750792933106, guid: 4f67a3aab32a18e40b2fb7f3f3feed80, type: 2}
@@ -12560,8 +12560,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 6.2
-  m_fontSizeBase: 6.2
+  m_fontSize: 7
+  m_fontSizeBase: 7
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -13176,8 +13176,8 @@ RectTransform:
   m_Children:
   - {fileID: 2542276812723747353}
   - {fileID: 5522342047145557955}
-  - {fileID: 8781412166677057228}
   - {fileID: 1261690243897147968}
+  - {fileID: 8781412166677057228}
   m_Father: {fileID: 1361735572734798387}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
