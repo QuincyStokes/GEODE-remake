@@ -53,6 +53,7 @@ public class BaseContainer : NetworkBehaviour
         CursorStack.Instance.ItemStack = ItemStack.Empty;
 
         ContainerItems.OnListChanged += HandleListChanged;
+        Debug.Log("Container is ready!");
         Ready?.Invoke();
     }
 
@@ -82,7 +83,7 @@ public class BaseContainer : NetworkBehaviour
     }
 
 
-    private void BuildSubContainerIndices()
+    protected void BuildSubContainerIndices()
     {
         int running = 0;
         foreach (var sc in subContainers)
@@ -92,7 +93,7 @@ public class BaseContainer : NetworkBehaviour
         }
     }
 
-    private void SeedItemList()
+    protected void SeedItemList()
     {
         ContainerItems.Clear();
 

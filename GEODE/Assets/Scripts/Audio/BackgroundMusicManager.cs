@@ -13,7 +13,7 @@ public class BackgroundMusicManager : MonoBehaviour
         //DayCycleManager.Instance.becameNight += PlayNightMusic; //! error, doesn't exist when this awakens. 
         //DayCycleManager.Instance.becameDay += PlayDayMusic; //! error
         AudioManager.Instance.OnMusicEnded += PlayMusic;
-        AudioManager.Instance.PlayMusic(MusicId.Forest_Day);
+        AudioManager.Instance.PlayMusic(MusicId.Main_Menu);
     }
 
     private void StopMusic()

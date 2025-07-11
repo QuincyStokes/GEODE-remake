@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MusicDatabase
   MusicDataList:
   - {fileID: 11400000, guid: af5709e0955cae242939881d179c452d, type: 2}
+  - {fileID: 11400000, guid: 78516a2422f757f46adb8a79c7d3f6a5, type: 2}

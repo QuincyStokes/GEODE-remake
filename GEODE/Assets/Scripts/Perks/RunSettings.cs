@@ -15,8 +15,25 @@ public class RunSettings : MonoBehaviour
     // ------------------ Default Values ------- */
     //depends more specifically on what we want our upgrades to be
     //will add more here as we go on.
-    public float playerDamageMultiplier;
+
+    //* TOWER MODIFIERS */
+    public float towerDamage;
+    public float towerSpeed;
+    public float towerHealth;
+    public float towerRange;
+
+    //* PLAYER MODIFIERS */
+    public float playerDamage;
+    public float playerMovespeed;
+    public float playerXp;
+    public float playerHealth;
+
+
+    //* STARTING ITEMS */
     public List<BaseItem> additionalStartingItems;
+
+    //*DROPRATE MODIFIERS */ (unsure about this one)
+    public float droprate;
     private void Awake()
     {
         if (Instance == null)
@@ -37,14 +54,11 @@ public class RunSettings : MonoBehaviour
         additionalStartingItems.Clear();
     }
 
-
-    public enum StatRequirement
+}
+public enum StatRequirement
     {
         Kill,
         NightsSurvived,
         ItemCrafted,
-        
-        
+        StructurePlaced
     }
-
-}

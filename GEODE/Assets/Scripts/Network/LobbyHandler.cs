@@ -287,6 +287,7 @@ public class LobbyHandler : MonoBehaviour
         StopAllCoroutines();
         joinedLobby = null;
         hostOrJoinButtons.SetActive(true);
+        customizeLobbyScreen.SetActive(false);
         yourLobbyScreen.SetActive(false);
     }
 
@@ -306,7 +307,7 @@ public class LobbyHandler : MonoBehaviour
 
         CreateLobby();
         yourLobbyScreen.SetActive(true);
-        //customizeLobbyScreen.SetActive(false);
+        customizeLobbyScreen.SetActive(true);
         createALobbyScreen.SetActive(false);
         
     }

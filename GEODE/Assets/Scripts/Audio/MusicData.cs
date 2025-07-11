@@ -13,5 +13,6 @@ public class MusicData : ScriptableObject
 public enum MusicId
 {
     NONE,
-    Forest_Day
+    Forest_Day,
+    Main_Menu
 }
