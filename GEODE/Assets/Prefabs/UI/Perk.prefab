@@ -32,10 +32,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 7099478906467119991}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -10, y: -10.000002}
+  m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5972845459825522168
 CanvasRenderer:
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 8974179435539756478, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
+  m_Sprite: {fileID: -2889682985849509811, guid: d67565ea0f494c14087cdb84193b784a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -88,6 +88,7 @@ GameObject:
   - component: {fileID: 8669609258213123481}
   - component: {fileID: 2436248731140367068}
   - component: {fileID: 5885836564913803626}
+  - component: {fileID: 128807042406734163}
   m_Layer: 0
   m_Name: Perk
   m_TagString: Untagged
@@ -113,7 +114,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 80, y: 0}
+  m_SizeDelta: {x: 130, y: 130}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8358822327333720324
 CanvasRenderer:
@@ -143,8 +144,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 7635988721252129568, guid: 73f096fc61a34ed40a4bd31fd2676b16, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -197,13 +198,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 5885836564913803626}
+        m_TargetAssemblyTypeName: Perk, Assembly-CSharp
+        m_MethodName: SelectPerk
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -221,5 +222,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a090a2bd4b777cb469401283f4ec39d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  perk: {fileID: 0}
+  perk: {fileID: 11400000, guid: 63167951aac497f419d3c6520d2e4fd2, type: 2}
+  _perkCollection: {fileID: 0}
+  perkSelectedBG: {fileID: 4171981042168132703, guid: 73f096fc61a34ed40a4bd31fd2676b16, type: 3}
+  perkUnselectedBG: {fileID: 7635988721252129568, guid: 73f096fc61a34ed40a4bd31fd2676b16, type: 3}
   perkSprite: {fileID: 7562415948018712282}
+  perkBackground: {fileID: 0}
+--- !u!114 &128807042406734163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7705382532199081500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: -1
+  m_PreferredHeight: -1
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1

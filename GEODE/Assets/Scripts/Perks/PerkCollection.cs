@@ -11,12 +11,6 @@ public class PerkCollection : MonoBehaviour
     {
         Debug.Log("Initializing Perk Collection");
         this.pm = pm;
-        foreach (PerkData perk in perksDatas)
-        {
-            GameObject perkObj = Instantiate(pm.perkPrefab, transform);
-            Perk p = perkObj.GetComponent<Perk>();
-            p.Initialize(perk, this);
-        }
     }
 
     public void UnselectAllPerks()
