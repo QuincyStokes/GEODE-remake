@@ -1,4 +1,6 @@
 using System;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -7,7 +9,7 @@ public class Perk : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [Header("Perk")]
     public PerkData perk;
-    [SerializeField] private PerkCollection _perkCollection;
+    private PerkCollection _perkCollection;
     public Sprite perkSelectedBG;
     public Sprite perkUnselectedBG;
 
@@ -15,6 +17,11 @@ public class Perk : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     [Header("UI References")]
     public Image perkSprite;
     public Image perkBackground;
+
+    [Header("Tooltip")]
+    public GameObject perkTooltip;
+    public TMP_Text tooltipName;
+    public TMP_Text tooltipDescription;
 
     //* ---------- Events ----------- */
     public event Action OnPerkSelected;
@@ -24,14 +31,6 @@ public class Perk : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     private PerkCollection _pc;
 
-    private void Awake()
-    {
-        if (perk != null)
-        {
-            Initialize(perk, _perkCollection);
-        }
-
-    }
     public void SelectPerk()
     {
         Debug.Log($"Perk {name} selected.");
@@ -53,6 +52,8 @@ public class Perk : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         OnPerkSelected += _pc.UnselectAllPerks;
         this.perk = perk;
         perkSprite.sprite = perk.icon;
+        tooltipName.text = perk.PerkName;
+        tooltipDescription.text = perk.description;
         
     }
 
@@ -63,11 +64,11 @@ public class Perk : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        
+        perkTooltip.SetActive(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        
+        perkTooltip.SetActive(false);
     }
 }

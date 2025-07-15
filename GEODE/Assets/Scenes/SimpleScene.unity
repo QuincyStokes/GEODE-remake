@@ -119,7 +119,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!43 &432494860
+--- !u!43 &204521342
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -25090,7 +25090,7 @@ MonoBehaviour:
     rid: 6094927490610102355
   m_ShadowCastingSource: 2
   m_ShadowMesh:
-    m_Mesh: {fileID: 432494860}
+    m_Mesh: {fileID: 204521342}
     m_LocalBounds:
       m_Center: {x: 1.184372, y: 2.625, z: 0}
       m_Extent: {x: 0.94918823, y: 2.4773102, z: 0}
