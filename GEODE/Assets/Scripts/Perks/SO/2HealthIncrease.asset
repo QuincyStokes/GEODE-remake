@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2de91d749f9f4d1429be2144c51bf947, type: 3}
-  m_Name: 2DamageIncrease
+  m_Name: 2HealthIncrease
   m_EditorClassIdentifier: 
-  PerkName: Player Damage
-  description: Increases player damage dealt by 25%
-  icon: {fileID: 4882302237312609531, guid: d67565ea0f494c14087cdb84193b784a, type: 3}
+  PerkName: Player Health
+  description: Increases player health by 50%
+  icon: {fileID: 8736799989235018335, guid: d67565ea0f494c14087cdb84193b784a, type: 3}
   statRequirement: 0
-  requirementKey: Redhare(Clone)
+  requirementKey: GreenHare(Clone)
   requirementAmount: 150
-  statType: 0
-  statIncrease: 25
+  statType: 2
+  statIncrease: 50
