@@ -47,11 +47,24 @@ public class RunSettings : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        LobbyHandler.Instance.OnGameStarted += ApplyStats;
+    }
+
 
     public void Reset()
     {
         chosenPerks.Clear();
         additionalStartingItems.Clear();
+    }
+
+    private void ApplyStats()
+    {
+        foreach (PerkData perk in chosenPerks)
+        {
+            perk.Apply(this);
+        }
     }
 
 }

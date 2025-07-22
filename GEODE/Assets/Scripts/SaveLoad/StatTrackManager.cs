@@ -111,7 +111,7 @@ public class StatTrackManager : MonoBehaviour
         }
     }
 
-    
+
 
     private void OnApplicationQuit()
     {
@@ -124,6 +124,11 @@ public class StatTrackManager : MonoBehaviour
         yield return new WaitForSeconds(30f);
         persistence.Save(playerStats);
         isCoroutineRunning = false;
+    }
+
+    public PlayerStats GetPlayerStats()
+    {
+        return playerStats;
     }
 
 

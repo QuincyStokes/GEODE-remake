@@ -6816,7 +6816,7 @@ GameObject:
   - component: {fileID: 1359880678}
   - component: {fileID: 1359880677}
   m_Layer: 0
-  m_Name: PerkManager
+  m_Name: RunSettings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

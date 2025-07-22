@@ -9,6 +9,7 @@ public class PerkManager : MonoBehaviour
     [Header("Perk Prefab")]
     public GameObject perkPrefab;
 
+
     private void Awake()
     {
         PopulatePerks();

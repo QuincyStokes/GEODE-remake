@@ -224,6 +224,8 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
 
         CameraManager.Instance.FollowPlayer(transform);
 
+        //Load relevent perk effects (not sure if this is the best way to do this)
+        moveSpeed *= 1 + RunSettings.Instance.playerMovespeed;
 
     }
 

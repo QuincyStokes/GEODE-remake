@@ -17,6 +17,7 @@ public class Perk : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     [Header("UI References")]
     public Image perkSprite;
     public Image perkBackground;
+    public Button button;
 
     [Header("Tooltip")]
     public GameObject perkTooltip;
@@ -54,7 +55,23 @@ public class Perk : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         perkSprite.sprite = perk.icon;
         tooltipName.text = perk.PerkName;
         tooltipDescription.text = perk.description;
-        
+
+        if (perk.IsUnlocked(StatTrackManager.Instance.GetPlayerStats()))
+        {
+            button.interactable = true;
+        }
+        else
+        {
+            button.interactable = false;
+        }
+    }
+
+    public void InitializeSkeleton(PerkData perk)
+    {
+        this.perk = perk;
+        perkSprite.sprite = perk.icon;
+        tooltipName.text = perk.PerkName;
+        tooltipDescription.text = perk.description;
     }
 
     private void OnDestroy()
