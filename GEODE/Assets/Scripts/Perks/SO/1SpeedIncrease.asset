@@ -19,4 +19,4 @@ MonoBehaviour:
   requirementKey: YellowHare(Clone)
   requirementAmount: 50
   statType: 1
-  statIncrease: 5
+  statIncrease: 0.05

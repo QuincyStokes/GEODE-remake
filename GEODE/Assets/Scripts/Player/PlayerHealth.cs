@@ -90,6 +90,8 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
     {
         base.OnNetworkSpawn();
 
+        MaxHealth.Value *= 1 + RunSettings.Instance.playerHealth;
+        CurrentHealth.Value = MaxHealth.Value;
     }
 
     public override void OnNetworkDespawn()

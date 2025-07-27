@@ -752,6 +752,7 @@ MonoBehaviour:
   yourLobby: {fileID: 1494695903}
   createALobby: {fileID: 339884893}
   customizeScreen: {fileID: 1394115223}
+  perkSelectionScreen: {fileID: 1394115223}
 --- !u!4 &178098246
 Transform:
   m_ObjectHideFlags: 0

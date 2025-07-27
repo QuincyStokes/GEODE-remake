@@ -19,4 +19,4 @@ MonoBehaviour:
   requirementKey: GreenHare(Clone)
   requirementAmount: 50
   statType: 2
-  statIncrease: 20
+  statIncrease: 0.2

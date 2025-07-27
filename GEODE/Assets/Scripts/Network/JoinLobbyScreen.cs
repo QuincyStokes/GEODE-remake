@@ -17,6 +17,7 @@ public class JoinLobbyScreen : MonoBehaviour
     [SerializeField] private GameObject yourLobby;
     [SerializeField] private GameObject createALobby;
     [SerializeField] private GameObject customizeScreen;
+    [SerializeField] private GameObject perkSelectionScreen;
     
     void Start()
     {
@@ -49,6 +50,7 @@ public class JoinLobbyScreen : MonoBehaviour
             // we should deactivate this gameobject, and set active the MyLboby screen
             lobbyCreationMenu.SetActive(true);
             yourLobby.SetActive(true);
+            perkSelectionScreen.SetActive(true);
 
             customizeScreen.SetActive(false);
             createALobby.SetActive(false);

@@ -65,6 +65,7 @@ public class RunSettings : MonoBehaviour
         {
             perk.Apply(this);
         }
+        LobbyHandler.Instance.OnGameStarted -= ApplyStats;
     }
 
 }

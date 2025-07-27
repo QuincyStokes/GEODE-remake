@@ -19,4 +19,4 @@ MonoBehaviour:
   requirementKey: Redhare(Clone)
   requirementAmount: 150
   statType: 0
-  statIncrease: 25
+  statIncrease: 0.25
