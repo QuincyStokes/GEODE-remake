@@ -9,6 +9,7 @@
 /GEODE/[Bb]uilds/
 /GEODE/[Ll]ogs/
 /GEODE/[Uu]ser[Ss]ettings/
+/GEODE/Assets/Scripts/.cursor/
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
