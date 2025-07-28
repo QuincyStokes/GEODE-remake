@@ -53,7 +53,7 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
     //* ------------------ Internal Use -------------------- */
     [HideInInspector] public int matchingItemId = -1;
     private int healthState = -1;
-
+    private ulong lastAttackerClientId;
     //* ------------------- Events ----------------
     public event Action<IDamageable> OnDeath;
 
@@ -107,17 +107,17 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void TakeDamageServerRpc(DamageInfo info)
+    public void TakeDamageServerRpc(DamageInfo info, ServerRpcParams rpcParams = default)
     {
         if (!IsServer)
         {
             return;
         }
-
-        ApplyDamage(info);
+        lastAttackerClientId = rpcParams.Receive.SenderClientId;
+        ApplyDamage(info, rpcParams);
     }
 
-    public void ApplyDamage(DamageInfo info)
+    public void ApplyDamage(DamageInfo info, ServerRpcParams rpcParams = default)
     //public void ApplyDamage(float amount, Vector2 sourceDirection, bool dropItems = false)
     {
         if (!IsServer)
@@ -232,6 +232,10 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
         if (!IsServer)
         {
             return;
+        }
+        if(NetworkManager.Singleton.ConnectedClients.TryGetValue(lastAttackerClientId, out var client))
+        {
+            client.PlayerObject.GetComponent<PlayerHealthAndXP>().AddXp(this);
         }
         OnDeath?.Invoke(this);
         if (dropItems)

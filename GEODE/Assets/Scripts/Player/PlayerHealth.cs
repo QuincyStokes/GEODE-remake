@@ -67,6 +67,8 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
     //* -------------- Internal ----------------- */
     private float timeSinceDamaged;
     private bool isRegenning;
+    private PlayerPerkStats playerPerkStats;
+    private bool perkApplied;
 
     private void Update()
     {
@@ -89,14 +91,42 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+        playerPerkStats = GetComponent<PlayerPerkStats>();
+        if (IsServer)
+        {
+            // If the perk value already arrived, apply immediately; otherwise wait for it.
+            TryApplyPerkHealth(playerPerkStats.HealthBonus.Value);
 
-        MaxHealth.Value *= 1 + RunSettings.Instance.playerHealth;
+            playerPerkStats.HealthBonus.OnValueChanged += OnHealthBonusChanged;
+        }
+    }
+
+    private void OnHealthBonusChanged(float previous, float current)
+    {
+        TryApplyPerkHealth(current);
+    }
+
+    private void TryApplyPerkHealth(float bonus)
+    {
+        if (perkApplied) return;
+        // Bonus is additive (e.g., 0.2f for +20%). Adjust as needed.
+        if (Mathf.Approximately(bonus, 0f)) return;
+
+        MaxHealth.Value *= 1 + bonus;
         CurrentHealth.Value = MaxHealth.Value;
+        perkApplied = true;
+
+        // No longer need the callback
+        playerPerkStats.HealthBonus.OnValueChanged -= OnHealthBonusChanged;
     }
 
     public override void OnNetworkDespawn()
     {
         base.OnNetworkDespawn();
+        if (playerPerkStats != null)
+        {
+            playerPerkStats.HealthBonus.OnValueChanged -= OnHealthBonusChanged;
+        }
     }
 
     [ClientRpc]
@@ -164,7 +194,7 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void TakeDamageServerRpc(DamageInfo info)
+    public void TakeDamageServerRpc(DamageInfo info, ServerRpcParams rpcParams = default)
     {
         if (!IsServer)
         {
@@ -177,7 +207,7 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
 
     }
 
-    public void ApplyDamage(DamageInfo info)
+    public void ApplyDamage(DamageInfo info, ServerRpcParams rpcParams = default)
     {
         CurrentHealth.Value -= info.amount;
         OnTakeDamage(info.amount, info.sourceDirection);
@@ -284,6 +314,11 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
     public void OnLevelUp()
     {
         OnPlayerLevelUp?.Invoke();
+    }
+    [ServerRpc(RequireOwnership = false)]
+    public void AddXpServerRpc(int amount)
+    {
+        AddXp(amount);
     }
 
     public void AddXp(IDamageable damageable)

@@ -235,7 +235,6 @@ public class AudioManager : NetworkBehaviour
             float t = elapsed / fadeTime;
 
             bgMusicSource.volume = t * targetVolume;
-            Debug.Log($"Music Volume set to {bgMusicSource.volume}");
             yield return null;
         }
         bgMusicSource.volume = data.defaultVolume;

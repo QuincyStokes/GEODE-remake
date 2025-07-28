@@ -15,8 +15,8 @@ public interface IDamageable
    public EffectType HitParticleEffectType { get; }
    public int DroppedXP { get; }
    public event Action<IDamageable> OnDeath;
-   public abstract void TakeDamageServerRpc(DamageInfo info);
-   public abstract void ApplyDamage(DamageInfo info);
+   public abstract void TakeDamageServerRpc(DamageInfo info, ServerRpcParams rpcParams = default);
+   public abstract void ApplyDamage(DamageInfo info, ServerRpcParams rpcParams = default);
    public abstract void RestoreHealthServerRpc(float amount);
    public abstract void DestroyThis(bool dropItems);
    public abstract void DropItems();

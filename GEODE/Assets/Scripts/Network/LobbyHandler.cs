@@ -164,31 +164,36 @@ public class LobbyHandler : MonoBehaviour
 
     private async void HandleLobbyUpdatePoll()
     {
-        if (joinedLobby != null)
+        if (joinedLobby == null) return;
+
+        lobbyUpdateTimer -= Time.deltaTime;
+        if (lobbyUpdateTimer >= 0f) return;
+
+        const float updateLobbyMaxTime = 2f;
+        lobbyUpdateTimer = updateLobbyMaxTime;
+
+        // Pull the latest state from the Lobby service so all clients stay in sync.
+        Lobby latestLobby = await LobbyService.Instance.GetLobbyAsync(joinedLobby.Id);
+        if (latestLobby == null) return;
+
+        joinedLobby = latestLobby;
+        if (IsLobbyHost())
         {
-            lobbyUpdateTimer -= Time.deltaTime;
-            if (lobbyUpdateTimer < 0f)
-            {
-                float updateLobbyMaxTime = 2;
-                lobbyUpdateTimer = updateLobbyMaxTime;
-                await LobbyService.Instance.GetLobbyAsync(joinedLobby.Id);
-                Debug.Log("Updating " + joinedLobby.Name);
-                onLobbyUpdated?.Invoke(joinedLobby);
-
-                if (joinedLobby.Data[KEY_START_GAME].Value != "0")
-                {
-                    //start game!
-                    if (!IsLobbyHost())
-                    {
-                        RelayHandler.Instance.JoinRelay(joinedLobby.Data[KEY_START_GAME].Value);
-                    }
-                    joinedLobby = null;
-                    //here invoke some event to start the game.
-
-                }
-            }
+            hostLobby = latestLobby; // keep heartbeat & start-game data current
         }
 
+        Debug.Log($"Updating {joinedLobby.Name}; players: {joinedLobby.Players.Count}");
+        onLobbyUpdated?.Invoke(joinedLobby);
+
+        // Check if the host has signalled game start
+        if (joinedLobby.Data[KEY_START_GAME].Value != "0")
+        {
+            if (!IsLobbyHost())
+            {
+                RelayHandler.Instance.JoinRelay(joinedLobby.Data[KEY_START_GAME].Value);
+            }
+            joinedLobby = null; // stop polling once game is launching
+        }
     }
 
     private void PrintCurrentPlayers()
@@ -226,9 +231,11 @@ public class LobbyHandler : MonoBehaviour
             ConnectionManager.Instance.PlayerID = AuthenticationService.Instance.PlayerId;
             ConnectionManager.Instance.PlayerName = AuthenticationService.Instance.PlayerName;
 
-            NetworkManager.Singleton.StartHost();
-
-
+            // RelayHandler.CreateRelay already starts the host; start only if not already listening
+            if (!NetworkManager.Singleton.IsHost && !NetworkManager.Singleton.IsListening)
+            {
+                NetworkManager.Singleton.StartHost();
+            }
 
 
             //Load the game in the background as the primary scene, we need to set this as the active scene

@@ -90,7 +90,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
     [HideInInspector] public IDamageable currentTarget;
     [HideInInspector] public Vector2 targetClosestPoint;
     [HideInInspector] public Vector2 externalVelocity;
-
+    private ulong lastAttackerClientId;
 
 
 
@@ -252,13 +252,14 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void TakeDamageServerRpc(DamageInfo info)
+    public void TakeDamageServerRpc(DamageInfo info, ServerRpcParams rpcParams = default)
     {
+        lastAttackerClientId = rpcParams.Receive.SenderClientId;
         ApplyDamage(info);
     }
 
     //this will be the code that *actually* applies damage to the enemy. The Server RPC is a wrapper for strange edge cases that would need it. 
-    public void ApplyDamage(DamageInfo info)
+    public void ApplyDamage(DamageInfo info, ServerRpcParams rpcParams = default)
     {
         if (!IsServer)
         {
@@ -314,6 +315,11 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
     public void DestroyThis(bool dropItems)
     {
         //here can also do something like KillTracker.Instance.Kills++;
+
+        if(NetworkManager.Singleton.ConnectedClients.TryGetValue(lastAttackerClientId, out var client))
+        {
+            client.PlayerObject.GetComponent<PlayerHealthAndXP>().AddXp(this);
+        }
         OnDeath?.Invoke(this);
         OnSingleTrack?.Invoke(StatTrackType.Kill, ObjectTransform.name);
         if (dropItems)

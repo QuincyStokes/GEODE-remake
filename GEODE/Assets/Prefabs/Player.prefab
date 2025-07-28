@@ -13734,6 +13734,7 @@ GameObject:
   - component: {fileID: 4512977395983589908}
   - component: {fileID: 5210510195182125950}
   - component: {fileID: 8051460741845487366}
+  - component: {fileID: 1167824801539386413}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -13964,6 +13965,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   NetworkTransformExpanded: 0
+  AutoOwnerAuthorityTickOffset: 1
+  PositionInterpolationType: 0
+  RotationInterpolationType: 0
+  ScaleInterpolationType: 0
+  PositionLerpSmoothing: 1
+  PositionMaxInterpolationTime: 0.1
+  RotationLerpSmoothing: 1
+  RotationMaxInterpolationTime: 0.1
+  ScaleLerpSmoothing: 1
+  ScaleMaxInterpolationTime: 0.1
   AuthorityMode: 1
   TickSyncChildren: 0
   UseUnreliableDeltas: 0
@@ -14082,6 +14093,25 @@ MonoBehaviour:
   - {fileID: 7173465593183778216}
   - {fileID: 444107408407615123}
   - {fileID: 6239911499135694755}
+--- !u!114 &1167824801539386413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8265714030686749453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44a0416e9b6b8ef4daffb9e3912406e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  DamageMultiplier:
+    m_InternalValue: 1
+  SpeedMultiplier:
+    m_InternalValue: 1
+  HealthBonus:
+    m_InternalValue: 0
 --- !u!1 &8275343582830561532
 GameObject:
   m_ObjectHideFlags: 0
@@ -14141,7 +14171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameOverScreen: {fileID: 4702691512161646575}
-  nightNumText: {fileID: 0}
+  nightNumText: {fileID: 7428156805988010513}
 --- !u!1 &8383525352726848420
 GameObject:
   m_ObjectHideFlags: 0
