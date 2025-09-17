@@ -63,20 +63,45 @@ public class ConnectionManager : NetworkBehaviour
     public void OnWorldReady()
     {
        
-        Debug.Log("World is ready!");
+        Debug.Log($"[ConnectionManager] World is ready! Processing {waitingClientIds.Count} waiting clients.");
         isWorldReady = true;
 
         
         //Spawn the player's for each client in the waiting list
         foreach(ulong clientId in waitingClientIds)
         {
+            Debug.Log($"[ConnectionManager] Processing waiting client {clientId}");
             DoClientConnectedThings(clientId);
         }
         waitingClientIds.Clear();
 
-        DoClientConnectedThings(NetworkManager.Singleton.LocalClientId);
+        // Only process local client if we're the host
+        if (NetworkManager.Singleton.IsHost)
+        {
+            Debug.Log("[ConnectionManager] Processing host local client");
+            DoClientConnectedThings(NetworkManager.Singleton.LocalClientId);
+        }
 
+        // Failsafe: Check if there are any connected clients that weren't processed
+        StartCoroutine(FailsafeCheckForUnprocessedClients());
+    }
+
+    private System.Collections.IEnumerator FailsafeCheckForUnprocessedClients()
+    {
+        yield return new WaitForSeconds(2f); // Wait a bit for any late connections
         
+        if (!NetworkManager.Singleton.IsServer) yield break;
+
+        Debug.Log($"[ConnectionManager] Failsafe check: {NetworkManager.Singleton.ConnectedClientsList.Count} connected clients");
+        
+        foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
+        {
+            if (client.PlayerObject == null && client.ClientId != NetworkManager.Singleton.LocalClientId)
+            {
+                Debug.LogWarning($"[ConnectionManager] Failsafe: Client {client.ClientId} connected but has no player object! Processing now.");
+                DoClientConnectedThings(client.ClientId);
+            }
+        }
     }
 
     private void OnClientConnected(ulong clientId)
@@ -92,32 +117,29 @@ public class ConnectionManager : NetworkBehaviour
             return;
         }
 
+        Debug.Log($"[ConnectionManager] Client {clientId} connected. World ready: {isWorldReady}");
 
-        LoadLoadingSceneClientRpc(new ClientRpcParams 
-        {
-            Send = new ClientRpcSendParams 
-            {
-                TargetClientIds = new[] {clientId}
-            }
-        });
-
+        // Don't send loading screen RPC - client should already have it from lobby detection
+        // Just ensure they have the correct world generation parameters
         
         if(isWorldReady)
         {
-            Debug.Log($"Doing Client Connected Things for {clientId}");
+            Debug.Log($"[ConnectionManager] World is ready, immediately processing client {clientId}");
             DoClientConnectedThings(clientId);
         }
         else
         {
-            Debug.Log($"Adding client {clientId} to waiting list.");
+            Debug.Log($"[ConnectionManager] World not ready, adding client {clientId} to waiting list. Current waiting list size: {waitingClientIds.Count}");
             waitingClientIds.Add(clientId);
+            Debug.Log($"[ConnectionManager] Client {clientId} added to waiting list. New size: {waitingClientIds.Count}");
         }
     }
 
     private void DoClientConnectedThings(ulong clientId)
     {
-
-
+        Debug.Log($"[ConnectionManager] DoClientConnectedThings for client {clientId}");
+        
+        // Send the official world generation parameters (client may have started with temporary ones)
         WorldGenManager.Instance.InitializeBiomeTilesSeededClientRpc(0, 5, new Vector2(10, 10), new ClientRpcParams
         {
             Send = new ClientRpcSendParams
@@ -125,7 +147,9 @@ public class ConnectionManager : NetworkBehaviour
                 TargetClientIds = new[] { clientId }
             }
         });
-        //the last ting we do for the client is unload the loading screen, this should make a clean transition into game.
+        
+        // Unload the loading screen - this should make a clean transition into game
+        Debug.Log($"[ConnectionManager] Sending UnloadLoadingSceneClientRpc to client {clientId}");
         UnloadLoadingSceneClientRpc(new ClientRpcParams
         {
             Send = new ClientRpcSendParams
@@ -133,8 +157,10 @@ public class ConnectionManager : NetworkBehaviour
                 TargetClientIds = new[] { clientId }
             }
         });
+        
         SpawnPlayerForClient(clientId);
     }
+
 
     [ClientRpc]
     private void LoadLoadingSceneClientRpc(ClientRpcParams clientRpcParams = default)
@@ -149,6 +175,7 @@ public class ConnectionManager : NetworkBehaviour
     [ClientRpc]
     private void UnloadLoadingSceneClientRpc(ClientRpcParams clientRpcParams = default)
     {
+        Debug.Log($"[ConnectionManager] UnloadLoadingSceneClientRpc called on client {NetworkManager.Singleton.LocalClientId}");
         SceneManager.UnloadSceneAsync("Loading");
     }
 

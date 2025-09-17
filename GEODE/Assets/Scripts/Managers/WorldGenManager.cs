@@ -73,17 +73,26 @@ public class WorldGenManager : NetworkBehaviour
 
     public IEnumerator InitializeWorldGen(int newseed, float noiseScale, Vector2 offset)
     {
+        // Send world gen parameters to all clients
         InitializeBiomeTilesSeededClientRpc(newseed, noiseScale, offset, new ClientRpcParams { });
+        
         GenerateGladeLocations();
-        //yield return StartCoroutine(InitializeBiomeTiles(newseed, noiseScale, offset));
+        
+        // Server must also generate its own tiles!
+        Debug.Log("[WorldGenManager] Server generating tiles...");
+        yield return StartCoroutine(InitializeBiomeTiles(newseed, noiseScale, offset));
+        
+        Debug.Log("[WorldGenManager] Server spawning environment objects...");
         yield return StartCoroutine(SpawnEnvironmentFluff());
 
+        Debug.Log("[WorldGenManager] Server world generation complete!");
         OnWorldGenerated?.Invoke();
     }
 
     [ClientRpc]
     public void InitializeBiomeTilesSeededClientRpc(int seed, float noiseScale, Vector2 offset, ClientRpcParams clientRpcParams = default)
     {
+        Debug.Log($"[WorldGenManager] Client received world gen parameters: seed={seed}, scale={noiseScale}, offset={offset}");
         StartCoroutine(InitializeBiomeTiles(seed, noiseScale, offset));
     }
 
@@ -96,9 +105,11 @@ public class WorldGenManager : NetworkBehaviour
             noiseScale = .0001f; //this will just prevent division by zero error
         }
 
-        int chunkSize = 5000;
+        int chunkSize = 3000; // Reduced chunk size for more frequent updates
         int totalTiles = WorldSizeX * WorldSizeY;
         int processedCount = 0;
+
+        Debug.Log($"[WorldGen] Starting world generation with seed {newseed}");
 
         //now the fun part
         for (int x = -1; x < worldSizeX + 1; x++)
@@ -130,14 +141,15 @@ public class WorldGenManager : NetworkBehaviour
                 if (processedCount % chunkSize == 0)
                 {
                     float progress = (float)processedCount / (float)totalTiles;
-                    //Debug.Log($"Generation Progress: {progress:P2}");
+                    Debug.Log($"[WorldGen] Generation Progress: {progress:P2}");
 
-                    yield return null;
+                    yield return null; // More frequent yields for smoother loading
                 }
 
             }
         }
         IsWorldGenerating = false;
+        Debug.Log("[WorldGen] World generation complete!");
     }
     
     [ContextMenu("Test-fire table 10 000×")]

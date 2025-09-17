@@ -323,7 +323,7 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
 
     public void AddXp(IDamageable damageable)
     {
-
+        
         CurrentXp += damageable.DroppedXP;
         CurrentTotalXp += damageable.DroppedXP;
 

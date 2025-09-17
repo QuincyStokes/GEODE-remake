@@ -29,6 +29,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed;
+    [SerializeField] private float baseMoveSpeed; // Store original speed for perk calculations
     [SerializeField] private float knockbackDecay;
     private Vector2 localInputVelocity;
     private Vector2 lastMovedDir;
@@ -133,7 +134,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
     {
         rb = GetComponentInChildren<Rigidbody2D>();
         playerInput = new PlayerInputActionMap();
-
+        baseMoveSpeed = moveSpeed; // Store the original move speed
     }
 
     private void OnEnable()
@@ -196,7 +197,12 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
 
         playerHealth.OnPlayerLevelUp -= HandleLevelUp;
 
-
+        // Unsubscribe from perk stats changes
+        var perkStats = GetComponent<PlayerPerkStats>();
+        if (perkStats != null)
+        {
+            perkStats.SpeedMultiplier.OnValueChanged -= OnSpeedMultiplierChanged;
+        }
     }
 
 
@@ -224,10 +230,39 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
 
         CameraManager.Instance.FollowPlayer(transform);
 
-        //Load relevent perk effects (not sure if this is the best way to do this)
-        moveSpeed *= 1 + RunSettings.Instance.playerMovespeed;
+        // Speed perks will be applied via PlayerPerkStats when it synchronizes from server
+        // No need to apply RunSettings here as it's not networked properly
         
+        // Try to apply speed perks if PlayerPerkStats is already available
+        var perkStats = GetComponent<PlayerPerkStats>();
+        if (perkStats != null)
+        {
+            // Subscribe to speed changes or apply immediately if value is already set
+            StartCoroutine(WaitForSpeedPerksAndApply(perkStats));
+        }
+    }
 
+    private System.Collections.IEnumerator WaitForSpeedPerksAndApply(PlayerPerkStats perkStats)
+    {
+        // Wait a frame for network variables to be initialized
+        yield return null;
+        
+        // Apply speed multiplier from perks
+        ApplySpeedPerks(perkStats.SpeedMultiplier.Value);
+        
+        // Subscribe to future changes
+        perkStats.SpeedMultiplier.OnValueChanged += OnSpeedMultiplierChanged;
+    }
+
+    private void OnSpeedMultiplierChanged(float oldValue, float newValue)
+    {
+        ApplySpeedPerks(newValue);
+    }
+
+    private void ApplySpeedPerks(float speedMultiplier)
+    {
+        moveSpeed = baseMoveSpeed * speedMultiplier;
+        Debug.Log($"[PlayerController] Applied speed multiplier {speedMultiplier}, new speed: {moveSpeed}");
     }
 
     private void Update()
@@ -469,9 +504,14 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
         if (swingCooldownTimer >= swingCooldown)
         {
             Debug.Log($"Attacking with {t}");
+            
+            // Apply damage multiplier from perks
+            var perkStats = GetComponent<PlayerPerkStats>();
+            float finalDamage = dmg * (perkStats != null ? perkStats.DamageMultiplier.Value : 1f);
+            
             if (t != ToolType.Hammer)
             {
-                Instance.hitbox.damage = dmg;
+                Instance.hitbox.damage = finalDamage;
                 Instance.hitbox.tool = t;
                 Instance.hitbox.sourceDirection = transform.position;
                 Instance.hitbox.dropItems = drops;
@@ -481,7 +521,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
             //if we're holding a hammer, we want to do the healy thing instead
             else
             {
-                Instance.repairHitbox.damage = dmg;
+                Instance.repairHitbox.damage = finalDamage;
                 Instance.repairHitbox.tool = t;
                 Instance.repairHitbox.sourceDirection = transform.position;
                 Instance.repairHitbox.dropItems = drops;

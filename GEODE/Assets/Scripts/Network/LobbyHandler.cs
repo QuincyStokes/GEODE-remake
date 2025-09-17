@@ -164,7 +164,7 @@ public class LobbyHandler : MonoBehaviour
 
     private async void HandleLobbyUpdatePoll()
     {
-        if (joinedLobby == null) return;
+        if (joinedLobby == null || this == null || gameObject == null) return;
 
         lobbyUpdateTimer -= Time.deltaTime;
         if (lobbyUpdateTimer >= 0f) return;
@@ -190,10 +190,35 @@ public class LobbyHandler : MonoBehaviour
         {
             if (!IsLobbyHost())
             {
-                RelayHandler.Instance.JoinRelay(joinedLobby.Data[KEY_START_GAME].Value);
+                // Start loading immediately when game start is detected
+                Debug.Log("Game start detected! Beginning client loading process...");
+                StartClientGameLoadingProcess(joinedLobby.Data[KEY_START_GAME].Value);
             }
             joinedLobby = null; // stop polling once game is launching
         }
+    }
+
+    private void StartClientGameLoadingProcess(string relayCode)
+    {
+        Debug.Log("[LobbyHandler] Starting client game loading process");
+        
+        // Stop lobby polling to prevent accessing destroyed objects
+        StopAllCoroutines();
+        joinedLobby = null;
+        
+        // Show loading screen immediately, then connect after a small delay
+        SceneManager.LoadScene("Loading", LoadSceneMode.Additive);
+        StartCoroutine(DelayedRelayConnection(relayCode));
+    }
+
+    private System.Collections.IEnumerator DelayedRelayConnection(string relayCode)
+    {
+        // Wait a frame to ensure loading screen is fully loaded
+        yield return null;
+        yield return null; // Extra frame for safety
+        
+        Debug.Log("[LobbyHandler] Loading screen established, connecting to relay");
+        RelayHandler.Instance.JoinRelay(relayCode);
     }
 
     private void PrintCurrentPlayers()
@@ -291,11 +316,18 @@ public class LobbyHandler : MonoBehaviour
             Debug.LogWarning($"Lobby leave failed: {e}");
         }
 
-        StopAllCoroutines();
+        // Check if the object still exists before calling StopAllCoroutines
+        if (this != null && gameObject != null)
+        {
+            StopAllCoroutines();
+        }
+        
         joinedLobby = null;
-        hostOrJoinButtons.SetActive(true);
-        customizeLobbyScreen.SetActive(false);
-        yourLobbyScreen.SetActive(false);
+        
+        // Check if UI objects still exist before modifying them
+        if (hostOrJoinButtons != null) hostOrJoinButtons.SetActive(true);
+        if (customizeLobbyScreen != null) customizeLobbyScreen.SetActive(false);
+        if (yourLobbyScreen != null) yourLobbyScreen.SetActive(false);
     }
 
     public void CreateALobbyButton()
