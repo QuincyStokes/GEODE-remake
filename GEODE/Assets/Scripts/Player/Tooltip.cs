@@ -4,7 +4,8 @@ using UnityEngine;
 public class TooltipService : MonoBehaviour
 {
     public static TooltipService Instance { get; private set; }
-
+    [Header("Canvas")]
+    [SerializeField] private RectTransform _canvas;
     private Slot currentProvider;
     [SerializeField] private Transform tooltipRoot;
     [SerializeField] private TMP_Text _itemNameTMP;
@@ -23,7 +24,7 @@ public class TooltipService : MonoBehaviour
     {
         if (currentProvider != null)
         {
-            tooltipRoot.position = Input.mousePosition;
+            tooltipRoot.position = ClampVector3(Input.mousePosition, Vector3.zero, new Vector3(_canvas.rect.width*2, _canvas.rect.height*2, 0));
         }
     }
 
@@ -94,7 +95,7 @@ public class TooltipService : MonoBehaviour
                     _itemQualityTMP.text = "\n" + quality.ToString("N1") + "%";
                     foreach (Upgrade upgrade in upgItem.upgradeList)
                     {
-                        _itemStatsTMP.text += $"{upgrade.upgradeType} : {upgrade.percentIncrease * (quality/100)}%\n";
+                        _itemStatsTMP.text += $"{upgrade.upgradeType} : {upgrade.percentIncrease * (quality / 100)}%\n";
                     }
                 }
                 break;
@@ -112,7 +113,7 @@ public class TooltipService : MonoBehaviour
         //lastly, enable it!
         Debug.Log("Enabling tooltip!");
         tooltipRoot.gameObject.SetActive(true);
-        
+
     }
 
 
@@ -120,5 +121,17 @@ public class TooltipService : MonoBehaviour
     {
         currentProvider = null;
         tooltipRoot.gameObject.SetActive(false);
+    }
+
+
+
+    //Helper
+    private Vector3 ClampVector3(Vector3 value, Vector3 min, Vector3 max)
+    {
+        return new Vector3(
+            Mathf.Clamp(value.x, min.x, max.x),
+            Mathf.Clamp(value.y, min.y, max.y),
+            Mathf.Clamp(value.z, min.z, max.z)
+        );
     }
 }

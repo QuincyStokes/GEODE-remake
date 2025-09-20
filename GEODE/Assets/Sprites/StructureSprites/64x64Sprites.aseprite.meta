@@ -302,16 +302,16 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: 64x64Sprites_5
     originalName: 
-    pivot: {x: 0.90909094, y: 0.49056605}
+    pivot: {x: 0.44, y: 0.5263158}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
       serializedVersion: 2
-      x: 403
-      y: 116
-      width: 22
-      height: 53
+      x: 385
+      y: 103
+      width: 75
+      height: 76
     spriteID: 4efe537d958f94842addc770efc0a938
     spriteBone: []
     spriteOutline: []
@@ -350,9 +350,9 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 384
+      x: 379
       y: 6
-      width: 64
+      width: 75
       height: 82
     spriteID: eeb827e379127a740a6095f957e91785
     spriteBone: []
@@ -377,7 +377,7 @@ ScriptedImporter:
       cellRect:
         x: 32
         y: 169
-        width: 448
+        width: 460
         height: 184
       spriteId: 9bdb4201716a88e43bcd623209a67237
     linkedCells: []
