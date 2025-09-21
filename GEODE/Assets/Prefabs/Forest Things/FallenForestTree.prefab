@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &814503408535711269
 Transform:
   m_ObjectHideFlags: 0
@@ -276,7 +276,6 @@ GameObject:
   - component: {fileID: 5914845478617081386}
   - component: {fileID: 1039887143471275222}
   - component: {fileID: -2123978293659210889}
-  - component: {fileID: 1597582258657433652}
   - component: {fileID: 3486107488009609630}
   - component: {fileID: -5510116939366637077}
   m_Layer: 0
@@ -349,7 +348,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 2749625114262541205, guid: 72d14c2e801892147bf0400942e6d753, type: 3}
+  m_Sprite: {fileID: 613844229548873613, guid: d2560cf045649bf42b93c85f1e462a98, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -385,28 +384,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &1597582258657433652
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4569716455414417005}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93756521e94389f4a8685ec32d7b2293, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lightSource: {fileID: 0}
-  shadowSprite: {fileID: 0}
-  shadowMaterial: {fileID: 0}
-  shadowColor: {r: 0, g: 0, b: 0, a: 1}
-  shadowAlpha: 0.5
-  shadowLength: 1
-  verticalScale: 0.5
-  autoSetSortingLayer: 1
-  shadowSortingLayerName: 
-  shadowSortingOrderOffset: -1
 --- !u!114 &3486107488009609630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -440,6 +417,8 @@ MonoBehaviour:
     minAmount: 3
     maxAmount: 4
     chance: 100
+    minItemQuality: 0
+    maxItemQuality: 0
   droppedXp: 8
   healthStateSprites: []
   particleSpawnPoint: {fileID: 0}

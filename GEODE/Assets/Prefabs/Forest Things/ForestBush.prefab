@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1512956170019149099}
   - component: {fileID: 5300620979398461097}
   - component: {fileID: 6822388524260746846}
-  - component: {fileID: -6531102184260720500}
   - component: {fileID: -691942783128334435}
   - component: {fileID: 7201298494626830855}
   m_Layer: 0
@@ -83,7 +82,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 4563145794655527850, guid: 72d14c2e801892147bf0400942e6d753, type: 3}
+  m_Sprite: {fileID: -5824086267024245826, guid: d2560cf045649bf42b93c85f1e462a98, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -119,28 +118,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &-6531102184260720500
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 924637941774536388}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93756521e94389f4a8685ec32d7b2293, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lightSource: {fileID: 0}
-  shadowSprite: {fileID: 0}
-  shadowMaterial: {fileID: 0}
-  shadowColor: {r: 0, g: 0, b: 0, a: 1}
-  shadowAlpha: 0.5
-  shadowLength: 1
-  verticalScale: 0.5
-  autoSetSortingLayer: 1
-  shadowSortingLayerName: 
-  shadowSortingOrderOffset: -1
 --- !u!114 &-691942783128334435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,8 +151,16 @@ MonoBehaviour:
     minAmount: 3
     maxAmount: 5
     chance: 100
+    minItemQuality: 0
+    maxItemQuality: 0
+  droppedXp: 0
   healthStateSprites: []
-  breakParticles: {fileID: 0}
+  particleSpawnPoint: {fileID: 0}
+  hitParticleEffectType: 0
+  destroyParticleEffectType: 0
+  healParticleEffectType: 0
+  hitSoundId: 0
+  breakSoundId: 0
   objectName: Forest Bush
   centerPoint: {fileID: 6647818183751251631}
   description: 

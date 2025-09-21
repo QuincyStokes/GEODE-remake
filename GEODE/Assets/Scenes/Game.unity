@@ -654,7 +654,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ComponentVersion: 1
-  m_AssetsPPU: 32
+  m_AssetsPPU: 16
   m_RefResolutionX: 640
   m_RefResolutionY: 360
   m_CropFrame: 0
@@ -831,6 +831,26 @@ PrefabInstance:
       propertyPath: worldBoundaryTilemap
       value: 
       objectReference: {fileID: 31675320}
+    - target: {fileID: 4194063451765114128, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
+      propertyPath: forestTiles.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4194063451765114128, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
+      propertyPath: 'forestTiles.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 25fd66046c912804896df8dfabfa6921, type: 2}
+    - target: {fileID: 4194063451765114128, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
+      propertyPath: 'forestTiles.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 433cb1b536a7b4b418541bd358729d2b, type: 2}
+    - target: {fileID: 4194063451765114128, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
+      propertyPath: 'forestTiles.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 6ec73688c1e74ec44b3545193ad6c7e9, type: 2}
+    - target: {fileID: 4194063451765114128, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
+      propertyPath: 'forestTiles.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: f9fb9f7cd7bf6604db128499189609d4, type: 2}
     - target: {fileID: 5913821483863319918, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
       propertyPath: m_Name
       value: Grid

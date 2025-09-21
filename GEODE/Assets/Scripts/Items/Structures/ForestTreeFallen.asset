@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Fallen Tree
   description: It's a forest tree, but it fell down
   type: 2
-  icon: {fileID: 2749625114262541205, guid: 72d14c2e801892147bf0400942e6d753, type: 3}
+  icon: {fileID: 613844229548873613, guid: d2560cf045649bf42b93c85f1e462a98, type: 3}
   id: 10
   quality: 0
   isStackable: 1

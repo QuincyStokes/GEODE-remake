@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Dead Tree
   description: It's a forest tree, but it's dead
   type: 2
-  icon: {fileID: 3535398065002480956, guid: 72d14c2e801892147bf0400942e6d753, type: 3}
+  icon: {fileID: -6229075532094727625, guid: d2560cf045649bf42b93c85f1e462a98, type: 3}
   id: 11
   quality: 0
   isStackable: 1

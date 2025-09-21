@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Forest Tree Stump
   description: It's the stump of a forest tree.
   type: 2
-  icon: {fileID: 2568507564648809397, guid: 72d14c2e801892147bf0400942e6d753, type: 3}
+  icon: {fileID: -3979281560465913793, guid: d2560cf045649bf42b93c85f1e462a98, type: 3}
   id: 12
   quality: 0
   isStackable: 1

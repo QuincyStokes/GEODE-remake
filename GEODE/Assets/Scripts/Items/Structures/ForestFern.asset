@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Fern
   description: A nice source of Plant Fiber.
   type: 2
-  icon: {fileID: -4754014550515790816, guid: 72d14c2e801892147bf0400942e6d753, type: 3}
+  icon: {fileID: -5743363944075691116, guid: d2560cf045649bf42b93c85f1e462a98, type: 3}
   id: 19
   quality: 0
   isStackable: 1

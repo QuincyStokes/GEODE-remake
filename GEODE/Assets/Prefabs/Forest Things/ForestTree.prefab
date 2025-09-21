@@ -42,7 +42,6 @@ GameObject:
   - component: {fileID: 2728531835010332996}
   - component: {fileID: 8037282693136163549}
   - component: {fileID: -5205301784457108778}
-  - component: {fileID: 1193615935051695850}
   - component: {fileID: -1567724308649283714}
   - component: {fileID: 5984336060802938259}
   m_Layer: 0
@@ -116,7 +115,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -7599060083563041747, guid: 72d14c2e801892147bf0400942e6d753, type: 3}
+  m_Sprite: {fileID: -3613807483992684637, guid: d2560cf045649bf42b93c85f1e462a98, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -152,28 +151,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &1193615935051695850
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 963850577847330231}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93756521e94389f4a8685ec32d7b2293, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lightSource: {fileID: 0}
-  shadowSprite: {fileID: 0}
-  shadowMaterial: {fileID: 0}
-  shadowColor: {r: 0, g: 0, b: 0, a: 1}
-  shadowAlpha: 0.5
-  shadowLength: 1
-  verticalScale: 0.5
-  autoSetSortingLayer: 1
-  shadowSortingLayerName: 
-  shadowSortingOrderOffset: -1
 --- !u!114 &-1567724308649283714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,10 +184,14 @@ MonoBehaviour:
     minAmount: 6
     maxAmount: 8
     chance: 100
+    minItemQuality: 0
+    maxItemQuality: 0
   - Id: 24
     minAmount: 0
     maxAmount: 2
     chance: 100
+    minItemQuality: 0
+    maxItemQuality: 0
   droppedXp: 10
   healthStateSprites: []
   particleSpawnPoint: {fileID: 6348962976272178081}
