@@ -15,11 +15,11 @@ MonoBehaviour:
   name: Boulder
   description: A massive boulder
   type: 2
-  icon: {fileID: -1710984890726604504, guid: 35d9d5fc183c1f84785bbdc22135bb95, type: 3}
+  icon: {fileID: -2939289040355126003, guid: 21120eddd49cac742a493a81bda4f73d, type: 3}
   id: 39
   quality: 0
   isStackable: 1
   consumeOnUse: 1
-  prefab: {fileID: 5294732903785832720, guid: 7b1c15a0c317dfd4783bba56be032652, type: 3}
+  prefab: {fileID: 5294732903785832720, guid: 51a4603ed5a80394c92d89fb9a5d4b89, type: 3}
   width: 2
   height: 2

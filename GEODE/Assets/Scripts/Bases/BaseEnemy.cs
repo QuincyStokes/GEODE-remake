@@ -334,7 +334,9 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
 
     public void TakeKnockback(Vector2 direction, float force)
     {
-        externalVelocity += direction.normalized * (Mathf.Log(force) / 2);
+        Debug.Log("Applied Knockback!");
+                                                            //Multiplying the force x2 to give it more oomph
+        externalVelocity += direction.normalized * (Mathf.Log(force*2) / 2);
     }
 
     public void NewDayStats()

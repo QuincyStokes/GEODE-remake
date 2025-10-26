@@ -449,7 +449,6 @@ GameObject:
   - component: {fileID: -5197024450714403594}
   - component: {fileID: 1858398660601040683}
   - component: {fileID: 8001647827751899763}
-  - component: {fileID: -2478541701583271247}
   m_Layer: 0
   m_Name: GreenGeode
   m_TagString: EnvironmentObject
@@ -522,7 +521,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -7217346102737726424, guid: 35d9d5fc183c1f84785bbdc22135bb95, type: 3}
+  m_Sprite: {fileID: 3734529178388048450, guid: 21120eddd49cac742a493a81bda4f73d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -572,6 +571,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   NetworkTransformExpanded: 0
+  AutoOwnerAuthorityTickOffset: 1
+  PositionInterpolationType: 0
+  RotationInterpolationType: 0
+  ScaleInterpolationType: 0
+  PositionLerpSmoothing: 1
+  PositionMaxInterpolationTime: 0.1
+  RotationLerpSmoothing: 1
+  RotationMaxInterpolationTime: 0.1
+  ScaleLerpSmoothing: 1
+  ScaleMaxInterpolationTime: 0.1
   AuthorityMode: 0
   TickSyncChildren: 0
   UseUnreliableDeltas: 0
@@ -637,8 +646,8 @@ MonoBehaviour:
     maxItemQuality: 0
   droppedXp: 20
   healthStateSprites:
-  - {fileID: -8320470043137704705, guid: 35d9d5fc183c1f84785bbdc22135bb95, type: 3}
-  - {fileID: -6743911871156028932, guid: 35d9d5fc183c1f84785bbdc22135bb95, type: 3}
+  - {fileID: 973166102111897327, guid: 21120eddd49cac742a493a81bda4f73d, type: 3}
+  - {fileID: 8558240350669140138, guid: 21120eddd49cac742a493a81bda4f73d, type: 3}
   particleSpawnPoint: {fileID: 2629105473419630868}
   hitParticleEffectType: 2
   destroyParticleEffectType: 3
@@ -652,25 +661,3 @@ MonoBehaviour:
   sr: {fileID: 0}
   collisionHitbox: {fileID: 0}
   matchingItemId: 0
---- !u!114 &-2478541701583271247
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8370947462149780993}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93756521e94389f4a8685ec32d7b2293, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lightSource: {fileID: 0}
-  shadowSprite: {fileID: 0}
-  shadowMaterial: {fileID: 0}
-  shadowColor: {r: 0, g: 0, b: 0, a: 1}
-  shadowAlpha: 0.5
-  shadowLength: 1
-  verticalScale: 0.5
-  autoSetSortingLayer: 1
-  shadowSortingLayerName: 
-  shadowSortingOrderOffset: -1

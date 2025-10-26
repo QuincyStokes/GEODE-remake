@@ -258,19 +258,36 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   Id: 0
   sr: {fileID: 6974662852891349937}
+  centerPoint: {fileID: 0}
+  particleSpawnPoint: {fileID: 0}
+  hitParticleEffectType: 0
   steering:
     rayCount: 15
     arc: 270
     rayDistance: 1
-    checkInterval: 1
+    checkInterval: 0.5
     drawDebug: 1
+    contactFilter:
+      useTriggers: 0
+      useLayerMask: 0
+      useDepth: 0
+      useOutsideDepth: 0
+      useNormalAngle: 0
+      useOutsideNormalAngle: 0
+      layerMask:
+        serializedVersion: 2
+        m_Bits: 0
+      minDepth: 0
+      maxDepth: 0
+      minNormalAngle: 0
+      maxNormalAngle: 0
   animator: {fileID: 6878477634410811571}
   rb: {fileID: 7670961486429863952}
   collisionHitbox: {fileID: 5654494770542405513}
   aggroRadius: {fileID: 4507244449337361817}
   attackDamage: 10
-  attackRange: 1.2
-  movementSpeed: 3
+  attackRange: 1.1
+  movementSpeed: 1
   BASE_MAX_HEALTH: 25
   BASE_XP_REQUIRED: 50
   DROPPED_ITEMS:
@@ -278,11 +295,16 @@ MonoBehaviour:
     minAmount: 1
     maxAmount: 1
     chance: 5
+    minItemQuality: 0
+    maxItemQuality: 0
   - Id: 2
     minAmount: 1
     maxAmount: 1
     chance: 10
+    minItemQuality: 0
+    maxItemQuality: 0
   idealToolType: 1
+  droppedXp: 5
   structureLayerMask:
     serializedVersion: 2
     m_Bits: 2176
@@ -342,6 +364,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   NetworkTransformExpanded: 0
+  AutoOwnerAuthorityTickOffset: 1
+  PositionInterpolationType: 0
+  RotationInterpolationType: 0
+  ScaleInterpolationType: 0
+  PositionLerpSmoothing: 1
+  PositionMaxInterpolationTime: 0.1
+  RotationLerpSmoothing: 1
+  RotationMaxInterpolationTime: 0.1
+  ScaleLerpSmoothing: 1
+  ScaleMaxInterpolationTime: 0.1
   AuthorityMode: 0
   TickSyncChildren: 0
   UseUnreliableDeltas: 0

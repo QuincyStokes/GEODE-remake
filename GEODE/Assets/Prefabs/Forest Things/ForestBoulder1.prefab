@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5724545647692163982
 Transform:
   m_ObjectHideFlags: 0
@@ -231,7 +231,6 @@ GameObject:
   - component: {fileID: -1728568318042555414}
   - component: {fileID: -5584132924107409593}
   - component: {fileID: 7529114642573329399}
-  - component: {fileID: 5697965857831664718}
   m_Layer: 0
   m_Name: ForestBoulder1
   m_TagString: EnvironmentObject
@@ -303,7 +302,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -429692254729450031, guid: 35d9d5fc183c1f84785bbdc22135bb95, type: 3}
+  m_Sprite: {fileID: -2939289040355126003, guid: 21120eddd49cac742a493a81bda4f73d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -372,12 +371,18 @@ MonoBehaviour:
     minAmount: 3
     maxAmount: 6
     chance: 100
+    minItemQuality: 0
+    maxItemQuality: 0
   droppedXp: 15
-  healthStateSprites: []
+  healthStateSprites:
+  - {fileID: 785668125594142257, guid: 21120eddd49cac742a493a81bda4f73d, type: 3}
+  - {fileID: 1383696490548988982, guid: 21120eddd49cac742a493a81bda4f73d, type: 3}
   particleSpawnPoint: {fileID: 453477923966925585}
   hitParticleEffectType: 2
   destroyParticleEffectType: 3
   healParticleEffectType: 0
+  hitSoundId: 0
+  breakSoundId: 0
   objectName: Boulder
   centerPoint: {fileID: 1212809725671271121}
   description: 
@@ -385,28 +390,6 @@ MonoBehaviour:
   sr: {fileID: 0}
   collisionHitbox: {fileID: 6556151738904023588}
   matchingItemId: 0
---- !u!114 &5697965857831664718
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5294732903785832720}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93756521e94389f4a8685ec32d7b2293, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lightSource: {fileID: 0}
-  shadowSprite: {fileID: 0}
-  shadowMaterial: {fileID: 0}
-  shadowColor: {r: 0, g: 0, b: 0, a: 1}
-  shadowAlpha: 0.5
-  shadowLength: 1
-  verticalScale: 0.5
-  autoSetSortingLayer: 1
-  shadowSortingLayerName: 
-  shadowSortingOrderOffset: -1
 --- !u!1 &7384950776458695469
 GameObject:
   m_ObjectHideFlags: 0

@@ -36,26 +36,31 @@ public class CraftingManager : MonoBehaviour, ITrackable
     private PlayerInventory playerInventory;
 
 
-    private void Start()
+    private void Awake()
     {
         Instance = this;
         playerInventory = GetComponentInParent<PlayerInventory>();
-        foreach(Slot slot in recipeDisplaySlots)
+        foreach (Slot slot in recipeDisplaySlots)
         {
             slot.canInteract = false;
             slot.gameObject.SetActive(false);
         }
         recipeResultSlot.canInteract = false;
-        foreach(CraftingTab ct in craftingTabs)
+        foreach (CraftingTab ct in craftingTabs)
         {
             ct.DeselectTab();
         }
         playerInventory.OnContainerChanged += CheckHasRecipeItems;
         playerInventory.OnInventoryToggled += CheckHasRecipeItemsWrapper;
         playerInventory.OnSlotChanged += CheckHasRecipeItemsSlotWrapper;
+        
+        craftingTabs[0].SelectTab();
+    }
+
+    private void Start()
+    {
         OnSingleTrack += StatTrackManager.Instance.AddOne;
         OnMultiTrack += StatTrackManager.Instance.AddMultiple;
-        craftingTabs[0].SelectTab();
     }
 
 
