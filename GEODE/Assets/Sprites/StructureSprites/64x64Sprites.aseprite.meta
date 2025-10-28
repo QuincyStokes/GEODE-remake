@@ -344,8 +344,8 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: 64x64Sprites_7
     originalName: 
-    pivot: {x: 0, y: 0}
-    alignment: 6
+    pivot: {x: 0.06666667, y: 0}
+    alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:

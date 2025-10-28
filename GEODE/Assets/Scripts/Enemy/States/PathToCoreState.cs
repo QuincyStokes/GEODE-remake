@@ -33,7 +33,7 @@ public class PathToCoreState : BaseEnemyState
         }
 
         //at this point we know its nighttime, so safe to assume below
-        if (owner.coreTransform == null)
+        if (owner.coreTransform == null || owner.currentTarget == null)
         {
             stateMachine.ChangeState(new PathToPlayer());
             return;

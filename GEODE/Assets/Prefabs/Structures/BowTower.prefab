@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 569111093344052423}
   - component: {fileID: 7217633617710078145}
   m_Layer: 0
-  m_Name: Slingshot
+  m_Name: Bow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -211,7 +211,7 @@ GameObject:
   - component: {fileID: 3675773411458282196}
   - component: {fileID: 2077050480769059596}
   m_Layer: 10
-  m_Name: SlingshotTower
+  m_Name: BowTower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -278,6 +278,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   NetworkTransformExpanded: 0
+  AutoOwnerAuthorityTickOffset: 1
+  PositionInterpolationType: 0
+  RotationInterpolationType: 0
+  ScaleInterpolationType: 0
+  PositionLerpSmoothing: 1
+  PositionMaxInterpolationTime: 0.1
+  RotationLerpSmoothing: 1
+  RotationMaxInterpolationTime: 0.1
+  ScaleLerpSmoothing: 1
+  ScaleMaxInterpolationTime: 0.1
   AuthorityMode: 0
   TickSyncChildren: 0
   UseUnreliableDeltas: 0
@@ -356,7 +366,7 @@ MonoBehaviour:
   uniqueUI: {fileID: 0}
   upgrades: []
   upgradeItems: []
-  projectilePrefab: {fileID: 3971315044739012625, guid: bde976c2222e34740b6b0486cee6803d, type: 3}
+  projectilePrefab: {fileID: 3971315044739012625, guid: 6adc3bbc20934134e95286598253a603, type: 3}
   firePoint: {fileID: 8530824588490717240}
 --- !u!58 &2077050480769059596
 CircleCollider2D:

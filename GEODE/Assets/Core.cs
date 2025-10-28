@@ -12,6 +12,8 @@ public class Core : BaseObject, IInteractable
     public event Action OnCorePlaced;
     public event Action OnCoreDestroyed;
 
+    public static event Action OnCorePlacedStatic;
+
     private void Awake()
     {
         CORE = this;
@@ -67,5 +69,6 @@ public class Core : BaseObject, IInteractable
     private void NotifyClientsCorePlacedClientRpc()
     {
         OnCorePlaced?.Invoke();
+        OnCorePlacedStatic?.Invoke();
     }
 }

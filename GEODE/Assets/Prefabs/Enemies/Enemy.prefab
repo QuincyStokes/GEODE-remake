@@ -258,8 +258,8 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   Id: 0
   sr: {fileID: 6974662852891349937}
-  centerPoint: {fileID: 0}
-  particleSpawnPoint: {fileID: 0}
+  centerPoint: {fileID: 4547582025547477451}
+  particleSpawnPoint: {fileID: 4547582025547477451}
   hitParticleEffectType: 0
   steering:
     rayCount: 15

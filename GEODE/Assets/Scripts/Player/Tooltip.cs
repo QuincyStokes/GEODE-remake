@@ -92,7 +92,7 @@ public class TooltipService : MonoBehaviour
                 if (upgItem != null)
                 {
                     _itemQualityTMP.gameObject.SetActive(true);
-                    _itemQualityTMP.text = "\n" + quality.ToString("N1") + "%";
+                    _itemQualityTMP.text = "Quality\n" + quality.ToString("N1") + "%";
                     foreach (Upgrade upgrade in upgItem.upgradeList)
                     {
                         _itemStatsTMP.text += $"{upgrade.upgradeType} : {upgrade.percentIncrease * (quality / 100)}%\n";

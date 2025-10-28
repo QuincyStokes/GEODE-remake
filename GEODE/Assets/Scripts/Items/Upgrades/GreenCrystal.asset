@@ -18,7 +18,7 @@ MonoBehaviour:
   icon: {fileID: -1561941736606595945, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
   id: 30
   quality: 0
-  isStackable: 1
+  isStackable: 0
   consumeOnUse: 0
   upgradeList:
   - upgradeType: 3

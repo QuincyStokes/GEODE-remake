@@ -16,7 +16,7 @@ MonoBehaviour:
   spawnEntries:
   - entryName: Nothing
     baseItem: {fileID: 11400000, guid: 1caf887cd127e3b42b6167adfe82a6f5, type: 2}
-    weight: 130
+    weight: 300
   - entryName: ForestTree
     baseItem: {fileID: 11400000, guid: 01dd4bbb0ea1ba1448077fa66c98c7fb, type: 2}
     weight: 10
@@ -62,4 +62,4 @@ MonoBehaviour:
   - entryName: Forest Boulder 2
     baseItem: {fileID: 11400000, guid: 3afeeba9c900fb84da466d61a8eb8aac, type: 2}
     weight: 2
-  totalWeight: 194
+  totalWeight: 364

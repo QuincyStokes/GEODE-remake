@@ -90,7 +90,6 @@ public class Loot : NetworkBehaviour
     {
         
         Vector3 basePos = transform.position;
-        // Use an AnimationCurve for ease of tweaking (0→1→0)
         
         curve.AddKey(1f, 0);
 
@@ -100,16 +99,14 @@ public class Loot : NetworkBehaviour
             elapsed += Time.deltaTime;
             float t = Mathf.Clamp01(elapsed / duration);
 
-            // vertical bounce factor (0->1->0)
+            //evaluate bounce height based on curve
             float heightFactor = curve.Evaluate(t);
             float y = peakHeight * heightFactor;
 
-            // horizontal lerp back to zero (offset -> 0)
+            //lerp x position to target location
             float x = Mathf.Lerp(0, horizontalOffset, t);
 
-            transform.position = basePos
-                                + Vector3.right * x
-                                + Vector3.up    * y;
+            transform.position = basePos + Vector3.right * x+ Vector3.up    * y;
 
             yield return null;
         }
