@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class ConnectionManager : NetworkBehaviour
 {
@@ -15,11 +13,7 @@ public class ConnectionManager : NetworkBehaviour
 
     [HideInInspector] public string PlayerID;
     [HideInInspector] public string PlayerName;
-    [SerializeField] private GameObject playerPrefab;
 
-    private List<ulong> waitingClientIds = new List<ulong>();
-
-    private bool isWorldReady = false;
     public event Action OnPlayerSpawned;
 
 
@@ -62,26 +56,10 @@ public class ConnectionManager : NetworkBehaviour
 
     public void OnWorldReady()
     {
-       
-        Debug.Log($"[ConnectionManager] World is ready! Processing {waitingClientIds.Count} waiting clients.");
-        isWorldReady = true;
-
+        // This method is called by GameManager when world generation completes
+        // The actual processing of waiting clients is now handled by GameManager
+        Debug.Log("[ConnectionManager] OnWorldReady called - GameManager will handle waiting clients");
         
-        //Spawn the player's for each client in the waiting list
-        foreach(ulong clientId in waitingClientIds)
-        {
-            Debug.Log($"[ConnectionManager] Processing waiting client {clientId}");
-            StartCoroutine(WaitForGameManagerThenConnect(clientId));
-        }
-        waitingClientIds.Clear();
-
-        // Only process local client if we're the host
-        if (NetworkManager.Singleton.IsHost)
-        {
-            Debug.Log("[ConnectionManager] Processing host local client");
-            StartCoroutine(WaitForGameManagerThenConnect(NetworkManager.Singleton.LocalClientId));
-        }
-
         // Failsafe: Check if there are any connected clients that weren't processed
         StartCoroutine(FailsafeCheckForUnprocessedClients());
     }
@@ -91,15 +69,16 @@ public class ConnectionManager : NetworkBehaviour
         yield return new WaitForSeconds(2f); // Wait a bit for any late connections
         
         if (!NetworkManager.Singleton.IsServer) yield break;
+        if (GameManager.Instance == null) yield break;
 
         Debug.Log($"[ConnectionManager] Failsafe check: {NetworkManager.Singleton.ConnectedClientsList.Count} connected clients");
         
         foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
         {
-            if (client.PlayerObject == null && client.ClientId != NetworkManager.Singleton.LocalClientId)
+            if (client.PlayerObject == null)
             {
                 Debug.LogWarning($"[ConnectionManager] Failsafe: Client {client.ClientId} connected but has no player object! Processing now.");
-                StartCoroutine(WaitForGameManagerThenConnect(client.ClientId));
+                GameManager.Instance.HandlePlayerSpawnRequest(client.ClientId);
             }
         }
     }
@@ -111,100 +90,17 @@ public class ConnectionManager : NetworkBehaviour
             return;
         }
 
-        if (clientId == NetworkManager.Singleton.LocalClientId && NetworkManager.Singleton.IsHost)
-        {
-            Debug.Log($"[ConnectionManager] OnClientConnected: Host local client {clientId}, skipping RPC calls.");
-            return;
-        }
+        Debug.Log($"[ConnectionManager] Client {clientId} connected. Delegating to GameManager.");
 
-        Debug.Log($"[ConnectionManager] Client {clientId} connected. World ready: {isWorldReady}");
-
-        // Don't send loading screen RPC - client should already have it from lobby detection
-        // Just ensure they have the correct world generation parameters
-        
-        if(isWorldReady)
+        // Single Entry Point: All player spawning goes through GameManager
+        if (GameManager.Instance != null)
         {
-            Debug.Log($"[ConnectionManager] World is ready, immediately processing client {clientId}");
-            StartCoroutine(WaitForGameManagerThenConnect(clientId));
+            GameManager.Instance.HandlePlayerSpawnRequest(clientId);
         }
         else
         {
-            Debug.Log($"[ConnectionManager] World not ready, adding client {clientId} to waiting list. Current waiting list size: {waitingClientIds.Count}");
-            waitingClientIds.Add(clientId);
-            Debug.Log($"[ConnectionManager] Client {clientId} added to waiting list. New size: {waitingClientIds.Count}");
+            Debug.LogWarning($"[ConnectionManager] GameManager.Instance is null! Cannot spawn player for client {clientId}");
         }
-    }
-
-    private void DoClientConnectedThings(ulong clientId)
-    {
-        Debug.Log($"[ConnectionManager] DoClientConnectedThings for client {clientId}");
-
-        // Send the official world generation parameters (client may have started with temporary ones)
-        GameManager.WorldGenParams worldGenParams = GameManager.Instance.GetWorldGenParams();
-        WorldGenManager.Instance.InitializeBiomeTilesSeededClientRpc(worldGenParams.seed, worldGenParams.noiseScale, worldGenParams.offset, new ClientRpcParams
-        {
-            Send = new ClientRpcSendParams
-            {
-                TargetClientIds = new[] { clientId }
-            }
-        });
-        
-        // Unload the loading screen - this should make a clean transition into game
-        Debug.Log($"[ConnectionManager] Sending UnloadLoadingSceneClientRpc to client {clientId}");
-        UnloadLoadingSceneClientRpc(new ClientRpcParams
-        {
-            Send = new ClientRpcSendParams
-            {
-                TargetClientIds = new[] { clientId }
-            }
-        });
-        
-        SpawnPlayerForClient(clientId);
-    }
-
-    private IEnumerator WaitForGameManagerThenConnect(ulong clientId)
-    {
-        float timeout = 5f;
-        float elapsed = 0f;
-
-        while (!GameManager.IsReady && elapsed < timeout)
-        {
-            yield return null;
-            elapsed += Time.deltaTime;
-        }
-
-        if (!GameManager.IsReady)
-        {
-            Debug.LogError("[ConnectionManager] Timed out waiting for GameManager to initialize.");
-            yield break;
-        }
-
-        DoClientConnectedThings(clientId);
-    }
-
-    [ClientRpc]
-    private void UnloadLoadingSceneClientRpc(ClientRpcParams clientRpcParams = default)
-    {
-        Debug.Log($"[ConnectionManager] UnloadLoadingSceneClientRpc called on client {NetworkManager.Singleton.LocalClientId}");
-        SceneManager.UnloadSceneAsync("Loading");
-    }
-
-    private void SpawnPlayerForClient(ulong clientId)
-    {
-        Debug.Log($"Spawning player for {clientId}");
-        //THIS WILL NEED TO BE REPLACED WHEN WE DO CHARACTER CUSTOMIZATION I THINK
-        GameObject playerInstance = Instantiate(playerPrefab);
-
-        //can assume worldgenmanager.instance exists because this will only trigger
-        //after recieving a message from it
-        int centerX = WorldGenManager.Instance.WorldSizeX / 2;
-        int centerY = WorldGenManager.Instance.WorldSizeY / 2;
-
-        playerInstance.transform.position = new Vector3(centerX, centerY, 0);
-
-        NetworkObject netObj = playerInstance.GetComponent<NetworkObject>();
-        netObj.SpawnAsPlayerObject(clientId, destroyWithScene: false);
-        OnPlayerSpawned?.Invoke();
     }
 
     public void ResetData()

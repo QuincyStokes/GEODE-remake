@@ -317,6 +317,7 @@ MonoBehaviour:
     seed: 0
     noiseScale: 0
     offset: {x: 0, y: 0}
+  playerPrefab: {fileID: 8265714030686749453, guid: 4a1078cc45e59d74aa22bc27912743fa, type: 3}
 --- !u!4 &135569798
 Transform:
   m_ObjectHideFlags: 0
