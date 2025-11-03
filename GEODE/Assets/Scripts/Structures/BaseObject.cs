@@ -51,7 +51,7 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
     [SerializeField] private Collider2D collisionHitbox;
 
     //* ------------------ Internal Use -------------------- */
-    [HideInInspector] public int matchingItemId = -1;
+    [HideInInspector] public NetworkVariable<int> matchingItemId = new NetworkVariable<int>(-1);
     private int healthState = -1;
     private ulong lastAttackerClientId;
     //* ------------------- Events ----------------
@@ -62,6 +62,24 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
     private void Start()
     {
         sr = GetComponentInChildren<SpriteRenderer>();
+        matchingItemId.OnValueChanged += HandleIDChanged;
+
+        //If the ID is already set (this should be the catch for late joining clients)
+        if (matchingItemId.Value != -1)
+        {
+            HandleIDChanged(-1, matchingItemId.Value);
+        }
+    }
+
+    private void HandleIDChanged(int previousValue, int newValue)
+    {
+        if(newValue != -1)
+        {
+            BaseItem baseItem = ItemDatabase.Instance.GetItem(newValue);
+            description = baseItem.Description;
+            objectSprite = baseItem.Icon;
+        }
+
     }
 
     public override void OnNetworkSpawn()
@@ -73,9 +91,11 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
         }
     }
 
+
+
     public void InitializeItemId(int id)
     {
-        matchingItemId = id;
+        matchingItemId.Value = id;
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -252,17 +272,6 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
         FlowFieldManager.Instance.CalculateFlowField();
     }
 
-    [ClientRpc]
-    public void InitializeDescriptionAndSpriteClientRpc(int itemId=-1, ClientRpcParams rpcParams = default)
-    {
-        BaseItem item;
-        if (itemId == -1 && matchingItemId != -1)
-            item = ItemDatabase.Instance.GetItem(matchingItemId);
-        else
-            item = ItemDatabase.Instance.GetItem(itemId);
-        description = item.Description;
-        objectSprite = item.Icon;
-    }
 
     [ClientRpc]
     public void CheckSpriteChangeClientRpc()
@@ -273,18 +282,17 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
 
         int stateCount = healthStateSprites.Count;
         //a bit of a bandaid fix, but prevents any sprite change from happening above 75%
-        if (healthPercentage < .75)
-        {
-            float fIndex = (1f - healthPercentage) * stateCount;
-            int newState = Mathf.FloorToInt(fIndex);
-            newState = Mathf.Clamp(newState, 0, stateCount - 1);
 
-            if (newState != healthState)
-            {
-                ApplyHealthState(newState);
-                healthState = newState;
-            }
+        float fIndex = (1f - healthPercentage) * stateCount;
+        int newState = Mathf.FloorToInt(fIndex);
+        newState = Mathf.Clamp(newState, 0, stateCount - 1);
+
+        if (newState != healthState)
+        {
+            ApplyHealthState(newState);
+            healthState = newState;
         }
+        
         
     }
 

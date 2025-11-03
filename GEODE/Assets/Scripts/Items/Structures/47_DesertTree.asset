@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 801184ae3a0d9d2479257a43cc174ad5, type: 3}
+  m_Name: 47_DesertTree
+  m_EditorClassIdentifier: 
+  name: Desert Tree
+  description: 'An old, dead tree. '
+  type: 2
+  icon: {fileID: -136911645196997914, guid: fdecfc1b007887f4181d14a64ca03498, type: 3}
+  id: 47
+  quality: 0
+  isStackable: 0
+  consumeOnUse: 1
+  prefab: {fileID: 4435275940784898638, guid: 8f7949bc57b048d479dacdc46009f6f6, type: 3}
+  width: 1
+  height: 1

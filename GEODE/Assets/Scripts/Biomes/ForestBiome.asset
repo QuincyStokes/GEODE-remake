@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7ee3e4d394713b4494deaa023bd1441, type: 3}
   m_Name: ForestBiome
   m_EditorClassIdentifier: 
+  biomeType: 0
   biomeName: Forest
   spawnEntries:
   - entryName: Nothing
@@ -41,17 +42,11 @@ MonoBehaviour:
   - entryName: ForestRockSmall
     baseItem: {fileID: 11400000, guid: 74957ea4f9b64814ab61466a2c6582b0, type: 2}
     weight: 5
-  - entryName: Red Geode
-    baseItem: {fileID: 11400000, guid: 06293a621c6263f43b4898799cded384, type: 2}
-    weight: 1
   - entryName: Blue Geode
     baseItem: {fileID: 11400000, guid: 2f994faad21dd8743ad7cc2c6998cc88, type: 2}
     weight: 1
   - entryName: Green Geode
     baseItem: {fileID: 11400000, guid: d989f779fe7c7544cafe3e134cca375e, type: 2}
-    weight: 1
-  - entryName: Yellow Geode
-    baseItem: {fileID: 11400000, guid: ff4657d69cb2e7a4597396f94d7c57e4, type: 2}
     weight: 1
   - entryName: Forest Bush
     baseItem: {fileID: 11400000, guid: 84435a6135500534581d8e088fa89de6, type: 2}
@@ -62,4 +57,10 @@ MonoBehaviour:
   - entryName: Forest Boulder 2
     baseItem: {fileID: 11400000, guid: 3afeeba9c900fb84da466d61a8eb8aac, type: 2}
     weight: 2
-  totalWeight: 364
+  totalWeight: 362
+  weight: 10
+  tiles:
+  - {fileID: 11400000, guid: 25fd66046c912804896df8dfabfa6921, type: 2}
+  - {fileID: 11400000, guid: 433cb1b536a7b4b418541bd358729d2b, type: 2}
+  - {fileID: 11400000, guid: 6ec73688c1e74ec44b3545193ad6c7e9, type: 2}
+  - {fileID: 11400000, guid: f9fb9f7cd7bf6604db128499189609d4, type: 2}

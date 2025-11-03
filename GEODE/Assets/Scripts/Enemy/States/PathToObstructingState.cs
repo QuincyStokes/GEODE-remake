@@ -72,7 +72,7 @@ public class PathToObstructingState : BaseEnemyState
                     obstructingObject =  hit.collider.GetComponentInParent<BaseObject>();
 
                     //if the Id of our target happens to be the core, switch to PathToCore
-                    if (obstructingObject.matchingItemId == 6)
+                    if (obstructingObject.matchingItemId.Value == 6)
                     {
                         stateMachine.ChangeState(new PathToCoreState());
                         return;

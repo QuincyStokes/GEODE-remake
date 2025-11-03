@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 801184ae3a0d9d2479257a43cc174ad5, type: 3}
+  m_Name: 33_BlueGeode
+  m_EditorClassIdentifier: 
+  name: Blue Geode
+  description: What lies inside?
+  type: 2
+  icon: {fileID: 5669041734165336226, guid: 35d9d5fc183c1f84785bbdc22135bb95, type: 3}
+  id: 33
+  quality: 0
+  isStackable: 1
+  consumeOnUse: 1
+  prefab: {fileID: 8370947462149780993, guid: e8422d069988f92419823e2803b35ce4, type: 3}
+  width: 2
+  height: 2

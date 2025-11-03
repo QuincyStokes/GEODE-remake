@@ -71,7 +71,7 @@ public class ConnectionManager : NetworkBehaviour
         foreach(ulong clientId in waitingClientIds)
         {
             Debug.Log($"[ConnectionManager] Processing waiting client {clientId}");
-            DoClientConnectedThings(clientId);
+            StartCoroutine(WaitForGameManagerThenConnect(clientId));
         }
         waitingClientIds.Clear();
 
@@ -79,7 +79,7 @@ public class ConnectionManager : NetworkBehaviour
         if (NetworkManager.Singleton.IsHost)
         {
             Debug.Log("[ConnectionManager] Processing host local client");
-            DoClientConnectedThings(NetworkManager.Singleton.LocalClientId);
+            StartCoroutine(WaitForGameManagerThenConnect(NetworkManager.Singleton.LocalClientId));
         }
 
         // Failsafe: Check if there are any connected clients that weren't processed
@@ -99,7 +99,7 @@ public class ConnectionManager : NetworkBehaviour
             if (client.PlayerObject == null && client.ClientId != NetworkManager.Singleton.LocalClientId)
             {
                 Debug.LogWarning($"[ConnectionManager] Failsafe: Client {client.ClientId} connected but has no player object! Processing now.");
-                DoClientConnectedThings(client.ClientId);
+                StartCoroutine(WaitForGameManagerThenConnect(client.ClientId));
             }
         }
     }
@@ -125,7 +125,7 @@ public class ConnectionManager : NetworkBehaviour
         if(isWorldReady)
         {
             Debug.Log($"[ConnectionManager] World is ready, immediately processing client {clientId}");
-            DoClientConnectedThings(clientId);
+            StartCoroutine(WaitForGameManagerThenConnect(clientId));
         }
         else
         {
@@ -138,9 +138,10 @@ public class ConnectionManager : NetworkBehaviour
     private void DoClientConnectedThings(ulong clientId)
     {
         Debug.Log($"[ConnectionManager] DoClientConnectedThings for client {clientId}");
-        
+
         // Send the official world generation parameters (client may have started with temporary ones)
-        WorldGenManager.Instance.InitializeBiomeTilesSeededClientRpc(0, 5, new Vector2(10, 10), new ClientRpcParams
+        GameManager.WorldGenParams worldGenParams = GameManager.Instance.GetWorldGenParams();
+        WorldGenManager.Instance.InitializeBiomeTilesSeededClientRpc(worldGenParams.seed, worldGenParams.noiseScale, worldGenParams.offset, new ClientRpcParams
         {
             Send = new ClientRpcSendParams
             {
@@ -161,15 +162,24 @@ public class ConnectionManager : NetworkBehaviour
         SpawnPlayerForClient(clientId);
     }
 
-
-    [ClientRpc]
-    private void LoadLoadingSceneClientRpc(ClientRpcParams clientRpcParams = default)
+    private IEnumerator WaitForGameManagerThenConnect(ulong clientId)
     {
-        Debug.Log(
-        $"LoadLoadingSceneClientRpc on client {NetworkManager.Singleton.LocalClientId}, " +
-        $"filter = [{string.Join(",", clientRpcParams.Send.TargetClientIds)}]"
-        );
-        SceneManager.LoadScene("Loading", LoadSceneMode.Additive);
+        float timeout = 5f;
+        float elapsed = 0f;
+
+        while (!GameManager.IsReady && elapsed < timeout)
+        {
+            yield return null;
+            elapsed += Time.deltaTime;
+        }
+
+        if (!GameManager.IsReady)
+        {
+            Debug.LogError("[ConnectionManager] Timed out waiting for GameManager to initialize.");
+            yield break;
+        }
+
+        DoClientConnectedThings(clientId);
     }
 
     [ClientRpc]

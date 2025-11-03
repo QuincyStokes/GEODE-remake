@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 801184ae3a0d9d2479257a43cc174ad5, type: 3}
+  m_Name: 15_ForestMushroomShort
+  m_EditorClassIdentifier: 
+  name: Mushrooms
+  description: Not edible.
+  type: 2
+  icon: {fileID: 4907174756612798754, guid: 72d14c2e801892147bf0400942e6d753, type: 3}
+  id: 15
+  quality: 0
+  isStackable: 1
+  consumeOnUse: 1
+  prefab: {fileID: 1006260435233069457, guid: d578d91606093944799b204e66f0a30e, type: 3}
+  width: 0
+  height: 0

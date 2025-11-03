@@ -119,7 +119,6 @@ public class GridManager : NetworkBehaviour
             if(bo != null)
             {
                 bo.InitializeItemId(itemId);
-                bo.InitializeDescriptionAndSpriteClientRpc(itemId);
             }
 
             

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 801184ae3a0d9d2479257a43cc174ad5, type: 3}
+  m_Name: 40_ForestBoulder3
+  m_EditorClassIdentifier: 
+  name: Boulder
+  description: A massive boulder
+  type: 2
+  icon: {fileID: -246268610703119347, guid: 35d9d5fc183c1f84785bbdc22135bb95, type: 3}
+  id: 40
+  quality: 0
+  isStackable: 1
+  consumeOnUse: 1
+  prefab: {fileID: 5294732903785832720, guid: 44db5015da6242946b5ae9bc8a68efc5, type: 3}
+  width: 2
+  height: 2

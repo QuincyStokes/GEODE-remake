@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd03a3836b0ecfc4e877af96d30a870c, type: 3}
+  m_Name: 31_BlueCrystal
+  m_EditorClassIdentifier: 
+  name: Blue Crystal
+  description: A glowing blue crystal. Upgrades RANGE!
+  type: 5
+  icon: {fileID: 8974179435539756478, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
+  id: 31
+  quality: 10.400001
+  isStackable: 0
+  consumeOnUse: 0
+  upgradeList:
+  - upgradeType: 2
+    percentIncrease: 20

@@ -10,37 +10,47 @@ using UnityEngine.Tilemaps;
 
 public class WorldGenManager : NetworkBehaviour
 {
+    //* --------------- Public Instance ------------- */
     public static WorldGenManager Instance;
-    [SerializeField] private GameObject playerPrefab;
 
+
+    //* ---------------  World Settings ------------- */
+    [Header("World Settings")]
     [SerializeField] private const int worldSizeX = 300;
     [SerializeField] private const int worldSizeY = 250;
+
+
+    //* --------------- Glades ------------- */
     [Header("Glades")]
     [SerializeField] private int numGlades;
     [SerializeField] private float gladeRadius;
     private List<Vector2> gladePositions = new List<Vector2>();
-    [SerializeField] private LayerMask objectLayer;
-   
+
+
+    //* --------------- Tiles ------------- */
+    [Header("Tiles")]
+    [SerializeField] Tile worldBoundaryTile;
     [SerializeField] Tilemap backgroundTilemap;
     [SerializeField] Tilemap worldBoundaryTilemap;
-    
 
-    [Header("Tiles")]
-    [SerializeField] Tile[] desertTiles;
-    [SerializeField] Tile[] forestTiles;
-    [SerializeField] Tile worldBoundaryTile;
-    [Header("Biome Objects")]
-    [SerializeField] private BiomeSpawnTable forestSpawnTable;
-    private int totalWeight;
-    //[SerializeField] private BiomeSpawnTable desertSpawnTable;
+
+    //* --------------- Biome Data ------------- */
+    [Header("Biome Data")]
+    [SerializeField] private List<BiomeData> biomeDatas;
+    private Dictionary<BiomeType, BiomeData> biomeTypeToDataMap = new();
     
     
     //WEIRD THING, just going to create a field to the ItemDatabase so it loads.. kindof a hack but it works?
+    //* --------------- Databases ------------- */
     [SerializeField]private ItemDatabase itemDatabase;
     [SerializeField]private EnemyDatabase enemyDatabase;
 
+    //* --------------- Events ------------- */
     public event Action OnWorldGenerated;
 
+
+
+    //* --------------- Public Access ------------- */
     public bool IsWorldGenerating;
 
     public int WorldSizeX
@@ -56,7 +66,7 @@ public class WorldGenManager : NetworkBehaviour
     private void Awake()
     {   
         IsWorldGenerating = true;
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
         }
@@ -64,6 +74,7 @@ public class WorldGenManager : NetworkBehaviour
         {
             Destroy(gameObject);
         }
+        SeedBiomeTypeDataMap();
     }
     public override void OnNetworkSpawn()
     {
@@ -72,10 +83,7 @@ public class WorldGenManager : NetworkBehaviour
 
 
     public IEnumerator InitializeWorldGen(int newseed, float noiseScale, Vector2 offset)
-    {
-        // Send world gen parameters to all clients
-        InitializeBiomeTilesSeededClientRpc(newseed, noiseScale, offset, new ClientRpcParams { });
-        
+    {   
         GenerateGladeLocations();
         
         // Server must also generate its own tiles!
@@ -92,6 +100,7 @@ public class WorldGenManager : NetworkBehaviour
     [ClientRpc]
     public void InitializeBiomeTilesSeededClientRpc(int seed, float noiseScale, Vector2 offset, ClientRpcParams clientRpcParams = default)
     {
+        if (IsHost) return;
         Debug.Log($"[WorldGenManager] Client received world gen parameters: seed={seed}, scale={noiseScale}, offset={offset}");
         StartCoroutine(InitializeBiomeTiles(seed, noiseScale, offset));
     }
@@ -111,6 +120,13 @@ public class WorldGenManager : NetworkBehaviour
 
         Debug.Log($"[WorldGen] Starting world generation with seed {newseed}");
 
+        //Tally up all of the biome weights
+        float weight = 0;
+        foreach(BiomeData bd in biomeDatas)
+        {
+            weight += bd.weight;
+        }
+        Debug.Log($"WorldGenManager | {weight}");
         //now the fun part
         for (int x = -1; x < worldSizeX + 1; x++)
         {
@@ -120,20 +136,32 @@ public class WorldGenManager : NetworkBehaviour
                 {
                     worldBoundaryTilemap.SetTile(new Vector3Int(x, y), worldBoundaryTile);
                 }
+                
                 float sampleX = (x + offset.x) / noiseScale;
                 float sampleY = (y + offset.y) / noiseScale;
+                float noiseValue = Mathf.PerlinNoise(sampleX, sampleY); // [0,1]
 
-                float noiseValue = Mathf.PerlinNoise(sampleX, sampleY);
+                
+                //Decide what tiles to draw based on biome weights.
+                float curr = 0f;
+                Tile tileToPlace = null;
+                foreach (BiomeData bd in biomeDatas)
+                {
+                    float w = bd.weight / weight;
+                    //This means we've reached a success point, I think.
+                    curr += w;
+                    if (noiseValue <= curr)
+                    {
+                        int tileIndex = Mathf.FloorToInt(noiseValue * bd.tiles.Length) % bd.tiles.Length;
+                        tileToPlace = bd.tiles[tileIndex];
+                        break;
+                    }
+                }
 
-                Tile tileToPlace;
-                if (noiseValue <= .5f) //CHANGED TO FOREST ONLY TEMP
-                {
-                    tileToPlace = forestTiles[UnityEngine.Random.Range(0, forestTiles.Length)];
-                }
-                else //in the future this will be more else ifs for different biomes
-                {
-                    tileToPlace = forestTiles[UnityEngine.Random.Range(0, forestTiles.Length)];
-                }
+                //Fallback
+                if (tileToPlace == null && biomeDatas.Count > 0)
+                    tileToPlace = biomeDatas[biomeDatas.Count - 1].tiles[0];
+
                 backgroundTilemap.SetTile(new Vector3Int(x, y), tileToPlace);
 
                 processedCount++;
@@ -152,6 +180,8 @@ public class WorldGenManager : NetworkBehaviour
         Debug.Log("[WorldGen] World generation complete!");
     }
     
+
+    //! BROKEN DUE TO COMMENTED LINE.
     [ContextMenu("Test-fire table 10 000×")]
     public void MonteCarlo()
     {
@@ -159,7 +189,7 @@ public class WorldGenManager : NetworkBehaviour
         Dictionary<BaseItem,int> tally = new();
         for (int i = 0; i < shots; i++)
         {
-            int id = GetRandomSpawn(forestSpawnTable);             // assumes in same SO
+            int id = GetRandomSpawn(biomeDatas[0]);             // assumes in same SO
             var item = ItemDatabase.Instance.GetItem(id);
             if (!tally.TryAdd(item, 1))
                 tally[item]++;
@@ -202,15 +232,8 @@ public class WorldGenManager : NetworkBehaviour
                 Vector3Int currentPos = new Vector3Int(x, y);
                 BiomeType currType = GetBiomeAtPosition(currentPos);
                 int toSpawn = -1;
-                switch(currType)
-                {
-                    case BiomeType.Forest:
-                        toSpawn = GetRandomSpawn(forestSpawnTable);
-                        break;
 
-                    default:
-                        break;
-                }
+                toSpawn = GetRandomSpawn(biomeTypeToDataMap[currType]);
 
                 if (!GridManager.Instance.IsPositionOccupied(currentPos) && toSpawn != -1)
                 {
@@ -267,16 +290,16 @@ public class WorldGenManager : NetworkBehaviour
     }
 
 
-    private int GetRandomSpawn(BiomeSpawnTable bst)
+    private int GetRandomSpawn(BiomeData bd)
     {
-        if (bst == null || bst.spawnEntries == null || bst.spawnEntries.Count == 0)
+        if (bd == null || bd.spawnEntries == null || bd.spawnEntries.Count == 0)
         {
-            Debug.Log($"Error | Biome Entry Table for {bst.name} is null");
+            Debug.Log($"Error | Biome Entry Table for {bd.name} is null");
             return -1;
         }
-        float randomValue = UnityEngine.Random.Range(0, bst.totalWeight);
+        float randomValue = UnityEngine.Random.Range(0, bd.totalWeight);
         //Debug.Log($"Total Weight On Spawn: {bst.totalWeight}");
-        foreach (var entry in bst.spawnEntries)
+        foreach (var entry in bd.spawnEntries)
         {
             if (randomValue < entry.weight)
             {
@@ -303,27 +326,26 @@ public class WorldGenManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void PlaceObjectOffGridServerRpc(int itemId, Vector3 position)
     {
-        
+
         BaseItem baseItem = ItemDatabase.Instance.GetItem(itemId);
         StructureItem structureItem = baseItem as StructureItem;
-        if(structureItem != null)
+        if (structureItem != null)
         {
             //Vector3 placePos = new Vector3(position.x-structureItem.width/2, position.y-structureItem.height/2, 0);
             //GameObject newObject = Instantiate(structureItem.prefab, placePos, Quaternion.identity);
-            if(structureItem.prefab != null)
+            if (structureItem.prefab != null)
             {
                 GameObject newObject = Instantiate(structureItem.prefab, position, Quaternion.identity);
-                
+
                 FlowFieldManager.Instance.CalculateFlowField();
-                newObject.GetComponent<NetworkObject>().Spawn(destroyWithScene:false);
+                newObject.GetComponent<NetworkObject>().Spawn(destroyWithScene: false);
 
                 BaseObject bo = newObject.GetComponent<BaseObject>();
                 if (bo != null)
                 {
                     bo.InitializeItemId(itemId);
-                    bo.InitializeDescriptionAndSpriteClientRpc(itemId);
                 }
-                
+
             }
         }
         else
@@ -331,6 +353,16 @@ public class WorldGenManager : NetworkBehaviour
             Debug.Log("Error. Item is not a structure.");
         }
     }
+
+    private void SeedBiomeTypeDataMap()
+    {
+        foreach (BiomeData bd in biomeDatas)
+        {
+            biomeTypeToDataMap.Add(bd.biomeType, bd);
+        }
+    }
+    
+    
 
 
 }
