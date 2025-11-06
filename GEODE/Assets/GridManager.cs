@@ -107,8 +107,7 @@ public class GridManager : NetworkBehaviour
         StructureItem structureItem = baseItem as StructureItem;
         if(structureItem != null)
         {
-            //Vector3 placePos = new Vector3(position.x-structureItem.width/2, position.y-structureItem.height/2, 0);
-            //GameObject newObject = Instantiate(structureItem.prefab, placePos, Quaternion.identity);
+            
             GameObject newObject = Instantiate(structureItem.prefab, position, Quaternion.identity);
             FlowFieldManager.Instance.CalculateFlowField();
 
@@ -120,9 +119,6 @@ public class GridManager : NetworkBehaviour
             {
                 bo.InitializeItemId(itemId);
             }
-
-            
-            
         }
         else
         {

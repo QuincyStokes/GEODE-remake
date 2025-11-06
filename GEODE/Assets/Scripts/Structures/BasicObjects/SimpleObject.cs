@@ -1,4 +1,5 @@
 using System;
+using Unity.Services.Matchmaker.Models;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -9,8 +10,9 @@ public class SimpleObject : BaseObject, IInteractable, IDismantleable, ITrackabl
     public event Action<StatTrackType, string> OnSingleTrack;
     public event Action<StatTrackType, string, int> OnMultiTrack;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         OnSingleTrack += StatTrackManager.Instance.AddOne;
         OnMultiTrack += StatTrackManager.Instance.AddMultiple;
 

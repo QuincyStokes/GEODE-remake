@@ -7,11 +7,13 @@ public enum ItemType
 {
     Tool,
     Weapon,
-    
+
     Structure,
     Consumable,
     Material,
-    Upgrade
+    Upgrade,
+    Crystal,
+    Relic
 }
 
 [System.Serializable]

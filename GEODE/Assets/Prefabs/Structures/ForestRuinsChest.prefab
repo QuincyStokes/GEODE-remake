@@ -303,10 +303,10 @@ GameObject:
   - component: {fileID: -5197024450714403594}
   - component: {fileID: -3200612377003113778}
   - component: {fileID: 1155145354223491276}
-  - component: {fileID: 1628083026661401306}
   - component: {fileID: 613103564593501575}
+  - component: {fileID: -4576346357353343596}
   m_Layer: 7
-  m_Name: WoodenChest
+  m_Name: ForestRuinsChest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -398,7 +398,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 826151227
+  GlobalObjectIdHash: 474702364
   InScenePlacedSourceGlobalObjectIdHash: 826151227
   DeferredDespawnTick: 0
   Ownership: 1
@@ -519,26 +519,6 @@ MonoBehaviour:
     m_InternalValue: -1
   higlightColor: {r: 0.49622637, g: 1, b: 0.5871868, a: 1}
   uniqueUI: {fileID: 3534624160592223690}
---- !u!114 &1628083026661401306
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8370947462149780993}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e395760cc036b34e83942106de86e21, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  subContainers:
-  - containerObject: {fileID: 6619127249267995890}
-    numSlots: 9
-    startIndex: 0
-  maxItemStack: 999
-  startingItems: []
-  isOpen: 0
 --- !u!114 &613103564593501575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -551,8 +531,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8513132dd8612e644b993b96b66b7de5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  container: {fileID: 1628083026661401306}
+  container: {fileID: -4576346357353343596}
   slotPrefab: {fileID: 5960605606518251643, guid: fba2035405594244d86b130da5a462ca, type: 3}
+--- !u!114 &-4576346357353343596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8370947462149780993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 604c65d12037ab147be2fa9163044f7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  subContainers:
+  - containerObject: {fileID: 6619127249267995890}
+    numSlots: 9
+    startIndex: 0
+  maxItemStack: 999
+  startingItems:
+  - item: {fileID: 11400000, guid: 87b8a0e4a971f3e4b820ee7d68187310, type: 2}
+    amount: 10
+  - item: {fileID: 11400000, guid: 353aa8ccbf930694d92ba28c8eaff706, type: 2}
+    amount: 1
+  - item: {fileID: 11400000, guid: 0d00be68a6909494f93f07e4838a2bcb, type: 2}
+    amount: 1
+  isOpen: 0
+  possibleItemSpawns: 
+  numItemsRolled: 0
 --- !u!1001 &1620398954288056065
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -561,13 +569,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7374995136220379156}
     m_Modifications:
-    - target: {fileID: 1336595229187886759, guid: 5474634ac7d800a4eb23af55092c78d1, type: 3}
-      propertyPath: container
-      value: 
-      objectReference: {fileID: 1628083026661401306}
     - target: {fileID: 3377405239369337167, guid: 5474634ac7d800a4eb23af55092c78d1, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 2799717358
+      value: 2853798704
       objectReference: {fileID: 0}
     - target: {fileID: 3377405239369337167, guid: 5474634ac7d800a4eb23af55092c78d1, type: 3}
       propertyPath: InScenePlacedSourceGlobalObjectIdHash

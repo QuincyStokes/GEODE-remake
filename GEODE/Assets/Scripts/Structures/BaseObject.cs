@@ -59,7 +59,7 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
 
     //METHODS
 
-    private void Start()
+    protected virtual void Start()
     {
         sr = GetComponentInChildren<SpriteRenderer>();
         matchingItemId.OnValueChanged += HandleIDChanged;
@@ -89,6 +89,8 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
         {
             InitializeHealthServerRpc();
         }
+
+        
     }
 
 

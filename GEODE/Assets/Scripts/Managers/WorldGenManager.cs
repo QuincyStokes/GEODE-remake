@@ -21,11 +21,14 @@ public class WorldGenManager : NetworkBehaviour
     [SerializeField] private const int worldSizeY = 250;
 
 
-    //* --------------- Glades ------------- */
+    //* --------------- Specials ------------- */
     [Header("Glades")]
     [SerializeField] private int numGlades;
     [SerializeField] private float gladeRadius;
     private List<Vector2> gladePositions = new List<Vector2>();
+
+    [Header("Points of Interest")]
+    public List<PointOfInterest> pois;
 
 
     //* --------------- Tiles ------------- */
@@ -90,9 +93,14 @@ public class WorldGenManager : NetworkBehaviour
         // Server must also generate its own tiles!
         Debug.Log("[WorldGenManager] Server generating tiles...");
         yield return StartCoroutine(InitializeBiomeTiles(newseed, noiseScale, offset));
+
+        yield return StartCoroutine(GeneratePOIs());
+        Debug.Log("[WorldGenManager] Server PoI generation complete.");
         
         Debug.Log("[WorldGenManager] Server spawning environment objects...");
         yield return StartCoroutine(SpawnEnvironmentFluff());
+
+        
 
         Debug.Log("[WorldGenManager] Server world generation complete!");
         OnWorldGenerated?.Invoke();
@@ -123,7 +131,7 @@ public class WorldGenManager : NetworkBehaviour
 
         //Tally up all of the biome weights
         float weight = 0;
-        foreach(BiomeData bd in biomeDatas)
+        foreach (BiomeData bd in biomeDatas)
         {
             weight += bd.weight;
         }
@@ -137,12 +145,12 @@ public class WorldGenManager : NetworkBehaviour
                 {
                     worldBoundaryTilemap.SetTile(new Vector3Int(x, y), worldBoundaryTile);
                 }
-                
+
                 float sampleX = (x + offset.x) / noiseScale;
                 float sampleY = (y + offset.y) / noiseScale;
                 float noiseValue = Mathf.PerlinNoise(sampleX, sampleY); // [0,1]
 
-                
+
                 //Decide what tiles to draw based on biome weights.
                 float curr = 0f;
                 Tile tileToPlace = null;
@@ -181,6 +189,27 @@ public class WorldGenManager : NetworkBehaviour
         Debug.Log("[WorldGen] World generation complete!");
     }
     
+    private IEnumerator GeneratePOIs()
+    {
+        foreach (PointOfInterest poi in pois)
+        {
+            //First, choose a location for this POI based on biome
+                //With this vector3Int location, can then simply add poi.position to it, the math will just work. 
+            for(int i = 0; i < poi.numSpawns; i++)
+            {
+                //Spawn a certain number of these POIs
+                Vector3Int position = GetPositionInBiome(poi.biomeType);
+                foreach(PoIObject obj in poi.poiObjects)
+                {
+
+                    Vector3Int finalPos = position + obj.position;
+                    RemoveObjectsAtGridPosition(finalPos);
+                    GridManager.Instance.PlaceObjectOnGridServerRpc(obj.itemId, finalPos);
+                }
+            }
+        }
+        yield return null;
+    }
 
     //! BROKEN DUE TO COMMENTED LINE.
     [ContextMenu("Test-fire table 10 000×")]
@@ -218,6 +247,24 @@ public class WorldGenManager : NetworkBehaviour
         {
             return BiomeType.None;
         }
+    }
+
+    public Vector3Int GetRandomPositionInWorld()
+    {
+        return new Vector3Int(UnityEngine.Random.Range(0, WorldSizeX), UnityEngine.Random.Range(0, WorldSizeY));
+    }
+
+    public Vector3Int GetPositionInBiome(BiomeType biomeType)
+    {
+        //! For now this is a really shitty way to do this, not scalable with lots of biomes.
+            //* In the future, maybe can pre-store the different biome tiles, so we can choose a random tile and just get its position from a given list.
+    
+        Vector3Int randomWorldPos = GetRandomPositionInWorld();
+        while(GetBiomeAtPosition(randomWorldPos) != biomeType)
+        {
+            randomWorldPos = GetRandomPositionInWorld();
+        } 
+        return randomWorldPos;
     }
 
     private IEnumerator SpawnEnvironmentFluff()
@@ -361,6 +408,26 @@ public class WorldGenManager : NetworkBehaviour
         {
             biomeTypeToDataMap.Add(bd.biomeType, bd);
         }
+    }
+
+    private void RemoveObjectsAtGridPosition(Vector3Int position)
+    {
+        //Raycast a square on this grid position, destroy any gameobjects we hit.
+        Collider2D hit;
+        hit = Physics2D.OverlapBox(new Vector2(position.x+.5f, position.y+.5f), new Vector2(.4f, .4f), 0f);
+
+        if (hit != null)
+        {
+            Debug.Log($"Removing objject {hit}");
+            //Deregister it from the network
+            hit.GetComponentInParent<NetworkObject>().Despawn(true);
+        }
+        else
+        {
+            Debug.Log("Tried to remove object, but didn't find anything.");
+        }
+
+
     }
     
     

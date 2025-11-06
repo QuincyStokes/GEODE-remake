@@ -4,7 +4,7 @@ public class Chest : SimpleObject, IChest, IUniqueMenu
 {
     public Chest ChestObj { get => this; }
     [Header("Unique UI")]
-    public GameObject uniqueUI;
+    [SerializeField] private GameObject uniqueUI;
     public GameObject UniqueUI => uniqueUI;
 
     public void ShowMenu()

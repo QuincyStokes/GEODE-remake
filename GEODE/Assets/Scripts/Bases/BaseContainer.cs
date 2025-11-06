@@ -93,7 +93,7 @@ public class BaseContainer : NetworkBehaviour
         }
     }
 
-    protected void SeedItemList()
+    protected virtual void SeedItemList()
     {
         ContainerItems.Clear();
 

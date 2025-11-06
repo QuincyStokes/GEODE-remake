@@ -431,10 +431,6 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
                 if(openUniqueUI != null)
                     openUniqueUI.GetComponent<IUniqueMenu>().HideMenu();
             }
-
-
-
-
         }
         else
         {
@@ -621,7 +617,11 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
         moveSpeed *= 1.05f;
     }
 
-
+    [ClientRpc]
+    public void TeleportOwnerClientRpc(Vector3 spawnPos, ClientRpcParams p = default)
+    {
+        transform.position = spawnPos;
+    }
 
 
 }

@@ -277,16 +277,10 @@ MonoBehaviour:
   BASE_MAX_HEALTH: 25
   BASE_XP_REQUIRED: 50
   DROPPED_ITEMS:
-  - Id: 29
+  - Id: 32
     minAmount: 1
     maxAmount: 1
     chance: 5
-    minItemQuality: 0
-    maxItemQuality: 0
-  - Id: 2
-    minAmount: 1
-    maxAmount: 1
-    chance: 10
     minItemQuality: 0
     maxItemQuality: 0
   idealToolType: 1

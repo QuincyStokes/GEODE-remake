@@ -6528,7 +6528,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a6478e2b74747c4a96a214b32f53221, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tabRecipes: {fileID: 11400000, guid: b3973ab1b9a99bc458d0420691ecfb10, type: 2}
+  tabRecipes: {fileID: 11400000, guid: 7be3232eff478754ca4355c3d004f3d1, type: 2}
   recipeSlotsHolder: {fileID: 5359818222760206103}
   craftingSlotPrefab: {fileID: 6343713965445539214, guid: a0d2d74d7f57dd145b185022d0fa5cc7, type: 3}
   allCraftingTabs:

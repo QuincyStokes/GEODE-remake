@@ -244,7 +244,7 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
             spawnPos = FlowFieldManager.Instance.coreTransform.position;
         }
         transform.position = spawnPos;
-        TeleportOwnerClientRpc(spawnPos);
+        playerController.TeleportOwnerClientRpc(spawnPos);
         CurrentHealth.Value = MaxHealth.Value;
 
         playerController.movementLocked = false;
@@ -284,11 +284,7 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
             playerController.movementLocked = false;
     }
 
-    [ClientRpc]
-    private void TeleportOwnerClientRpc(Vector3 spawnPos, ClientRpcParams p = default)
-    {
-        transform.position = spawnPos;
-    }
+   
 
     private IEnumerator DoInvulnerableFrame(float time = 1f)
     {

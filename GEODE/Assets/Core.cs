@@ -28,8 +28,9 @@ public class Core : BaseObject, IInteractable
 
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         if (FlowFieldManager.Instance != null)
         {
             FlowFieldManager.Instance.SetCorePosition(transform);
