@@ -158,15 +158,17 @@ MonoBehaviour:
   hitParticleEffectType: 0
   destroyParticleEffectType: 0
   healParticleEffectType: 0
-  hitSoundId: 0
+  hitSoundId: 9
   breakSoundId: 0
+  healthStateChangeSoundId: 0
   objectName: Grass
   centerPoint: {fileID: 585601077308159087}
   description: 
   objectSprite: {fileID: 0}
   sr: {fileID: 0}
   collisionHitbox: {fileID: 0}
-  matchingItemId: 0
+  matchingItemId:
+    m_InternalValue: -1
 --- !u!70 &4250457749795718408
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

@@ -340,13 +340,14 @@ MonoBehaviour:
   healParticleEffectType: 4
   hitSoundId: 0
   breakSoundId: 0
-  objectName: Slingshot Tower
+  objectName: Bow Tower
   centerPoint: {fileID: 7615864097540678996}
   description: 
   objectSprite: {fileID: 0}
   sr: {fileID: 6878977793782977151}
   collisionHitbox: {fileID: 2570471915127480501}
-  matchingItemId: 0
+  matchingItemId:
+    m_InternalValue: -1
   BASE_SPEED: 0.5
   BASE_STRENGTH: 6
   BASE_SIZE: 3

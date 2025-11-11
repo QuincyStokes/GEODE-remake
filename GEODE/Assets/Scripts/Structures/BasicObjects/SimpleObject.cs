@@ -15,9 +15,6 @@ public class SimpleObject : BaseObject, IInteractable, IDismantleable, ITrackabl
         base.Start();
         OnSingleTrack += StatTrackManager.Instance.AddOne;
         OnMultiTrack += StatTrackManager.Instance.AddMultiple;
-
-        //tell the stat tracker we placed an object
-        OnSingleTrack?.Invoke(StatTrackType.StructurePlace, ObjectTransform.name);
     }
 
     private void OnDisable()

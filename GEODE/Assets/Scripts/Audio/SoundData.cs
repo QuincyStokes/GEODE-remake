@@ -23,6 +23,10 @@ public enum SoundId
     Inventory_Open,
     Inventory_Close,
     Loot_Pickup,
+    Rock_Hit,
+    Geode_Hit,
+    Bush_Hit,
+    Bush_Break
 
 }
 

@@ -153,21 +153,23 @@ MonoBehaviour:
     chance: 100
     minItemQuality: 0
     maxItemQuality: 0
-  droppedXp: 0
+  droppedXp: 1
   healthStateSprites: []
   particleSpawnPoint: {fileID: 0}
   hitParticleEffectType: 0
   destroyParticleEffectType: 0
   healParticleEffectType: 0
-  hitSoundId: 0
-  breakSoundId: 0
+  hitSoundId: 9
+  breakSoundId: 10
+  healthStateChangeSoundId: 10
   objectName: Forest Bush
   centerPoint: {fileID: 6647818183751251631}
   description: 
   objectSprite: {fileID: 0}
   sr: {fileID: 0}
   collisionHitbox: {fileID: 2203301059727297429}
-  matchingItemId: 0
+  matchingItemId:
+    m_InternalValue: -1
 --- !u!1 &6616316421070252082
 GameObject:
   m_ObjectHideFlags: 0

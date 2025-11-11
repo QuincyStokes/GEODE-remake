@@ -17,23 +17,29 @@ MonoBehaviour:
   spawnEntries:
   - entryName: None
     baseItem: {fileID: 11400000, guid: 1caf887cd127e3b42b6167adfe82a6f5, type: 2}
-    weight: 150
+    weight: 1500
   - entryName: Desert Boulder
     baseItem: {fileID: 11400000, guid: 2e619d5cc4b3b8048870e489bc4020dd, type: 2}
-    weight: 3
+    weight: 10
   - entryName: Desert Tree
     baseItem: {fileID: 11400000, guid: 977fc5c88cb75d14487458222dd6b4f9, type: 2}
-    weight: 3
+    weight: 10
   - entryName: Desert Bush
     baseItem: {fileID: 11400000, guid: 05bbc49c46f5a8542873dc06373ad329, type: 2}
-    weight: 2
+    weight: 8
   - entryName: Red Geode
     baseItem: {fileID: 11400000, guid: 06293a621c6263f43b4898799cded384, type: 2}
-    weight: 1
+    weight: 6
   - entryName: Yellow Geode
     baseItem: {fileID: 11400000, guid: ff4657d69cb2e7a4597396f94d7c57e4, type: 2}
+    weight: 6
+  - entryName: Cactus
+    baseItem: {fileID: 11400000, guid: c88a2110f2d72ac48bf31a1453c2c839, type: 2}
+    weight: 8
+  - entryName: Desert Oasis
+    baseItem: {fileID: 11400000, guid: b901e624bb78c8d49a18d0710fb1d82f, type: 2}
     weight: 1
-  totalWeight: 160
+  totalWeight: 1549
   weight: 10
   tiles:
   - {fileID: 11400000, guid: 14b1f6bd9a25f6a47b516bc9fc7d7b98, type: 2}

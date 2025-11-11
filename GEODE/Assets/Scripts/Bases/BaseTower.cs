@@ -103,7 +103,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
         OnSingleTrack += StatTrackManager.Instance.AddOne;
         OnMultiTrack += StatTrackManager.Instance.AddMultiple;
 
-        OnSingleTrack?.Invoke(StatTrackType.StructurePlace, ObjectTransform.name);
+        OnSingleTrack?.Invoke(StatTrackType.StructurePlace, ObjectName);
     }
 
     private void InitializeBaseStats()

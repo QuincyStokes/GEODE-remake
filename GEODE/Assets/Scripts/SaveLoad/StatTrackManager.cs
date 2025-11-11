@@ -72,6 +72,20 @@ public class StatTrackManager : MonoBehaviour
                 }
                 playerStats.itemsCrafted[trackedName]++;
                 break;
+            case StatTrackType.ItemUsed:
+                if (!playerStats.itemsUsed.ContainsKey(trackedName))
+                {
+                    playerStats.itemsUsed.Add(trackedName, 0);
+                }
+                playerStats.itemsUsed[trackedName]++;
+                break;
+            case StatTrackType.ItemConsumed:
+                if (!playerStats.itemsConsumed.ContainsKey(trackedName))
+                {
+                    playerStats.itemsConsumed.Add(trackedName, 0);
+                }
+                playerStats.itemsConsumed[trackedName]++;
+                break;
         }
     }
 
@@ -108,6 +122,13 @@ public class StatTrackManager : MonoBehaviour
                 }
                 playerStats.itemsCrafted[trackedName] += num;
                 break;
+            case StatTrackType.ItemUsed:
+                if (!playerStats.itemsUsed.ContainsKey(trackedName))
+                {
+                    playerStats.itemsUsed.Add(trackedName, 0);
+                }
+                playerStats.itemsUsed[trackedName] += num;
+                break;
         }
     }
 
@@ -143,6 +164,8 @@ public class PlayerStats
     public Dictionary<string, int> structuresPlaced = new();
     public Dictionary<string, int> damageHealed = new();
     public Dictionary<string, int> itemsCrafted = new();
+    public Dictionary<string, int> itemsUsed = new();
+    public Dictionary<string, int> itemsConsumed = new();
     public int nightsSurvived;
     public int highestNightSurvived;
 }
@@ -152,5 +175,7 @@ public enum StatTrackType
     Kill,
     StructurePlace,
     DamageHealed,
-    ItemCrafted
+    ItemCrafted,
+    ItemUsed,
+    ItemConsumed,
 }

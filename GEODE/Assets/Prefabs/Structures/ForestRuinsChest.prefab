@@ -509,7 +509,7 @@ MonoBehaviour:
   healParticleEffectType: 4
   hitSoundId: 0
   breakSoundId: 0
-  objectName: Wooden Chest
+  objectName: Forest Ruins Chest
   centerPoint: {fileID: 8841543173283872296}
   description: 
   objectSprite: {fileID: 0}

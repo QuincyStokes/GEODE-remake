@@ -202,13 +202,15 @@ MonoBehaviour:
   healParticleEffectType: 0
   hitSoundId: 1
   breakSoundId: 1
+  healthStateChangeSoundId: 10
   objectName: Forest Tree
   centerPoint: {fileID: 2863551799263110279}
   description: 
   objectSprite: {fileID: 0}
   sr: {fileID: 0}
   collisionHitbox: {fileID: 9018619495699395412}
-  matchingItemId: 0
+  matchingItemId:
+    m_InternalValue: -1
 --- !u!1 &1505347995116985693
 GameObject:
   m_ObjectHideFlags: 0

@@ -382,13 +382,14 @@ MonoBehaviour:
   healParticleEffectType: 4
   hitSoundId: 0
   breakSoundId: 0
-  objectName: Small Wooden Wall
+  objectName: Small Stone Wall
   centerPoint: {fileID: 6703938316760475473}
   description: 
   objectSprite: {fileID: 0}
   sr: {fileID: 4730815865388357885}
   collisionHitbox: {fileID: 4120678448555162002}
-  matchingItemId: -1
+  matchingItemId:
+    m_InternalValue: -1
   higlightColor: {r: 0.56078434, g: 1, b: 0.43529412, a: 1}
 --- !u!114 &3076275574789457795
 MonoBehaviour:

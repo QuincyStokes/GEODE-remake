@@ -158,15 +158,17 @@ MonoBehaviour:
   hitParticleEffectType: 0
   destroyParticleEffectType: 0
   healParticleEffectType: 0
-  hitSoundId: 0
+  hitSoundId: 9
   breakSoundId: 0
+  healthStateChangeSoundId: 0
   objectName: Flowers
   centerPoint: {fileID: 7198648534854907382}
   description: 
   objectSprite: {fileID: 0}
   sr: {fileID: 0}
   collisionHitbox: {fileID: 3806093020975008282}
-  matchingItemId: 0
+  matchingItemId:
+    m_InternalValue: -1
 --- !u!70 &3806093020975008282
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

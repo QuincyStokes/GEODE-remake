@@ -643,12 +643,14 @@ MonoBehaviour:
   hitParticleEffectType: 2
   destroyParticleEffectType: 3
   healParticleEffectType: 0
-  hitSoundId: 0
-  breakSoundId: 0
+  hitSoundId: 7
+  breakSoundId: 8
+  healthStateChangeSoundId: 8
   objectName: Red Geode
   centerPoint: {fileID: 5222662708037614757}
   description: 
   objectSprite: {fileID: 0}
   sr: {fileID: 0}
   collisionHitbox: {fileID: 0}
-  matchingItemId: 0
+  matchingItemId:
+    m_InternalValue: -1

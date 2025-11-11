@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using Unity.Netcode;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Events;
@@ -38,6 +39,8 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
     //*         ----------------------------- PUBLIC PROPERTIES ---------------------------
 
     [Header("Enemy Stats")]
+    public string EnemyName;
+    
     public float attackDamage;
     public float attackRange;
     public float movementSpeed;
@@ -321,7 +324,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
             client.PlayerObject.GetComponent<PlayerHealthAndXP>().AddXp(this);
         }
         OnDeath?.Invoke(this);
-        OnSingleTrack?.Invoke(StatTrackType.Kill, ObjectTransform.name);
+        OnSingleTrack?.Invoke(StatTrackType.Kill, EnemyName);
         if (dropItems)
         {
             DropItems();

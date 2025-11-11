@@ -381,15 +381,16 @@ MonoBehaviour:
   hitParticleEffectType: 2
   destroyParticleEffectType: 3
   healParticleEffectType: 0
-  hitSoundId: 0
-  breakSoundId: 0
+  hitSoundId: 7
+  breakSoundId: 7
   objectName: Boulder
   centerPoint: {fileID: 1212809725671271121}
   description: 
   objectSprite: {fileID: 0}
   sr: {fileID: 0}
   collisionHitbox: {fileID: 6556151738904023588}
-  matchingItemId: 0
+  matchingItemId:
+    m_InternalValue: -1
 --- !u!1 &7384950776458695469
 GameObject:
   m_ObjectHideFlags: 0

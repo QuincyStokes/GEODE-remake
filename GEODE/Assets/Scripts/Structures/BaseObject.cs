@@ -30,8 +30,9 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
 
     //* ---------------- Audio ------------------------- */
     [Header("Audio")]
-    [SerializeField] private SoundId hitSoundId;   
-    [SerializeField] private SoundId breakSoundId;   
+    [SerializeField] private SoundId hitSoundId;
+    [SerializeField] private SoundId breakSoundId;
+    [SerializeField] private SoundId healthStateChangeSoundId;
 
 
     //* ---------------- Object Info -------------------- */
@@ -302,6 +303,8 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
     {
         sr.sprite = healthStateSprites[i];
         //OnSpriteChanged?.Invoke(sr);
+        if(healthStateChangeSoundId != SoundId.NONE)
+            AudioManager.Instance.PlayClientRpc(healthStateChangeSoundId, transform.position);
         ParticleService.Instance.PlayClientRpc(destroyParticleEffectType, particleSpawnPoint.position);
         //TODO here could do lighting changes
     }

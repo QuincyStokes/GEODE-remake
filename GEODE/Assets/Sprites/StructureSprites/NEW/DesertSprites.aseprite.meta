@@ -187,6 +187,111 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
+  - name: DesertSprites_2
+    originalName: 
+    pivot: {x: 0.42857143, y: 0.04761905}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 101
+      y: 7
+      width: 21
+      height: 42
+    spriteID: 88afb48b6e3bf874ab659ccb5a86bc1d
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: DesertSprites_3
+    originalName: 
+    pivot: {x: 0.42857143, y: 0.04761905}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 142
+      y: 7
+      width: 21
+      height: 42
+    spriteID: e7dedc43d331c3b498d3aa0aef7e58fb
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: DesertSprites_4
+    originalName: 
+    pivot: {x: 0.057692308, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 218
+      y: 9
+      width: 104
+      height: 48
+    spriteID: a9a2b4aeae861d1459307d4e1ea7d437
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: DesertSprites_5
+    originalName: 
+    pivot: {x: 0.21875, y: 0.053571433}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 210
+      y: 57
+      width: 32
+      height: 56
+    spriteID: ff26a8dc4e39bde47b58a029b1f16a9e
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: DesertSprites_6
+    originalName: 
+    pivot: {x: 0.5405406, y: 0.0754717}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 294
+      y: 64
+      width: 37
+      height: 53
+    spriteID: f310c3a7864342c40813c2dc875c1a14
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
   asepriteLayers:
   - layerIndex: 0
     guid: 185898855
@@ -201,8 +306,8 @@ ScriptedImporter:
       cellRect:
         x: 4
         y: 27
-        width: 84
-        height: 77
+        width: 327
+        height: 113
       spriteId: f562b01bb3e698146942ad7fbfe1e34c
     linkedCells: []
     parentIndex: -1
@@ -270,5 +375,5 @@ ScriptedImporter:
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 128, y: 128}
-  previousTextureSize: {x: 128, y: 128}
+  canvasSize: {x: 400, y: 200}
+  previousTextureSize: {x: 512, y: 128}
