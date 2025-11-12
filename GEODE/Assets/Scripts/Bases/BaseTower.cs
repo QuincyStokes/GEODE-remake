@@ -25,6 +25,8 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
 
     [SerializeField] private float rotationSpeed;
     [SerializeField] private bool rotates;
+    [Header("Audio")]
+    [SerializeField] private SoundId placeSfxId;
 
     [Header("Experience")]
     [SerializeField] public int maximumLevelXp;  //the xp needed to level up this tower
@@ -104,6 +106,9 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
         OnMultiTrack += StatTrackManager.Instance.AddMultiple;
 
         OnSingleTrack?.Invoke(StatTrackType.StructurePlace, ObjectName);
+        //* This plays the sound effect no matter what on spawn, could be an issue if we ever place a tower *not* by the player.
+        if(placeSfxId != SoundId.NONE)
+            AudioManager.Instance.PlayClientRpc(placeSfxId, transform.position);
     }
 
     private void InitializeBaseStats()

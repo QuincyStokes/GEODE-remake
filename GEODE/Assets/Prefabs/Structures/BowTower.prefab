@@ -340,6 +340,7 @@ MonoBehaviour:
   healParticleEffectType: 4
   hitSoundId: 0
   breakSoundId: 0
+  healthStateChangeSoundId: 0
   objectName: Bow Tower
   centerPoint: {fileID: 7615864097540678996}
   description: 
@@ -353,6 +354,7 @@ MonoBehaviour:
   BASE_SIZE: 3
   rotationSpeed: 95
   rotates: 1
+  placeSfxId: 12
   maximumLevelXp: 100
   currentXp: 0
   currentTotalXp: 0

@@ -14,5 +14,6 @@ public enum MusicId
 {
     NONE,
     Forest_Day,
-    Main_Menu
+    Main_Menu,
+    Desert_Day,
 }

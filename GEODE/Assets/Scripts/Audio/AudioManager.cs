@@ -144,7 +144,7 @@ public class AudioManager : NetworkBehaviour
         if (volume == 0) source.volume = data.defaultVolume;
         else source.volume = volume;
 
-        if (data.spatial) source.spatialBlend = .5f;
+        if (data.spatial) source.spatialBlend = 1f;
         else source.spatialBlend = 0f;
 
         source.pitch = UnityEngine.Random.Range(1 - data.randomPitchOffsetMax, 1 + data.randomPitchOffsetMax);

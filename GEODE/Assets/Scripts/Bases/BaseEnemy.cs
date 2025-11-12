@@ -401,6 +401,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
         movementSpeed *= 1.04f;
         attackCooldown *= .95f;
         MaxHealth.Value *= 1.2f;
+        CurrentHealth.Value = MaxHealth.Value;
     }
 
     [HideInInspector] public bool canAggro;

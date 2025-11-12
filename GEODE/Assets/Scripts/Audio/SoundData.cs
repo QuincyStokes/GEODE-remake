@@ -26,7 +26,9 @@ public enum SoundId
     Rock_Hit,
     Geode_Hit,
     Bush_Hit,
-    Bush_Break
+    Bush_Break,
+    Grass_Walk,
+    Wood_Structure_Place
 
 }
 

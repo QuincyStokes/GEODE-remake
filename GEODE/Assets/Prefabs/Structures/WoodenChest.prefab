@@ -509,6 +509,7 @@ MonoBehaviour:
   healParticleEffectType: 4
   hitSoundId: 0
   breakSoundId: 0
+  healthStateChangeSoundId: 0
   objectName: Wooden Chest
   centerPoint: {fileID: 8841543173283872296}
   description: 
@@ -518,6 +519,7 @@ MonoBehaviour:
   matchingItemId:
     m_InternalValue: -1
   higlightColor: {r: 0.49622637, g: 1, b: 0.5871868, a: 1}
+  placeSfxId: 12
   uniqueUI: {fileID: 3534624160592223690}
 --- !u!114 &1628083026661401306
 MonoBehaviour:
@@ -567,7 +569,7 @@ PrefabInstance:
       objectReference: {fileID: 1628083026661401306}
     - target: {fileID: 3377405239369337167, guid: 5474634ac7d800a4eb23af55092c78d1, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 2799717358
+      value: 1666568111
       objectReference: {fileID: 0}
     - target: {fileID: 3377405239369337167, guid: 5474634ac7d800a4eb23af55092c78d1, type: 3}
       propertyPath: InScenePlacedSourceGlobalObjectIdHash

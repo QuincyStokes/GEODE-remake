@@ -29,6 +29,8 @@ public class DayCycleManager : NetworkBehaviour
     public event Action becameNight;
     public event Action becameDay;
     public event Action OnDay1Finished;
+    public static event Action becameNightGlobal;
+    public static event Action becameDayGlobal;
 
     //* ----------------State ---------------
     public NetworkVariable<float> timeOfDay =
@@ -57,7 +59,7 @@ public class DayCycleManager : NetworkBehaviour
         }
     }
 
-     void Start()
+    void Start()
     {
         //  Day 1 is extended
         _currentDayLength = baseDayLengthInSeconds + additionalDayOneLength;
@@ -139,12 +141,14 @@ public class DayCycleManager : NetworkBehaviour
         {
             _isNightCached = true;
             becameNight?.Invoke();
+            becameNightGlobal?.Invoke();
         }
         // → Became day
         else if (_isNightCached && timeOfDay.Value < _nightStart)
         {
             _isNightCached = false;
             becameDay?.Invoke();
+            becameDayGlobal?.Invoke();
         }
     }
 

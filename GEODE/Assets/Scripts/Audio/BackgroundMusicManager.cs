@@ -5,12 +5,26 @@ public class BackgroundMusicManager : MonoBehaviour
     //* --------------- Singleton --------------- */
     public static BackgroundMusicManager Instance;
 
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Debug.LogWarning("Warning | 2 BackgroundMusicManagers are alive.");
+            gameObject.SetActive(false);
+        }
+    }
+
+
     private void Start()
     {
         LobbyHandler.Instance.OnGameStarted += StopMusic;
         ConnectionManager.Instance.OnPlayerSpawned += PlayDayMusic;
-        //DayCycleManager.Instance.becameNight += PlayNightMusic; //! error, doesn't exist when this awakens. 
-        //DayCycleManager.Instance.becameDay += PlayDayMusic; //! error
+        DayCycleManager.becameNightGlobal += PlayNightMusic; //! error, doesn't exist when this awakens. 
+        DayCycleManager.becameDayGlobal += PlayDayMusic; //! error
         AudioManager.Instance.OnMusicEnded += PlayMusic;
         AudioManager.Instance.PlayMusic(MusicId.Main_Menu);
     }
@@ -60,7 +74,7 @@ public class BackgroundMusicManager : MonoBehaviour
                 AudioManager.Instance.PlayMusic(MusicId.Forest_Day);
                 break;
             case BiomeType.Desert:
-                Debug.LogWarning("Warning. Trying to play Desert music, but aint no Desert yet.");
+                AudioManager.Instance.PlayMusic(MusicId.Desert_Day);
                 break;
         }
     }
