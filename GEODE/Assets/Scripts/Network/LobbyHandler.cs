@@ -20,7 +20,7 @@ public class LobbyHandler : MonoBehaviour
     [SerializeField] private Toggle privateToggle;
     [SerializeField] private TMP_InputField playerName;
     [SerializeField] private GameObject createALobbyScreen;
-    [SerializeField] private GameObject customizeLobbyScreen;
+    [SerializeField] private GameObject perkSelectionScreen;
     [SerializeField] private GameObject yourLobbyScreen;
     [SerializeField] private GameObject hostOrJoinButtons;
     [SerializeField] private YourLobby yourLobby;
@@ -326,7 +326,7 @@ public class LobbyHandler : MonoBehaviour
         
         // Check if UI objects still exist before modifying them
         if (hostOrJoinButtons != null) hostOrJoinButtons.SetActive(true);
-        if (customizeLobbyScreen != null) customizeLobbyScreen.SetActive(false);
+        if (perkSelectionScreen != null) perkSelectionScreen.SetActive(false);
         if (yourLobbyScreen != null) yourLobbyScreen.SetActive(false);
     }
 
@@ -346,7 +346,7 @@ public class LobbyHandler : MonoBehaviour
 
         CreateLobby();
         yourLobbyScreen.SetActive(true);
-        customizeLobbyScreen.SetActive(true);
+        perkSelectionScreen.SetActive(true);
         createALobbyScreen.SetActive(false);
         
     }

@@ -270,7 +270,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1641687334466872820, guid: 01bbede6e3b95ef48ba0fe915f04c614, type: 3}
+  m_Sprite: {fileID: -9059001571321854420, guid: 9e817c7be21c24d49ad70981d11da511, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -382,6 +382,7 @@ MonoBehaviour:
   healParticleEffectType: 4
   hitSoundId: 0
   breakSoundId: 0
+  healthStateChangeSoundId: 0
   objectName: Small Stone Wall
   centerPoint: {fileID: 6703938316760475473}
   description: 
@@ -391,6 +392,7 @@ MonoBehaviour:
   matchingItemId:
     m_InternalValue: -1
   higlightColor: {r: 0.56078434, g: 1, b: 0.43529412, a: 1}
+  placeSfxId: 0
 --- !u!114 &3076275574789457795
 MonoBehaviour:
   m_ObjectHideFlags: 0

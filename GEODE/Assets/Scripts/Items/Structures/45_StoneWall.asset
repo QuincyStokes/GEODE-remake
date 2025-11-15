@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Stone Wall
   description: Far sturdier than its wooden counterpart.
   type: 2
-  icon: {fileID: 1641687334466872820, guid: 01bbede6e3b95ef48ba0fe915f04c614, type: 3}
+  icon: {fileID: -9059001571321854420, guid: 9e817c7be21c24d49ad70981d11da511, type: 3}
   id: 45
   quality: 0
   isStackable: 1

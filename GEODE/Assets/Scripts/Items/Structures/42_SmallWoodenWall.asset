@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Small Wooden Wall
   description: Just enough to hold off enemies.
   type: 2
-  icon: {fileID: -2835975914823920240, guid: 01bbede6e3b95ef48ba0fe915f04c614, type: 3}
+  icon: {fileID: -2974392765086702604, guid: 9e817c7be21c24d49ad70981d11da511, type: 3}
   id: 42
   quality: 0
   isStackable: 1

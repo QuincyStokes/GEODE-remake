@@ -10,15 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 801184ae3a0d9d2479257a43cc174ad5, type: 3}
-  m_Name: 4_SimpleWall
+  m_Name: 46_BowTower
   m_EditorClassIdentifier: 
-  name: Simple Wall
-  description: Its a simple wall
+  name: Slingshot Tower
+  description: Flings rocks at enemies. Low speed, low damage.
   type: 2
-  icon: {fileID: -6615133372943127429, guid: 01bbede6e3b95ef48ba0fe915f04c614, type: 3}
-  id: 4
+  icon: {fileID: 1285189930841607709, guid: 46fb42f8d356c1f498a2db8860c0a357, type: 3}
+  id: 46
+  quality: 0
   isStackable: 1
   consumeOnUse: 1
-  prefab: {fileID: 8370947462149780993, guid: eadbd1b7c7a14d44a98c3f6b5dd80174, type: 3}
-  width: 1
-  height: 1
+  prefab: {fileID: 5241912323242780402, guid: 9d161f69341a49f4b8560e3464b1c0fe, type: 3}
+  width: 2
+  height: 2

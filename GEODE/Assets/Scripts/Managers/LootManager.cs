@@ -27,7 +27,7 @@ public class LootManager : NetworkBehaviour
 
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     public void SpawnLootServerRpc(Vector3 position, int itemId, int amount, float delay = 0f, float horizOffset = 0f, float quality = 0f, float minQuality=1f, float maxQuality=100f)
     {
         if (itemId == 0) return;

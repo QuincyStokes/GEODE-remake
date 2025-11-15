@@ -1689,7 +1689,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: nightSpawnRate
-      value: 250
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: desertEnemies.Array.size
@@ -1722,6 +1722,10 @@ PrefabInstance:
     - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: forestEnemies.Array.data[4].weight
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
+      propertyPath: forestEnemies.Array.data[5].weight
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: desertEnemies.Array.data[1].enemyId

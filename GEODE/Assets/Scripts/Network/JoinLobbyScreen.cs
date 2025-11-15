@@ -52,7 +52,6 @@ public class JoinLobbyScreen : MonoBehaviour
             yourLobby.SetActive(true);
             perkSelectionScreen.SetActive(true);
 
-            customizeScreen.SetActive(false);
             createALobby.SetActive(false);
             gameObject.SetActive(false);
 

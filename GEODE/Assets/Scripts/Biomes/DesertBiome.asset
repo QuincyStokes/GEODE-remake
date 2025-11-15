@@ -43,3 +43,6 @@ MonoBehaviour:
   weight: 10
   tiles:
   - {fileID: 11400000, guid: 14b1f6bd9a25f6a47b516bc9fc7d7b98, type: 2}
+  - {fileID: 11400000, guid: b0ceea7d565644643b1efe403914969c, type: 2}
+  - {fileID: 11400000, guid: 168c7489a3de8ed45aab84b21853d6f0, type: 2}
+  - {fileID: 11400000, guid: 2072c4cede7e20248a6835e0129d8844, type: 2}

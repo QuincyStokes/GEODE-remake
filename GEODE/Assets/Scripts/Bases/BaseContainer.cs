@@ -115,6 +115,7 @@ public class BaseContainer : NetworkBehaviour
             case NetworkListEvent<ItemStack>.EventType.Value:
                 // A single index was overwritten
                 OnSlotChanged?.Invoke(change.Index, change.Value);
+
                 break;
 
             default:
@@ -435,6 +436,30 @@ public class BaseContainer : NetworkBehaviour
         RemoveItemInternal(id, amount);
     }
 
+
+    internal bool RemoveItemAtSlotInternal(int amount, int slotIndex)
+    {
+        ItemStack st = ContainerItems[slotIndex];
+        if(st.amount < amount) return false;
+
+        int newAmount = st.amount - amount;
+        if(newAmount == 0)
+        {
+            ContainerItems[slotIndex] = ItemStack.Empty;
+        }
+        else
+        {
+            ContainerItems[slotIndex] = new ItemStack{Id = st.Id, amount = newAmount};
+        }
+        return true;
+
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void RemoveItemAtSlotServerRpc(int amount, int slotIndex)
+    {
+        RemoveItemAtSlotInternal(amount, slotIndex);
+    }
 
     public bool ContainsItem(BaseItem item)
     {

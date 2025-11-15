@@ -375,7 +375,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7075466253502155572, guid: 01bbede6e3b95ef48ba0fe915f04c614, type: 3}
+  m_Sprite: {fileID: 3770473201321686296, guid: 9e817c7be21c24d49ad70981d11da511, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -509,6 +509,7 @@ MonoBehaviour:
   healParticleEffectType: 4
   hitSoundId: 0
   breakSoundId: 0
+  healthStateChangeSoundId: 0
   objectName: Forest Ruins Chest
   centerPoint: {fileID: 8841543173283872296}
   description: 
@@ -518,6 +519,7 @@ MonoBehaviour:
   matchingItemId:
     m_InternalValue: -1
   higlightColor: {r: 0.49622637, g: 1, b: 0.5871868, a: 1}
+  placeSfxId: 0
   uniqueUI: {fileID: 3534624160592223690}
 --- !u!114 &613103564593501575
 MonoBehaviour:

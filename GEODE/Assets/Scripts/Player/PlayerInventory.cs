@@ -146,8 +146,7 @@ public class PlayerInventory : BaseContainer
             OnItemUsed?.Invoke(item);
             if (item.ConsumeOnUse)
 
-                ConsumeItemServerRpc(st.Id, 1);   // server-auth removal below
-            OnSelectedSlotChanged?.Invoke(selectedSlotIndex, selectedSlotIndex);
+                RemoveItemAtSlotServerRpc(1, selectedSlotIndex);   // server-auth removal below
         }
     }
 
@@ -163,7 +162,25 @@ public class PlayerInventory : BaseContainer
         ItemStack st = ContainerItems[GetSelectedSlotIndex()];
         if (st.IsEmpty()) return;
         LootManager.Instance.SpawnLootServerRpc(transform.position, st.Id, st.amount, pickupDelay, horizOffset, st.quality);
-        ContainerItems[GetSelectedSlotIndex()] = ItemStack.Empty;
+        //ContainerItems[GetSelectedSlotIndex()] = ItemStack.Empty;
+        RemoveItemAtSlotServerRpc(st.amount, GetSelectedSlotIndex());
+        OnSelectedSlotChanged?.Invoke(selectedSlotIndex, selectedSlotIndex);
+    }
+
+    protected override void HandleListChanged(NetworkListEvent<ItemStack> change)
+    {
+        base.HandleListChanged(change);
+        switch (change.Type)
+        {
+            case NetworkListEvent<ItemStack>.EventType.Value:
+                // A single index was overwritten
+        
+                if(change.Index == selectedSlotIndex)
+                {
+                    OnSelectedSlotChanged?.Invoke(selectedSlotIndex, selectedSlotIndex);
+                }
+                break;
+        }
     }
 
 }

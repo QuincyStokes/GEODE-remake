@@ -14561,7 +14561,7 @@ MonoBehaviour:
   - item: {fileID: 11400000, guid: b655818b047415248a0995e091c067d3, type: 2}
     amount: 1
   isOpen: 0
-  devMode: 0
+  devMode: 1
   inventoryObject: {fileID: 3774294273146469442}
   hotbarObject: {fileID: 3669146933921313452}
   healthbarObject: {fileID: 944747294854935516}

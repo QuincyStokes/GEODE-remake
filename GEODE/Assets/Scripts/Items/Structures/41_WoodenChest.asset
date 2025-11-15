@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Wooden Chest
   description: Used to store items.
   type: 2
-  icon: {fileID: 7075466253502155572, guid: 01bbede6e3b95ef48ba0fe915f04c614, type: 3}
+  icon: {fileID: 3770473201321686296, guid: 9e817c7be21c24d49ad70981d11da511, type: 3}
   id: 41
   quality: 0
   isStackable: 1

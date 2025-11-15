@@ -16,7 +16,7 @@ MonoBehaviour:
   description: Increases player speed by 8%
   icon: {fileID: -8288774708101687477, guid: d67565ea0f494c14087cdb84193b784a, type: 3}
   statRequirement: 0
-  requirementKey: YellowHare(Clone)
+  requirementKey: YellowRocky
   requirementAmount: 150
   statType: 1
   statIncrease: 0.08

@@ -161,8 +161,8 @@ public class WorldGenManager : NetworkBehaviour
                     curr += w;
                     if (noiseValue <= curr)
                     {
-                        int tileIndex = Mathf.FloorToInt(noiseValue * bd.tiles.Length) % bd.tiles.Length;
-                        tileToPlace = bd.tiles[tileIndex];
+                        //int tileIndex = Mathf.FloorToInt(noiseValue * bd.tiles.Length) % bd.tiles.Length;
+                        tileToPlace = bd.tiles[UnityEngine.Random.Range(0,bd.tiles.Length)];
                         break;
                     }
                 }

@@ -253,6 +253,8 @@ GameObject:
   - component: {fileID: 7359029905104181308}
   - component: {fileID: -5197024450714403594}
   - component: {fileID: 4409533651966756774}
+  - component: {fileID: -6090522600075052391}
+  - component: {fileID: -3984205399947384296}
   m_Layer: 7
   m_Name: CorePrefab
   m_TagString: Untagged
@@ -323,7 +325,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -7719349089912367425, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
+  m_Sprite: {fileID: 916729600996288712, guid: 0cfb46b78240d724e978cf3536d7e620, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -429,15 +431,54 @@ MonoBehaviour:
   healParticleEffectType: 4
   hitSoundId: 0
   breakSoundId: 0
+  healthStateChangeSoundId: 0
   objectName: Core
   centerPoint: {fileID: 5430396142544517340}
   description: 
   objectSprite: {fileID: 0}
   sr: {fileID: 4730815865388357885}
   collisionHitbox: {fileID: 3792986849769939562}
-  matchingItemId: 0
+  matchingItemId:
+    m_InternalValue: -1
   buildRadius: 10
   areaLight: {fileID: 7661953336904614246}
+--- !u!95 &-6090522600075052391
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8370947462149780993}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 22100000, guid: a6a37be5abcd823428066c409aa8f279, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-3984205399947384296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8370947462149780993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  TransitionStateInfoList: []
+  m_Animator: {fileID: -6090522600075052391}
 --- !u!1 &8921447153874432411
 GameObject:
   m_ObjectHideFlags: 0

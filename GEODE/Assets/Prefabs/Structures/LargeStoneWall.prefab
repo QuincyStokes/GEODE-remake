@@ -302,7 +302,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -824898948126059457, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
+  m_Sprite: {fileID: 6785407192583138359, guid: 01bbede6e3b95ef48ba0fe915f04c614, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -368,14 +368,17 @@ MonoBehaviour:
   healParticleEffectType: 4
   hitSoundId: 0
   breakSoundId: 0
+  healthStateChangeSoundId: 0
   objectName: Large Stone Wall
   centerPoint: {fileID: 8841543173283872296}
   description: 
   objectSprite: {fileID: 0}
   sr: {fileID: 4730815865388357885}
   collisionHitbox: {fileID: 4120678448555162002}
-  matchingItemId: 0
+  matchingItemId:
+    m_InternalValue: -1
   higlightColor: {r: 0.56078434, g: 1, b: 0.43529412, a: 1}
+  placeSfxId: 0
 --- !u!114 &-5197024450714403594
 MonoBehaviour:
   m_ObjectHideFlags: 0

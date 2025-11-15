@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Large Stone Wall
   description: A significant step up from wood.
   type: 2
-  icon: {fileID: -824898948126059457, guid: 2e9fb2f1ef59b2a4a9706ca73db65274, type: 3}
+  icon: {fileID: 6785407192583138359, guid: 01bbede6e3b95ef48ba0fe915f04c614, type: 3}
   id: 44
   quality: 0
   isStackable: 1
