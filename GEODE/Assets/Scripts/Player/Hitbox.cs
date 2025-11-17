@@ -19,7 +19,6 @@ public class Hitbox : NetworkBehaviour
     //really should have an InitializeHitbox function or something
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(!IsServer) return;
         IDamageable damageable = collision.GetComponentInParent<IDamageable>();
         if (damageable != null)
         {
@@ -47,12 +46,12 @@ public class Hitbox : NetworkBehaviour
         }
     }
 
-    public void EnableServerCollider()
+    public void EnableCollider()
     {
         hitCollider.enabled = true;
     }
 
-    public void DisableServerCollider()
+    public void DisableCollider()
     {
         hitCollider.enabled = false;
     }

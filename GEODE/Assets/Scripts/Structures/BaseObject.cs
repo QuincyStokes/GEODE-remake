@@ -88,7 +88,10 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
         base.OnNetworkSpawn();
         if (IsServer)
         {
-            InitializeHealthServerRpc();
+            // Initialize health directly on server instead of using ServerRpc
+            // This ensures health is set immediately before any other systems interact with the object
+            MaxHealth.Value = BASE_HEALTH;
+            CurrentHealth.Value = MaxHealth.Value;
         }
 
         

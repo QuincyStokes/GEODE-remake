@@ -54,7 +54,31 @@ public class RegisterOnChunk : NetworkBehaviour
         {
             ChunkManager.Instance.RegisterObject(gameObject);
             registered = true;
-            gameObject.SetActive(false);
+            
+            // Wait for initialization to complete before deactivating
+            // This ensures BaseObject.OnNetworkSpawn() and health initialization complete
+            yield return null; // Wait one frame for all OnNetworkSpawn calls to complete
+            yield return null; // Wait one more frame to ensure NetworkVariable updates propagate
+            
+            // Check if this is a BaseObject and verify health was initialized
+            BaseObject baseObj = GetComponent<BaseObject>();
+            if (baseObj != null && baseObj.BASE_HEALTH > 1f)
+            {
+                // Verify health was initialized (should match BASE_HEALTH if properly initialized)
+                // If still at default value, wait a bit more for NetworkVariable sync
+                int healthCheckAttempts = 0;
+                while (baseObj.MaxHealth.Value <= 1f && healthCheckAttempts < 10)
+                {
+                    healthCheckAttempts++;
+                    yield return null;
+                }
+            }
+            
+            // Only deactivate if the object is still valid
+            if (gameObject != null)
+            {
+                gameObject.SetActive(false);
+            }
         }
     }
     

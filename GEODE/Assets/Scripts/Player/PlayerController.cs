@@ -535,20 +535,15 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
 
         moveSpeed /= 2;
 
-
-        if(IsServer)
-        {
-            hitbox.EnableServerCollider();
-        }
+        // Enable collider on owner client (for hit detection) and server (for consistency)
+        hitbox.EnableCollider();
 
         hitbox.EnableVisuals();
 
         yield return new WaitForSeconds(.1f);
 
-        if(IsServer)
-        {
-            hitbox.DisableServerCollider();
-        }
+        // Disable collider and clear hit tracking
+        hitbox.DisableCollider();
 
         hitbox.DisableVisuals();
         moveSpeed *= 2;
