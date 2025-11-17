@@ -23,26 +23,79 @@ public class ChunkManager : NetworkBehaviour
             Destroy(gameObject);
         }
     }
+    
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        
+        // Ensure Instance is set on all clients after network spawn
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+        
+        Debug.Log($"[ChunkManager] OnNetworkSpawn - IsServer: {IsServer}, IsClient: {IsClient}");
+    }
+    
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+        
+        // Clear instance if this is the instance being despawned
+        if(Instance == this)
+        {
+            Instance = null;
+        }
+    }
 
     //it is up to the object to register itself
     public void RegisterObject(GameObject obj)
     {
+        if(obj == null)
+        {
+            Debug.LogWarning("[ChunkManager] Attempted to register null GameObject");
+            return;
+        }
+        
         Vector2Int chunk = GetChunkCoords(obj.transform.position);
 
         if(!chunkMap.ContainsKey(chunk))
         {
             chunkMap[chunk] = new List<GameObject>();
         }
-        chunkMap[chunk].Add(obj);
+        
+        // Prevent duplicate registrations
+        if(!chunkMap[chunk].Contains(obj))
+        {
+            chunkMap[chunk].Add(obj);
+            Debug.Log($"[ChunkManager] Registered {obj.name} in chunk {chunk}");
+        }
+        else
+        {
+            Debug.LogWarning($"[ChunkManager] {obj.name} is already registered in chunk {chunk}");
+        }
     }
 
     public void DeregisterObject(GameObject obj)
     {
+        if(obj == null)
+        {
+            Debug.LogWarning("[ChunkManager] Attempted to deregister null GameObject");
+            return;
+        }
+        
         Vector2Int chunk = GetChunkCoords(obj.transform.position);
 
-        if(chunkMap[chunk].Contains(obj))
+        if(chunkMap.ContainsKey(chunk) && chunkMap[chunk].Contains(obj))
         {
             chunkMap[chunk].Remove(obj);
+            Debug.Log($"[ChunkManager] Deregistered {obj.name} from chunk {chunk}");
+            
+            // Clean up empty chunk lists to save memory
+            if(chunkMap[chunk].Count == 0)
+            {
+                chunkMap.Remove(chunk);
+            }
         }
     }
 
@@ -105,13 +158,26 @@ public class ChunkManager : NetworkBehaviour
 
     private void SetChunkActive(Vector2Int chunkCoord, bool active)
     {
-        if(Instance.chunkMap.TryGetValue(chunkCoord, out var objList))
+        if(chunkMap.TryGetValue(chunkCoord, out var objList))
         {
-            foreach(GameObject go in objList)
+            // Create a copy of the list to avoid modification during iteration
+            var objectsToUpdate = new List<GameObject>(objList);
+            int activeCount = 0;
+            
+            foreach(GameObject go in objectsToUpdate)
             {
-                //for now fully disabling objects not in the chunks, this may need to change later down the road if things need to update. 
-                go.SetActive(active);
+                if(go != null)
+                {
+                    //for now fully disabling objects not in the chunks, this may need to change later down the road if things need to update. 
+                    go.SetActive(active);
+                    activeCount++;
+                }
             }
+            
+            // Clean up null references from the original list
+            objList.RemoveAll(go => go == null);
+            
+            Debug.Log($"[ChunkManager] Set chunk {chunkCoord} to {(active ? "active" : "inactive")} - {activeCount} objects");
         }
     }
 
