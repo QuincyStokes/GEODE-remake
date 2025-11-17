@@ -113,17 +113,18 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
 
     private void InitializeBaseStats()
     {
-        if (!IsServer) { return; }
-        baseSpeed.Value = BASE_SPEED;
-        baseSize.Value = BASE_SIZE;
-        baseStrength.Value = BASE_STRENGTH;
+        if (IsServer) {
+            baseSpeed.Value = BASE_SPEED;
+            baseSize.Value = BASE_SIZE;
+            baseStrength.Value = BASE_STRENGTH;
 
-        strength.Value = baseStrength.Value * (strengthModifier.Value / 100 + 1);
-        speed.Value = baseSpeed.Value * (speedModifier.Value / 100 + 1);
-        size.Value = baseSize.Value * (sizeModifier.Value / 100 + 1);
-        sturdy.Value = MaxHealth.Value * (sturdyModifier.Value / 100 + 1);
+            strength.Value = baseStrength.Value * (strengthModifier.Value / 100 + 1);
+            speed.Value = baseSpeed.Value * (speedModifier.Value / 100 + 1);
+            size.Value = baseSize.Value * (sizeModifier.Value / 100 + 1);
+            sturdy.Value = MaxHealth.Value * (sturdyModifier.Value / 100 + 1);
 
-        MaxHealth.Value = sturdy.Value;
+            MaxHealth.Value = sturdy.Value;
+        }
         RefreshRangeIndicator(0, size.Value);
         size.OnValueChanged += RefreshRangeIndicator;
     }

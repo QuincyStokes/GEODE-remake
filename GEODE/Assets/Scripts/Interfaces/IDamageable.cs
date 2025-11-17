@@ -18,7 +18,7 @@ public interface IDamageable
    public abstract void TakeDamageServerRpc(DamageInfo info, ServerRpcParams rpcParams = default);
    public abstract void ApplyDamage(DamageInfo info, ServerRpcParams rpcParams = default);
    public abstract void RestoreHealthServerRpc(float amount);
-   public abstract void DestroyThis(bool dropItems);
+   public abstract void DestroyThisServerRpc(bool dropItems);
    public abstract void DropItems();
    public abstract void DisplayDamageFloaterClientRpc(float amount);
    public abstract void OnDamageColorChangeClientRpc();

@@ -283,7 +283,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
 
         if (CurrentHealth.Value <= 0)
         {
-            DestroyThis(info.dropItems);
+            DestroyThisServerRpc(info.dropItems);
         }
     }
 
@@ -315,7 +315,8 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
         sr.color = Color.white;
     }
 
-    public void DestroyThis(bool dropItems)
+    [ServerRpc(RequireOwnership = false)]
+    public void DestroyThisServerRpc(bool dropItems)
     {
         //here can also do something like KillTracker.Instance.Kills++;
 

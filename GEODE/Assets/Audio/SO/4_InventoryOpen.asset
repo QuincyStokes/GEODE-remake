@@ -18,4 +18,5 @@ MonoBehaviour:
   defaultVolume: 1
   spatial: 0
   randomPitchOffsetMax: 0.1
+  range: 10
   amg: {fileID: 7161647605031686865, guid: 089a1120065f0854bb68d7b341999f56, type: 2}

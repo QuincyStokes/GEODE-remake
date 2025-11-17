@@ -49,14 +49,15 @@ public class Core : BaseObject, IInteractable
     {
         if (Input.GetKeyDown(KeyCode.K))
         {
-            DestroyThis(true);
+            DestroyThisServerRpc(true);
         }
     }
 
-    public override void DestroyThis(bool dropItems)
+    [ServerRpc(RequireOwnership = false)]
+    public override void DestroyThisServerRpc(bool dropItems)
     {
         NotifyClientsCoreDestroyedClientRpc();
-        base.DestroyThis(true);
+        base.DestroyThisServerRpc(true);
 
     }
 

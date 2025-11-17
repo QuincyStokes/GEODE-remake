@@ -530,13 +530,27 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
 
     private IEnumerator DoAttack()
     {
-        //Debug.Log("Attacking!");
-        Instance.hitbox.gameObject.SetActive(true);
         AudioManager.Instance.PlayClientRpc(SoundId.Sword_Swing, transform.position);
         attackAnimator.SetTrigger("Swing");
+
         moveSpeed /= 2;
+
+
+        if(IsServer)
+        {
+            hitbox.EnableServerCollider();
+        }
+
+        hitbox.EnableVisuals();
+
         yield return new WaitForSeconds(.1f);
-        Instance.hitbox.gameObject.SetActive(false);
+
+        if(IsServer)
+        {
+            hitbox.DisableServerCollider();
+        }
+
+        hitbox.DisableVisuals();
         moveSpeed *= 2;
         swingCooldownTimer = 0f;
     }

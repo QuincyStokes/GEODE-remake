@@ -83,7 +83,8 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
 
     }
 
-    public void DestroyThis(bool dropItems)
+    [ServerRpc(RequireOwnership = false)]
+    public void DestroyThisServerRpc(bool dropItems)
     {
 
     }

@@ -251,7 +251,7 @@ public class InspectionMenuUI : ContainerUIManager<InspectionMenu>
 
     public void DismantleCurrentObject()
     {
-        container.currentInspectedObject.GetComponent<BaseObject>().DestroyThis(true);
+        container.currentInspectedObject.GetComponent<BaseObject>().DestroyThisServerRpc(true);
         container.CloseInspectionMenu();
     }
 

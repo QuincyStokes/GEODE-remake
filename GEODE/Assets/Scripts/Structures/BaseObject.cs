@@ -169,7 +169,7 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
         Debug.Log($"Current Health < 0? {CurrentHealth.Value}");
         if (CurrentHealth.Value <= 0)
         {
-            DestroyThis(info.dropItems);
+            DestroyThisServerRpc(info.dropItems);
         }
 
     }
@@ -201,7 +201,7 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
 
         if (hitSoundId != SoundId.NONE)
         {
-            AudioManager.Instance.PlayClientRpc(hitSoundId, transform.position);
+            AudioManager.Instance.PlayClientRpc(hitSoundId, CenterPoint.position);
         }
             
     }
@@ -250,7 +250,8 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
 
     }
 
-    public virtual void DestroyThis(bool dropItems)
+    [ServerRpc(RequireOwnership = false)]
+    public virtual void DestroyThisServerRpc(bool dropItems)
     {
         if (!IsServer)
         {

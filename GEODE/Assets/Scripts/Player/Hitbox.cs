@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class Hitbox : MonoBehaviour
+public class Hitbox : NetworkBehaviour
 {
     public ToolType tool;
     public float damage;
@@ -12,9 +12,14 @@ public class Hitbox : MonoBehaviour
     [SerializeField] private List<string> hittableTags;
     public ITracksHits parentTracker;
 
+    [Header("References")]
+    [SerializeField] private Collider2D hitCollider;
+    [SerializeField] private SpriteRenderer spriteRenderer;
+
     //really should have an InitializeHitbox function or something
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if(!IsServer) return;
         IDamageable damageable = collision.GetComponentInParent<IDamageable>();
         if (damageable != null)
         {
@@ -41,6 +46,28 @@ public class Hitbox : MonoBehaviour
             }
         }
     }
+
+    public void EnableServerCollider()
+    {
+        hitCollider.enabled = true;
+    }
+
+    public void DisableServerCollider()
+    {
+        hitCollider.enabled = false;
+    }
+
+    public void EnableVisuals()
+    {
+        spriteRenderer.enabled = true;
+    }
+
+    public void DisableVisuals()
+    {
+        spriteRenderer.enabled = false;
+    }
+
+
 }
 
 

@@ -139,6 +139,8 @@ public class AudioManager : NetworkBehaviour
         source.clip = data.clips[UnityEngine.Random.Range(0, data.clips.Length)];
         source.outputAudioMixerGroup = data.amg;
 
+        //source.rolloffMode = AudioRolloffMode.Linear;
+
         source.maxDistance = data.range;
 
         if (volume == 0) source.volume = data.defaultVolume;

@@ -20,5 +20,5 @@ MonoBehaviour:
   defaultVolume: 1
   spatial: 1
   randomPitchOffsetMax: 0.01
-  range: 15
+  range: 10
   amg: {fileID: 7874774452692653096, guid: 089a1120065f0854bb68d7b341999f56, type: 2}
