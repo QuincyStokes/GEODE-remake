@@ -29,10 +29,10 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     [SerializeField] private SoundId placeSfxId;
 
     [Header("Experience")]
-    [SerializeField] public int maximumLevelXp;  //the xp needed to level up this tower
-    [SerializeField] public int currentXp; //the current xp, reset from the last levelup
-    [SerializeField] public int currentTotalXp; //the total xp this tower has accumulated;
-    [SerializeField] public int level;
+    [SerializeField] public NetworkVariable<int> maximumLevelXp = new(100);  //the xp needed to level up this tower
+    [SerializeField] public NetworkVariable<int>  currentXp = new(0); //the current xp, reset from the last levelup
+    [SerializeField] public NetworkVariable<int> currentTotalXp = new(0); //the total xp this tower has accumulated;
+    [SerializeField] public NetworkVariable<int> level = new(1);
 
     [Header("Stat Modifiers")]
     [SerializeField] public NetworkVariable<float> speedModifier { get; set; } = new NetworkVariable<float>(0); //modifies attack rate
@@ -78,10 +78,10 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
 
     #region ACCESSORS
 
-    public int Level { get => level; set => level = value; }
-    public int MaximumLevelXp { get => maximumLevelXp; set => maximumLevelXp = value; }
-    public int CurrentXp { get => currentXp; set => currentXp = value; }
-    public int CurrentTotalXp { get => currentTotalXp; set => currentTotalXp = value; }
+    public int Level { get => level.Value; set => level.Value = value; }
+    public int MaximumLevelXp { get => maximumLevelXp.Value; set => maximumLevelXp.Value = value; }
+    public int CurrentXp { get => currentXp.Value; set => currentXp.Value = value; }
+    public int CurrentTotalXp { get => currentTotalXp.Value; set => currentTotalXp.Value = value; }
 
 
     //UPGRADES 
