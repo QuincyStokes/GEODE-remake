@@ -1,6 +1,7 @@
+using Unity.Netcode;
 using UnityEngine;
 
-public abstract class BaseProjectile : MonoBehaviour
+public abstract class BaseProjectile : NetworkBehaviour
 {
     [Header("Properties")]
     public float speed;
@@ -9,11 +10,13 @@ public abstract class BaseProjectile : MonoBehaviour
     public float rotationSpeed;
     private ITracksHits parentTower;
     [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private Collider2D col;
 
 
     //Methods
     public void Initialize(float damageAmount, Vector2 velocity, ITracksHits iHits=null)
     {
+        if(!IsServer) return;
         damage = damageAmount;
         rb.linearVelocity = velocity * speed;
         rb.angularVelocity = rotationSpeed;
@@ -23,6 +26,7 @@ public abstract class BaseProjectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if(!IsServer) return;
         if(collision.gameObject.CompareTag("Enemy"))
         {
             IDamageable dmg = collision.gameObject.GetComponentInParent<IDamageable>();

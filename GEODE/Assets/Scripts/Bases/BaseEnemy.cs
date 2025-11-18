@@ -198,14 +198,22 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
 
     public abstract void Attack();
 
-    public void OnTakeDamage(float amount, Vector2 source)
+    public void OnTakeDamage(float amount, Vector2 source, ToolType tool)
     {
         DisplayDamageFloaterClientRpc(amount);
         OnDamageColorChangeClientRpc();
         if (source != Vector2.zero)
         {
             Vector3 dir = (Vector2)transform.position - source;
-            TakeKnockback(dir, Mathf.Clamp(amount, 1, 10));
+            if(tool == ToolType.None)
+            {
+                //TakeKnockback(dir, Mathf.Clamp(amount, 1, 10));
+            }
+            else
+            {
+                //TakeKnockback(dir, Mathf.Clamp(amount, 1, 2));
+            }
+            
         }
 
     }
@@ -272,12 +280,12 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
         if (info.tool == idealToolType || info.tool == ToolType.None)
         {
             CurrentHealth.Value -= info.amount;
-            OnTakeDamage(info.amount, info.sourceDirection);
+            OnTakeDamage(info.amount, info.sourceDirection, info.tool);
         }
         else
         {
             CurrentHealth.Value -= info.amount / 4;
-            OnTakeDamage(info.amount / 4, info.sourceDirection);
+            OnTakeDamage(info.amount / 4, info.sourceDirection, info.tool);
         }
 
 

@@ -79,6 +79,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
 
             //Inventory
             playerInput.Player.InventoryToggle.performed += playerInventory.ToggleInventory;
+            playerInput.Player.InventoryToggle.performed += OnInventoryPressed;
             playerInput.Player.InventoryToggle.Enable();
 
             //Numbers
@@ -273,6 +274,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
         }
         MousePositionHandler();
         CooldownTimer();
+        UniqueUIRangeCheck();
     }
 
     private void FixedUpdate()
@@ -408,6 +410,11 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
             if (go != null)
             {
                 inspectionMenu.DoMenu(go);
+                if(uniqueUI != null)
+                {
+                    playerInventory.OpenInventory();
+                }
+                
             }
             else
             {
@@ -430,6 +437,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
             {
                 if(openUniqueUI != null)
                     openUniqueUI.GetComponent<IUniqueMenu>().HideMenu();
+                    openUniqueUI = null;
             }
         }
         else
@@ -453,6 +461,29 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
             }
         }
     }
+
+    private void OnInventoryPressed(InputAction.CallbackContext context)
+    {
+        if(!playerInventory.IsInventoryOpen())
+        {
+            if(openUniqueUI != null)
+            {
+                openUniqueUI.GetComponent<IUniqueMenu>().HideMenu();
+                inspectionMenu.CloseInspectionMenu();
+            }
+        }
+    }
+
+    private void UniqueUIRangeCheck()
+    {
+        if(openUniqueUI == null) return;
+        if(Vector2.Distance(openUniqueUI.transform.position, transform.position) > 10)
+        {
+            openUniqueUI.GetComponent<IUniqueMenu>().HideMenu();
+        }
+    }
+
+
 
     private void MousePositionHandler()
     {

@@ -18,16 +18,16 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
 
     //* --------------- XP ---------------- */
     [Header("XP")]
-    [SerializeField] private int maxLevelXp;
-    [SerializeField] private int currentLevelXp;
-    [SerializeField] private int totalXp;
-    [SerializeField] private int level;
-    [SerializeField] private int droppedXp;
+    [SerializeField] private NetworkVariable<int> maxLevelXp = new(500);
+    [SerializeField] public NetworkVariable<int> currentLevelXp = new(0);
+    [SerializeField] private NetworkVariable<int> totalXp = new(0);
+    [SerializeField] private NetworkVariable<int> level = new(1);
+    [SerializeField] private NetworkVariable<int> droppedXp = new(0);
 
-    public int MaximumLevelXp { get => maxLevelXp; set => maxLevelXp = value; }
-    public int CurrentXp { get => currentLevelXp; set => currentLevelXp = value; }
-    public int CurrentTotalXp { get => totalXp; set => totalXp = value; }
-    public int Level { get => level; set => level = value; }
+    public int MaximumLevelXp { get => maxLevelXp.Value; set => maxLevelXp.Value = value; }
+    public int CurrentXp { get => currentLevelXp.Value; set => currentLevelXp.Value = value; }
+    public int CurrentTotalXp { get => totalXp.Value; set => totalXp.Value = value; }
+    public int Level { get => level.Value; set => level.Value = value; }
 
     //* --------------- Dropped Items---------------- */
     [Header("Settings")]
@@ -51,7 +51,7 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
     [SerializeField] private Transform centerPoint;
     public Transform CenterPoint { get => centerPoint; }
     public Collider2D CollisionHitbox { get => collisionHitbox; }
-    public int DroppedXP { get => droppedXp; }
+    public int DroppedXP { get => droppedXp.Value; }
     public PlayerController playerController;
     private bool invulnerable = false;
     private Coroutine regenCoroutine;
@@ -169,7 +169,7 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
         }
     }
 
-    public void OnTakeDamage(float amount, Vector2 sourceDirection)
+    public void OnTakeDamage(float amount, Vector2 sourceDirection, ToolType tool=ToolType.None)
     {
         DisplayDamageFloaterClientRpc(amount);
         OnDamageColorChangeClientRpc();
@@ -231,7 +231,14 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
    
     private IEnumerator DoPlayerDeath()
     {
+        //! Bug: On the client's end, the sprite never fully dissapears on death. Current plan is to instead have a death animation instead, so they dont actually have to dissapear.
         NotifyDeathClientRpc();
+
+        if(IsServer)
+        {
+            PlayerDeathThings();    
+        }
+        
         playerController.movementLocked = true;
         invulnerable = true;
         yield return new WaitForSeconds(deathTimer);
@@ -253,10 +260,25 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
         
         invulnerable = false;
         NotifyReviveClientRpc();
+        if(IsServer)
+        {
+            PlayerReviveThings();
+        }
     }
 
-     [ClientRpc]
+    [ClientRpc]
     private void NotifyDeathClientRpc()
+    {
+       PlayerDeathThings();
+    }
+
+    [ClientRpc]
+    private void NotifyReviveClientRpc()
+    {
+       PlayerReviveThings();
+    }
+
+    private void PlayerDeathThings()
     {
         OnDeath?.Invoke(this);
         if (sr != null) 
@@ -271,10 +293,9 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
             playerController.movementLocked = true;
     }
 
-    [ClientRpc]
-    private void NotifyReviveClientRpc()
+    private void PlayerReviveThings()
     {
-         OnRevive?.Invoke();
+        OnRevive?.Invoke();
         if (sr != null) 
             sr.color = new Color(1, 1, 1, 1);
 

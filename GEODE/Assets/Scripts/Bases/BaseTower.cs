@@ -152,6 +152,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
 
     private void Update()
     {
+        if(!IsServer) return;
         if (Time.frameCount % 4 == 0)
         {
             currentTarget = GetNearestTarget();
@@ -248,27 +249,12 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
         // How many degrees remain to target?
         float angleDiff = Quaternion.Angle(tower.transform.rotation, targetRotation);
 
-        if (angleDiff > 45)
-        {
-            // “Fast” approach for large angles, using Lerp
-            // We pick a relatively large t so it snaps roughly in a few frames:
-            float t = Mathf.Clamp01(6 * Time.deltaTime);
-            tower.transform.rotation = Quaternion.Lerp(
-                tower.transform.rotation,
-                targetRotation,
-                t
-            );
-        }
-        else
-        {
-            // Once within threshold, switch to constant‐speed rotation
-            float step = rotationSpeed * Time.deltaTime;
+        float step = rotationSpeed * (speedModifier.Value+1) * Time.deltaTime;
             tower.transform.rotation = Quaternion.RotateTowards(
                 tower.transform.rotation,
                 targetRotation,
                 step
             );
-        }
 
         // When super close, snap exactly on and fire
         if (angleDiff < .5f)

@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -8,8 +9,15 @@ public class BasicAttackTower : BaseTower
     [SerializeField] private Transform firePoint;
     public override void Fire()
     {
-       GameObject bolt = Instantiate(projectilePrefab, firePoint.position, tower.transform.rotation);
-       bolt.GetComponent<BaseProjectile>().Initialize(strength.Value, (currentTarget.position - tower.transform.position).normalized, this);
+        GameObject bolt = Instantiate(projectilePrefab, firePoint.position, tower.transform.rotation);
+
+        NetworkObject no =bolt.GetComponent<NetworkObject>();
+        if(no != null)
+        {
+            no.Spawn();
+        }
+
+        bolt.GetComponent<BaseProjectile>().Initialize(strength.Value, (currentTarget.position - tower.transform.position).normalized, this);
        
     }
 

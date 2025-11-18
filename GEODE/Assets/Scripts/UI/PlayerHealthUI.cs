@@ -27,10 +27,10 @@ public class PlayerHealthUI : MonoBehaviour
         playerHp.OnDeath += DeathScreen;
         playerHp.OnRevive += EndDeathScreen;
         playerHp.CurrentHealth.OnValueChanged += UpdateHealthbar;
-        playerHp.OnXpGain += UpdateXpbar;
+        playerHp.currentLevelXp.OnValueChanged += UpdateXpbar;
 
         UpdateHealthbar(0, 0);
-        UpdateXpbar();
+        UpdateXpbar(0, 0);
     }
 
     private void OnDestroy()
@@ -38,7 +38,7 @@ public class PlayerHealthUI : MonoBehaviour
         playerHp.OnDeath -= DeathScreen;
         playerHp.OnRevive -= EndDeathScreen;
         playerHp.CurrentHealth.OnValueChanged -= UpdateHealthbar;
-        playerHp.OnXpGain -= UpdateXpbar;
+        playerHp.currentLevelXp.OnValueChanged -= UpdateXpbar;
 
     }
 
@@ -60,12 +60,12 @@ public class PlayerHealthUI : MonoBehaviour
         healthbarText.text = $"{playerHp.CurrentHealth.Value}/{playerHp.MaxHealth.Value}";
     }
 
-    public void UpdateXpbar()
+    public void UpdateXpbar(int old, int current)
     {
         xpbarSlider.maxValue = playerHp.MaximumLevelXp;
-        xpbarSlider.value = playerHp.CurrentXp;
+        xpbarSlider.value = current;
 
-        xpbarText.text = $"{playerHp.CurrentXp}/{playerHp.MaximumLevelXp}";
+        xpbarText.text = $"{current}/{playerHp.MaximumLevelXp}";
 
         levelText.text = playerHp.Level.ToString();
     }

@@ -8,6 +8,7 @@ public class CoreHealthUI : MonoBehaviour
     [SerializeField] private GameObject coreHealthUI;
     [SerializeField] private Slider coreHealthSlider;
     [SerializeField] private TMP_Text corehealthText;
+    private bool _hasCoreBeenPlaced;
 
     private void Start()
     {
@@ -22,7 +23,7 @@ public class CoreHealthUI : MonoBehaviour
     private void HandleCorePlaced()
     {   
         Core.CORE.CurrentHealth.OnValueChanged += HandleCoreHealthChanged;
-
+        _hasCoreBeenPlaced = true;
         coreHealthSlider.maxValue = Core.CORE.MaxHealth.Value;
         coreHealthSlider.value = Core.CORE.CurrentHealth.Value;
     }
@@ -35,7 +36,8 @@ public class CoreHealthUI : MonoBehaviour
 
     private void HandleBecameDay()
     {
-        coreHealthUI.SetActive(false);
+        if(_hasCoreBeenPlaced)
+            coreHealthUI.SetActive(false);
     }
 
     private void HandleBecameNight()

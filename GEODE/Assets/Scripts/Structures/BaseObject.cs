@@ -192,7 +192,7 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
         damageFloater.GetComponent<DamageFloater>().Initialize(amount);
     }
 
-    public void OnTakeDamage(float amount, Vector2 sourceDirection)
+    public void OnTakeDamage(float amount, Vector2 sourceDirection, ToolType tool=ToolType.None)
     {
         OnDamageColorChangeClientRpc();
         DisplayDamageFloaterClientRpc(amount);

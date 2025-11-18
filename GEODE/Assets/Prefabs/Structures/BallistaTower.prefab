@@ -119,6 +119,7 @@ GameObject:
   m_Component:
   - component: {fileID: 569111093344052423}
   - component: {fileID: 7217633617710078145}
+  - component: {fileID: 7501489310882427294}
   m_Layer: 0
   m_Name: Ballista
   m_TagString: Untagged
@@ -197,6 +198,52 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
+--- !u!114 &7501489310882427294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4543848016171230497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkTransformExpanded: 0
+  AutoOwnerAuthorityTickOffset: 1
+  PositionInterpolationType: 0
+  RotationInterpolationType: 0
+  ScaleInterpolationType: 0
+  PositionLerpSmoothing: 1
+  PositionMaxInterpolationTime: 0.1
+  RotationLerpSmoothing: 1
+  RotationMaxInterpolationTime: 0.1
+  ScaleLerpSmoothing: 1
+  ScaleMaxInterpolationTime: 0.1
+  AuthorityMode: 0
+  TickSyncChildren: 0
+  UseUnreliableDeltas: 0
+  SyncPositionX: 0
+  SyncPositionY: 0
+  SyncPositionZ: 0
+  SyncRotAngleX: 0
+  SyncRotAngleY: 0
+  SyncRotAngleZ: 1
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  SwitchTransformSpaceWhenParented: 0
+  Interpolate: 1
+  SlerpPosition: 0
 --- !u!1 &5241912323242780402
 GameObject:
   m_ObjectHideFlags: 0
@@ -352,13 +399,17 @@ MonoBehaviour:
   BASE_SPEED: 0.85
   BASE_STRENGTH: 10
   BASE_SIZE: 4
-  rotationSpeed: 135
+  rotationSpeed: 180
   rotates: 1
   placeSfxId: 12
-  maximumLevelXp: 100
-  currentXp: 0
-  currentTotalXp: 0
-  level: 1
+  maximumLevelXp:
+    m_InternalValue: 100
+  currentXp:
+    m_InternalValue: 0
+  currentTotalXp:
+    m_InternalValue: 0
+  level:
+    m_InternalValue: 1
   targetLayer:
     serializedVersion: 2
     m_Bits: 512

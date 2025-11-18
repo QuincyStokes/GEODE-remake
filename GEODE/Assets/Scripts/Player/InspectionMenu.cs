@@ -1,10 +1,12 @@
 using System;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class InspectionMenu : BaseContainer
 {
     //* ---------------- Current Inspected Object ---------------------- */
+    public float maxRange;
     [HideInInspector] public GameObject currentInspectedObject;
     [SerializeField] private GameObject InspectionMenuHolder;
     private IUpgradeable currentUpgradeObject;
@@ -13,6 +15,11 @@ public class InspectionMenu : BaseContainer
     //* ---------------- Events ---------------------- */
     public event Action OnMenuOpened;
     public event Action<GameObject, GameObject> InspectedObjectChanged;
+
+    private void Update()
+    {
+        RangeCheck();
+    }
 
     public void DoMenu(GameObject go)
     {
@@ -193,6 +200,20 @@ public class InspectionMenu : BaseContainer
     private void HandleObjectDeath(IDamageable damageable)
     {
         CloseInspectionMenu();
+    }
+
+    public bool IsOpen()
+    {
+        return InspectionMenuHolder.activeSelf;
+    }
+
+    private void RangeCheck()
+    {
+        if(currentInspectedObject == null) return;
+        if(Vector2.Distance(PlayerController.Instance.transform.position, currentInspectedObject.transform.position) > 10)
+        {
+            CloseInspectionMenu();
+        }
     }
     
 

@@ -83,20 +83,7 @@ public class PlayerInventory : BaseContainer
 
     public void ToggleInventory(InputAction.CallbackContext context)
     {
-
-        inventoryObject.SetActive(!inventoryObject.activeSelf);
-        isOpen = inventoryObject.activeSelf;
-        OnInventoryToggled?.Invoke(inventoryObject.activeSelf);
-        if (inventoryObject.activeSelf)
-        {
-            AudioManager.Instance.PlayLocal(SoundId.Inventory_Open);
-            Cursor.visible = true;
-        }
-        else
-        {
-            AudioManager.Instance.PlayLocal(SoundId.Inventory_Close);
-            TooltipService.Instance.Hide();
-        }
+        ToggleInventoryInternal();
     }
 
     public void OnNumberPressed(InputAction.CallbackContext context)
@@ -182,5 +169,41 @@ public class PlayerInventory : BaseContainer
                 break;
         }
     }
+
+    public void OpenInventory()
+    {
+        if(inventoryObject.activeSelf == true) return;
+        ToggleInventoryInternal();
+       
+    }
+
+    public void CloseInventory()
+    {
+        if(inventoryObject.activeSelf == false) return;
+        ToggleInventoryInternal();
+    }
+
+    private void ToggleInventoryInternal()
+    {
+        inventoryObject.SetActive(!inventoryObject.activeSelf);
+        isOpen = inventoryObject.activeSelf;
+        OnInventoryToggled?.Invoke(inventoryObject.activeSelf);
+        if (inventoryObject.activeSelf)
+        {
+            AudioManager.Instance.PlayLocal(SoundId.Inventory_Open);
+            Cursor.visible = true;
+        }
+        else
+        {
+            AudioManager.Instance.PlayLocal(SoundId.Inventory_Close);
+            TooltipService.Instance.Hide();
+        }
+    }
+
+    public bool IsInventoryOpen()
+    {
+        return inventoryObject.activeSelf;
+    }
+    
 
 }

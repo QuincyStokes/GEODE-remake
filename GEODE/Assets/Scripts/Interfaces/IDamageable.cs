@@ -22,6 +22,6 @@ public interface IDamageable
    public abstract void DropItems();
    public abstract void DisplayDamageFloaterClientRpc(float amount);
    public abstract void OnDamageColorChangeClientRpc();
-   public abstract void OnTakeDamage(float amount, Vector2 source);
+   public abstract void OnTakeDamage(float amount, Vector2 source, ToolType tool);
 
 }

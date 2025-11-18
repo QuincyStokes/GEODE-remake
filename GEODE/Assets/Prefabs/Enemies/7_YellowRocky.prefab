@@ -274,7 +274,7 @@ MonoBehaviour:
   EnemyName: YellowRocky
   attackDamage: 10
   attackRange: 1.1
-  movementSpeed: 1
+  movementSpeed: 1.2
   BASE_MAX_HEALTH: 25
   BASE_XP_REQUIRED: 50
   DROPPED_ITEMS:
@@ -588,6 +588,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a761681cb91a0064c88d907e17fdcf9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   tool: 0
   damage: 0
   sourceDirection: {x: 0, y: 0}
@@ -596,3 +597,5 @@ MonoBehaviour:
   - Player
   - Structure
   - EnvironmentObject
+  hitCollider: {fileID: 0}
+  spriteRenderer: {fileID: 0}

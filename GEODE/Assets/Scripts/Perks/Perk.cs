@@ -23,6 +23,7 @@ public class Perk : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public GameObject perkTooltip;
     public TMP_Text tooltipName;
     public TMP_Text tooltipDescription;
+    public TMP_Text tooltipRequirement;
 
     //* ---------- Events ----------- */
     public event Action OnPerkSelected;
@@ -55,6 +56,13 @@ public class Perk : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         perkSprite.sprite = perk.icon;
         tooltipName.text = perk.PerkName;
         tooltipDescription.text = perk.description;
+        //tooltiprequirement.text = perk.
+
+        if(perk is PlayerStatPerk)
+        {
+            PlayerStatPerk p = perk as PlayerStatPerk;
+            tooltipRequirement.text = $"{p.statRequirement} {p.requirementAmount} {p.requirementKey}s.";
+        }
 
         if (perk.IsUnlocked(StatTrackManager.Instance.GetPlayerStats()))
         {
