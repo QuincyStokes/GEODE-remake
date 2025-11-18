@@ -11,10 +11,10 @@ public class EnemySteering
     [Range(1f, 360f)] public float arc = 180f;
 
     [Tooltip("Max distance for each ray.")]
-    public float rayDistance = 0.6f;
+    public float rayDistance = 1.2f;
 
     [Tooltip("Seconds between steering checks (set lower for snappy).")]
-    public float checkInterval = 0.15f;
+    public float checkInterval = 0.1f;
 
     [Header("Debug")]
     public bool drawDebug = true;
@@ -73,11 +73,6 @@ public class EnemySteering
             //This is to make sure we can fit through gaps
             int hitCount = owner.collisionHitbox.Cast(dir, contactFilter, _hitBuffer, rayDistance);
 
-            Vector2 hitNormal = _hitBuffer[0].normal;
-
-            Vector2 tangent = new Vector2(-hitNormal.y, hitNormal.x);
-            if (Vector2.Dot(tangent, desiredDir) < 0) tangent = -tangent;
-
             if (drawDebug)
             {
                 Color c = hitCount == 0 ? Color.green : Color.red;
@@ -89,11 +84,24 @@ public class EnemySteering
 
             //Decide which direction to move in
             //if we have 0 hits, the direction is clear. We give it a positive score
-            //Anything blocked gets a flat negative score, "NO"
+            //Anything blocked gets a negative score based on distance (closer = worse)
 
-            float bias = 1f - Mathf.Abs(angle) / arc;
-            float weight = hitCount == 0 ? bias :               // blocked = bad
-                           -1; // favour central rays
+            float bias = 1f - (Mathf.Abs(angle) / arc) * 0.5f; // Reduced center bias for better gap alignment
+            float weight;
+            
+            if (hitCount == 0)
+            {
+                // Clear path - weight by how close to desired direction and how far we can see
+                weight = bias + 0.5f; // Bonus for clear paths
+            }
+            else
+            {
+                // Blocked path - weight by distance (closer hits are worse)
+                float hitDistance = _hitBuffer[0].distance;
+                float normalizedDistance = Mathf.Clamp01(hitDistance / rayDistance);
+                // Closer obstacles get more negative weight
+                weight = -1f - (1f - normalizedDistance) * 2f;
+            }
 
             if (weight > bestWeight)
             {

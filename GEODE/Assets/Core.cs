@@ -56,9 +56,13 @@ public class Core : BaseObject, IInteractable
     [ServerRpc(RequireOwnership = false)]
     public override void DestroyThisServerRpc(bool dropItems)
     {
+        if (!IsServer)
+        {
+            return;
+        }
         NotifyClientsCoreDestroyedClientRpc();
-        base.DestroyThisServerRpc(true);
-
+        // Call the internal method directly to avoid RPC recursion
+        DestroyThisInternal(dropItems);
     }
 
     [ClientRpc]

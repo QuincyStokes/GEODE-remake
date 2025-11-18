@@ -23,7 +23,6 @@ public class GameOverUI : MonoBehaviour
 
     private void HandleCoreDestroyed()
     {
-        Debug.Log("GameOver hears Core Destroyed!");
         //would be really sick to lerp over to the core's position.
 
         nightNumText.text = $"Night {DayCycleManager.Instance.DayNum}";

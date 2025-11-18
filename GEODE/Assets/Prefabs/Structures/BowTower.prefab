@@ -399,7 +399,7 @@ MonoBehaviour:
   BASE_SPEED: 0.5
   BASE_STRENGTH: 6
   BASE_SIZE: 3
-  rotationSpeed: 160
+  rotationSpeed: 250
   rotates: 1
   placeSfxId: 12
   maximumLevelXp:

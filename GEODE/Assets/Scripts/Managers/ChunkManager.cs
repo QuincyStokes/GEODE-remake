@@ -68,7 +68,6 @@ public class ChunkManager : NetworkBehaviour
         if(!chunkMap[chunk].Contains(obj))
         {
             chunkMap[chunk].Add(obj);
-            Debug.Log($"[ChunkManager] Registered {obj.name} in chunk {chunk}");
         }
         else
         {

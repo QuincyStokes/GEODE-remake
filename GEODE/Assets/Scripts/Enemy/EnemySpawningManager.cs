@@ -195,6 +195,12 @@ public class EnemySpawningManager : NetworkBehaviour
             return;
         }
         
+        // Double-check we're still under the limit (race condition protection)
+        if (currentNumSpawns >= currentMaxSpawns)
+        {
+            return;
+        }
+        
         GameObject enemyToSpawn = EnemyDatabase.Instance.GetEnemy(enemyId);
         if (enemyToSpawn != null)
         {
@@ -204,7 +210,9 @@ public class EnemySpawningManager : NetworkBehaviour
             currentNumSpawns++;
             BaseEnemy enemy = spawnedEnemy.GetComponent<BaseEnemy>();
 
+            // Track enemy through death event - this is our sole tracking mechanism
             enemy.OnDeath += HandleEnemyDied;
+            
             enemy.AddLevels(DayCycleManager.Instance.DayNum);
         }
         else
@@ -216,10 +224,8 @@ public class EnemySpawningManager : NetworkBehaviour
 
     private void ChangeToDaySettings()
     {
-        
         currentMaxSpawns = (int)(dayMaxSpawns * dayMaxSpawnsModifier);
         currentSpawnRate = daySpawnRate * daySpawnRateModifier;
-        
     }
 
     private void ChangeToNightSettings()
@@ -227,12 +233,15 @@ public class EnemySpawningManager : NetworkBehaviour
         nightSpawnRateModifier *= .9f;
         currentMaxSpawns = (int)(nightMaxSpawns * nightMaxSpawnsModifier);
         currentSpawnRate = Mathf.Clamp(nightSpawnRate * nightSpawnRateModifier, 25, 1000);
-        
     }
 
+    /// <summary>
+    /// Handles enemy death - decrements spawn count and unsubscribes from events.
+    /// This is our sole tracking mechanism for enemy lifecycle (spawn increments, death decrements).
+    /// </summary>
     private void HandleEnemyDied(IDamageable damageable)
     {
-        currentNumSpawns--;
+        currentNumSpawns = Mathf.Max(0, currentNumSpawns - 1); // Prevent going negative
         damageable.OnDeath -= HandleEnemyDied;
     }
 

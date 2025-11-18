@@ -11720,6 +11720,7 @@ MonoBehaviour:
   maxItemStack: 1
   startingItems: []
   isOpen: 0
+  maxRange: 0
   currentInspectedObject: {fileID: 0}
   InspectionMenuHolder: {fileID: 9059576885299392631}
 --- !u!114 &7845907577915783437
@@ -14613,7 +14614,7 @@ MonoBehaviour:
   - item: {fileID: 11400000, guid: b655818b047415248a0995e091c067d3, type: 2}
     amount: 1
   isOpen: 0
-  devMode: 1
+  devMode: 0
   inventoryObject: {fileID: 3774294273146469442}
   hotbarObject: {fileID: 3669146933921313452}
   healthbarObject: {fileID: 944747294854935516}
@@ -14632,11 +14633,16 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   regenRate: 1
   regenCooldown: 5
-  maxLevelXp: 500
-  currentLevelXp: 0
-  totalXp: 0
-  level: 1
-  droppedXp: 0
+  maxLevelXp:
+    m_InternalValue: 500
+  currentLevelXp:
+    m_InternalValue: 0
+  totalXp:
+    m_InternalValue: 0
+  level:
+    m_InternalValue: 1
+  droppedXp:
+    m_InternalValue: 0
   droppedItems: []
   deathTimer: 5
   sr: {fileID: 6936979194301973592}

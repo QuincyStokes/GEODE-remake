@@ -260,6 +260,15 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
         {
             return;
         }
+        DestroyThisInternal(dropItems);
+    }
+
+    protected virtual void DestroyThisInternal(bool dropItems)
+    {
+        if (!IsServer)
+        {
+            return;
+        }
         if(NetworkManager.Singleton.ConnectedClients.TryGetValue(lastAttackerClientId, out var client))
         {
             client.PlayerObject.GetComponent<PlayerHealthAndXP>().AddXp(this);

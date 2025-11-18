@@ -150,7 +150,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
         OnMultiTrack -= StatTrackManager.Instance.AddMultiple;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if(!IsServer) return;
         if (Time.frameCount % 4 == 0)
@@ -234,7 +234,6 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
 
     private void SetTargetRotation()
     {
-        Debug.Log("Setting target rotation!");
         Vector2 direction = (currentTarget.position - tower.transform.position).normalized;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         targetRotation = Quaternion.Euler(new Vector3(0, 0, angle));
