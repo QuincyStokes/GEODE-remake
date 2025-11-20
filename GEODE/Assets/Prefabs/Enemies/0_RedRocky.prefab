@@ -235,10 +235,10 @@ MonoBehaviour:
   collisionHitbox: {fileID: 2448939792321823289}
   aggroRadius: {fileID: 4507244449337361817}
   EnemyName: RedRocky
-  attackDamage: 13
+  attackDamage: 15
   attackRange: 1.1
   movementSpeed: 1
-  BASE_MAX_HEALTH: 25
+  BASE_MAX_HEALTH: 20
   BASE_XP_REQUIRED: 50
   DROPPED_ITEMS:
   - Id: 29

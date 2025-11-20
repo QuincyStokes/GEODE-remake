@@ -1,7 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.Services.Lobbies.Models;
+using Unity.Services.Matchmaker.Models;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
@@ -51,6 +53,11 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     [Header("Unique Menu")]
     [SerializeField] private GameObject uniqueUI;
     public GameObject UniqueUI { get => uniqueUI; }
+
+    [Header("Biome Overlays")]
+    [SerializeField] private List<SimpleObject.BiomeSpritePair> biomeSpritePairs;
+    private Dictionary<BiomeType, Sprite> biomeSpriteMap;
+    [SerializeField] private SpriteRenderer biomeOverlaySprite;
 
     //* ----------------- final stats ------------
     [HideInInspector] public NetworkVariable<float> speed { get; set; } = new NetworkVariable<float>(1f);
@@ -111,6 +118,25 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
             AudioManager.Instance.PlayClientRpc(placeSfxId, transform.position);
     }
 
+    private void Awake()
+    {
+        biomeSpriteMap = new();
+        foreach(var item in biomeSpritePairs)
+        {
+            biomeSpriteMap.Add(item.biomeType, item.overlaySprite);
+        }
+    }
+
+    private new void Start()
+    {   
+        base.Start();
+        BiomeType biome = WorldGenManager.Instance.GetBiomeAtPosition(new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z));
+        if(biomeSpriteMap.ContainsKey(biome))
+        {
+            biomeOverlaySprite.sprite = biomeSpriteMap[biome];
+        }
+    }
+
     private void InitializeBaseStats()
     {
         if (IsServer) {
@@ -164,13 +190,13 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
                     RotateTowardsTarget();
                     if (Time.time >= nextFireTime && IsRotationComplete()) // 
                     {
-                        Fire();
+                        StartCoroutine(Fire());
                         nextFireTime = Time.time + 1f / speed.Value;
                     }
                 }
                 else if (Time.time >= nextFireTime)
                 {
-                    Fire();
+                    StartCoroutine(Fire());
                     nextFireTime = Time.time + 1f / speed.Value;
                 }
 
@@ -279,7 +305,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
         Gizmos.DrawWireSphere(tower.transform.position, size.Value);
     }
 
-    public abstract void Fire();
+    public abstract IEnumerator Fire();
     public abstract void OnTriggerEnter2D(Collider2D collision);
     public abstract void OnTriggerExit2D(Collider2D collision);
 
@@ -520,6 +546,16 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     {
         damageable.OnDeath += AddXp;
         //unsubscribes in addXp
+    }
+
+    public virtual void DoClickedThings()
+    {
+        
+    }
+
+    public virtual void DoUnclickedThings()
+    {
+        
     }
 
 

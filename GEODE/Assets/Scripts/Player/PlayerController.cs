@@ -64,6 +64,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
     //PRIVATE INTERNAL
     private Transform _coreTransform;
     public GameObject openUniqueUI;
+    public IInteractable currentInteractedObject;
 
     public override void OnNetworkSpawn()
     {
@@ -392,7 +393,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
             foreach (MonoBehaviour mono in gos)
             {
                 if (mono is IInteractable)
-                {
+                {   
                     go = mono.gameObject;
                     break;
                 }
@@ -409,11 +410,19 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
 
             if (go != null)
             {
+                if(currentInteractedObject != null && go.GetComponent<IInteractable>() != currentInteractedObject)
+                {
+                    currentInteractedObject.DoUnclickedThings();
+                }
+
                 inspectionMenu.DoMenu(go);
                 if(uniqueUI != null)
                 {
                     playerInventory.OpenInventory();
                 }
+                //we know "go" is IInteractable
+                go.GetComponent<IInteractable>().DoClickedThings();
+                currentInteractedObject = go.GetComponent<IInteractable>();
                 
             }
             else
@@ -454,6 +463,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
             else
             {
                 inspectionMenu.CloseInspectionMenu();
+                currentInteractedObject?.DoUnclickedThings();
 
                 //if we have a uniqueUI open, close it.
                 if (openUniqueUI != null)
@@ -470,6 +480,10 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
             {
                 openUniqueUI.GetComponent<IUniqueMenu>().HideMenu();
                 inspectionMenu.CloseInspectionMenu();
+            }
+            if(currentInteractedObject != null)
+            {
+                currentInteractedObject.DoUnclickedThings();
             }
         }
     }
@@ -583,11 +597,19 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
 
     private IEnumerator DoRepairAttack()
     {
-        Instance.repairHitbox.gameObject.SetActive(true);
+        AudioManager.Instance.PlayClientRpc(SoundId.Sword_Swing, transform.position);
         attackAnimator.SetTrigger("Swing");
         moveSpeed /= 2;
+
+        repairHitbox.EnableCollider();
+        repairHitbox.EnableVisuals();
+        
+
         yield return new WaitForSeconds(.1f);
-        Instance.repairHitbox.gameObject.SetActive(false);
+
+        repairHitbox.DisableCollider();
+        repairHitbox.DisableVisuals();
+
         moveSpeed *= 2;
         swingCooldownTimer = 0f;
     }

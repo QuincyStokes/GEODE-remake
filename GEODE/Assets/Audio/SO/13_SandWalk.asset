@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6618335d2393b114eaf48447435fe4e7, type: 3}
+  m_Name: 13_SandWalk
+  m_EditorClassIdentifier: 
+  soundId: 13
+  clips:
+  - {fileID: 8300000, guid: e8467058c07b9ce42950eb9bf7b0f5e5, type: 3}
+  - {fileID: 8300000, guid: 753ec9f07386c9b468998826f4be79e6, type: 3}
+  defaultVolume: 0.3
+  spatial: 1
+  randomPitchOffsetMax: 0.02
+  range: 15
+  amg: {fileID: 7874774452692653096, guid: 089a1120065f0854bb68d7b341999f56, type: 2}

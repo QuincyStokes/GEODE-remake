@@ -28,7 +28,11 @@ public enum SoundId
     Bush_Hit,
     Bush_Break,
     Grass_Walk,
-    Wood_Structure_Place
+    Wood_Structure_Place,
+    Sand_Walk,
+    Wooden_Tower_Break,
+    Bow_Tower_Shoot,
+    
 
 }
 

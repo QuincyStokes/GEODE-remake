@@ -77,4 +77,14 @@ public class Core : BaseObject, IInteractable
         OnCorePlaced?.Invoke();
         OnCorePlacedStatic?.Invoke();
     }
+
+    public void DoClickedThings()
+    {
+        
+    }
+
+    public void DoUnclickedThings()
+    {
+        
+    }
 }

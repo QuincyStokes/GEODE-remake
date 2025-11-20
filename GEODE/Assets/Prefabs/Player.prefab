@@ -5121,6 +5121,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08927f36ed8121745b17d70c6a632fe3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  biomeWalkSounds:
+  - biomeType: 0
+    soundId: 11
+  - biomeType: 1
+    soundId: 13
 --- !u!1 &2356344580043247248
 GameObject:
   m_ObjectHideFlags: 0
@@ -14614,7 +14619,7 @@ MonoBehaviour:
   - item: {fileID: 11400000, guid: b655818b047415248a0995e091c067d3, type: 2}
     amount: 1
   isOpen: 0
-  devMode: 0
+  devMode: 1
   inventoryObject: {fileID: 3774294273146469442}
   hotbarObject: {fileID: 3669146933921313452}
   healthbarObject: {fileID: 944747294854935516}

@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -7,9 +9,28 @@ public class BasicAttackTower : BaseTower
     [Header("References")]
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform firePoint;
-    public override void Fire()
+    [Header("Audio")]
+    [SerializeField] private SoundId fireSoundId;
+
+    [Header("Animation")]
+    [SerializeField] private Animator animator;
+    [SerializeField] private int framesToWait;
+    public override IEnumerator Fire()
     {
+        animator.SetTrigger("Shoot");
+        //Wait one frame because animation takes 2  frames
+        for(int i = 0; i < framesToWait; i++)
+        {
+            yield return new WaitForEndOfFrame();
+        }
         GameObject bolt = Instantiate(projectilePrefab, firePoint.position, tower.transform.rotation);
+
+        if(fireSoundId != SoundId.NONE)
+        {
+            AudioManager.Instance.PlayClientRpc(fireSoundId, transform.position);
+        }
+
+       
 
         NetworkObject no =bolt.GetComponent<NetworkObject>();
         if(no != null)

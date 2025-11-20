@@ -235,9 +235,9 @@ MonoBehaviour:
   collisionHitbox: {fileID: 2448939792321823289}
   aggroRadius: {fileID: 4507244449337361817}
   EnemyName: YellowRocky
-  attackDamage: 10
+  attackDamage: 8
   attackRange: 1.1
-  movementSpeed: 1.2
+  movementSpeed: 1.4
   BASE_MAX_HEALTH: 25
   BASE_XP_REQUIRED: 50
   DROPPED_ITEMS:

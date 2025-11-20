@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 2282872029002049921}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.993, y: 0.066, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -120,6 +120,8 @@ GameObject:
   - component: {fileID: 569111093344052423}
   - component: {fileID: 7217633617710078145}
   - component: {fileID: 7501489310882427294}
+  - component: {fileID: 8230383261009817207}
+  - component: {fileID: 6276926232336628655}
   m_Layer: 0
   m_Name: Ballista
   m_TagString: Untagged
@@ -244,6 +246,43 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &8230383261009817207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4543848016171230497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  TransitionStateInfoList: []
+  m_Animator: {fileID: 6276926232336628655}
+--- !u!95 &6276926232336628655
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4543848016171230497}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 22100000, guid: 5cd84a3ff3f2bb44d86b51680623900b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5241912323242780402
 GameObject:
   m_ObjectHideFlags: 0
@@ -284,6 +323,7 @@ Transform:
   - {fileID: 7615864097540678996}
   - {fileID: 4788089938128382637}
   - {fileID: 2052563808128784492}
+  - {fileID: 4617149994005895728}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4323253366736924403
@@ -386,7 +426,7 @@ MonoBehaviour:
   destroyParticleEffectType: 0
   healParticleEffectType: 4
   hitSoundId: 0
-  breakSoundId: 0
+  breakSoundId: 14
   healthStateChangeSoundId: 0
   objectName: Ballista Tower
   centerPoint: {fileID: 7615864097540678996}
@@ -418,10 +458,19 @@ MonoBehaviour:
   rangeIndicator: {fileID: 7750405966191835993}
   higlightColor: {r: 0.56205004, g: 1, b: 0.435849, a: 1}
   uniqueUI: {fileID: 0}
+  biomeSpritePairs:
+  - biomeType: 0
+    overlaySprite: {fileID: -3361743473188554776, guid: f8b28872856a1d441a1348be9bd10739, type: 3}
+  - biomeType: 1
+    overlaySprite: {fileID: 1420360146529207268, guid: f8b28872856a1d441a1348be9bd10739, type: 3}
+  biomeOverlaySprite: {fileID: 3262275855234863900}
   upgrades: []
   upgradeItems: []
   projectilePrefab: {fileID: 3971315044739012625, guid: 6adc3bbc20934134e95286598253a603, type: 3}
   firePoint: {fileID: 8530824588490717240}
+  fireSoundId: 0
+  animator: {fileID: 6276926232336628655}
+  framesToWait: 4
 --- !u!58 &2077050480769059596
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -567,6 +616,93 @@ Transform:
   m_Children: []
   m_Father: {fileID: 9172145158948065018}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7577019249222860162
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4617149994005895728}
+  - component: {fileID: 3262275855234863900}
+  m_Layer: 10
+  m_Name: BiomeOverlay
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4617149994005895728
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7577019249222860162}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.001, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9172145158948065018}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &3262275855234863900
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7577019249222860162}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 0
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 1
 --- !u!1 &7750405966191835993
 GameObject:
   m_ObjectHideFlags: 0

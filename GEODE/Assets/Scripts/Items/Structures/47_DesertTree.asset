@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Desert Tree
   description: 'An old, dead tree. '
   type: 2
-  icon: {fileID: -136911645196997914, guid: fdecfc1b007887f4181d14a64ca03498, type: 3}
+  icon: {fileID: 7564369658743024693, guid: fdecfc1b007887f4181d14a64ca03498, type: 3}
   id: 47
   quality: 0
   isStackable: 0
