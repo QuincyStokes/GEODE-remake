@@ -53,7 +53,7 @@ public class ChunkManager : NetworkBehaviour
     {
         if(obj == null)
         {
-            Debug.LogWarning("[ChunkManager] Attempted to register null GameObject");
+           
             return;
         }
         
@@ -71,7 +71,7 @@ public class ChunkManager : NetworkBehaviour
         }
         else
         {
-            Debug.LogWarning($"[ChunkManager] {obj.name} is already registered in chunk {chunk}");
+            
         }
     }
 
@@ -88,7 +88,7 @@ public class ChunkManager : NetworkBehaviour
         if(chunkMap.ContainsKey(chunk) && chunkMap[chunk].Contains(obj))
         {
             chunkMap[chunk].Remove(obj);
-            Debug.Log($"[ChunkManager] Deregistered {obj.name} from chunk {chunk}");
+            
             
             // Clean up empty chunk lists to save memory
             if(chunkMap[chunk].Count == 0)
@@ -176,7 +176,7 @@ public class ChunkManager : NetworkBehaviour
             // Clean up null references from the original list
             objList.RemoveAll(go => go == null);
             
-            Debug.Log($"[ChunkManager] Set chunk {chunkCoord} to {(active ? "active" : "inactive")} - {activeCount} objects");
+           
         }
     }
 

@@ -22,9 +22,9 @@ public class BackgroundMusicManager : MonoBehaviour
     private void Start()
     {
         LobbyHandler.Instance.OnGameStarted += StopMusic;
-        ConnectionManager.Instance.OnPlayerSpawned += PlayDayMusic;
-        DayCycleManager.becameNightGlobal += PlayNightMusic; //! error, doesn't exist when this awakens. 
-        DayCycleManager.becameDayGlobal += PlayDayMusic; //! error
+        GameManager.OnPlayerSpawned += PlayDayMusic;
+        DayCycleManager.becameNightGlobal += PlayNightMusic; 
+        DayCycleManager.becameDayGlobal += PlayDayMusic; 
         AudioManager.Instance.OnMusicEnded += PlayMusic;
         AudioManager.Instance.PlayMusic(MusicId.Main_Menu);
     }
@@ -82,7 +82,7 @@ public class BackgroundMusicManager : MonoBehaviour
     private void OnDisable()
     {
         LobbyHandler.Instance.OnGameStarted -= StopMusic;
-        ConnectionManager.Instance.OnPlayerSpawned -= PlayMusic;
+        GameManager.OnPlayerSpawned -= PlayMusic;
         AudioManager.Instance.OnMusicEnded -= PlayMusic;
     }
 

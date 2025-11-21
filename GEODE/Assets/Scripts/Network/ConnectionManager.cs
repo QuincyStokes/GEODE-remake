@@ -14,7 +14,6 @@ public class ConnectionManager : NetworkBehaviour
     [HideInInspector] public string PlayerID;
     [HideInInspector] public string PlayerName;
 
-    public event Action OnPlayerSpawned;
 
 
 

@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class GameManager : NetworkBehaviour
 {
@@ -17,6 +18,9 @@ public class GameManager : NetworkBehaviour
     [SerializeField] private GameObject playerPrefab;
     private HashSet<ulong> spawnedClients = new HashSet<ulong>();
     private List<ulong> waitingClientIds = new List<ulong>();
+
+    public static event Action OnPlayerSpawned;
+
     private void Awake()
     {
         if (Instance == null)
@@ -210,7 +214,7 @@ public class GameManager : NetworkBehaviour
         }
 
         netObj.SpawnAsPlayerObject(clientId, destroyWithScene: false);
-
+        OnPlayerSpawned?.Invoke();
         // Track spawned client
         spawnedClients.Add(clientId);
 
