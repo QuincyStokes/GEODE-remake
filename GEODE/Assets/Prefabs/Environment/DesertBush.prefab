@@ -160,7 +160,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985f7328bdd600d4c903515442c9073c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  registerd: 0
+  ShowTopMostFoldoutHeaderGroup: 1
+  registered: 0
 --- !u!114 &-2618410209220674224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,7 +181,7 @@ MonoBehaviour:
   - Id: 24
     minAmount: 1
     maxAmount: 1
-    chance: 65
+    chance: 100
     minItemQuality: 0
     maxItemQuality: 0
   droppedXp: 1
@@ -191,13 +192,15 @@ MonoBehaviour:
   healParticleEffectType: 0
   hitSoundId: 0
   breakSoundId: 0
+  healthStateChangeSoundId: 0
   objectName: Desert Bush
   centerPoint: {fileID: 2529844756968684603}
   description: 
   objectSprite: {fileID: 0}
   sr: {fileID: 4444132404085886019}
   collisionHitbox: {fileID: 7390690570378346276}
-  matchingItemId: 0
+  matchingItemId:
+    m_InternalValue: -1
 --- !u!70 &7390690570378346276
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

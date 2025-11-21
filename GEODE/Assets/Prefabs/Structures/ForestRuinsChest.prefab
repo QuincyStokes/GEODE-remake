@@ -617,7 +617,7 @@ MonoBehaviour:
   - biomeType: 1
     overlaySprite: {fileID: -5861793336254149187, guid: f8b28872856a1d441a1348be9bd10739, type: 3}
   uniqueUI: {fileID: 3534624160592223690}
-  _animator: {fileID: 0}
+  _animator: {fileID: 4850555888101353605}
 --- !u!114 &613103564593501575
 MonoBehaviour:
   m_ObjectHideFlags: 0

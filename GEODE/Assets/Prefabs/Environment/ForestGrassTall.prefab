@@ -129,7 +129,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985f7328bdd600d4c903515442c9073c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  registerd: 0
+  ShowTopMostFoldoutHeaderGroup: 1
+  registered: 0
 --- !u!114 &4718114756700577364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,7 +150,7 @@ MonoBehaviour:
   - Id: 24
     minAmount: 1
     maxAmount: 1
-    chance: 65
+    chance: 100
     minItemQuality: 0
     maxItemQuality: 0
   droppedXp: 1

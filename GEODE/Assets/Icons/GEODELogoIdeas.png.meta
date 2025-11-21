@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 9b52aec75ee993c4fbc57e9fdb832c8c
+guid: 5a3c19cad6dd0d640a67c2510b2397be
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5943104863287994887
-    second: RockyIcon32_0
+      213: -6572047072296063897
+    second: GEODELogoIdeas_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -24,7 +24,7 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
     flipGreenChannel: 0
-  isReadable: 1
+  isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: RockyIcon32_0
+      name: GEODELogoIdeas_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 32
-        height: 32
+        width: 42
+        height: 42
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9f592d06d99d58da0800000000000000
-      internalID: -5943104863287994887
+      spriteID: 76ca5a802066bc4a0800000000000000
+      internalID: -6572047072296063897
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      RockyIcon32_0: -5943104863287994887
+      GEODELogoIdeas_0: -6572047072296063897
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

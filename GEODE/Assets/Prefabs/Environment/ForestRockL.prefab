@@ -129,7 +129,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985f7328bdd600d4c903515442c9073c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  registerd: 0
+  ShowTopMostFoldoutHeaderGroup: 1
+  registered: 0
 --- !u!114 &1458096613925277815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,7 +150,7 @@ MonoBehaviour:
   - Id: 2
     minAmount: 1
     maxAmount: 1
-    chance: 65
+    chance: 100
     minItemQuality: 0
     maxItemQuality: 0
   droppedXp: 1
@@ -160,13 +161,15 @@ MonoBehaviour:
   healParticleEffectType: 0
   hitSoundId: 0
   breakSoundId: 0
+  healthStateChangeSoundId: 0
   objectName: Forest Floor Rock
   centerPoint: {fileID: 7757110238357635914}
   description: 
   objectSprite: {fileID: 0}
   sr: {fileID: 8834165816360457178}
   collisionHitbox: {fileID: 0}
-  matchingItemId: 0
+  matchingItemId:
+    m_InternalValue: -1
 --- !u!70 &5080745208398576082
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
