@@ -78,12 +78,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 4790283167339129140, guid: 9bc4a9b398155c949b47d068c7a5fc24, type: 3}
+  m_Sprite: {fileID: 5422304786891679545, guid: 8e608a242d6bc3c438c01b7706b14185, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1, y: 0.9375}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -158,7 +158,7 @@ Transform:
   m_GameObject: {fileID: 1160243913533736849}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.41, y: 6.35, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -253,8 +253,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2176
   knockbackDecay: 0.9
-  attackWindupTime: 0.25
-  attackRecoveryTime: 1
+  attackWindupTime: 1.16
+  attackRecoveryTime: 0.5
   attackCooldown: 3
   wanderRadius: 5
   wanderTimeMin: 2
@@ -391,7 +391,7 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.15}
   m_Radius: 0.3
 --- !u!58 &4507244449337361817
 CircleCollider2D:
@@ -469,15 +469,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7186009135097747369}
-  - component: {fileID: 4117687670939969054}
   - component: {fileID: 557264030553699562}
+  - component: {fileID: 2792106501507112230}
   m_Layer: 9
   m_Name: AttackHitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7186009135097747369
 Transform:
   m_ObjectHideFlags: 0
@@ -493,8 +493,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1642919825445754001}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &4117687670939969054
-BoxCollider2D:
+--- !u!114 &557264030553699562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5906243830527534231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a761681cb91a0064c88d907e17fdcf9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  tool: 0
+  damage: 0
+  sourceDirection: {x: 0, y: 0}
+  dropItems: 0
+  hittableTags:
+  - Player
+  - Structure
+  - EnvironmentObject
+  hitCollider: {fileID: 2792106501507112230}
+  spriteRenderer: {fileID: 0}
+--- !u!58 &2792106501507112230
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -527,38 +550,5 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.775, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 1.25, y: 1.25}
-  m_EdgeRadius: 0
---- !u!114 &557264030553699562
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5906243830527534231}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a761681cb91a0064c88d907e17fdcf9c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  tool: 0
-  damage: 0
-  sourceDirection: {x: 0, y: 0}
-  dropItems: 0
-  hittableTags:
-  - Player
-  - Structure
-  - EnvironmentObject
-  hitCollider: {fileID: 0}
-  spriteRenderer: {fileID: 0}
+  m_Offset: {x: 0, y: 0.15}
+  m_Radius: 1.5

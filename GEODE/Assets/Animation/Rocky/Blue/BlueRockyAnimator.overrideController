@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: BlueRockyAnimator
+  m_Controller: {fileID: 9100000, guid: a67348c3a21e27040b0416aaeed2366d, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: e6a9c6fae9518914189746035fa1c945, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 2d3d212deb4eb6e479f9a3e87470b65d, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 556602989a18d0d439734c4e1d1a9f32, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 8bef1d2c4cb073a42b37dd053954693a, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 0e5d6005aed6a13438fe57e7587b6f4c, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 39ea103b831460f419f5655123bdc897, type: 2}

@@ -438,7 +438,7 @@ MonoBehaviour:
     m_InternalValue: -1
   BASE_SPEED: 0.85
   BASE_STRENGTH: 10
-  BASE_SIZE: 4
+  BASE_SIZE: 5
   rotationSpeed: 180
   rotates: 1
   placeSfxId: 12

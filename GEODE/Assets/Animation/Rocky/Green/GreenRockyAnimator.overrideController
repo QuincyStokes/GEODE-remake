@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: GreenRockyAnimator
+  m_Controller: {fileID: 9100000, guid: a67348c3a21e27040b0416aaeed2366d, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: e6a9c6fae9518914189746035fa1c945, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 2bac1239c088f49419c0b73649e02cd0, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 556602989a18d0d439734c4e1d1a9f32, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: af6a7c46e546d4f45afa60f840fe17eb, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 0e5d6005aed6a13438fe57e7587b6f4c, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: a1121aeb172ba7540bf3a5d7b936459d, type: 2}
