@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Blue Geode
   description: What lies inside?
   type: 2
-  icon: {fileID: 5669041734165336226, guid: 35d9d5fc183c1f84785bbdc22135bb95, type: 3}
+  icon: {fileID: 6660158100887553443, guid: 21120eddd49cac742a493a81bda4f73d, type: 3}
   id: 33
   quality: 0
   isStackable: 1
