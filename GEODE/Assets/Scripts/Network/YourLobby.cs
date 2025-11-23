@@ -62,6 +62,7 @@ public class YourLobby : MonoBehaviour
     }
     public void UpdatePlayerList(Lobby lobby)
     {
+        if(lobby == null) return;
         Debug.Log("Updating Player List for Lobby " + lobby.Name);
         SetLobby(lobby);
 
@@ -91,5 +92,36 @@ public class YourLobby : MonoBehaviour
     {
         Debug.Log("Checking whether this is the host" + Lobby.HostId == AuthenticationService.Instance.PlayerId);
         return Lobby.HostId == AuthenticationService.Instance.PlayerId;
+    }
+
+    public void LeaveLobby()
+    {
+        LobbyHandler.Instance.LeaveLobby();
+        MainMenuController.Instance.ShowPanel("MultiplayerPanel");
+    }
+
+    public void HandleLobbyUpdate(Lobby l)
+    {
+        if(l == null)
+        {
+            ClearUI();
+            MainMenuController.Instance.ShowPanel("MultiplayerPanel");
+            LobbyErrorMessages.Instance.SetError("Host left lobby. Returning to Main Menu.");
+        }
+        else
+        {
+            UpdatePlayerList(l);
+        }
+    }
+
+    public void ClearUI()
+    {
+        // Clear player list, lobby name field, etc.
+        foreach (Transform transform in contentParent)
+        {
+            Destroy(transform.gameObject);
+        }
+       
+
     }
 }

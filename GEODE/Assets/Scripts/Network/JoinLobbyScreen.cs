@@ -9,15 +9,10 @@ using UnityEngine.UI;
 
 public class JoinLobbyScreen : MonoBehaviour
 {
-    [SerializeField] private GameObject lobbyCardPrefab;
     [SerializeField] private Button joinButton;
     [SerializeField] private TMP_InputField lobbyCodeField;
     [SerializeField] private TMP_InputField playerName;
-    [SerializeField] private GameObject lobbyCreationMenu;
-    [SerializeField] private GameObject yourLobby;
-    [SerializeField] private GameObject createALobby;
-    [SerializeField] private GameObject customizeScreen;
-    [SerializeField] private GameObject perkSelectionScreen;
+ 
     
     void Start()
     {
@@ -46,14 +41,7 @@ public class JoinLobbyScreen : MonoBehaviour
             Debug.Log("Joined lobby " + lobby.Name);
             LobbyHandler.Instance.SetJoinedLobby(lobby);
 
-            //if we're here, we've successfully joined the lobby I think.
-            // we should deactivate this gameobject, and set active the MyLboby screen
-            lobbyCreationMenu.SetActive(true);
-            yourLobby.SetActive(true);
-            perkSelectionScreen.SetActive(true);
-
-            createALobby.SetActive(false);
-            gameObject.SetActive(false);
+            MainMenuController.Instance.ShowPanel("LobbyPanel");
 
             //ANYTHING PUT HERE WILL NOT RUN
         }

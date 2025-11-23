@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
 using Unity.Services.Authentication;
+using Unity.Services.Core;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
@@ -13,16 +14,6 @@ public class LobbyHandler : MonoBehaviour
 {
     public static LobbyHandler Instance;
 
-    [SerializeField] private TMP_InputField lobbyNameField;
-    [SerializeField] private Slider maxPlayersSlider;
-    [SerializeField] private Button createLobbyButton;
-    [SerializeField] private TMP_Text maxPlayersText;
-    [SerializeField] private Toggle privateToggle;
-    [SerializeField] private TMP_InputField playerName;
-    [SerializeField] private GameObject createALobbyScreen;
-    [SerializeField] private GameObject perkSelectionScreen;
-    [SerializeField] private GameObject yourLobbyScreen;
-    [SerializeField] private GameObject hostOrJoinButtons;
     [SerializeField] private YourLobby yourLobby;
     private Lobby hostLobby;
     private Lobby joinedLobby;
@@ -46,11 +37,7 @@ public class LobbyHandler : MonoBehaviour
         }
     }
 
-    void OnEnable()
-    {
-        hostOrJoinButtons.SetActive(true);
-    }
-    private void Start()
+    private async void Start()
     {
         //initialize the unity services
         //dont need this since we're claing it in the menu before this now.
@@ -58,13 +45,11 @@ public class LobbyHandler : MonoBehaviour
 
         //sign in the current user anonymously, no need to authenticate them for now.
         //eventually, will need this to be replaced with some sort of steam authentification?
+        await UnityServices.InitializeAsync();
 
-        maxPlayersSlider.onValueChanged.AddListener(delegate { UpdateMaxPlayersText(); });
-        maxPlayersSlider.value = maxPlayersSlider.minValue + 1;
 
-        createALobbyScreen.SetActive(true);
-        //customizeLobbyScreen.SetActive(true);
-        yourLobbyScreen.SetActive(false);
+        await AuthenticationService.Instance.SignInAnonymouslyAsync();
+
     }
 
     private void Update()
@@ -78,12 +63,12 @@ public class LobbyHandler : MonoBehaviour
     /// Create a lobby.
     /// For now just following along CodeMonkey's video, but this will later be made into a button and whatnot.
     /// </summary>
-    public async void CreateLobby()
+    public async void CreateLobby(string name)
     {
         //important to have this in a try/catch because it the await call can fail.
         try
         {
-            string lobbyName = lobbyNameField.text; //lobby name, will let the user change this 
+            //string lobbyName = lobbyNameField.text; //lobby name, will let the user change this 
             //int maxPlayers = (int)maxPlayersSlider.value; //this will be a setting maybe
 
             //here we will create the options that the player has chosen for this lobby
@@ -96,7 +81,7 @@ public class LobbyHandler : MonoBehaviour
                     {
                         //Set the player's name! visibility = member means only other members of the server can see the player's name
                         //this also now means we can access the players in the lobby. :eyes:
-                        { "PlayerName", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, playerName.text) }
+                        { "PlayerName", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, name) }
                         
                         //I believe here is where we would store other player data that we want to define, unsure of what exactly to put here for now.
                     }
@@ -123,6 +108,7 @@ public class LobbyHandler : MonoBehaviour
             hostLobby = lobby;
             PrintCurrentPlayers();
             yourLobby.SetLobby(hostLobby);
+            onLobbyUpdated += yourLobby.HandleLobbyUpdate;
             joinedLobby = hostLobby;
 
 
@@ -133,13 +119,6 @@ public class LobbyHandler : MonoBehaviour
             //print out any errors if there were any.
             Debug.Log(e);
         }
-    }
-
-    ///Helper functions
-    ///
-    public void UpdateMaxPlayersText()
-    {
-        maxPlayersText.text = "Maximum Players: " + maxPlayersSlider.value;
     }
 
 
@@ -173,8 +152,26 @@ public class LobbyHandler : MonoBehaviour
         lobbyUpdateTimer = updateLobbyMaxTime;
 
         // Pull the latest state from the Lobby service so all clients stay in sync.
-        Lobby latestLobby = await LobbyService.Instance.GetLobbyAsync(joinedLobby.Id);
-        if (latestLobby == null) return;
+        if(joinedLobby == null) return;
+        //Lobby latestLobby = await LobbyService.Instance.GetLobbyAsync(joinedLobby.Id);
+        //if (latestLobby == null) return;
+        Lobby latestLobby = null;
+        try
+        {
+            latestLobby = await LobbyService.Instance.GetLobbyAsync(joinedLobby.Id);
+        }
+        catch (LobbyServiceException e)
+        {
+            if(e.Reason == LobbyExceptionReason.LobbyNotFound)
+            {
+                Debug.LogWarning("[LobbyHandler] Lobby was deleted by host.");
+                joinedLobby = null;
+                onLobbyUpdated?.Invoke(null);
+
+                //HandleLobbyClosedByHost()
+                return;
+            }
+        }
 
         joinedLobby = latestLobby;
         if (IsLobbyHost())
@@ -290,20 +287,20 @@ public class LobbyHandler : MonoBehaviour
     public void SetJoinedLobby(Lobby lobby)
     {
         joinedLobby = lobby;
+        yourLobby.SetLobby(joinedLobby);
+        onLobbyUpdated += yourLobby.HandleLobbyUpdate;
     }
 
     public async void LeaveLobby()
     {
-        if (NetworkManager.Singleton && NetworkManager.Singleton.IsListening)
-        {
-            NetworkManager.Singleton.Shutdown();
-        }
 
         try
         {
             if (IsLobbyHost())
             {
-                await LobbyService.Instance.DeleteLobbyAsync(joinedLobby.Name);
+                await LobbyService.Instance.DeleteLobbyAsync(joinedLobby.Id);
+                
+                //Fire an event here to let joined clients know the lobby no longer exists?
             }
             else
             {
@@ -316,39 +313,20 @@ public class LobbyHandler : MonoBehaviour
             Debug.LogWarning($"Lobby leave failed: {e}");
         }
 
+        if (NetworkManager.Singleton && NetworkManager.Singleton.IsListening)
+        {
+            NetworkManager.Singleton.Shutdown();
+        }
+
         // Check if the object still exists before calling StopAllCoroutines
         if (this != null && gameObject != null)
         {
             StopAllCoroutines();
         }
-        
+
+        onLobbyUpdated?.Invoke(null);
+        hostLobby = null;
         joinedLobby = null;
-        
-        // Check if UI objects still exist before modifying them
-        if (hostOrJoinButtons != null) hostOrJoinButtons.SetActive(true);
-        if (perkSelectionScreen != null) perkSelectionScreen.SetActive(false);
-        if (yourLobbyScreen != null) yourLobbyScreen.SetActive(false);
-    }
-
-    public void CreateALobbyButton()
-    {
-        // if (lobbyNameField.text == "")
-        // {
-        //     LobbyErrorMessages.Instance.SetError("Please enter a lobby name.");
-        //     return;
-        // }
-
-        if (playerName.text == "")
-        {
-            LobbyErrorMessages.Instance.SetError("Please enter a player name.");
-            return;
-        }
-
-        CreateLobby();
-        yourLobbyScreen.SetActive(true);
-        perkSelectionScreen.SetActive(true);
-        createALobbyScreen.SetActive(false);
-        
     }
 
 
