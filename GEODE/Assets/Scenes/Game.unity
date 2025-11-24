@@ -834,11 +834,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4194063451765114128, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
       propertyPath: largeWorldSize.x
-      value: 1000
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 4194063451765114128, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
       propertyPath: largeWorldSize.y
-      value: 1000
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 4194063451765114128, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
       propertyPath: smallWorldSize.x
@@ -850,11 +850,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4194063451765114128, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
       propertyPath: mediumWorldSize.x
-      value: 500
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 4194063451765114128, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
       propertyPath: mediumWorldSize.y
-      value: 500
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 4194063451765114128, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
       propertyPath: worldBoundaryTile

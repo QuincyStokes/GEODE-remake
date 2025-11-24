@@ -146,7 +146,33 @@ public class ChunkManager : NetworkBehaviour
 
     private void SetChunkActive(Vector2Int chunkCoord, bool active)
     {
-        if(chunkMap.TryGetValue(chunkCoord, out var objSet))
+        if(!chunkMap.TryGetValue(chunkCoord, out var objSet))
+        {
+            return;
+        }
+
+        // Only server can despawn/respawn NetworkObjects
+        if(!IsServer)
+        {
+            // On clients, just use SetActive for regular GameObjects
+            // NetworkObjects will be handled by server's despawn/respawn
+            foreach(var go in objSet)
+            {
+                if(go != null && go.activeSelf != active)
+                {
+                    NetworkObject netObj = go.GetComponent<NetworkObject>();
+                    // Only handle non-NetworkObjects on clients
+                    if(netObj == null)
+                    {
+                        go.SetActive(active);
+                    }
+                }
+            }
+            return;
+        }
+
+        // Server-side: handle both NetworkObjects and regular GameObjects
+        if(objSet != null)
         {
             // Create a list of objects to update to avoid modification during iteration
             var objectsToUpdate = new List<GameObject>(objSet.Count);
@@ -158,12 +184,42 @@ public class ChunkManager : NetworkBehaviour
                 }
             }
             
-            // Only call SetActive if the state needs to change (avoids redundant operations)
             foreach(GameObject go in objectsToUpdate)
             {
-                if(go.activeSelf != active)
+                NetworkObject netObj = go.GetComponent<NetworkObject>();
+                
+                if(active)
                 {
-                    go.SetActive(active);
+                    // Activating chunk: enable GameObject and spawn NetworkObject if needed
+                    if(netObj != null)
+                    {
+                        // If NetworkObject exists but isn't spawned, spawn it
+                        if(!netObj.IsSpawned)
+                        {
+                            netObj.Spawn(destroyWithScene: false);
+                        }
+                    }
+                    
+                    // Activate the GameObject
+                    if(!go.activeSelf)
+                    {
+                        go.SetActive(true);
+                    }
+                }
+                else
+                {
+                    // Deactivating chunk: disable GameObject and despawn NetworkObject
+                    if(go.activeSelf)
+                    {
+                        go.SetActive(false);
+                    }
+                    
+                    if(netObj != null && netObj.IsSpawned)
+                    {
+                        // Despawn the NetworkObject to remove it from network processing
+                        // destroyWithScene: false keeps the object in the scene for respawning
+                        netObj.Despawn(false);
+                    }
                 }
             }
             
