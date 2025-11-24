@@ -317,6 +317,8 @@ MonoBehaviour:
     seed: 0
     noiseScale: 0
     offset: {x: 0, y: 0}
+    difficulty: 0
+    size: 0
   playerPrefab: {fileID: 8265714030686749453, guid: 4a1078cc45e59d74aa22bc27912743fa, type: 3}
 --- !u!4 &135569798
 Transform:
@@ -781,6 +783,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cinemachineCamera: {fileID: 537924771}
+  mainMenuBackground: {fileID: 0}
 --- !u!1001 &1230397412
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -828,6 +831,30 @@ PrefabInstance:
     - target: {fileID: 4194063451765114128, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
       propertyPath: pois.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4194063451765114128, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
+      propertyPath: largeWorldSize.x
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4194063451765114128, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
+      propertyPath: largeWorldSize.y
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4194063451765114128, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
+      propertyPath: smallWorldSize.x
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 4194063451765114128, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
+      propertyPath: smallWorldSize.y
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 4194063451765114128, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
+      propertyPath: mediumWorldSize.x
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 4194063451765114128, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
+      propertyPath: mediumWorldSize.y
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 4194063451765114128, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
       propertyPath: worldBoundaryTile

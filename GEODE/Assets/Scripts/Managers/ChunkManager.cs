@@ -9,7 +9,7 @@ public class ChunkManager : NetworkBehaviour
     public int chunkSize = 16;
 
 
-    public Dictionary<Vector2Int, List<GameObject>> chunkMap = new Dictionary<Vector2Int, List<GameObject>>();
+    public Dictionary<Vector2Int, HashSet<GameObject>> chunkMap = new Dictionary<Vector2Int, HashSet<GameObject>>();
     public Dictionary<Vector2Int, int> chunkPlayers = new Dictionary<Vector2Int, int>();
 
     private void Awake()
@@ -53,7 +53,6 @@ public class ChunkManager : NetworkBehaviour
     {
         if(obj == null)
         {
-           
             return;
         }
         
@@ -61,18 +60,11 @@ public class ChunkManager : NetworkBehaviour
 
         if(!chunkMap.ContainsKey(chunk))
         {
-            chunkMap[chunk] = new List<GameObject>();
+            chunkMap[chunk] = new HashSet<GameObject>();
         }
         
-        // Prevent duplicate registrations
-        if(!chunkMap[chunk].Contains(obj))
-        {
-            chunkMap[chunk].Add(obj);
-        }
-        else
-        {
-            
-        }
+        // HashSet.Add automatically prevents duplicates, O(1) operation
+        chunkMap[chunk].Add(obj);
     }
 
     public void DeregisterObject(GameObject obj)
@@ -85,13 +77,10 @@ public class ChunkManager : NetworkBehaviour
         
         Vector2Int chunk = GetChunkCoords(obj.transform.position);
 
-        if(chunkMap.ContainsKey(chunk) && chunkMap[chunk].Contains(obj))
+        if(chunkMap.TryGetValue(chunk, out var objSet) && objSet.Remove(obj))
         {
-            chunkMap[chunk].Remove(obj);
-            
-            
-            // Clean up empty chunk lists to save memory
-            if(chunkMap[chunk].Count == 0)
+            // Clean up empty chunk sets to save memory
+            if(objSet.Count == 0)
             {
                 chunkMap.Remove(chunk);
             }
@@ -157,26 +146,29 @@ public class ChunkManager : NetworkBehaviour
 
     private void SetChunkActive(Vector2Int chunkCoord, bool active)
     {
-        if(chunkMap.TryGetValue(chunkCoord, out var objList))
+        if(chunkMap.TryGetValue(chunkCoord, out var objSet))
         {
-            // Create a copy of the list to avoid modification during iteration
-            var objectsToUpdate = new List<GameObject>(objList);
-            int activeCount = 0;
-            
-            foreach(GameObject go in objectsToUpdate)
+            // Create a list of objects to update to avoid modification during iteration
+            var objectsToUpdate = new List<GameObject>(objSet.Count);
+            foreach(var go in objSet)
             {
                 if(go != null)
                 {
-                    //for now fully disabling objects not in the chunks, this may need to change later down the road if things need to update. 
-                    go.SetActive(active);
-                    activeCount++;
+                    objectsToUpdate.Add(go);
                 }
             }
             
-            // Clean up null references from the original list
-            objList.RemoveAll(go => go == null);
+            // Only call SetActive if the state needs to change (avoids redundant operations)
+            foreach(GameObject go in objectsToUpdate)
+            {
+                if(go.activeSelf != active)
+                {
+                    go.SetActive(active);
+                }
+            }
             
-           
+            // Clean up null references from the original set
+            objSet.RemoveWhere(go => go == null);
         }
     }
 

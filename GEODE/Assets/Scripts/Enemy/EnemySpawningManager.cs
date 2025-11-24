@@ -36,6 +36,7 @@ public class EnemySpawningManager : NetworkBehaviour
     private List<EnemySpawnWeight> enemies;
     private float halfHeight;
     private float halfWidth;
+    private Difficulty difficulty;
 
     #endregion
 
@@ -62,12 +63,11 @@ public class EnemySpawningManager : NetworkBehaviour
 
     private void Start()
     {
-
+        //Load in difficulty
         halfHeight = Camera.main.orthographicSize;
         halfWidth = halfHeight * Camera.main.aspect;
         DayCycleManager.Instance.becameDay += ChangeToDaySettings;
         DayCycleManager.Instance.becameNight += ChangeToNightSettings;
-
 
         ChangeToDaySettings();
     }
@@ -212,7 +212,7 @@ public class EnemySpawningManager : NetworkBehaviour
 
             // Track enemy through death event - this is our sole tracking mechanism
             enemy.OnDeath += HandleEnemyDied;
-            
+            enemy.InitializeBaseStats(difficulty);
             enemy.AddLevels(DayCycleManager.Instance.DayNum);
         }
         else
@@ -243,6 +243,11 @@ public class EnemySpawningManager : NetworkBehaviour
     {
         currentNumSpawns = Mathf.Max(0, currentNumSpawns - 1); // Prevent going negative
         damageable.OnDeath -= HandleEnemyDied;
+    }
+
+    public void SetDifficulty(Difficulty newDifficulty)
+    {
+        difficulty = newDifficulty;
     }
 
     [System.Serializable]

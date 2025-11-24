@@ -113,13 +113,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
         {
             return;
         }
-
-        MaxHealth.Value = BASE_MAX_HEALTH;
-        CurrentHealth.Value = MaxHealth.Value;
-        MaximumLevelXp = BASE_XP_REQUIRED;
-        ObjectTransform = transform;
-        DroppedItems = DROPPED_ITEMS;
-        aggroRadius.radius = aggroRange;
+        
         if (DayCycleManager.Instance != null)
         {
             DayCycleManager.Instance.becameDay += NewDayStats;
@@ -411,6 +405,35 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
         attackCooldown *= .95f;
         MaxHealth.Value *= 1.2f;
         CurrentHealth.Value = MaxHealth.Value;
+    }
+
+    //Called by EnemySpawningManager;
+    public void InitializeBaseStats(Difficulty d)
+    {
+        //Load base stats based on current difficulty
+        switch(d)
+        {
+            case Difficulty.Easy:
+                MaxHealth.Value = BASE_MAX_HEALTH * .8f;
+                attackDamage *= .8f;
+                movementSpeed *= .8f;
+                break;
+            case Difficulty.Normal:
+                MaxHealth.Value = BASE_MAX_HEALTH ;
+                break;
+            case Difficulty.Hard:
+                MaxHealth.Value = BASE_MAX_HEALTH * 1.2f;
+                attackDamage *= 1.2f;
+                movementSpeed *= 1.2f;
+                break;
+        }
+
+        
+        CurrentHealth.Value = MaxHealth.Value;
+        MaximumLevelXp = BASE_XP_REQUIRED;
+        ObjectTransform = transform;
+        DroppedItems = DROPPED_ITEMS;
+        aggroRadius.radius = aggroRange;
     }
 
     [HideInInspector] public bool canAggro;

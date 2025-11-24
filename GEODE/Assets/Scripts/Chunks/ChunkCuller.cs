@@ -9,14 +9,14 @@ public class ChunkCuller : MonoBehaviour
     [Header("Chunk Settings")]
     [SerializeField]private int renderDistance = 1; // Like minecraft, the radius for distance in chunks that we will load. Ideally the player can change this?
     
-    [Tooltip("Update chunks every X frames")]
-    [SerializeField]private float chunkUpdateFrequency;
+    [Tooltip("Update chunks every X seconds")]
+    [SerializeField]private float chunkUpdateFrequency = 0.5f;
     //hash set because it's fast lookup, and we dont want duplicate chunk positions
     private HashSet<Vector2Int> currentlyActiveChunks = new HashSet<Vector2Int>();
 
 
     //PRIVATE
-    private float chunkUpdateCounter = 0f;
+    private float chunkUpdateTimer = 0f;
 
 
 
@@ -27,11 +27,14 @@ public class ChunkCuller : MonoBehaviour
 
     private void ChunkUpdate()
     {
-        chunkUpdateCounter++;
-        if(chunkUpdateCounter >= chunkUpdateFrequency)
+        chunkUpdateTimer += Time.deltaTime;
+        if(chunkUpdateTimer >= chunkUpdateFrequency)
         {
             //do the chunk update
-            Debug.Log("Culling chunks");
+            // Removed Debug.Log for performance - uncomment if needed for debugging
+            // Debug.Log("Culling chunks");
+            
+            if(ChunkManager.Instance == null) return;
             
             //we have the position the player is at, beacuse this script is attatched to the player!
             Vector2Int playerChunk = ChunkManager.Instance.GetChunkCoords(transform.position);
@@ -54,7 +57,6 @@ public class ChunkCuller : MonoBehaviour
                 if(!chunksToActivate.Contains(chunk))
                 {
                     ChunkManager.Instance.PlayerLeavesChunk(chunk);
-                    //SetChunkActive(chunk, false);
                 }
             }
 
@@ -64,13 +66,12 @@ public class ChunkCuller : MonoBehaviour
                 if(!currentlyActiveChunks.Contains(chunk))
                 {
                     ChunkManager.Instance.PlayerEntersChunk(chunk);
-                    //SetChunkActive(chunk, true);
                 }
             }
 
             //lastly, update which chunks are actually currently active.
             currentlyActiveChunks = chunksToActivate;
-            chunkUpdateCounter = 0;
+            chunkUpdateTimer = 0f;
         }
     }
 

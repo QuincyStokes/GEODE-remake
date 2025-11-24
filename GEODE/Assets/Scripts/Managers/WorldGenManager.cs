@@ -17,8 +17,11 @@ public class WorldGenManager : NetworkBehaviour
 
     //* ---------------  World Settings ------------- */
     [Header("World Settings")]
-    [SerializeField] private const int worldSizeX = 300;
-    [SerializeField] private const int worldSizeY = 250;
+    [SerializeField] private int worldSizeX = 300;
+    [SerializeField] private int worldSizeY = 250;
+    [SerializeField] private Vector2Int smallWorldSize;
+    [SerializeField] private Vector2Int mediumWorldSize;
+    [SerializeField] private Vector2Int largeWorldSize;
 
 
     //* --------------- Specials ------------- */
@@ -86,13 +89,13 @@ public class WorldGenManager : NetworkBehaviour
     }
 
 
-    public IEnumerator InitializeWorldGen(int newseed, float noiseScale, Vector2 offset)
+    public IEnumerator InitializeWorldGen(WorldGenParams wgp)
     {   
         GenerateGladeLocations();
-        
+        LoadWorldSize(wgp.size);
         // Server must also generate its own tiles!
         Debug.Log("[WorldGenManager] Server generating tiles...");
-        yield return StartCoroutine(InitializeBiomeTiles(newseed, noiseScale, offset));
+        yield return StartCoroutine(InitializeBiomeTiles(wgp.seed, wgp.noiseScale, wgp.offset));
 
         yield return StartCoroutine(GeneratePOIs());
         Debug.Log("[WorldGenManager] Server PoI generation complete.");
@@ -430,7 +433,28 @@ public class WorldGenManager : NetworkBehaviour
 
     }
     
-    
+    private void LoadWorldSize(Size size)
+    {
+        switch(size)
+        {
+            case (Size.Small):
+                worldSizeX = smallWorldSize.x;
+                worldSizeY = smallWorldSize.y;
+
+                break;
+            case (Size.Medium):
+                worldSizeX = mediumWorldSize.x;
+                worldSizeY = mediumWorldSize.y;
+
+                break;
+            case (Size.Large):
+                worldSizeX = largeWorldSize.x;
+                worldSizeY = largeWorldSize.y;
+
+                break;
+            
+        }
+    }
 
 
 }

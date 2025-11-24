@@ -34,6 +34,11 @@ public class RunSettings : MonoBehaviour
 
     //*DROPRATE MODIFIERS */ (unsure about this one)
     public float droprate;
+
+
+    //* WORLD SETTINGS *//
+    public Difficulty worldDifficulty;
+    public Size worldSize; 
     private void Awake()
     {
         if (Instance == null)
@@ -66,6 +71,12 @@ public class RunSettings : MonoBehaviour
             perk.Apply(this);
         }
         LobbyHandler.Instance.OnGameStarted -= ApplyStats;
+    }
+
+    public void LoadWorldSettings(Size size, Difficulty difficulty)
+    {
+        worldSize = size;
+        worldDifficulty = difficulty;
     }
 
 }

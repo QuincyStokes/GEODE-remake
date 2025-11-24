@@ -8,8 +8,8 @@ public class HostPanelUI : MonoBehaviour
     [SerializeField] private SimpleButtonGroup difficultyButtonGroup;
     [SerializeField] private SimpleButtonGroup sizeButtonGroup;
 
-    private DifficultyButton.Difficulty selectedDifficulty;
-    private WorldSizeButton.Size selectedSize;
+    private Difficulty selectedDifficulty;
+    private Size selectedSize;
 
     private void Awake()
     {
@@ -50,6 +50,7 @@ public class HostPanelUI : MonoBehaviour
     {
         if (button is DifficultyButton difficultyButton)
         {
+            Debug.Log($"Player selected {difficultyButton.difficulty}");
             selectedDifficulty = difficultyButton.difficulty;
         }
     }
@@ -58,6 +59,7 @@ public class HostPanelUI : MonoBehaviour
     {
         if (button is WorldSizeButton sizeButton)
         {
+            Debug.Log($"Player selected {sizeButton.size}");
             selectedSize = sizeButton.size;
         }
     }
@@ -74,12 +76,13 @@ public class HostPanelUI : MonoBehaviour
     {
         if (sizeButtonGroup?.CurrentlyActivatedButton is WorldSizeButton sizeButton)
         {
+            
             selectedSize = sizeButton.size;
         }
     }
 
-    public DifficultyButton.Difficulty GetSelectedDifficulty() => selectedDifficulty;
-    public WorldSizeButton.Size GetSelectedSize() => selectedSize;
+    public Difficulty GetSelectedDifficulty() => selectedDifficulty;
+    public Size GetSelectedSize() => selectedSize;
 
     public void CreateLobbyButtonClicked()
     {
@@ -92,6 +95,8 @@ public class HostPanelUI : MonoBehaviour
             LobbyHandler.Instance.CreateLobby(playerNameInput.text);
             MainMenuController.Instance.ShowPanel("LobbyPanel");
             //Send some info over to RunSettings (selectedDifficulty and selectedSize)
+            RunSettings.Instance.LoadWorldSettings(selectedSize, selectedDifficulty);
+            
         }
         
     }

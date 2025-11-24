@@ -63,7 +63,9 @@ public class GameManager : NetworkBehaviour
             {
                 seed = UnityEngine.Random.Range(0, 1000000),
                 noiseScale = 50,
-                offset = new Vector2(UnityEngine.Random.Range(0, 10000), UnityEngine.Random.Range(1,10000))
+                offset = new Vector2(UnityEngine.Random.Range(0, 10000), UnityEngine.Random.Range(1,10000)),
+                difficulty = RunSettings.Instance.worldDifficulty,
+                size = RunSettings.Instance.worldSize,
             };
         }
         
@@ -81,7 +83,8 @@ public class GameManager : NetworkBehaviour
     {
         Debug.Log("Generating world from GameManager!");
 
-        yield return StartCoroutine(WorldGenManager.Instance.InitializeWorldGen(worldParams.seed, worldParams.noiseScale, worldParams.offset));
+        yield return StartCoroutine(WorldGenManager.Instance.InitializeWorldGen(worldParams));
+        EnemySpawningManager.Instance.SetDifficulty(worldParams.difficulty);
         EnemySpawningManager.Instance.activated = true;
 
         audioListener.enabled = true;
@@ -246,12 +249,16 @@ public class GameManager : NetworkBehaviour
         Debug.Log($"[GameManager] Loading scene unloaded for client {NetworkManager.Singleton.LocalClientId} - game revealed!");
     }
 
-    [System.Serializable]
-    public struct WorldGenParams
-    {
-        public int seed;
-        public float noiseScale;
-        public Vector2 offset;
-    }
+    
 
+}
+
+[System.Serializable]
+public struct WorldGenParams
+{
+    public int seed;
+    public float noiseScale;
+    public Vector2 offset;
+    public Difficulty difficulty;
+    public Size size;
 }
