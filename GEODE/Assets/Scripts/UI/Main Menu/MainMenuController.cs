@@ -15,13 +15,6 @@ public  class MainMenuController : MonoBehaviour
 
 
 
-
-
-
-
-
-
-
     //* --------------------- Methods ------------------ */
     private void Awake()
     {
@@ -30,6 +23,12 @@ public  class MainMenuController : MonoBehaviour
             Instance = this;
         }   
         ShowPanel("MainMenuPanel");
+    }
+
+    private void Start()
+    {
+        CameraWorldConfiner.Instance.ResetCameraBoundary();
+        CameraManager.Instance.UnfollowPlayer();
     }
 
 
@@ -46,7 +45,6 @@ public  class MainMenuController : MonoBehaviour
     }
 
     
-
     public void QuitGame()
     {
         Application.Quit();

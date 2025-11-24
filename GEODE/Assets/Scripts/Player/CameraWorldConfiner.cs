@@ -27,4 +27,11 @@ public class CameraWorldConfiner : MonoBehaviour
             confiner.InvalidateBoundingShapeCache();
         }
     }
+
+    public void ResetCameraBoundary()
+    {
+        cameraBoundary.size = Vector3.one;
+        transform.position = Vector2.zero;
+        confiner.InvalidateBoundingShapeCache();
+    }
 }

@@ -7,6 +7,7 @@ public class CameraManager : MonoBehaviour
 {
     public static CameraManager Instance;
     [SerializeField] private CinemachineCamera cinemachineCamera;
+    [SerializeField] private GameObject mainMenuBackground;
     public void Awake()
     {
         if(Instance == null)
@@ -28,5 +29,15 @@ public class CameraManager : MonoBehaviour
         Instance.gameObject.GetComponent<CinemachineBrain>().WorldUpOverride = player;
         cinemachineCamera.Follow = player;
         cinemachineCamera.LookAt = player;
+        mainMenuBackground.SetActive(false);
+    }
+
+    public void UnfollowPlayer()
+    {
+        Instance.gameObject.GetComponent<CinemachineBrain>().WorldUpOverride = null;
+        cinemachineCamera.Follow = null;
+        cinemachineCamera.LookAt = null;
+        transform.position = Vector3.zero;
+        mainMenuBackground.SetActive(true);
     }
 }

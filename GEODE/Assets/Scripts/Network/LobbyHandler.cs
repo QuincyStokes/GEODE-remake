@@ -45,11 +45,30 @@ public class LobbyHandler : MonoBehaviour
 
         //sign in the current user anonymously, no need to authenticate them for now.
         //eventually, will need this to be replaced with some sort of steam authentification?
-        await UnityServices.InitializeAsync();
+        
+        // Check if UnityServices is already initialized before initializing again
+        // This prevents issues when returning to the main menu after disconnection
+        if (UnityServices.State != ServicesInitializationState.Initialized)
+        {
+            Debug.Log("[LobbyHandler] UnityServices not initialized, initializing...");
+            await UnityServices.InitializeAsync();
+        }
+        else
+        {
+            Debug.Log("[LobbyHandler] UnityServices already initialized");
+        }
 
-
-        await AuthenticationService.Instance.SignInAnonymouslyAsync();
-
+        // Check if user is already signed in before attempting to sign in again
+        // This prevents issues when returning to the main menu after disconnection
+        if (!AuthenticationService.Instance.IsSignedIn)
+        {
+            Debug.Log("[LobbyHandler] User not signed in, signing in anonymously...");
+            await AuthenticationService.Instance.SignInAnonymouslyAsync();
+        }
+        else
+        {
+            Debug.Log($"[LobbyHandler] User already signed in with PlayerId: {AuthenticationService.Instance.PlayerId}");
+        }
     }
 
     private void Update()
@@ -281,6 +300,7 @@ public class LobbyHandler : MonoBehaviour
 
     private bool IsLobbyHost()
     {
+        if(joinedLobby == null) return false;
         return joinedLobby.HostId == AuthenticationService.Instance.PlayerId;
     }
 
@@ -328,7 +348,6 @@ public class LobbyHandler : MonoBehaviour
         hostLobby = null;
         joinedLobby = null;
     }
-
 
     private void OnApplicationQuit()
     {

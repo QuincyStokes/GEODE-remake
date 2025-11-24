@@ -60,6 +60,7 @@ public class YourLobby : MonoBehaviour
             startButton.gameObject.SetActive(true);
         }
     }
+    
     public void UpdatePlayerList(Lobby lobby)
     {
         if(lobby == null) return;

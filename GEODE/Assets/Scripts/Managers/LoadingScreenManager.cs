@@ -1,17 +1,12 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class LoadingScreenManager : MonoBehaviour
 {
     public static LoadingScreenManager Instance;
+    public Slider progressBar;
     [SerializeField] private AudioListener audioListener;
-    [SerializeField] private Slider progressBar;
+    
 
     private void Awake()
     {
@@ -27,6 +22,11 @@ public class LoadingScreenManager : MonoBehaviour
         //NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += HandleSceneLoaded;
         audioListener.enabled = true;
 
+        WorldGenManager.OnWorldGenerationProgressChanged += HandleWorldGenerationProgressChanged;
     }
 
+    private void HandleWorldGenerationProgressChanged(float value)
+    {
+        progressBar.value = value;
+    }
 }

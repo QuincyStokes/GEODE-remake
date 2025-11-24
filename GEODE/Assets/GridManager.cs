@@ -39,7 +39,7 @@ public class GridManager : NetworkBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
     }
 

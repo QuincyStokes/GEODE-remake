@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ConnectionManager : NetworkBehaviour
 {
@@ -13,6 +14,8 @@ public class ConnectionManager : NetworkBehaviour
 
     [HideInInspector] public string PlayerID;
     [HideInInspector] public string PlayerName;
+
+    private bool hasSubscribedToDisconnect = false;
 
 
 
@@ -31,9 +34,36 @@ public class ConnectionManager : NetworkBehaviour
         }
     }
 
+    private void Start()
+    {
+        // Subscribe to disconnect callbacks when NetworkManager is available
+        SubscribeToDisconnectCallbacks();
+    }
+
+    private void SubscribeToDisconnectCallbacks()
+    {
+        if (hasSubscribedToDisconnect) return;
+        if (NetworkManager.Singleton == null) return;
+
+        NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
+        hasSubscribedToDisconnect = true;
+        Debug.Log("[ConnectionManager] Subscribed to disconnect callbacks");
+    }
+
+    private void UnsubscribeFromDisconnectCallbacks()
+    {
+        if (!hasSubscribedToDisconnect) return;
+        if (NetworkManager.Singleton == null) return;
+
+        NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnected;
+        hasSubscribedToDisconnect = false;
+        Debug.Log("[ConnectionManager] Unsubscribed from disconnect callbacks");
+    }
 
     public override void OnNetworkSpawn()
     {
+        SubscribeToDisconnectCallbacks();
+        
         if(IsServer)
         {
             base.OnNetworkSpawn();
@@ -49,8 +79,64 @@ public class ConnectionManager : NetworkBehaviour
         {
             base.OnNetworkDespawn();
             NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
-        }   
+        }
         
+        UnsubscribeFromDisconnectCallbacks();
+    }
+
+    private new void OnDestroy()
+    {
+        UnsubscribeFromDisconnectCallbacks();
+        // Note: NetworkBehaviour has its own OnDestroy, but Unity message methods
+        // are called automatically. This ensures cleanup happens regardless.
+    }
+
+    private void OnClientDisconnected(ulong clientId)
+    {
+        // Check if this is a client (not host/server) that got disconnected
+        if (NetworkManager.Singleton == null) return;
+
+        // If we're a client (not host) and we got disconnected, redirect to main menu
+        if (NetworkManager.Singleton.IsClient && !NetworkManager.Singleton.IsHost)
+        {
+            Debug.Log($"[ConnectionManager] Client {clientId} disconnected from server. Redirecting to main menu.");
+            HandleClientDisconnect();
+        }
+        // If we're the host and a client disconnected, we don't need to do anything special
+        else if (NetworkManager.Singleton.IsServer)
+        {
+            Debug.Log($"[ConnectionManager] Client {clientId} disconnected from server (host perspective).");
+        }
+    }
+
+    private void HandleClientDisconnect()
+    {
+        // Only redirect if we're in the Game scene
+        Scene currentScene = SceneManager.GetActiveScene();
+        if (currentScene.name == "Game")
+        {
+            Debug.Log("[ConnectionManager] Host disconnected. Returning to main menu.");
+            
+            // Shutdown the network connection
+            if (NetworkManager.Singleton != null && NetworkManager.Singleton.IsListening)
+            {
+                NetworkManager.Singleton.Shutdown();
+            }
+
+
+
+            // Reset connection data
+            ResetData();
+
+            foreach(var no in FindObjectsByType<NetworkObject>(FindObjectsSortMode.None))
+            {
+                if (no != NetworkManager.Singleton)
+                    Destroy(no.gameObject);
+            }
+
+            // Load the main menu (Lobby scene)
+            SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
+        }
     }   
 
     public void OnWorldReady()

@@ -49,7 +49,7 @@ public class FlowFieldManager : NetworkBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
 
         //initialize grid array of FlowCells

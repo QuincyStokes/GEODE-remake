@@ -34,6 +34,7 @@ public class ClockUI : MonoBehaviour
 
     private void OnDestroy()
     {
-        manager.OnDay1Finished -= SwitchBackground;
+        if(manager != null)
+            manager.OnDay1Finished -= SwitchBackground;
     }
 }

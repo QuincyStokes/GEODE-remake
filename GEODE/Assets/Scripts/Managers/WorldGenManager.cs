@@ -51,7 +51,7 @@ public class WorldGenManager : NetworkBehaviour
 
     //* --------------- Events ------------- */
     public event Action OnWorldGenerated;
-
+    public static event Action<float> OnWorldGenerationProgressChanged;
 
 
     //* --------------- Public Access ------------- */
@@ -76,7 +76,7 @@ public class WorldGenManager : NetworkBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
         SeedBiomeTypeDataMap();
     }
@@ -179,7 +179,7 @@ public class WorldGenManager : NetworkBehaviour
                 {
                     float progress = (float)processedCount / (float)totalTiles;
                     Debug.Log($"[WorldGen] Generation Progress: {progress:P2}");
-
+                    
                     yield return null; // More frequent yields for smoother loading
                 }
 
@@ -315,7 +315,7 @@ public class WorldGenManager : NetworkBehaviour
                 {
                     float progress = (float)processedCount / (float)totalTiles;
                     Debug.Log($"Generation Progress: {progress:P2}");
-
+                    OnWorldGenerationProgressChanged?.Invoke(progress);
                     yield return null;
                 }
             }

@@ -66,7 +66,9 @@ public class DayCycleManager : NetworkBehaviour
         RebuildCycleValues();
 
         // Begin at sunrise
-        timeOfDay.Value = 0f;
+        if(IsServer) timeOfDay.Value = 0f;
+        
+        
         sunlight.intensity = intensityCurve.Evaluate(0f);
 
         // After the first full cycle, revert to regular day length

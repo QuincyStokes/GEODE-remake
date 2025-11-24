@@ -14,7 +14,9 @@ public class BackgroundMusicManager : MonoBehaviour
         else
         {
             Debug.LogWarning("Warning | 2 BackgroundMusicManagers are alive.");
+            
             gameObject.SetActive(false);
+            Destroy(gameObject);
         }
     }
 
