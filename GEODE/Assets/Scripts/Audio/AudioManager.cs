@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -29,6 +30,7 @@ public class AudioManager : NetworkBehaviour
     //* ----------- Mixer References ------ */
     [Header("Mixers")]
     [SerializeField] private AudioMixer masterMixer;
+    public AudioMixer MasterMixer => masterMixer;
 
 
     //* ----------- Audio Source Pool ----------- */
@@ -274,6 +276,12 @@ public class AudioManager : NetworkBehaviour
         srcPool.Add(src);
 
         return src;
+    }
+
+
+    public void ChangeVolume(string parameter, float volume)
+    {
+        masterMixer.SetFloat(parameter, volume);
     }
 
     

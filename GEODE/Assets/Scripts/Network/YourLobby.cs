@@ -98,7 +98,7 @@ public class YourLobby : MonoBehaviour
     public void LeaveLobby()
     {
         LobbyHandler.Instance.LeaveLobby();
-        MainMenuController.Instance.ShowPanel("MultiplayerPanel");
+        MainMenuController.Instance.ShowPanel("PlayPanel");
     }
 
     public void HandleLobbyUpdate(Lobby l)
@@ -106,7 +106,7 @@ public class YourLobby : MonoBehaviour
         if(l == null)
         {
             ClearUI();
-            MainMenuController.Instance.ShowPanel("MultiplayerPanel");
+            MainMenuController.Instance.ShowPanel("PlayPanel");
             LobbyErrorMessages.Instance.SetError("Host left lobby. Returning to Main Menu.");
         }
         else

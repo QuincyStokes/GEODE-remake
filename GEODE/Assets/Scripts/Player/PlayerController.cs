@@ -66,6 +66,11 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
     public GameObject openUniqueUI;
     public IInteractable currentInteractedObject;
 
+
+    //* Events
+    public event Action OnMenuButtonPressed;
+
+
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -110,6 +115,9 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
             //Throw
             playerInput.Player.Throw.performed += ThrowHeldItemWrapper;
             playerInput.Player.Throw.Enable();
+
+            //Handle Pause player movement
+            PauseController.OnPauseChanged += HandlePauseChanged;
 
 
             Instance = this;
@@ -197,6 +205,8 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
             DayCycleManager.Instance.becameNight -= dayNumber.IncreaseNight;
         }
 
+        PauseController.OnPauseChanged -= HandlePauseChanged;
+
         playerHealth.OnPlayerLevelUp -= HandleLevelUp;
 
         // Unsubscribe from perk stats changes
@@ -207,6 +217,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
         }
     }
 
+   
 
     private void Start()
     {
@@ -629,13 +640,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
 
     public void OnMenuOpened(InputAction.CallbackContext context)
     {
-        TogglePauseMenu();
-    }
-
-    public void TogglePauseMenu()
-    {
-        pauseMenu.SetActive(!pauseMenu.activeSelf);
-        movementLocked = pauseMenu.activeSelf;
+        OnMenuButtonPressed?.Invoke();
     }
 
     public bool IsPointerOverUI()
@@ -683,6 +688,12 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
     public void TeleportOwnerClientRpc(Vector3 spawnPos, ClientRpcParams p = default)
     {
         transform.position = spawnPos;
+    }
+
+
+    private void HandlePauseChanged(bool value)
+    {
+        movementLocked = value;
     }
 
 

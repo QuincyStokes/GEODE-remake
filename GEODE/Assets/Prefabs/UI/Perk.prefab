@@ -35,8 +35,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 156.566, y: -132.99484}
-  m_SizeDelta: {x: 283.132, y: 55.7403}
+  m_AnchoredPosition: {x: 81.7516, y: -77.29155}
+  m_SizeDelta: {x: 141.5032, y: 34.0997}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8564996390608213022
 CanvasRenderer:
@@ -93,8 +93,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 12
+  m_fontSizeBase: 12
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -189,10 +189,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 7099478906467119991}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -0.0000009536743}
-  m_SizeDelta: {x: 61.2035, y: 60.3668}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0.70000076}
+  m_SizeDelta: {x: -11.0669, y: -12.073}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5972845459825522168
 CanvasRenderer:
@@ -224,7 +224,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: -6727032058091088031, guid: d67565ea0f494c14087cdb84193b784a, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -267,8 +267,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 161.90715, y: -29.6922}
-  m_SizeDelta: {x: 293.8143, y: 39.3844}
+  m_AnchoredPosition: {x: 104.8339, y: -14.739}
+  m_SizeDelta: {x: 187.6678, y: 15.478}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8082154339483734310
 CanvasRenderer:
@@ -325,8 +325,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25
-  m_fontSizeBase: 25
+  m_fontSize: 15
+  m_fontSizeBase: 15
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -424,8 +424,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 156.566, y: -77.25455}
-  m_SizeDelta: {x: 283.132, y: 55.7403}
+  m_AnchoredPosition: {x: 75.09525, y: -41.359848}
+  m_SizeDelta: {x: 128.1905, y: 37.7637}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8186505566384168462
 CanvasRenderer:
@@ -482,8 +482,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 15
+  m_fontSizeBase: 15
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -687,8 +687,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 49.99994, y: 50}
-  m_SizeDelta: {x: 308.8143, y: 160.86499}
+  m_AnchoredPosition: {x: 15, y: 15}
+  m_SizeDelta: {x: 198.6678, y: 94.3414}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &2281614626287004433
 CanvasRenderer:
@@ -755,9 +755,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 15
+    m_Left: 11
     m_Right: 0
-    m_Top: 10
+    m_Top: 7
     m_Bottom: 0
   m_ChildAlignment: 0
   m_Spacing: 0
@@ -797,7 +797,7 @@ RectTransform:
   m_GameObject: {fileID: 7705382532199081500}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8874637329650692015}
@@ -807,7 +807,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 30, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8358822327333720324
 CanvasRenderer:
@@ -839,7 +839,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 7635988721252129568, guid: 73f096fc61a34ed40a4bd31fd2676b16, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1

@@ -881,6 +881,10 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4194063451765114128, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
+      propertyPath: objectLayerMask.m_Bits
+      value: 2048
+      objectReference: {fileID: 0}
+    - target: {fileID: 4194063451765114128, guid: 95e17f26d95d4204596e6a1c16bdec48, type: 3}
       propertyPath: pois.Array.data[0].name
       value: Forest Ruins
       objectReference: {fileID: 0}

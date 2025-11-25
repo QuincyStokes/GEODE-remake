@@ -46,7 +46,14 @@ public class BasicAttackTower : BaseTower
     {
         if(collision.gameObject.CompareTag("Enemy"))
         {
-            AddTarget(collision.gameObject);
+            if(collision.TryGetComponent<BaseEnemy>(out BaseEnemy bo))
+            {
+                AddTarget(bo.CenterPoint.gameObject);
+            }
+            else
+            {
+                AddTarget(collision.gameObject);
+            }
             Debug.Log("Enemy entered range, adding it to targets.");
         }
     }

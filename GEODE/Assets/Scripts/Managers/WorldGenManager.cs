@@ -22,6 +22,7 @@ public class WorldGenManager : NetworkBehaviour
     [SerializeField] private Vector2Int smallWorldSize;
     [SerializeField] private Vector2Int mediumWorldSize;
     [SerializeField] private Vector2Int largeWorldSize;
+    [SerializeField] private LayerMask objectLayerMask;
 
 
     //* --------------- Specials ------------- */
@@ -417,7 +418,7 @@ public class WorldGenManager : NetworkBehaviour
     {
         //Raycast a square on this grid position, destroy any gameobjects we hit.
         Collider2D hit;
-        hit = Physics2D.OverlapBox(new Vector2(position.x+.5f, position.y+.5f), new Vector2(.4f, .4f), 0f);
+        hit = Physics2D.OverlapBox(new Vector2(position.x+.5f, position.y+.5f), new Vector2(.4f, .4f), 0f, objectLayerMask);
 
         if (hit != null)
         {
