@@ -84,13 +84,7 @@ public class RegisterOnChunk : NetworkBehaviour
     
     public override void OnNetworkDespawn()
     {
-        // Deregister when object is despawned
-        if (registered && ChunkManager.Instance != null)
-        {
-            ChunkManager.Instance.DeregisterObject(gameObject);
-            registered = false;
-        }
-        
+        // Deregistration happens in OnDestroy when the object is truly gone.
         base.OnNetworkDespawn();
     }
     
