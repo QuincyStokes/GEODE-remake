@@ -24,7 +24,6 @@ public class Hitbox : NetworkBehaviour
         {
             foreach (string tag in hittableTags)
             {
-                Debug.Log($"Comparing object {tag} ?= {collision.tag}");
                 if (collision.CompareTag(tag))
                 {
                     if (tool != ToolType.Hammer)

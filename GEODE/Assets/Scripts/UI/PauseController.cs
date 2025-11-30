@@ -27,4 +27,10 @@ public class PauseController : MonoBehaviour
         
         OnPauseChanged?.Invoke(pauseMenu.activeSelf);
     }
+
+    public void ResumeButtonPressed()
+    {
+        pauseMenu.SetActive(false);
+        OnPauseChanged?.Invoke(pauseMenu.activeSelf);
+    }
 }

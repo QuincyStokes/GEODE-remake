@@ -33,8 +33,6 @@ public class ChunkManager : NetworkBehaviour
         {
             Instance = this;
         }
-        
-        Debug.Log($"[ChunkManager] OnNetworkSpawn - IsServer: {IsServer}, IsClient: {IsClient}");
     }
     
     public override void OnNetworkDespawn()
@@ -71,7 +69,6 @@ public class ChunkManager : NetworkBehaviour
     {
         if(obj == null)
         {
-            Debug.LogWarning("[ChunkManager] Attempted to deregister null GameObject");
             return;
         }
         
@@ -151,27 +148,6 @@ public class ChunkManager : NetworkBehaviour
             return;
         }
 
-        // Only server can despawn/respawn NetworkObjects
-        if(!IsServer)
-        {
-            // On clients, just use SetActive for regular GameObjects
-            // NetworkObjects will be handled by server's despawn/respawn
-            foreach(var go in objSet)
-            {
-                if(go != null && go.activeSelf != active)
-                {
-                    NetworkObject netObj = go.GetComponent<NetworkObject>();
-                    // Only handle non-NetworkObjects on clients
-                    if(netObj == null)
-                    {
-                        go.SetActive(active);
-                    }
-                }
-            }
-            return;
-        }
-
-        // Server-side: handle both NetworkObjects and regular GameObjects
         if(objSet != null)
         {
             // Create a list of objects to update to avoid modification during iteration
@@ -186,45 +162,51 @@ public class ChunkManager : NetworkBehaviour
             
             foreach(GameObject go in objectsToUpdate)
             {
-                NetworkObject netObj = go.GetComponent<NetworkObject>();
+                if(go == null) continue;
                 
-                if(active)
+                if(go.activeSelf != active)
                 {
-                    // Activating chunk: enable GameObject and spawn NetworkObject if needed
-                    if(netObj != null)
-                    {
-                        // If NetworkObject exists but isn't spawned, spawn it
-                        if(!netObj.IsSpawned)
-                        {
-                            netObj.Spawn(destroyWithScene: false);
-                        }
-                    }
+                    go.SetActive(active);
                     
-                    // Activate the GameObject
-                    if(!go.activeSelf)
+                    // Explicitly activate all child GameObjects to ensure colliders and other children are active
+                    // This fixes an issue where child objects (like CollisionHitbox) don't reactivate properly
+                    if(active)
                     {
-                        go.SetActive(true);
-                    }
-                }
-                else
-                {
-                    // Deactivating chunk: disable GameObject and despawn NetworkObject
-                    if(go.activeSelf)
-                    {
-                        go.SetActive(false);
-                    }
-                    
-                    if(netObj != null && netObj.IsSpawned)
-                    {
-                        // Despawn the NetworkObject to remove it from network processing
-                        // destroyWithScene: false keeps the object in the scene for respawning
-                        netObj.Despawn(false);
+                        ActivateAllChildren(go.transform, true);
                     }
                 }
             }
             
             // Clean up null references from the original set
             objSet.RemoveWhere(go => go == null);
+        }
+    }
+
+    /// <summary>
+    /// Recursively activates or deactivates all child GameObjects.
+    /// This ensures that child objects like colliders are properly activated when chunks reload.
+    /// </summary>
+    private void ActivateAllChildren(Transform parent, bool active)
+    {
+        if(parent == null) return;
+        
+        // Activate/deactivate all direct children
+        for(int i = 0; i < parent.childCount; i++)
+        {
+            Transform child = parent.GetChild(i);
+            if(child != null && child.gameObject != null)
+            {
+                if(child.gameObject.activeSelf != active)
+                {
+                    child.gameObject.SetActive(active);
+                }
+                
+                // Recursively activate children of children
+                if(active) // Only recurse when activating to avoid unnecessary work
+                {
+                    ActivateAllChildren(child, active);
+                }
+            }
         }
     }
 

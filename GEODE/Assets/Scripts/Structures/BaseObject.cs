@@ -129,7 +129,6 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
                 ParticleService.Instance.PlayClientRpc(healParticleEffectType, particleSpawnPoint.position);
             }   
         }
-        Debug.Log($"Restoring {amount} health to {name}");
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -169,7 +168,6 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
             OnTakeDamage(info.amount / 4, info.sourceDirection);
         }
 
-        Debug.Log($"Current Health < 0? {CurrentHealth.Value}");
         if (CurrentHealth.Value <= 0)
         {
             DestroyThisServerRpc(info.dropItems);
@@ -248,7 +246,6 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
         }
         else
         {
-            Debug.Log($"Tried to drop items | LootManager null?: {LootManager.Instance == null}, DroppedItems null? : {DroppedItems == null} ");
         }
 
     }
