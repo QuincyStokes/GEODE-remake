@@ -179,7 +179,7 @@ public class GameManager : NetworkBehaviour
         Debug.Log($"[GameManager] Spawning player for client {clientId}");
 
         // Send world generation parameters to client
-        WorldGenManager.Instance.InitializeBiomeTilesSeededClientRpc(worldParams.seed, worldParams.noiseScale, worldParams.offset, new ClientRpcParams
+        WorldGenManager.Instance.InitializeBiomeTilesSeededClientRpc(worldParams.seed, worldParams.noiseScale, worldParams.offset, worldParams.size, new ClientRpcParams
         {
             Send = new ClientRpcSendParams
             {

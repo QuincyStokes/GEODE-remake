@@ -96,7 +96,7 @@ public class WorldGenManager : NetworkBehaviour
         LoadWorldSizeClientRpc(wgp.size);
         // Server must also generate its own tiles!
         Debug.Log("[WorldGenManager] Server generating tiles...");
-        yield return StartCoroutine(InitializeBiomeTiles(wgp.seed, wgp.noiseScale, wgp.offset));
+        yield return StartCoroutine(InitializeBiomeTiles(wgp.seed, wgp.noiseScale, wgp.offset, wgp.size));
 
         yield return StartCoroutine(GeneratePOIs());
         Debug.Log("[WorldGenManager] Server PoI generation complete.");
@@ -111,16 +111,20 @@ public class WorldGenManager : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void InitializeBiomeTilesSeededClientRpc(int seed, float noiseScale, Vector2 offset, ClientRpcParams clientRpcParams = default)
+    public void InitializeBiomeTilesSeededClientRpc(int seed, float noiseScale, Vector2 offset, Size size, ClientRpcParams clientRpcParams = default)
     {
         if (IsHost) return;
-        Debug.Log($"[WorldGenManager] Client received world gen parameters: seed={seed}, scale={noiseScale}, offset={offset}");
-        StartCoroutine(InitializeBiomeTiles(seed, noiseScale, offset));
+        Debug.Log($"[WorldGenManager] Client received world gen parameters: seed={seed}, scale={noiseScale}, offset={offset}, size={size}");
+        StartCoroutine(InitializeBiomeTiles(seed, noiseScale, offset, size));
     }
 
-    public IEnumerator InitializeBiomeTiles(int newseed, float noiseScale, Vector2 offset)
+    public IEnumerator InitializeBiomeTiles(int newseed, float noiseScale, Vector2 offset, Size size)
     {
         IsWorldGenerating = true;
+        
+        // Set world size based on the size parameter
+        SetWorldSize(size);
+        
         UnityEngine.Random.InitState(newseed);
         if (noiseScale <= 0f)
         {
@@ -437,25 +441,27 @@ public class WorldGenManager : NetworkBehaviour
     [ClientRpc]
     private void LoadWorldSizeClientRpc(Size size)
     {
+        SetWorldSize(size);
+    }
+
+    private void SetWorldSize(Size size)
+    {
         switch(size)
         {
             case (Size.Small):
                 worldSizeX = smallWorldSize.x;
                 worldSizeY = smallWorldSize.y;
-
                 break;
             case (Size.Medium):
                 worldSizeX = mediumWorldSize.x;
                 worldSizeY = mediumWorldSize.y;
-
                 break;
             case (Size.Large):
                 worldSizeX = largeWorldSize.x;
                 worldSizeY = largeWorldSize.y;
-
                 break;
-            
         }
+        Debug.Log($"[WorldGenManager] World size set to {worldSizeX}x{worldSizeY} ({size})");
     }
 
 
