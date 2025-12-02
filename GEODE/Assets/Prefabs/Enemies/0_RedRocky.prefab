@@ -240,6 +240,7 @@ MonoBehaviour:
   movementSpeed: 1
   BASE_MAX_HEALTH: 20
   BASE_XP_REQUIRED: 50
+  enemyCrystalType: 1
   DROPPED_ITEMS:
   - Id: 29
     minAmount: 1

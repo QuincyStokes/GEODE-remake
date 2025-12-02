@@ -75,13 +75,14 @@ public struct DamageInfo : INetworkSerializable, IEquatable<DamageInfo>
     public ToolType tool;
     public Vector2 sourceDirection;
     public bool dropItems;
-    public DamageInfo(float amt, Vector2 srcDir, ToolType t = ToolType.None, bool drops = false)
+    public DamageType damageType;
+    public DamageInfo(float amt, Vector2 srcDir, ToolType t = ToolType.None, bool drops = false, DamageType dmgType=DamageType.None)
     {
         amount = Mathf.RoundToInt(amt);
         tool = t;
         sourceDirection = srcDir;
         dropItems = drops;
-
+        damageType = dmgType;
     }
 
     // -- Netcode --

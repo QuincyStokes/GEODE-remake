@@ -24,6 +24,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     public NetworkVariable<float> baseSpeed { get; set; } = new NetworkVariable<float>(1f);  //attack rate
     public NetworkVariable<float> baseStrength { get; set; } = new NetworkVariable<float>(1f);//damage/power of attack
     public NetworkVariable<float> baseSize { get; set; } = new NetworkVariable<float>(1f);//range of attack
+    public DamageType damageType;
 
     [SerializeField] private float rotationSpeed;
     [SerializeField] private bool rotates;

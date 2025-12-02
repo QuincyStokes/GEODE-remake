@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 801184ae3a0d9d2479257a43cc174ad5, type: 3}
+  m_Name: 55_LowerableWall
+  m_EditorClassIdentifier: 
+  name: Lowerable Wall
+  description: A wall that can be raised and lowered. Perfect for an entrance.
+  type: 2
+  icon: {fileID: 9142201301256631727, guid: 5c30d1ead606a744081966ecf8ace104, type: 3}
+  id: 55
+  quality: 0
+  isStackable: 1
+  consumeOnUse: 1
+  prefab: {fileID: 8370947462149780993, guid: bd75c1fe480714147872e6a1c6e687df, type: 3}
+  width: 1
+  height: 1

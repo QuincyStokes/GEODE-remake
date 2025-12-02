@@ -46,6 +46,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
     public float movementSpeed;
     [SerializeField] private int BASE_MAX_HEALTH;
     [SerializeField] private int BASE_XP_REQUIRED;
+    [SerializeField] private DamageType enemyCrystalType;
 
     [Header("Drops")]
     [SerializeField] private List<DroppedItem> DROPPED_ITEMS = new List<DroppedItem>();
@@ -271,15 +272,15 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
             return;
         }
         
-        if (info.tool == idealToolType || info.tool == ToolType.None)
+        if (info.damageType == enemyCrystalType)
         {
-            CurrentHealth.Value -= info.amount;
-            OnTakeDamage(info.amount, info.sourceDirection, info.tool);
+            CurrentHealth.Value -= info.amount * .5f;
+            OnTakeDamage(info.amount * .5f, info.sourceDirection, info.tool);
         }
         else
         {
-            CurrentHealth.Value -= info.amount / 4;
-            OnTakeDamage(info.amount / 4, info.sourceDirection, info.tool);
+            CurrentHealth.Value -= info.amount;
+            OnTakeDamage(info.amount, info.sourceDirection, info.tool);
         }
 
 

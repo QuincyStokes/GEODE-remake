@@ -93,7 +93,7 @@ public class WorldGenManager : NetworkBehaviour
     public IEnumerator InitializeWorldGen(WorldGenParams wgp)
     {   
         GenerateGladeLocations();
-        LoadWorldSize(wgp.size);
+        LoadWorldSizeClientRpc(wgp.size);
         // Server must also generate its own tiles!
         Debug.Log("[WorldGenManager] Server generating tiles...");
         yield return StartCoroutine(InitializeBiomeTiles(wgp.seed, wgp.noiseScale, wgp.offset));
@@ -434,7 +434,8 @@ public class WorldGenManager : NetworkBehaviour
 
     }
     
-    private void LoadWorldSize(Size size)
+    [ClientRpc]
+    private void LoadWorldSizeClientRpc(Size size)
     {
         switch(size)
         {
