@@ -37,7 +37,6 @@ public class TooltipService : MonoBehaviour
         }
         currentProvider = provider;
         int id = provider.displayedStack.Id;
-        float quality = provider.displayedStack.quality;
         if (id == -1) return;
         Debug.Log($"Made it past guards, id = {id}");
         BaseItem item = ItemDatabase.Instance.GetItem(id);
@@ -92,10 +91,9 @@ public class TooltipService : MonoBehaviour
                 if (upgItem != null)
                 {
                     _itemQualityTMP.gameObject.SetActive(true);
-                    _itemQualityTMP.text = "Quality\n" + quality.ToString("N1") + "%";
                     foreach (Upgrade upgrade in upgItem.upgradeList)
                     {
-                        _itemStatsTMP.text += $"{upgrade.upgradeType} : {upgrade.percentIncrease * (quality / 100)}%\n";
+                        _itemStatsTMP.text += $"{upgrade.upgradeType} : {upgrade.percentIncrease}%\n";
                     }
                 }
                 break;

@@ -102,11 +102,11 @@ public class InspectionMenu : BaseContainer
             //! remove upgrade?
             Debug.Log($"Removing Upgrade {slotStack.Id}");
             IUpgradeable removeUpg = currentInspectedObject.GetComponent<IUpgradeable>();
-            removeUpg?.RemoveUpgradeServerRpc(slotStack.Id, slotStack.quality);
+            removeUpg?.RemoveUpgradeServerRpc(slotStack.Id);
 
 
             CursorStack.Instance.ItemStack = slotStack;
-            MoveStackServerRpc(idx, -1, -1, 0, 0);                  // ask server
+            MoveStackServerRpc(idx, -1, -1, 0);                  // ask server
             return;
         }
 
@@ -124,7 +124,7 @@ public class InspectionMenu : BaseContainer
                 //! apply upgrade
                 Debug.Log($"Applying Upgrade {CursorStack.Instance.ItemStack.Id}");
                 IUpgradeable applyUpg = currentInspectedObject.GetComponent<IUpgradeable>();
-                applyUpg?.ApplyUpgradeServerRpc(CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.quality);
+                applyUpg?.ApplyUpgradeServerRpc(CursorStack.Instance.ItemStack.Id);
                 int after = CursorStack.Instance.ItemStack.amount - 1;
                 if (after == 0)
                 {
@@ -145,18 +145,18 @@ public class InspectionMenu : BaseContainer
 
             /* ----- SWAP (different item) ----- */
             // predict: slot shows cursor item, cursor shows previous slot item
-            slot.SetItem(CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount, CursorStack.Instance.ItemStack.quality, interactable:true);
+            slot.SetItem(CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount, interactable:true);
 
 
             //RPC, as before
             //! swap upgrades
             IUpgradeable swapApplyUpg = currentInspectedObject.GetComponent<IUpgradeable>();
             Debug.Log($"Swapping upgrades {ContainerItems[idx].Id} for {CursorStack.Instance.ItemStack.Id}");
-            swapApplyUpg?.ApplyUpgradeServerRpc(CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.quality);
-            swapApplyUpg?.RemoveUpgradeServerRpc(ContainerItems[idx].Id, ContainerItems[idx].quality);
+            swapApplyUpg?.ApplyUpgradeServerRpc(CursorStack.Instance.ItemStack.Id);
+            swapApplyUpg?.RemoveUpgradeServerRpc(ContainerItems[idx].Id);
 
 
-            SwapSlotWithCursorServerRpc(idx, CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount, CursorStack.Instance.ItemStack.quality);
+            SwapSlotWithCursorServerRpc(idx, CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount);
             //OnSlotChanged?.Invoke(idx, new ItemStack { Id = CursorStack.Instance.ItemStack.Id, amount = CursorStack.Instance.ItemStack.amount }); 
             CursorStack.Instance.ItemStack = slotStack;
             return;
@@ -188,7 +188,7 @@ public class InspectionMenu : BaseContainer
         for (int i = 0; i < 4; i++)
         {
             if (upg != null && i < upg.UpgradeItems.Count)
-                ContainerItems.Add(new ItemStack { Id = upg.UpgradeItems[i].Id, amount = 1, quality=upg.UpgradeItems[i].quality });
+                ContainerItems.Add(new ItemStack { Id = upg.UpgradeItems[i].Id, amount = 1});
             else
                 ContainerItems.Add(ItemStack.Empty);
         }

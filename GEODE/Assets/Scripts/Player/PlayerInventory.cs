@@ -151,7 +151,7 @@ public class PlayerInventory : BaseContainer
     {
         ItemStack st = ContainerItems[GetSelectedSlotIndex()];
         if (st.IsEmpty()) return;
-        LootManager.Instance.SpawnLootServerRpc(transform.position, st.Id, st.amount, pickupDelay, horizOffset, st.quality);
+        LootManager.Instance.SpawnLootServerRpc(transform.position, st.Id, st.amount, pickupDelay, horizOffset);
         //ContainerItems[GetSelectedSlotIndex()] = ItemStack.Empty;
         RemoveItemAtSlotServerRpc(st.amount, GetSelectedSlotIndex());
         OnSelectedSlotChanged?.Invoke(selectedSlotIndex, selectedSlotIndex);

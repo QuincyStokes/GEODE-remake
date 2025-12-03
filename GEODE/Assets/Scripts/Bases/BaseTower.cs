@@ -336,7 +336,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void ApplyUpgradeServerRpc(int itemId, float quality=100f)
+    public void ApplyUpgradeServerRpc(int itemId)
     {
         if (!IsServer)
         {
@@ -348,7 +348,6 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
         //! FOR NOW JUST GOING TO USE A SWITCH/CASE, THIS IS NOT SCALEABLE BUT GETS THE JOB DONE FOR NOW
         if (upgradeItem != null)
         {
-            upgradeItem.quality = quality;
             UpgradeItems.Add(upgradeItem);
             serverUpgradeItemIds.Add(upgradeItem.Id);
             foreach (Upgrade upgrade in upgradeItem.upgradeList)
@@ -356,21 +355,21 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
                 switch (upgrade.upgradeType)
                 {
                     case UpgradeType.Strength:
-                        strengthModifier.Value += upgrade.percentIncrease * (quality/100);
+                        strengthModifier.Value += upgrade.percentIncrease;
                         strength.Value = baseStrength.Value * (strengthModifier.Value / 100 + 1);
                         break;
                     case UpgradeType.Speed:
-                        speedModifier.Value += upgrade.percentIncrease * (quality/100);
+                        speedModifier.Value += upgrade.percentIncrease;
                         speed.Value = baseSpeed.Value * (speedModifier.Value / 100 + 1);
                         break;
                     case UpgradeType.Size:
-                        sizeModifier.Value += upgrade.percentIncrease * (quality/100);
+                        sizeModifier.Value += upgrade.percentIncrease;
                         size.Value = baseSize.Value * (sizeModifier.Value / 100 + 1);
                         break;
                     case UpgradeType.Sturdy:
                         // Save missing hp so we can apply max hp without fully restoring health 
                         float missingHp = MaxHealth.Value - CurrentHealth.Value;
-                        sturdyModifier.Value += upgrade.percentIncrease * (quality/100);
+                        sturdyModifier.Value += upgrade.percentIncrease;
 
 
                         sturdy.Value = BASE_HEALTH * (sturdyModifier.Value / 100 + 1);
@@ -399,7 +398,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
 
 
     [ServerRpc(RequireOwnership = false)]
-    public void RemoveUpgradeServerRpc(int itemId, float quality = 100f)
+    public void RemoveUpgradeServerRpc(int itemId)
     {
         //! FOR NOW JUST GOING TO USE A SWITCH/CASE, THIS IS NOT SCALEABLE BUT GETS THE JOB DONE FOR NOW
         if (!IsServer)
@@ -410,7 +409,6 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
         UpgradeItem upgradeItem = item as UpgradeItem;
         if (upgradeItem != null)
         {
-            upgradeItem.quality = quality;
             UpgradeItems.Remove(upgradeItem);
             serverUpgradeItemIds.Remove(upgradeItem.Id);
             foreach (Upgrade upgrade in upgradeItem.upgradeList)
@@ -418,19 +416,19 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
                 switch (upgrade.upgradeType)
                 {
                     case UpgradeType.Strength:
-                        strengthModifier.Value -= upgrade.percentIncrease * (quality/100);
+                        strengthModifier.Value -= upgrade.percentIncrease;
                         strength.Value = baseStrength.Value * (strengthModifier.Value / 100 + 1);
                         break;
                     case UpgradeType.Speed:
-                        speedModifier.Value -= upgrade.percentIncrease * (quality/100);
+                        speedModifier.Value -= upgrade.percentIncrease;
                         speed.Value = baseSpeed.Value * (speedModifier.Value / 100 + 1);
                         break;
                     case UpgradeType.Size:
-                        sizeModifier.Value -= upgrade.percentIncrease * (quality/100);
+                        sizeModifier.Value -= upgrade.percentIncrease;
                         size.Value = baseSize.Value * (sizeModifier.Value / 100 + 1);
                         break;
                     case UpgradeType.Sturdy:
-                        sturdyModifier.Value -= upgrade.percentIncrease * (quality/100);
+                        sturdyModifier.Value -= upgrade.percentIncrease;
 
                         sturdy.Value = BASE_HEALTH * (sturdyModifier.Value / 100 + 1);
                         MaxHealth.Value = sturdy.Value;

@@ -17,10 +17,10 @@ public class StartingItemsChestUI : ChestUI
 
         for (int i = 0; i < numItemsRolled; i++)
         {
-            AddItemInternal(possibleItemSpawns[UnityEngine.Random.Range(0, possibleItemSpawns.Count)], 1, 0);
+            AddItemInternal(possibleItemSpawns[UnityEngine.Random.Range(0, possibleItemSpawns.Count)], 1);
         }
         
         foreach (var item in startingItems)
-            AddItemInternal(item.item.Id, item.amount, item.item.quality);
+            AddItemInternal(item.item.Id, item.amount);
     }
 }

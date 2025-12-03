@@ -11,7 +11,6 @@ public abstract class BaseItem : ScriptableObject
     public ItemType type;
     public Sprite icon;
     public int id;
-    public float quality;
     public bool isStackable;
     public bool consumeOnUse;
 
@@ -45,11 +44,6 @@ public abstract class BaseItem : ScriptableObject
         private set => id = value;
     }
 
-    public float Quality
-    {
-        get => quality;
-        private set => quality = value;
-    }
 
     public bool IsStackable
     {

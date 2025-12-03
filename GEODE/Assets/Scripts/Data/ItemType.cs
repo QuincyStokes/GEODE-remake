@@ -19,20 +19,16 @@ public enum ItemType
 [System.Serializable]
 public struct DroppedItem
 {
-    public DroppedItem(int Id, int minAmount, int maxAmount, float chance, float minQuality, float maxQuality)
+    public DroppedItem(int Id, int minAmount, int maxAmount, float chance)
     {
         this.Id = Id;
         this.minAmount = minAmount;
         this.maxAmount = maxAmount;
         this.chance = chance;
-        this.minItemQuality = minQuality;
-        this.maxItemQuality = maxQuality;
     }
     public int Id;
     public int minAmount;
     public int maxAmount;
     public float chance;
-    public float minItemQuality;
-    public float maxItemQuality;
 
 }

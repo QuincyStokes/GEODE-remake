@@ -103,7 +103,7 @@ public class BaseContainer : NetworkBehaviour
             ContainerItems.Add(ItemStack.Empty);
 
         foreach (var item in startingItems)
-            AddItemInternal(item.item.Id, item.amount, item.item.quality);
+            AddItemInternal(item.item.Id, item.amount);
         
     }
 
@@ -132,12 +132,12 @@ public class BaseContainer : NetworkBehaviour
         return ContainerItems[index];
     }
 
-    internal void AddItemInternal(int id, int count, float quality=0f)
+    internal void AddItemInternal(int id, int count)
     {
         if (!IsServer) return;
         for (int i = 0; i < ContainerItems.Count; i++)
         {   //if its the same item and there's room in the stack
-            if (ContainerItems[i].Id == id && ItemDatabase.Instance.GetItem(id).IsStackable && ContainerItems[i].amount < maxItemStack && ContainerItems[i].quality == quality)
+            if (ContainerItems[i].Id == id && ItemDatabase.Instance.GetItem(id).IsStackable && ContainerItems[i].amount < maxItemStack)
             {
 
                 ItemStack s = ContainerItems[i];
@@ -155,7 +155,7 @@ public class BaseContainer : NetworkBehaviour
 
                     //add the overflow to a different slot
 
-                    AddItemInternal(id, overflow, quality);
+                    AddItemInternal(id, overflow);
                     return;
                 }
                 else
@@ -168,7 +168,7 @@ public class BaseContainer : NetworkBehaviour
 
             }
         }
-        ItemStack s2 = new ItemStack { Id = id, amount = count, quality = quality };
+        ItemStack s2 = new ItemStack { Id = id, amount = count};
         int slot2 = GetFirstEmptySlot();
         if (slot2 != -1)
         {
@@ -196,7 +196,7 @@ public class BaseContainer : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void AddItemServerRpc(int id, int count, float quality = 0f)
     {
-        AddItemInternal(id, count, quality);
+        AddItemInternal(id, count);
     }
 
     //called by Slot.cs
@@ -213,7 +213,7 @@ public class BaseContainer : NetworkBehaviour
             slot.SetItem();                               // empty the visuals
             CursorStack.Instance.ItemStack = slotStack;
 
-            MoveStackServerRpc(idx, -1, -1, 0, 0);                  // ask server
+            MoveStackServerRpc(idx, -1, -1, 0);                  // ask server
             return;
         }
 
@@ -231,7 +231,7 @@ public class BaseContainer : NetworkBehaviour
                     int moveAmt = Mathf.Min(CursorStack.Instance.ItemStack.amount, free);
 
                     /* predicted visuals */
-                    slot.SetItem(slotStack.Id, slotStack.amount + moveAmt, slotStack.quality, interactable:true);
+                    slot.SetItem(slotStack.Id, slotStack.amount + moveAmt, interactable:true);
                     MergeStackServerRpc(idx, moveAmt);
 
                     CursorStack.Instance.Amount -= moveAmt; //this may not work
@@ -246,8 +246,8 @@ public class BaseContainer : NetworkBehaviour
             /* ----- PLACE (slot empty) ----- */
             if (slotStack.IsEmpty())
             {
-                slot.SetItem(CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount, CursorStack.Instance.ItemStack.quality, interactable:true);
-                MoveStackServerRpc(-1, idx, CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount, CursorStack.Instance.ItemStack.quality);
+                slot.SetItem(CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount, interactable:true);
+                MoveStackServerRpc(-1, idx, CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount);
 
                 CursorStack.Instance.ItemStack = ItemStack.Empty;
                 return;
@@ -255,11 +255,11 @@ public class BaseContainer : NetworkBehaviour
 
             /* ----- SWAP (different item) ----- */
             // predict: slot shows cursor item, cursor shows previous slot item
-            slot.SetItem(CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount, CursorStack.Instance.ItemStack.quality, interactable:true);
+            slot.SetItem(CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount, interactable:true);
 
 
             //RPC, as before
-            SwapSlotWithCursorServerRpc(idx, CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount, CursorStack.Instance.ItemStack.quality);
+            SwapSlotWithCursorServerRpc(idx, CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount);
             //OnSlotChanged?.Invoke(idx, new ItemStack { Id = CursorStack.Instance.ItemStack.Id, amount = CursorStack.Instance.ItemStack.amount }); 
             CursorStack.Instance.ItemStack = slotStack;
             return;
@@ -267,12 +267,12 @@ public class BaseContainer : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    protected void SwapSlotWithCursorServerRpc(int slotIdx, int stackId, int stackAmount, float stackQuality)
+    protected void SwapSlotWithCursorServerRpc(int slotIdx, int stackId, int stackAmount)
     {
         //temp
         ItemStack slotItemStack = ContainerItems[slotIdx];
         //Fake "Cursor"
-        ItemStack cursorData = new ItemStack { Id = stackId, amount = stackAmount, quality = stackQuality };
+        ItemStack cursorData = new ItemStack { Id = stackId, amount = stackAmount};
         ContainerItems[slotIdx] = cursorData;
 
     }
@@ -298,15 +298,15 @@ public class BaseContainer : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    protected void MoveStackServerRpc(int fromIndex, int toIndex, int stackId, int stackAmount, float stackQuality)
+    protected void MoveStackServerRpc(int fromIndex, int toIndex, int stackId, int stackAmount)
     {
-        ApplyMove(fromIndex, toIndex, stackId, stackAmount, stackQuality);
+        ApplyMove(fromIndex, toIndex, stackId, stackAmount);
     }
 
-    protected bool ApplyMove(int from, int to, int stackId, int stackAmount, float stackQuality)
+    protected bool ApplyMove(int from, int to, int stackId, int stackAmount)
     {
 
-        ItemStack cache = new ItemStack { Id = stackId, amount = stackAmount, quality=stackQuality };
+        ItemStack cache = new ItemStack { Id = stackId, amount = stackAmount};
         ItemStack fromStack;
         ItemStack toStack;
 
@@ -516,13 +516,10 @@ public struct ItemStack : INetworkSerializable, System.IEquatable<ItemStack>
     /// </summary>
     public int Id;
     public int amount;
-    public float quality;
-
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {
         serializer.SerializeValue(ref Id);
         serializer.SerializeValue(ref amount);
-        serializer.SerializeValue(ref quality);
     }
 
     public readonly bool Equals(ItemStack other) => Id == other.Id;
