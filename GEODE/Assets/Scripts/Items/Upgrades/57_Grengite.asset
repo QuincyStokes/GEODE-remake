@@ -10,16 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dd03a3836b0ecfc4e877af96d30a870c, type: 3}
-  m_Name: 31_BlueCrystal
+  m_Name: 57_Grengite
   m_EditorClassIdentifier: 
-  name: Blue Crystal
-  description: A glowing blue crystal. Upgrades RANGE!
+  name: Gelthite Crystal
+  description: A crystal from the Gelthite geode. Upgrades HEALTH
   type: 5
-  icon: {fileID: 8974179435539756478, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
-  id: 31
-  quality: 10.400001
-  isStackable: 0
+  icon: {fileID: -2819067472943657855, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
+  id: 57
+  isStackable: 1
   consumeOnUse: 0
   upgradeList:
-  - upgradeType: 2
-    percentIncrease: 20
+  - upgradeType: 3
+    percentIncrease: 35

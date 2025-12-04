@@ -96,20 +96,19 @@ public class EnemySpawningManager : NetworkBehaviour
             {
                 
                 Vector3Int spawnPos;
-                Debug.Log($"Connected player amount:  {NetworkManager.Singleton.ConnectedClientsList.Count} | Players: {NetworkManager.Singleton.ConnectedClientsList}");
+                //Pick a random player connected to the game
                 int randomPlayer = Random.Range(0, NetworkManager.Singleton.ConnectedClientsList.Count);
-                Debug.Log($"Player # {randomPlayer} {NetworkManager.Singleton.ConnectedClientsList[randomPlayer].PlayerObject}");
-                
                 var client = NetworkManager.Singleton.ConnectedClientsList[randomPlayer];
                 if(client.PlayerObject == null || client.PlayerObject.transform == null)
                 {
                     return;
                 }
 
+                //Get that randmo player's position
                 Vector3 randomPlayerPos = NetworkManager.Singleton.ConnectedClientsList[randomPlayer].PlayerObject.transform.position;
                 Vector3Int randomPlayerPosInt = new Vector3Int((int)randomPlayerPos.x, (int)randomPlayerPos.y, 0);
-                //instead of doing the positional way, lets pick a random 360 direction from the player chosen, and then a random distance
 
+                //pick a random 360 direction from the player chosen, and then a random distance
                 float angle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
                 float dist = Random.Range(minSpawnDistanceFromPlayer, maxSpawnDistanceFromPlayer);
                 Vector2 offset2D = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * dist;
@@ -120,7 +119,7 @@ public class EnemySpawningManager : NetworkBehaviour
                 //check biome at that position
                 //choose an enemy based on weights
                 //but first, make sure it isnt within a certain range from any of the players
-
+                //Notably with more players, spawn checks may fail more often, resulting in less spawns on high population games
                 foreach (NetworkClient networkClient in NetworkManager.Singleton.ConnectedClientsList)
                 {
                     //if the distance to any player is under a ertain range
@@ -212,6 +211,7 @@ public class EnemySpawningManager : NetworkBehaviour
 
             // Track enemy through death event - this is our sole tracking mechanism
             enemy.OnDeath += HandleEnemyDied;
+            //! HERE can maybe pass a modifier depending on amount of players in the world.
             enemy.InitializeBaseStats(difficulty);
             enemy.AddLevels(DayCycleManager.Instance.DayNum);
         }
@@ -230,6 +230,19 @@ public class EnemySpawningManager : NetworkBehaviour
 
     private void ChangeToNightSettings()
     {
+        //Here can we spawn a boss if it's a certain night, since this gets fired once when it turns nighttime? Sounds kinda perfect. 
+
+        if (DayCycleManager.Instance.DayNum % 5 == 0)
+        {
+            //get this night's boss enemyId and spawn it with some special conditions (near the crystal basically)
+            //We should find a way to do this "procedurally". So basically nights can keep going, alternating between boss types or something like that
+            // Their stats should just scale up, the hardest part will be getting the numbers right though.
+
+            //how do boss?
+            //assign have a dict? <nightnum, Boss>? Then how do the procedural part.. 
+            //I like the idea of having maybe the first 5-10 set, but after that it'll be a random boss. Their stats will be "balanced",but
+                //the type might mess with some people. I like it. 
+        }
         nightSpawnRateModifier *= .9f;
         currentMaxSpawns = (int)(nightMaxSpawns * nightMaxSpawnsModifier);
         currentSpawnRate = Mathf.Clamp(nightSpawnRate * nightSpawnRateModifier, 25, 1000);

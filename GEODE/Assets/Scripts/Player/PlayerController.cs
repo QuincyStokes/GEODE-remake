@@ -312,7 +312,6 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
         Vector2 finalVelocity = localInputVelocity + externalVelocity;
         rb.linearVelocity = finalVelocity;
 
-        //animation?
         if (finalVelocity.sqrMagnitude > 0.01f)
         {
             lastMovedDir = finalVelocity.normalized;

@@ -658,7 +658,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 11.25
+  orthographic size: 6.66
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1773,6 +1773,14 @@ PrefabInstance:
     - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: forestEnemies.Array.size
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
+      propertyPath: maxSpawnDistanceFromPlayer
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
+      propertyPath: minSpawnDistanceFromPlayer
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: desertEnemies.Array.data[1].weight

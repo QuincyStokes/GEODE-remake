@@ -10,16 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dd03a3836b0ecfc4e877af96d30a870c, type: 3}
-  m_Name: 29_RedCrystal
+  m_Name: 31_MinorBizite
   m_EditorClassIdentifier: 
-  name: Red Crystal
-  description: A glowing red crystal shard. Upgrades DAMAGE!
+  name: Minor Bizite Crystal
+  description: A weak crystal from the Bizite geode. Upgrades RANGE!
   type: 5
-  icon: {fileID: -2819067472943657855, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
-  id: 29
-  quality: 0
-  isStackable: 0
+  icon: {fileID: 8974179435539756478, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
+  id: 31
+  isStackable: 1
   consumeOnUse: 0
   upgradeList:
-  - upgradeType: 0
-    percentIncrease: 30
+  - upgradeType: 2
+    percentIncrease: 10
