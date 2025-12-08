@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 801184ae3a0d9d2479257a43cc174ad5, type: 3}
+  m_Name: 60_RenthiteAttackTower
+  m_EditorClassIdentifier: 
+  name: Renthite Attack Tower
+  description: High damage, high range, slow speed. Shoots a charged renthite particle.
+  type: 2
+  icon: {fileID: 2904818261454649106, guid: bfe7ff642c25ae14c856dfeeb0409067, type: 3}
+  id: 60
+  isStackable: 1
+  consumeOnUse: 1
+  prefab: {fileID: 5241912323242780402, guid: 693cc65d8e3bc334683bfd94df73c70b, type: 3}
+  width: 2
+  height: 2

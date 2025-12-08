@@ -18,6 +18,8 @@ public abstract class BaseProjectile : NetworkBehaviour
     public void Initialize(float damageAmount, Vector2 velocity, ITracksHits iHits=null, DamageType dmgType = DamageType.None)
     {
         if(!IsServer) return;
+        float angle = Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, angle);
         damage = damageAmount;
         rb.linearVelocity = velocity * speed;
         rb.angularVelocity = rotationSpeed;

@@ -194,7 +194,7 @@ public class BaseContainer : NetworkBehaviour
 
     //server authoritative inventory adding
     [ServerRpc(RequireOwnership = false)]
-    public void AddItemServerRpc(int id, int count, float quality = 0f)
+    public void AddItemServerRpc(int id, int count)
     {
         AddItemInternal(id, count);
     }
@@ -512,7 +512,6 @@ public struct ItemStack : INetworkSerializable, System.IEquatable<ItemStack>
     /// <summary>
     /// Network Serializable structure to hold an Id and amount of an item
     /// Will be used for storing inventory items
-    /// will need to add a Quality as well
     /// </summary>
     public int Id;
     public int amount;

@@ -33,12 +33,6 @@ public class Loot : NetworkBehaviour
         NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Server
     );
-    
-    public NetworkVariable<float> quality = new NetworkVariable<float>(
-        0,
-        NetworkVariableReadPermission.Everyone,
-        NetworkVariableWritePermission.Server
-    );
    
     
 
@@ -143,7 +137,7 @@ public class Loot : NetworkBehaviour
             yield return null;
         }
         AudioManager.Instance.PlayLocal(SoundId.Loot_Pickup);
-        inv.AddItemServerRpc(itemId.Value, amount.Value, quality.Value);
+        inv.AddItemServerRpc(itemId.Value, amount.Value);
         NetworkObject.Despawn(true);
     }
 
@@ -175,11 +169,9 @@ public class Loot : NetworkBehaviour
             //silly little trick to round to nearest 1 decimal place.
             float f = Random.Range(minQual, maxQual);
             f = Mathf.Round(f * 10.0f) * 0.1f;
-            quality.Value = f;
         }
         else
         {
-            quality.Value = qual;
         }
         if (horizOffset != 0)
         {

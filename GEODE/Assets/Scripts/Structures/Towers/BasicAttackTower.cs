@@ -38,7 +38,7 @@ public class BasicAttackTower : BaseTower
             no.Spawn();
         }
 
-        bolt.GetComponent<BaseProjectile>().Initialize(strength.Value, (currentTarget.position - tower.transform.position).normalized, this);
+        bolt.GetComponent<BaseProjectile>().Initialize(strength.Value, (currentTarget.position - firePoint.position).normalized, this);
        
     }
 
