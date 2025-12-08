@@ -265,11 +265,11 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
     }
 
     //this will be the code that *actually* applies damage to the enemy. The Server RPC is a wrapper for strange edge cases that would need it. 
-    public void ApplyDamage(DamageInfo info, ServerRpcParams rpcParams = default)
+    public bool ApplyDamage(DamageInfo info, ServerRpcParams rpcParams = default)
     {
         if (!IsServer)
         {
-            return;
+            return false;
         }
         
         if (info.damageType == enemyCrystalType)
@@ -287,6 +287,11 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
         if (CurrentHealth.Value <= 0)
         {
             DestroyThisServerRpc(info.dropItems);
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -454,4 +459,5 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
             playerTransform = null;
         }
     }
+
 }

@@ -34,11 +34,12 @@ public abstract class BaseProjectile : NetworkBehaviour
         if(collision.gameObject.CompareTag("Enemy"))
         {
             IDamageable dmg = collision.gameObject.GetComponentInParent<IDamageable>();
-            dmg?.ApplyDamage(new DamageInfo(damage, transform.position, drops:true, dmgType:damageType));
-            if (dmg != null)
+            if(dmg == null) return;
+            if(dmg.ApplyDamage(new DamageInfo(damage, transform.position, drops:true, dmgType:damageType)))
             {
-                parentTower.HitSomething(dmg);
+                parentTower.KilledSomething(dmg);
             }
+            parentTower.HitSomething(dmg);
             Destroy(gameObject);
         }
         

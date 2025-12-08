@@ -208,7 +208,7 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
 
     }
 
-    public void ApplyDamage(DamageInfo info, ServerRpcParams rpcParams = default)
+    public bool ApplyDamage(DamageInfo info, ServerRpcParams rpcParams = default)
     {
         CurrentHealth.Value -= info.amount;
         OnTakeDamage(info.amount, info.sourceDirection);
@@ -218,6 +218,11 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
             //drop some portion of items or lose xp? or maybe nothing
             //wait x amount of time, respawn at core
             PlayerDeath();
+            return true;
+        }
+        else
+        {   
+            return false;
         }
     }
 

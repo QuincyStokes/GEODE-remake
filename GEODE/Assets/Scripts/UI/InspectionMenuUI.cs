@@ -20,6 +20,7 @@ public class InspectionMenuUI : ContainerUIManager<InspectionMenu>
     [SerializeField] private TMP_Text size;
     [SerializeField] private TMP_Text sturdy;
     [SerializeField] private SimpleToggle rangeToggle;
+    [SerializeField] private TMP_Text specialStat;
 
     //* --------------- Health and XP --------------*/
     [Header("Health and XP")]
@@ -42,6 +43,7 @@ public class InspectionMenuUI : ContainerUIManager<InspectionMenu>
     [SerializeField] private List<GameObject> upgradeThings;
     [SerializeField] private List<GameObject> dismantleThings;
     [SerializeField] private List<GameObject> chestThings;
+    [SerializeField] private List<GameObject> specialStatThings;
 
 
     //* ------- PRIVATE INTERNAL -------------
@@ -75,6 +77,7 @@ public class InspectionMenuUI : ContainerUIManager<InspectionMenu>
         IUpgradeable upg = container.currentInspectedObject.GetComponent<IUpgradeable>();
         IDismantleable dis = container.currentInspectedObject.GetComponent<IDismantleable>();
         IChest chest = container.currentInspectedObject.GetComponent<IChest>();
+        ITracksHits hits = container.currentInspectedObject.GetComponent<ITracksHits>();
         //since we have passed in our stats, xp, and theobject, we can guarantee that we have:
         //all of the necessary information to populate the menu
         if (bo != null) //health, description, sprite
@@ -152,20 +155,17 @@ public class InspectionMenuUI : ContainerUIManager<InspectionMenu>
         {
             SetGroup(dismantleThings, false);
         }
+        if(hits != null)
+        {
+            SetGroup(specialStatThings, true);
+            specialStat.text = $"Kills: {hits.kills.Value}";
+            hits.kills.OnValueChanged += HandleKillsChanged;
+        }
+        else
+        {
+            SetGroup(specialStatThings, false);
+        }
 
-        // if (chest != null)
-        // {
-        //     SetGroup(chestThings, true);
-            
-        // }
-        // else
-        // {
-        //     Debug.Log("IChest was null.");
-        //     SetGroup(chestThings, false);
-        // }
-
-
-        
     }
     private void ChangeSubscription(GameObject old, GameObject newObj)
     {
@@ -220,6 +220,13 @@ public class InspectionMenuUI : ContainerUIManager<InspectionMenu>
             //STURDY
             sturdy.text = $"<color=#14a02e>HP {stats.sturdy.Value:F1}</color>\n{bo.MaxHealth.Value:F1}(<color=#14a02e>+{(bo.MaxHealth.Value * ((stats.sturdyModifier.Value / 100) + 1)) - bo.MaxHealth.Value:F1}</color>)";
         }
+    }
+
+    private void HandleKillsChanged(int old, int curr)
+    {
+        if(container.currentInspectedObject == null) return;
+
+        specialStat.text = $"Kills: {curr}";
     }
 
     private void RefreshUpgrades()

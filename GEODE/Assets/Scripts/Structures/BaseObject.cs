@@ -142,16 +142,16 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
         ApplyDamage(info, rpcParams);
     }
 
-    public void ApplyDamage(DamageInfo info, ServerRpcParams rpcParams = default)
+    public bool ApplyDamage(DamageInfo info, ServerRpcParams rpcParams = default)
     //public void ApplyDamage(float amount, Vector2 sourceDirection, bool dropItems = false)
     {
         if (!IsServer)
         {
-            return;
+            return false;
         }
         if (info.amount <= 0)
         {
-            return;
+            return false;
         }
 
 
@@ -171,6 +171,11 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
         if (CurrentHealth.Value <= 0)
         {
             DestroyThisServerRpc(info.dropItems);
+            return true;
+        }
+        else
+        {
+            return false;
         }
 
     }

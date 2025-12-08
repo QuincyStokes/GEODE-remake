@@ -156,7 +156,7 @@ ScriptedImporter:
       x: 4
       y: 4
       width: 25
-      height: 64
+      height: 63
     spriteID: cf91e6cc09b883f45adafbfbd55e9486
     spriteBone: []
     spriteOutline: []
@@ -177,8 +177,50 @@ ScriptedImporter:
       x: 43
       y: 4
       width: 32
-      height: 84
+      height: 83
     spriteID: 63c31e0d6f7675642bb29acd1d2b4a23
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: RenthiteAttackTower_2
+    originalName: 
+    pivot: {x: 0.5, y: 0}
+    alignment: 7
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 95
+      width: 25
+      height: 63
+    spriteID: 91cdec43472bbc74896e523e662502dd
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: RenthiteAttackTower_3
+    originalName: 
+    pivot: {x: 0.5, y: 0}
+    alignment: 7
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 166
+      width: 25
+      height: 63
+    spriteID: 752fe7531cac34b4280f35e5516a531a
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -195,7 +237,7 @@ ScriptedImporter:
     layerType: 0
     blendMode: 0
     cells:
-    - name: RenthiteAttackTower
+    - name: Frame_0
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
@@ -204,6 +246,24 @@ ScriptedImporter:
         width: 71
         height: 83
       spriteId: 1b1f84ede93ea0c439cc42801db08956
+    - name: Frame_1
+      frameIndex: 1
+      additiveSortOrder: 0
+      cellRect:
+        x: 9
+        y: 0
+        width: 25
+        height: 63
+      spriteId: 1f69a16154c1c8447a8d3f9dd18d8923
+    - name: Frame_2
+      frameIndex: 2
+      additiveSortOrder: 0
+      cellRect:
+        x: 9
+        y: 0
+        width: 25
+        height: 63
+      spriteId: e4da6f42c79df44459a36fcbf067c365
     linkedCells: []
     parentIndex: -1
   platformSettings:
@@ -259,4 +319,4 @@ ScriptedImporter:
   secondarySpriteTextures: []
   spritePackingTag: 
   canvasSize: {x: 138, y: 90}
-  previousTextureSize: {x: 128, y: 128}
+  previousTextureSize: {x: 128, y: 256}

@@ -16,7 +16,7 @@ public interface IDamageable
    public int DroppedXP { get; }
    public event Action<IDamageable> OnDeath;
    public abstract void TakeDamageServerRpc(DamageInfo info, ServerRpcParams rpcParams = default);
-   public abstract void ApplyDamage(DamageInfo info, ServerRpcParams rpcParams = default);
+   public abstract bool ApplyDamage(DamageInfo info, ServerRpcParams rpcParams = default); //returns true if the object is killed
    public abstract void RestoreHealthServerRpc(float amount);
    public abstract void DestroyThisServerRpc(bool dropItems);
    public abstract void DropItems();

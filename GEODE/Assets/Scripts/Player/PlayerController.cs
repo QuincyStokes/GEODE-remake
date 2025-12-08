@@ -26,7 +26,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
     [SerializeField] public GameObject hitboxParent;
     [SerializeField] public Animator attackAnimator;
     [SerializeField] private DayNumber dayNumber;
-
+    public NetworkVariable<int> kills { get; set; } = new NetworkVariable<int>(0);  //attack rate
     [Header("Movement")]
     [SerializeField] private float moveSpeed;
     [SerializeField] private float baseMoveSpeed; // Store original speed for perk calculations
@@ -695,5 +695,8 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
         movementLocked = value;
     }
 
-
+    public void KilledSomething(IDamageable damageable)
+    {
+        
+    }
 }

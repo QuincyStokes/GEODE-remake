@@ -25,6 +25,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     public NetworkVariable<float> baseStrength { get; set; } = new NetworkVariable<float>(1f);//damage/power of attack
     public NetworkVariable<float> baseSize { get; set; } = new NetworkVariable<float>(1f);//range of attack
     public DamageType damageType;
+    public NetworkVariable<int> kills {get; set;} = new();
 
     [SerializeField] private float rotationSpeed;
     [SerializeField] private bool rotates;
@@ -204,25 +205,6 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
             }
         }
     }
-
-    // public void AddXp(int amount)
-    // {
-    //     CurrentXp += amount;
-    //     currentTotalXp += amount;
-    //     //TODO update level UI here
-    //     if(CurrentXp >= maximumLevelXp)
-    //     {
-    //         LevelUp();
-    //     }
-    // }
-
-    // private void LevelUp()
-    // {
-    //     currentXp = 0;
-    //     level++;
-    //     //TODO apply some modifier to stats (increase base stats)
-    // }
-
 
 
     private Transform GetNearestTarget()
@@ -543,8 +525,19 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
 
     public void HitSomething(IDamageable damageable)
     {
-        damageable.OnDeath += AddXp;
-        //unsubscribes in addXp
+
+    }
+
+    public void KilledSomething(IDamageable damageable)
+    {
+        TrackKill(damageable);
+        AddXp(damageable);
+    }
+
+    private void TrackKill(IDamageable damageable)
+    {
+        kills.Value++;
+        damageable.OnDeath -= TrackKill;
     }
 
     public virtual void DoClickedThings()
@@ -556,8 +549,6 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     {
         
     }
-
-
     #endregion
 
 }
