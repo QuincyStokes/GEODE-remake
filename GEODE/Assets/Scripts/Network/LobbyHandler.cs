@@ -130,7 +130,10 @@ public class LobbyHandler : MonoBehaviour
             onLobbyUpdated += yourLobby.HandleLobbyUpdate;
             joinedLobby = hostLobby;
 
-
+            if(SteamManager.Initialized)
+            {
+                SteamPresence.SetJoinableWrapper(lobby.Id);
+            }  
             //yourLobby.UpdatePlayerList();
         }
         catch (LobbyServiceException e)
@@ -309,6 +312,11 @@ public class LobbyHandler : MonoBehaviour
         joinedLobby = lobby;
         yourLobby.SetLobby(joinedLobby);
         onLobbyUpdated += yourLobby.HandleLobbyUpdate;
+
+        if(SteamManager.Initialized)
+        {
+            SteamPresence.SetJoinableWrapper(lobby.Id);
+        }
     }
 
     public async void LeaveLobby()
@@ -336,6 +344,11 @@ public class LobbyHandler : MonoBehaviour
         if (NetworkManager.Singleton && NetworkManager.Singleton.IsListening)
         {
             NetworkManager.Singleton.Shutdown();
+        }
+
+        if(SteamManager.Initialized)
+        {
+            SteamPresence.ClearJoinable();
         }
 
         // Check if the object still exists before calling StopAllCoroutines

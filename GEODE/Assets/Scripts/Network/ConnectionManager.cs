@@ -188,6 +188,7 @@ public class ConnectionManager : NetworkBehaviour
         }
     }
 
+
     public void ResetData()
     {
         LobbyCode = null;

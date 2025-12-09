@@ -12,6 +12,9 @@ public class JoinLobbyScreen : MonoBehaviour
     [SerializeField] private Button joinButton;
     [SerializeField] private TMP_InputField lobbyCodeField;
     [SerializeField] private TMP_InputField playerName;
+
+    //* --------- Events ---------
+    public event Action<Lobby> onJoinedLobby;
  
     
     void Start()
@@ -40,6 +43,8 @@ public class JoinLobbyScreen : MonoBehaviour
             Lobby lobby = await LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCodeField.text, joinLobbyByCodeOptions);
             Debug.Log("Joined lobby " + lobby.Name);
             LobbyHandler.Instance.SetJoinedLobby(lobby);
+
+            onJoinedLobby?.Invoke(lobby);
 
             MainMenuController.Instance.ShowPanel("LobbyPanel");
 
