@@ -227,7 +227,6 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
                     currentTarget = target.transform;
                 }
             }
-
         }
         return currentTarget;
     }

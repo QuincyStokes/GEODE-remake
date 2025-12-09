@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 801184ae3a0d9d2479257a43cc174ad5, type: 3}
+  m_Name: 61_YeedriteAttackTower
+  m_EditorClassIdentifier: 
+  name: Yeedrite Attack Tower
+  description: A fast AOE tower, deals low damage to everything in it's range.
+  type: 2
+  icon: {fileID: 5651107894671026674, guid: a04f492ea56207b478a938e767d7d631, type: 3}
+  id: 61
+  isStackable: 1
+  consumeOnUse: 1
+  prefab: {fileID: 5241912323242780402, guid: d6183dfe8df63534a965a4c2182e1edb, type: 3}
+  width: 2
+  height: 2
