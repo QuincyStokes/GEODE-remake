@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BaseContainer : NetworkBehaviour
@@ -266,6 +267,63 @@ public class BaseContainer : NetworkBehaviour
         }
     }
 
+    public void ProcessRightClick(Slot slot)
+    {
+        if (!isOpen) return;
+        int idx = slot.SlotIndex;
+        ItemStack slotStack = ContainerItems[idx];       // server truth (read-only)
+
+
+        //If we're holding an item
+        if(!CursorStack.Instance.ItemStack.IsEmpty())
+        {
+            //if the slot is empty, just place one.
+            if(slotStack.IsEmpty())
+            {
+                //pre-emptively set the new slot to 1 item to feel snappier. 
+
+                CursorStack.Instance.Amount -= 1; 
+                if (CursorStack.Instance.ItemStack.amount == 0) CursorStack.Instance.ItemStack = ItemStack.Empty;
+                slot.SetItem(CursorStack.Instance.ItemStack.Id, 1);
+                MoveStackServerRpc(-1, idx, CursorStack.Instance.ItemStack.Id, 1);
+            }
+            //If the item we're holding matches the one in the slot, and that slot has room
+            else if (CursorStack.Instance.ItemStack.Id == slotStack.Id && slotStack.amount != maxItemStack)
+            {
+                CursorStack.Instance.Amount -= 1; 
+                if (CursorStack.Instance.ItemStack.amount == 0) CursorStack.Instance.ItemStack = ItemStack.Empty;
+                slot.SetItem(slotStack.Id, slotStack.amount + 1);  
+                MoveStackServerRpc(-1, idx, slotStack.Id, 1);
+            }
+
+            //If the slot is filled with a different item, do nothing
+            return;
+        }
+            
+
+        //If we aren't holding an item
+        if (CursorStack.Instance.ItemStack.IsEmpty())
+        {
+            //If the slot has something, pick up half of that stack
+            if (!slotStack.IsEmpty())
+            {
+                //Calculate our half amount
+                int halfAmount = Mathf.CeilToInt(slotStack.amount / 2f);
+
+                //Put half amount on the cursor
+                CursorStack.Instance.ItemStack = new ItemStack { Id = slotStack.Id, amount = halfAmount };
+
+                //Remove half amount from the slot
+                slot.SetItem(slotStack.Id, slotStack.amount - halfAmount);
+                RemoveItemAtSlotServerRpc(halfAmount, idx);
+                
+                
+                //MoveStackServerRpc(idx, -1, slotStack.Id, halfAmount);
+            }
+
+        }  
+    }
+
     [ServerRpc(RequireOwnership = false)]
     protected void SwapSlotWithCursorServerRpc(int slotIdx, int stackId, int stackAmount)
     {
@@ -278,8 +336,11 @@ public class BaseContainer : NetworkBehaviour
     }
 
 
-
-
+    /// <summary>
+    /// Adds an amount of an item into a specified slot index
+    /// </summary>
+    /// <param name="toIndex">Index of slot to move to</param>
+    /// <param name="amount">Amount of an item to add</param>
     [ServerRpc]
     public void MergeStackServerRpc(int toIndex, int amount)
     {
@@ -297,6 +358,13 @@ public class BaseContainer : NetworkBehaviour
         return true;
     }
 
+    /// <summary>
+    /// Moves a stack from a given index to another.
+    /// </summary>
+    /// <param name="fromIndex">FROM slot index. -1 for Cursor</param>
+    /// <param name="toIndex">TO slot index. -1 for Cursor</param>
+    /// <param name="stackId">ID of item being moved</param>
+    /// <param name="stackAmount">amount of item being moved.</param>
     [ServerRpc(RequireOwnership = false)]
     protected void MoveStackServerRpc(int fromIndex, int toIndex, int stackId, int stackAmount)
     {
@@ -430,6 +498,11 @@ public class BaseContainer : NetworkBehaviour
         return true;
     }
 
+    /// <summary>
+    /// Remove a specified amount of an item from the container.
+    /// </summary>
+    /// <param name="id">ID of item to remove.</param>
+    /// <param name="amount">Amount of item to remove.</param>
     [ServerRpc]
     public void RemoveItemServerRpc(int id, int amount)
     {
@@ -437,6 +510,12 @@ public class BaseContainer : NetworkBehaviour
     }
 
 
+    /// <summary>
+    /// Remove a certain amount of an item from a slot.
+    /// </summary>
+    /// <param name="amount">Amount of item to remove.</param>
+    /// <param name="slotIndex">Slot Index to remove from.</param>
+    /// <returns></returns>
     internal bool RemoveItemAtSlotInternal(int amount, int slotIndex)
     {
         ItemStack st = ContainerItems[slotIndex];

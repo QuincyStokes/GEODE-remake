@@ -115,7 +115,10 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         {
             Debug.Log("Slot clicked.");
             HandleLeftClick();
-
+        }
+        else if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            HandleRightClick();
         }
     }
 
@@ -128,6 +131,16 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
             return;
         }
         container.ProcessSlotClick(this);
+    }
+
+    private void HandleRightClick()
+    {
+        if(container == null)
+        //if (container == null || !container.IsOwner)
+        {
+            return;
+        }
+        container.ProcessRightClick(this);
     }
 
     public void SetSlotHighlight(bool highlight)
