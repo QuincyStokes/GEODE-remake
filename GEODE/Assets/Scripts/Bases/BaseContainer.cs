@@ -277,6 +277,9 @@ public class BaseContainer : NetworkBehaviour
         //If we're holding an item
         if(!CursorStack.Instance.ItemStack.IsEmpty())
         {
+            // Cache the item ID before decrementing to avoid using wrong ID if stack becomes empty
+            int cursorItemId = CursorStack.Instance.ItemStack.Id;
+            
             //if the slot is empty, just place one.
             if(slotStack.IsEmpty())
             {
@@ -284,8 +287,8 @@ public class BaseContainer : NetworkBehaviour
 
                 CursorStack.Instance.Amount -= 1; 
                 if (CursorStack.Instance.ItemStack.amount == 0) CursorStack.Instance.ItemStack = ItemStack.Empty;
-                slot.SetItem(CursorStack.Instance.ItemStack.Id, 1);
-                MoveStackServerRpc(-1, idx, CursorStack.Instance.ItemStack.Id, 1);
+                slot.SetItem(cursorItemId, 1);
+                MoveStackServerRpc(-1, idx, cursorItemId, 1);
             }
             //If the item we're holding matches the one in the slot, and that slot has room
             else if (CursorStack.Instance.ItemStack.Id == slotStack.Id && slotStack.amount != maxItemStack)
@@ -373,18 +376,42 @@ public class BaseContainer : NetworkBehaviour
 
     protected bool ApplyMove(int from, int to, int stackId, int stackAmount)
     {
+        // Validate indices (cursor is -1, which is valid)
+        if (from != -1 && (from < 0 || from >= ContainerItems.Count))
+        {
+            Debug.LogWarning($"ApplyMove: Invalid 'from' index {from}. Container has {ContainerItems.Count} slots.");
+            return false;
+        }
+        if (to != -1 && (to < 0 || to >= ContainerItems.Count))
+        {
+            Debug.LogWarning($"ApplyMove: Invalid 'to' index {to}. Container has {ContainerItems.Count} slots.");
+            return false;
+        }
 
-        ItemStack cache = new ItemStack { Id = stackId, amount = stackAmount};
         ItemStack fromStack;
         ItemStack toStack;
 
-        Debug.Log($"Applying Move, Cache:{cache.Id}");
-        //i usually dont like this format but its more readable in this case
-        if (from == -1) fromStack = cache; //from cursor to slot
-        else fromStack = ContainerItems[from]; //from slot to slot
+        // Cursor is client-managed via CursorStack.Instance, so server only handles slot-to-slot operations
+        // When from/to is -1, it represents cursor (client-side), so we use the provided stackId/stackAmount
+        if (from == -1) 
+        {
+            // Moving from cursor to slot - use provided cursor data
+            fromStack = new ItemStack { Id = stackId, amount = stackAmount };
+        }
+        else 
+        {
+            fromStack = ContainerItems[from]; //from slot to slot
+        }
 
-        if (to == -1) toStack = cache; //from slot to cursor
-        else toStack = ContainerItems[to]; //from slot to ..
+        if (to == -1) 
+        {
+            // Moving from slot to cursor - cursor is client-managed, so we don't need to track it here
+            toStack = new ItemStack { Id = stackId, amount = stackAmount };
+        }
+        else 
+        {
+            toStack = ContainerItems[to]; //from slot to slot
+        }
 
         Debug.Log($"Applying Move, FromStack:{fromStack.Id}, ToStack:{toStack.Id}");
         if (fromStack.IsEmpty()) return false; //nothing to move
@@ -392,19 +419,20 @@ public class BaseContainer : NetworkBehaviour
         //if our target is empty, just move the items to there
         if (toStack.IsEmpty())
         {
-            if (to == -1) //to the cursor
+            if (to == -1) 
             {
-                cache = fromStack;
+                // Moving to cursor - cursor is client-managed, no server action needed
+                // Client already updated CursorStack.Instance optimistically
             }
             else
             {
                 ContainerItems[to] = fromStack;
             }
 
-
-            if (from == -1) //to the slot
+            if (from == -1) 
             {
-                cache = ItemStack.Empty;
+                // Moving from cursor - cursor is client-managed, no server action needed
+                // Client already cleared CursorStack.Instance optimistically
             }
             else
             {
@@ -427,12 +455,18 @@ public class BaseContainer : NetworkBehaviour
             toStack.amount += moveAmt;
             fromStack.amount -= moveAmt;
 
-            if (to == -1) cache = toStack;
+            if (to == -1) 
+            {
+                // Moving to cursor - cursor is client-managed, no server action needed
+            }
             else
             {
                 ContainerItems[to] = toStack;
             }
-            if (from == -1) cache = fromStack;
+            if (from == -1) 
+            {
+                // Moving from cursor - cursor is client-managed, no server action needed
+            }
             else
             {
                 ContainerItems[from] = fromStack;
@@ -441,12 +475,18 @@ public class BaseContainer : NetworkBehaviour
         }
 
         // else swap
-        if (to == -1) cache = fromStack;
+        if (to == -1) 
+        {
+            // Swapping to cursor - cursor is client-managed, no server action needed
+        }
         else
         {
             ContainerItems[to] = fromStack;
         }
-        if (from == -1) cache = toStack;
+        if (from == -1) 
+        {
+            // Swapping from cursor - cursor is client-managed, no server action needed
+        }
         else
         {
             ContainerItems[from] = toStack;

@@ -1,12 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -147,14 +145,6 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
         baseMoveSpeed = moveSpeed; // Store the original move speed
     }
 
-    private void OnEnable()
-    {
-        if (!IsOwner)
-        {
-            return;
-        }
-
-    }
 
     private void OnDisable()
     {
@@ -172,6 +162,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
 
         //Inventory
         playerInput.Player.InventoryToggle.performed -= playerInventory.ToggleInventory;
+        playerInput.Player.InventoryToggle.performed -= OnInventoryPressed;
         playerInput.Player.InventoryToggle.Disable();
 
         //Numbers
@@ -191,7 +182,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
         playerInput.Player.Scroll.Disable();
 
         //Escape
-        playerInput.Player.Menu.performed += OnMenuOpened;
+        playerInput.Player.Menu.performed -= OnMenuOpened;
         playerInput.Player.Menu.Disable();
 
 
@@ -516,6 +507,7 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
         if (mousePosInt != previousMousePosInt && GridManager.Instance != null)
         {
             GridManager.Instance.UpdateMousePos(mousePosInt);
+            previousMousePosInt = mousePosInt;
         }
     }
 
@@ -528,27 +520,6 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
         playerInventory.ThrowCurrentlySelectedHeldItem(horizOffset: offset);
     }
 
-    // private void OnTriggerEnter2D(Collider2D collision)
-    // {
-    //     // if (collision.CompareTag("EnvironmentObject"))
-    //     // {
-    //     //     EnvironmentObject envObj = collision.gameObject.GetComponentInParent<EnvironmentObject>();
-    //     //     if (envObj != null)
-    //     //     {
-    //     //         envObj.TakeDamageServerRpc(4, gameObject.transform.position, true);
-    //     //         //Debug.Log($"Hit {collision.name} for 4 damage");
-    //     //     }
-    //     // }
-    //     // else if (collision.CompareTag("Enemy"))
-    //     // {
-    //     //     BaseEnemy baseEnemy = collision.gameObject.GetComponentInParent<BaseEnemy>();
-    //     //     if (baseEnemy != null)
-    //     //     {
-    //     //         baseEnemy.TakeDamageServerRpc(4, gameObject.transform.position, true);
-
-    //     //     }
-    //     // }
-    // }
 
     public void Attack(float dmg, ToolType t, bool drops)
     {
@@ -680,7 +651,9 @@ public class PlayerController : NetworkBehaviour, IKnockbackable, ITracksHits
 
     private void HandleLevelUp()
     {
-        moveSpeed *= 1.05f;
+        var perkStats = GetComponent<PlayerPerkStats>();
+        float speedMultiplier = perkStats != null ? perkStats.SpeedMultiplier.Value : 1f;
+        moveSpeed = baseMoveSpeed * speedMultiplier * 1.05f; // 5% increase per level
     }
 
     [ClientRpc]

@@ -379,7 +379,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
 
 
     [ServerRpc(RequireOwnership = false)]
-    public void RemoveUpgradeServerRpc(int itemId)
+    public void RemoveUpgradeServerRpc(int itemId, int slotIndex)
     {
         //! FOR NOW JUST GOING TO USE A SWITCH/CASE, THIS IS NOT SCALEABLE BUT GETS THE JOB DONE FOR NOW
         if (!IsServer)
@@ -390,8 +390,19 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
         UpgradeItem upgradeItem = item as UpgradeItem;
         if (upgradeItem != null)
         {
-            UpgradeItems.Remove(upgradeItem);
-            serverUpgradeItemIds.Remove(upgradeItem.Id);
+            // Remove by slot index to preserve slot positions (fixes slot shifting bug)
+            if (slotIndex >= 0 && slotIndex < UpgradeItems.Count)
+            {
+                UpgradeItems.RemoveAt(slotIndex);
+                serverUpgradeItemIds.RemoveAt(slotIndex);
+            }
+            else
+            {
+                // Fallback: remove by value if slot index is invalid
+                UpgradeItems.Remove(upgradeItem);
+                serverUpgradeItemIds.Remove(upgradeItem.Id);
+            }
+            
             foreach (Upgrade upgrade in upgradeItem.upgradeList)
             {
                 switch (upgrade.upgradeType)
@@ -426,6 +437,8 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
 
         }
 
+        // Trigger event so InspectionMenu can rebuild the container display
+        OnUpgradesChanged?.Invoke();
         SyncUpgradesAndStatsClientRpc(serverUpgradeItemIds.ToArray());
     }
 

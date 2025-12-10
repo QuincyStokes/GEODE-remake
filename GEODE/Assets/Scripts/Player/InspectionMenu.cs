@@ -100,9 +100,9 @@ public class InspectionMenu : BaseContainer
             slot.SetItem();                               // empty the visuals
 
             //! remove upgrade?
-            Debug.Log($"Removing Upgrade {slotStack.Id}");
+            Debug.Log($"Removing Upgrade {slotStack.Id} from slot {idx}");
             IUpgradeable removeUpg = currentInspectedObject.GetComponent<IUpgradeable>();
-            removeUpg?.RemoveUpgradeServerRpc(slotStack.Id);
+            removeUpg?.RemoveUpgradeServerRpc(slotStack.Id, idx);
 
 
             CursorStack.Instance.ItemStack = slotStack;
@@ -151,9 +151,9 @@ public class InspectionMenu : BaseContainer
             //RPC, as before
             //! swap upgrades
             IUpgradeable swapApplyUpg = currentInspectedObject.GetComponent<IUpgradeable>();
-            Debug.Log($"Swapping upgrades {ContainerItems[idx].Id} for {CursorStack.Instance.ItemStack.Id}");
+            Debug.Log($"Swapping upgrades {ContainerItems[idx].Id} for {CursorStack.Instance.ItemStack.Id} at slot {idx}");
             swapApplyUpg?.ApplyUpgradeServerRpc(CursorStack.Instance.ItemStack.Id);
-            swapApplyUpg?.RemoveUpgradeServerRpc(ContainerItems[idx].Id);
+            swapApplyUpg?.RemoveUpgradeServerRpc(ContainerItems[idx].Id, idx);
 
 
             SwapSlotWithCursorServerRpc(idx, CursorStack.Instance.ItemStack.Id, CursorStack.Instance.ItemStack.amount);
