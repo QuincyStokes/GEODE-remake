@@ -14833,6 +14833,10 @@ GameObject:
   - component: {fileID: 5210510195182125950}
   - component: {fileID: 8051460741845487366}
   - component: {fileID: 1167824801539386413}
+  - component: {fileID: 8356037946413140528}
+  - component: {fileID: 2655173072747878233}
+  - component: {fileID: 8204586266672603991}
+  - component: {fileID: 5726796248257980779}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -14901,26 +14905,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  playerInput: {fileID: 8204586266672603991}
+  playerMovement: {fileID: 5726796248257980779}
+  playerCombat: {fileID: 2655173072747878233}
+  playerUIInteraction: {fileID: 8356037946413140528}
   playerInventory: {fileID: 2285968976491174105}
   playerHealth: {fileID: 7956074637776842079}
-  inspectionMenu: {fileID: 6448259074964010462}
-  animator: {fileID: 144841936893984039}
+  dayNumber: {fileID: 1514360565529031736}
   playerUICanvas: {fileID: 8081776575273247699}
   pauseMenu: {fileID: 1395375061418743693}
-  hitbox: {fileID: 3781256305922087404}
-  repairHitbox: {fileID: 2073833434485274866}
-  hitboxParent: {fileID: 8748278583955026354}
-  attackAnimator: {fileID: 980645611446013924}
-  dayNumber: {fileID: 1514360565529031736}
-  moveSpeed: 4
-  baseMoveSpeed: 0
-  knockbackDecay: 3
-  swingCooldown: 0.5
-  movementLocked: 0
-  interactableLayerMask:
-    serializedVersion: 2
-    m_Bits: 128
-  openUniqueUI: {fileID: 0}
 --- !u!114 &2285968976491174105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14978,9 +14971,9 @@ MonoBehaviour:
   droppedItems: []
   deathTimer: 5
   sr: {fileID: 6936979194301973592}
-  collisionHitbox: {fileID: 0}
+  collisionHitbox: {fileID: 7391063462178417633}
   objectTransform: {fileID: 8419501764596933443}
-  particleSpawnPoint: {fileID: 0}
+  particleSpawnPoint: {fileID: 6151581760922582343}
   hitParticleEffectType: 0
   centerPoint: {fileID: 6151581760922582343}
   playerController: {fileID: 5170530430319516246}
@@ -15218,6 +15211,76 @@ MonoBehaviour:
     m_InternalValue: 1
   HealthBonus:
     m_InternalValue: 0
+--- !u!114 &8356037946413140528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8265714030686749453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b91a509ccc662f42a445c0dd1575646, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inspectionMenu: {fileID: 6448259074964010462}
+  interactableLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  playerInput: {fileID: 8204586266672603991}
+  playerMovement: {fileID: 5726796248257980779}
+  playerInventory: {fileID: 2285968976491174105}
+--- !u!114 &2655173072747878233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8265714030686749453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98ea7453e0084b245af0562c83374b51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  hitbox: {fileID: 3781256305922087404}
+  repairHitbox: {fileID: 2073833434485274866}
+  attackAnimator: {fileID: 980645611446013924}
+  playerInput: {fileID: 8204586266672603991}
+  playerMovement: {fileID: 5726796248257980779}
+  playerPerkStats: {fileID: 1167824801539386413}
+--- !u!114 &8204586266672603991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8265714030686749453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36d48ea9c56cb0241985e5f708201786, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  swingCooldown: 0
+--- !u!114 &5726796248257980779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8265714030686749453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 154a735a0563b8b428e958ac89f04124, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  animator: {fileID: 144841936893984039}
+  hitboxParent: {fileID: 8748278583955026354}
+  playerPerkStats: {fileID: 1167824801539386413}
+  moveSpeed: 5
+  baseMoveSpeed: 5
+  knockbackDecay: 1
 --- !u!1 &8275343582830561532
 GameObject:
   m_ObjectHideFlags: 0

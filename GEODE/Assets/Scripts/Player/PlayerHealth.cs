@@ -244,7 +244,10 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
             PlayerDeathThings();    
         }
         
-        playerController.movementLocked = true;
+        if (playerController != null)
+        {
+            playerController.Movement.LockMovement();
+        }
         invulnerable = true;
         yield return new WaitForSeconds(deathTimer);
         Vector3 spawnPos = Vector3.zero;
@@ -260,7 +263,10 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
         playerController.TeleportOwnerClientRpc(spawnPos);
         CurrentHealth.Value = MaxHealth.Value;
 
-        playerController.movementLocked = false;
+        if (playerController != null)
+        {
+            playerController.Movement.UnlockMovement();
+        }
         
         
         invulnerable = false;
@@ -293,9 +299,11 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
         if (collisionHitbox != null)
             collisionHitbox.enabled = false;
 
-        // Lock this client’s movement so FixedUpdate() can no longer move the Rigidbody
+        // Lock this client's movement so FixedUpdate() can no longer move the Rigidbody
         if (playerController != null)
-            playerController.movementLocked = true;
+        {
+            playerController.Movement.LockMovement();
+        }
     }
 
     private void PlayerReviveThings()
@@ -308,7 +316,9 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
             collisionHitbox.enabled = true;
 
         if (playerController != null)
-            playerController.movementLocked = false;
+        {
+            playerController.Movement.UnlockMovement();
+        }
     }
 
    

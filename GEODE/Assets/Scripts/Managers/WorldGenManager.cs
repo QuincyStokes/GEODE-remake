@@ -430,12 +430,6 @@ public class WorldGenManager : NetworkBehaviour
             //Deregister it from the network
             hit.GetComponentInParent<NetworkObject>().Despawn(true);
         }
-        else
-        {
-            Debug.Log("Tried to remove object, but didn't find anything.");
-        }
-
-
     }
     
     [ClientRpc]

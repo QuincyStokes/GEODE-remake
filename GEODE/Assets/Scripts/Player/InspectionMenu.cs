@@ -209,8 +209,12 @@ public class InspectionMenu : BaseContainer
 
     private void RangeCheck()
     {
-        if(currentInspectedObject == null) return;
-        if(Vector2.Distance(PlayerController.Instance.transform.position, currentInspectedObject.transform.position) > 10)
+        if (currentInspectedObject == null) return;
+        
+        PlayerController player = PlayerController.GetLocalPlayerController();
+        if (player == null) return;
+        
+        if (Vector2.Distance(player.transform.position, currentInspectedObject.transform.position) > 10)
         {
             CloseInspectionMenu();
         }

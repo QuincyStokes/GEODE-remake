@@ -15,8 +15,14 @@ public class ConcentratedCrystal : BaseItem
         {
             spawnPos = FlowFieldManager.Instance.coreTransform.position;
         }
-        PlayerController.Instance.transform.position = spawnPos;
-        PlayerController.Instance.TeleportOwnerClientRpc(spawnPos);
+        
+        PlayerController player = PlayerController.GetLocalPlayerController();
+        if (player != null)
+        {
+            player.transform.position = spawnPos;
+            player.TeleportOwnerClientRpc(spawnPos);
+        }
+        
         return true;
     }
 

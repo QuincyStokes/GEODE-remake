@@ -50,7 +50,10 @@ public class BackgroundMusicManager : MonoBehaviour
 
     private void PlayNightMusic()
     {
-        Vector3 playerPos = PlayerController.Instance.transform.position;
+        PlayerController player = PlayerController.GetLocalPlayerController();
+        if (player == null) return;
+        
+        Vector3 playerPos = player.transform.position;
         Vector3Int pos = new Vector3Int((int)playerPos.x, (int)playerPos.y, (int)playerPos.z);
         BiomeType biomeType = WorldGenManager.Instance.GetBiomeAtPosition(pos);
         switch (biomeType)
@@ -67,7 +70,10 @@ public class BackgroundMusicManager : MonoBehaviour
 
     private void PlayDayMusic()
     {
-        Vector3 playerPos = PlayerController.Instance.transform.position;
+        PlayerController player = PlayerController.GetLocalPlayerController();
+        if (player == null) return;
+        
+        Vector3 playerPos = player.transform.position;
         Vector3Int pos = new Vector3Int((int)playerPos.x, (int)playerPos.y, (int)playerPos.z);
         BiomeType biomeType = WorldGenManager.Instance.GetBiomeAtPosition(pos);
         switch (biomeType)
