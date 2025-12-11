@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 801184ae3a0d9d2479257a43cc174ad5, type: 3}
+  m_Name: 62_BiziteAttackTower
+  m_EditorClassIdentifier: 
+  name: Bizite Attack Tower
+  description: A moderate AOE tower. Creates mid-damage pulse waves on enemies.
+  type: 2
+  icon: {fileID: 1281416401950617226, guid: 6f85083b0d374764882e69d91629e995, type: 3}
+  id: 62
+  isStackable: 1
+  consumeOnUse: 1
+  prefab: {fileID: 5241912323242780402, guid: 7355088a7d5fdc946ae676acf5ebe1c9, type: 3}
+  width: 2
+  height: 2

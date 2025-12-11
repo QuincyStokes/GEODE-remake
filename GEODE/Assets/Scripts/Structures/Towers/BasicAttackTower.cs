@@ -7,14 +7,14 @@ using UnityEngine;
 public class BasicAttackTower : BaseTower
 {
     [Header("References")]
-    [SerializeField] private GameObject projectilePrefab;
-    [SerializeField] private Transform firePoint;
+    [SerializeField] protected GameObject projectilePrefab;
+    [SerializeField] protected Transform firePoint;
     [Header("Audio")]
-    [SerializeField] private SoundId fireSoundId;
+    [SerializeField] protected SoundId fireSoundId;
 
     [Header("Animation")]
-    [SerializeField] private Animator animator;
-    [SerializeField] private int framesToWait;
+    [SerializeField] protected Animator animator;
+    [SerializeField] protected int framesToWait;
     public override IEnumerator Fire()
     {
         animator.SetTrigger("Shoot");

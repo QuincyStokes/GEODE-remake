@@ -50,7 +50,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     [SerializeField] protected GameObject tower; //separate the tower from the "base" for towers that may rotate
     [SerializeField] protected GameObject rangeIndicator;
     public bool ShowingRange { get => rangeIndicator.activeSelf; set => rangeIndicator.SetActive(value); }
-    [SerializeField] private Color higlightColor;
+    [SerializeField] private Color higlightColor = new Color(0.56f, 1f, 0.44f, 1f);
 
     [Header("Unique Menu")]
     [SerializeField] private GameObject uniqueUI;
@@ -207,7 +207,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
     }
 
 
-    private Transform GetNearestTarget()
+    protected Transform GetNearestTarget()
     {
         float currentClosest = size.Value * 2; //arbitrary number, fine to set it to range*2 because that will always be outside of our range
         if (targets.Count == 0)
