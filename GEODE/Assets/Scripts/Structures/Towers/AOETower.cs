@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AOETower : BaseTower
@@ -14,14 +15,14 @@ public class AOETower : BaseTower
         {
             yield return new WaitForEndOfFrame();
         }
-
+        
         //Every target within our range
         foreach(GameObject go in targets)
         {
-            //If this gameobject is null, remove it from thelist and continue
+            //If this gameobject is null, remove it from thelist and continue THIS IS BAD, MODIFYING A COLLECTION WHILE ITERATING IT
+
             if(go == null)
             {
-                RemoveTarget(go);
                 continue;
             }
             IDamageable dmg = go.GetComponentInParent<IDamageable>();

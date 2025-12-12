@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Yeedrite Crystal
   description: A crystal from the Yeedrite geode. Upgrades SPEED
   type: 5
-  icon: {fileID: -2819067472943657855, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
+  icon: {fileID: 275367399833583520, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
   id: 59
   isStackable: 1
   consumeOnUse: 0

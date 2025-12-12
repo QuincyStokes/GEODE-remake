@@ -242,12 +242,10 @@ MonoBehaviour:
   BASE_XP_REQUIRED: 50
   enemyCrystalType: 4
   DROPPED_ITEMS:
-  - Id: 30
+  - Id: 57
     minAmount: 1
     maxAmount: 1
     chance: 5
-    minItemQuality: 0
-    maxItemQuality: 0
   idealToolType: 1
   droppedXp: 5
   structureLayerMask:

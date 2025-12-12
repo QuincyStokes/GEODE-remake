@@ -14939,7 +14939,7 @@ MonoBehaviour:
   - item: {fileID: 11400000, guid: b655818b047415248a0995e091c067d3, type: 2}
     amount: 1
   isOpen: 0
-  devMode: 1
+  devMode: 0
   inventoryObject: {fileID: 3774294273146469442}
   hotbarObject: {fileID: 3669146933921313452}
   healthbarObject: {fileID: 944747294854935516}
@@ -15261,7 +15261,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36d48ea9c56cb0241985e5f708201786, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swingCooldown: 0
+  swingCooldown: 0.7
 --- !u!114 &5726796248257980779
 MonoBehaviour:
   m_ObjectHideFlags: 0

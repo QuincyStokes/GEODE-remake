@@ -28,7 +28,7 @@ public class AOEBlastTower : BasicAttackTower
             no.Spawn();
         }
 
-        bolt.GetComponent<BaseProjectile>().Initialize(strength.Value, (currentTarget.position - firePoint.position).normalized, this, persistent:true);
+        bolt.GetComponent<BaseProjectile>().Initialize(strength.Value, (currentTarget.position - firePoint.position).normalized, this, damageType, persistent:true);
     }
 
 }

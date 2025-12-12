@@ -28,14 +28,21 @@ public class Chest : SimpleObject, IChest, IUniqueMenu
     public override void DoClickedThings()
     {
         base.DoClickedThings();
-        _animator.SetBool("isOpen", true);
+        if(_animator != null)
+            _animator.SetBool("isOpen", true);
         
     }
 
     public override void DoUnclickedThings()
     {
         base.DoUnclickedThings();
-        _animator.SetBool("isOpen", false);
-        
+        if(_animator != null)
+            _animator.SetBool("isOpen", false);
+    }
+
+    public override void OnDestroy()
+    {
+        base.OnDestroy();
+        DoUnclickedThings();
     }
 }

@@ -540,6 +540,7 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
 
     }
 
+
     public void KilledSomething(IDamageable damageable)
     {
         TrackKill(damageable);
