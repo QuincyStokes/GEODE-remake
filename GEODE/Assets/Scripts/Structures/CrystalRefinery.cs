@@ -28,12 +28,12 @@ public class CrystalRefinery : SimpleObject, IUniqueMenu
 
     public void HideMenu()
     {
-        
+        UniqueUI.SetActive(false);
     }
 
     public void ShowMenu()
     {
-        
+        UniqueUI.SetActive(true);
     }
 
     public override void DoClickedThings()

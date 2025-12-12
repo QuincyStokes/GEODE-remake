@@ -16,6 +16,7 @@ public class ChestUI : BaseContainer
         
     }
 
+    //THIS IS FRAUD. This actually just sets isOpen to true at the start, but never to false since the chest itself is never Disabled.
     private void OnEnable()
     {
         isOpen = true;
