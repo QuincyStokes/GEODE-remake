@@ -15,6 +15,7 @@ MonoBehaviour:
   name: Bizite Crystal
   description: A crystal from the Bizite geode. Upgrades SIZE
   type: 5
+  subType: 6
   icon: {fileID: 8974179435539756478, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
   id: 58
   isStackable: 1

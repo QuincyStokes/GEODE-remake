@@ -15,6 +15,7 @@ MonoBehaviour:
   name: Minor Gelthite Crystal
   description: A weak crystal from the Gelthite geode, upgrades HEALTH!
   type: 5
+  subType: 6
   icon: {fileID: -1561941736606595945, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
   id: 30
   isStackable: 1

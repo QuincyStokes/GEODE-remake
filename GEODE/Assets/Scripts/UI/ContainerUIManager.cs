@@ -39,7 +39,7 @@ public class ContainerUIManager<T> : MonoBehaviour
         RedrawAll();
     }
 
-    protected void InitializeSlots()
+    protected virtual void InitializeSlots()
     {
         slots.Clear();
         Debug.Log("Initializing Slots!");

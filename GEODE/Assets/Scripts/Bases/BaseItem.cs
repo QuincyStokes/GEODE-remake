@@ -9,6 +9,7 @@ public abstract class BaseItem : ScriptableObject
     public new string name;
     public string description;
     public ItemType type;
+    public ItemType subType;
     public Sprite icon;
     public int id;
     public bool isStackable;

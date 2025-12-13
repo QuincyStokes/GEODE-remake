@@ -15,6 +15,7 @@ MonoBehaviour:
   name: Minor Yeedrite Crystal
   description: A weak crystal from the Yeedrite geode. Upgrades SPEED!
   type: 5
+  subType: 6
   icon: {fileID: 275367399833583520, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
   id: 32
   isStackable: 1

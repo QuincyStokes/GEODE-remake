@@ -15,6 +15,7 @@ MonoBehaviour:
   name: Renthite Crystal
   description: A crystal from the Renthite geode. Upgrades DAMAGE
   type: 5
+  subType: 6
   icon: {fileID: -2819067472943657855, guid: 1c710b9702fd5d147b1d0a542ddffcaa, type: 3}
   id: 56
   isStackable: 1
