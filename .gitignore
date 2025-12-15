@@ -71,3 +71,4 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /GEODE/[Aa]ssets/[Ss]treamingAssets/aa.meta
 /GEODE/[Aa]ssets/[Ss]treamingAssets/aa/*
+GEODE/Assets/com.rlabrecque.steamworks.net/Plugins/steam_api64.dll
