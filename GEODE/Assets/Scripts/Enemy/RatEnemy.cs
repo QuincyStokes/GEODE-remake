@@ -42,6 +42,14 @@ public class RatEnemy : BaseEnemy
         yield return new WaitForSeconds(.2f);
         attackHitbox.gameObject.SetActive(false);
     }
+
+    protected override BaseEnemyState CreateIdleState() => new IdleState();
+    protected override BaseEnemyState CreateAttackState() => new AttackState();
+    protected override BaseEnemyState CreatePathToCoreState() => new PathToCoreState();
+    protected override BaseEnemyState CreatePathToObstructingState() => new PathToObstructingState();
+    protected override BaseEnemyState CreateDeathState() => new DeathState();
+    protected override BaseEnemyState CreatePathToPlayerState() => new PathToPlayerState();
+
 }
 
 

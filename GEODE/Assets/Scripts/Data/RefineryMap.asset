@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 621400b994807474b8631367ab2f3836, type: 3}
+  m_Name: RefineryMap
+  m_EditorClassIdentifier: 
+  refineryMaps:
+  - inputItem: {fileID: 11400000, guid: 94112d1076cb532498bc774b84072f3b, type: 2}
+    outputItem: {fileID: 11400000, guid: 569abba6c6525154dbd3dc4ca2196088, type: 2}
+  - inputItem: {fileID: 11400000, guid: 287bc28c22abf1f4b991a61c1e9f7101, type: 2}
+    outputItem: {fileID: 11400000, guid: da5c4669b5dc20947918bd764ec77c32, type: 2}
+  - inputItem: {fileID: 11400000, guid: 7fea767475cfe1841ac04b33eb05f457, type: 2}
+    outputItem: {fileID: 11400000, guid: e3157136444fdac488f530e013114782, type: 2}
+  - inputItem: {fileID: 11400000, guid: 8e9d08924d6621e4db38d91684da5460, type: 2}
+    outputItem: {fileID: 11400000, guid: cb30e15fc5d90c3409103e1a880f5698, type: 2}

@@ -67,10 +67,12 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
     public float wanderTimeMax = 5f;
     public float aggroRange = 5f;
 
+
+    //* ----------------- Network Variables ----------- */
     public NetworkVariable<float> MaxHealth { get; set; } = new NetworkVariable<float>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public NetworkVariable<float> CurrentHealth { get; set; } = new NetworkVariable<float>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public List<DroppedItem> DroppedItems { get; set; }
-    private EnemyStateMachine stateMachine;
+    protected EnemyStateMachine stateMachine;
     [HideInInspector] public int DroppedXP {get => droppedXp;}
 
 
@@ -100,11 +102,35 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
 
 
     //*----------------------------- METHODS ---------------------------
-    private void Awake()
+    protected virtual void Awake()
     {
-        stateMachine = new EnemyStateMachine(this);
-        
+        InitializeStateMachine();
     }
+
+    private void InitializeStateMachine()
+    {
+        stateMachine = new EnemyStateMachine(
+            this,
+            idleState: CreateIdleState(),
+            attackState: CreateAttackState(),
+            pathToCoreState: CreatePathToCoreState(),
+            pathToObstructingState: CreatePathToObstructingState(),
+            deathState: CreateDeathState(),
+            pathToPlayerState: CreatePathToPlayerState()
+        );
+    }
+
+    /// <summary>
+    /// Factory methods for state creation - override in subclasses to provide custom state implementations.
+    /// </summary>
+    protected abstract BaseEnemyState CreateIdleState();
+    protected abstract BaseEnemyState CreateAttackState();
+    protected abstract BaseEnemyState CreatePathToCoreState();
+    protected abstract BaseEnemyState CreatePathToObstructingState();
+    protected abstract BaseEnemyState CreateDeathState();
+    protected abstract BaseEnemyState CreatePathToPlayerState();
+    //EXAMPLE:
+    //protected override BaseEnemyState CreateIdleState() => new IdleState();
 
     public override void OnNetworkSpawn()
     {

@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 
+[Serializable]
 public abstract class BaseEnemyState
 {
     public abstract void EnterState(BaseEnemy owner, EnemyStateMachine stateMachine);

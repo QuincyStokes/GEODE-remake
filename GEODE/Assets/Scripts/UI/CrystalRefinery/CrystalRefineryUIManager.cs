@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CrystalRefineryUIManager : ContainerUIManager<CrystalRefineryUI>
+public class CrystalRefineryUIManager : ContainerUIManager<CrystalRefineryContainer>
 {
     
     // protected override void InitializeSlots()

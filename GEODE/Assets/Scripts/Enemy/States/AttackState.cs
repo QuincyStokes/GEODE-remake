@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 
+[Serializable]
 public class AttackState : BaseEnemyState
 {
     private enum Phase { Windup, Execute, Recovery }
@@ -27,7 +29,7 @@ public class AttackState : BaseEnemyState
             case Phase.Windup:
                 //!For now this is where we do the "windup" animation, attackRecoveryTime should be the time it takes until the impact frame.
                 
-                phaseTimer   = owner.attackWindupTime; // e.g. 0.2s of pause after the hit
+                phaseTimer = owner.attackWindupTime; 
                 currentPhase = Phase.Execute;
                 break;
 
@@ -42,7 +44,7 @@ public class AttackState : BaseEnemyState
             case Phase.Recovery:
                 // Recovery done: go back to your default behavior
                 // (you could inspect the time of day, target, etc., here too)
-                sm.ChangeState(new IdleState());
+                sm.ChangeState(sm.idleState);
                 break;
         }
     }

@@ -1,7 +1,9 @@
 using Unity.Multiplayer.Tools.NetStatsMonitor;
 using Unity.VisualScripting;
 using UnityEngine;
+using System;
 
+[Serializable]
 public class PathToObstructingState : BaseEnemyState
 {
     private float attackTimer;
@@ -14,7 +16,7 @@ public class PathToObstructingState : BaseEnemyState
 
         if (!DayCycleManager.Instance.IsNighttime())
         {
-            stateMachine.ChangeState(new IdleState());
+            stateMachine.ChangeState(stateMachine.idleState);
             return;
         }
 
@@ -40,7 +42,7 @@ public class PathToObstructingState : BaseEnemyState
             
         if (!DayCycleManager.Instance.IsNighttime())
         {
-            stateMachine.ChangeState(new IdleState());
+            stateMachine.ChangeState(stateMachine.idleState);
             return;
         }
 
@@ -50,7 +52,7 @@ public class PathToObstructingState : BaseEnemyState
             if (flowDir != Vector2.zero)
             {
                 //this means there is now a path to the core, lets switch states
-                stateMachine.ChangeState(new PathToCoreState());
+                stateMachine.ChangeState(stateMachine.pathToCoreState);
                 return;
             }
            
@@ -74,7 +76,7 @@ public class PathToObstructingState : BaseEnemyState
                     //if the Id of our target happens to be the core, switch to PathToCore
                     if (obstructingObject.matchingItemId.Value == 6)
                     {
-                        stateMachine.ChangeState(new PathToCoreState());
+                        stateMachine.ChangeState(stateMachine.pathToCoreState);
                         return;
                     }
                     owner.currentTarget = obstructingObject;
@@ -116,7 +118,7 @@ public class PathToObstructingState : BaseEnemyState
 
             if (sqrDist <= owner.attackRange * owner.attackRange)
             {
-                stateMachine.ChangeState(new AttackState());
+                stateMachine.ChangeState(stateMachine.attackState);
                 return;
             }
 

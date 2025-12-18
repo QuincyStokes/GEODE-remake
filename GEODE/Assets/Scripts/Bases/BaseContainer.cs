@@ -191,6 +191,18 @@ public class BaseContainer : NetworkBehaviour
         return -1;
     }
 
+    protected int GetFirstEmptySlotAfterIndex(int startIndex)
+    {
+        for (int i = startIndex; i < ContainerItems.Count; i++)
+        {
+            if (ContainerItems[i].IsEmpty())
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
 
 
     //server authoritative inventory adding
@@ -198,6 +210,24 @@ public class BaseContainer : NetworkBehaviour
     public void AddItemServerRpc(int id, int count)
     {
         AddItemInternal(id, count);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void SetItemAtSlotServerRpc(int index, int id, int count)
+    {
+        SetItemAtSlotInternal(index, id, count);
+    }
+
+    internal void SetItemAtSlotInternal(int index, int id, int count)
+    {
+        if (!ContainerItems[index].Equals(ItemStack.Empty)) return;
+            
+        ItemStack s = new ItemStack{Id = id, amount = count};
+
+        OnSlotChanged?.Invoke(index, s);
+        ContainerItems[index] = s;
+
+            //add the overflow to a different slot
     }
 
     //called by Slot.cs

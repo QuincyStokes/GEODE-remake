@@ -1,14 +1,17 @@
 using UnityEngine;
-using UnityEngine.Analytics;
+using System;
 
-public class PathToPlayer : BaseEnemyState
+[Serializable]
+public class PathToPlayerState : BaseEnemyState
 {
     private float attackTimer;
     public override void EnterState(BaseEnemy owner, EnemyStateMachine stateMachine)
     {
         attackTimer = owner.attackCooldown;
         owner.animator.SetBool("Move", true);
-        owner.currentTarget = owner.playerTransform.GetComponentInParent<IDamageable>();
+
+        //not sure how yucky this is..
+        owner.currentTarget = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<IDamageable>();
     }
 
     public override void ExitState(BaseEnemy owner, EnemyStateMachine stateMachine)
@@ -25,7 +28,7 @@ public class PathToPlayer : BaseEnemyState
 
             if (owner.coreTransform != null)
             {
-                stateMachine.ChangeState(new PathToCoreState());
+                stateMachine.ChangeState(stateMachine.pathToCoreState);
                 return;
             }
 
@@ -33,7 +36,7 @@ public class PathToPlayer : BaseEnemyState
 
         if (owner.playerTransform == null)
         {
-            stateMachine.ChangeState(new IdleState());
+            stateMachine.ChangeState(stateMachine.idleState);
             return;
         }
 
@@ -59,7 +62,7 @@ public class PathToPlayer : BaseEnemyState
             if (sqrDist <= owner.attackRange * owner.attackRange)
             {
                 owner.targetClosestPoint = owner.playerTransform.position;
-                stateMachine.ChangeState(new AttackState());
+                stateMachine.ChangeState(stateMachine.attackState);
                 return;
             }
 

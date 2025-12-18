@@ -1,5 +1,7 @@
 using TMPro;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TooltipService : MonoBehaviour
 {
@@ -12,7 +14,8 @@ public class TooltipService : MonoBehaviour
     [SerializeField] private TMP_Text _itemDescriptionTMP;
     [SerializeField] private TMP_Text _itemTypeTMP;
     [SerializeField] private TMP_Text _itemStatsTMP;
-    [SerializeField] private TMP_Text _itemQualityTMP;
+
+    [SerializeField] private RectTransform rootRect;
 
 
     private void Awake()
@@ -45,7 +48,6 @@ public class TooltipService : MonoBehaviour
         _itemDescriptionTMP.gameObject.SetActive(false);
         _itemTypeTMP.gameObject.SetActive(false);
         _itemStatsTMP.gameObject.SetActive(false);
-        _itemQualityTMP.gameObject.SetActive(false);
 
         //Enable and set the text of each relevant tooltip section
         //First, Basic Item properties
@@ -90,10 +92,9 @@ public class TooltipService : MonoBehaviour
                 UpgradeItem upgItem = item as UpgradeItem;
                 if (upgItem != null)
                 {
-                    _itemQualityTMP.gameObject.SetActive(true);
                     foreach (Upgrade upgrade in upgItem.upgradeList)
                     {
-                        _itemStatsTMP.text += $"{upgrade.upgradeType} : {upgrade.percentIncrease}%\n";
+                        _itemStatsTMP.text += $"{upgrade.upgradeType} +{upgrade.percentIncrease}%\n";
                     }
                 }
                 break;
@@ -111,6 +112,7 @@ public class TooltipService : MonoBehaviour
         //lastly, enable it!
         Debug.Log("Enabling tooltip!");
         tooltipRoot.gameObject.SetActive(true);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(rootRect);
 
     }
 

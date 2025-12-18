@@ -1,7 +1,8 @@
 using Unity.Multiplayer.Tools.NetStatsMonitor;
 using Unity.VisualScripting;
 using UnityEngine;
-
+using System;
+[Serializable]
 public class PathToCoreState : BaseEnemyState
 {
     private float attackTimer = 0f;
@@ -10,7 +11,7 @@ public class PathToCoreState : BaseEnemyState
         //set running animation?
         if (owner.coreTransform == null)
         {
-            stateMachine.ChangeState(new IdleState());
+            stateMachine.ChangeState(stateMachine.idleState);
             return;
         }
         owner.animator.SetBool("Move", true);
@@ -28,14 +29,14 @@ public class PathToCoreState : BaseEnemyState
     {
         if (!DayCycleManager.Instance.IsNighttime())
         {
-            stateMachine.ChangeState(new IdleState());
+            stateMachine.ChangeState(stateMachine.idleState);
             return;
         }
 
         //at this point we know its nighttime, so safe to assume below
         if (owner.coreTransform == null || owner.currentTarget == null)
         {
-            stateMachine.ChangeState(new PathToPlayer());
+            stateMachine.ChangeState(stateMachine.pathToPlayerState);
             return;
         }
 
@@ -59,7 +60,7 @@ public class PathToCoreState : BaseEnemyState
             if (flowDir == Vector2.zero)
             {
                 //this means there is no path to the core from our current location, set state to PathToObstructing
-                stateMachine.ChangeState(new PathToObstructingState());
+                stateMachine.ChangeState(stateMachine.pathToObstructingState);
                 return;
             }
             
@@ -99,7 +100,7 @@ public class PathToCoreState : BaseEnemyState
             if (Vector3.Distance(owner.targetClosestPoint, owner.transform.position) <= owner.attackRange)
             {
                 //Switch to attack state\
-                stateMachine.ChangeState(new AttackState());
+                stateMachine.ChangeState(stateMachine.attackState);
             }
         }
     }

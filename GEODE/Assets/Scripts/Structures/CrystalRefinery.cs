@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class CrystalRefinery : SimpleObject, IUniqueMenu
@@ -15,16 +16,43 @@ public class CrystalRefinery : SimpleObject, IUniqueMenu
     ///     //Can have the main inventory of it be in the upper part of the menu, and the lower can be a second one with output
     /// </summary>
 
+    /// 
+    [SerializeField] private CrystalRefineryContainer crystalRefinery;
 
     [Header("UI References")]
     public GameObject uniqueUI;
 
 
     [Header("Animation")]
-    private Animator _animator;
+    [SerializeField]private Animator _animator;
 
     //* ----------------- Internal ---------------- */
     public GameObject UniqueUI => uniqueUI;
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        crystalRefinery.OnRefineryStarted += HandleRefineryStarted;
+        crystalRefinery.OnRefineryEnded += HandleRefineryEnded;
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+
+        crystalRefinery.OnRefineryStarted -= HandleRefineryStarted;
+        crystalRefinery.OnRefineryEnded -= HandleRefineryEnded;
+    }
+
+    private void HandleRefineryEnded()
+    {
+        _animator.SetBool("isOn", false);
+    }
+
+    private void HandleRefineryStarted()
+    {
+        _animator.SetBool("isOn", true);
+    }
 
     public void HideMenu()
     {

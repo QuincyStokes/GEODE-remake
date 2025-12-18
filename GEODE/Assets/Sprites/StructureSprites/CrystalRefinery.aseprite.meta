@@ -177,7 +177,7 @@ ScriptedImporter:
       x: 4
       y: 4
       width: 32
-      height: 13
+      height: 32
     spriteID: f8b1ece1c8d568549a4d995a845c5b1e
     spriteBone: []
     spriteOutline: []
@@ -198,7 +198,7 @@ ScriptedImporter:
       x: 4
       y: 44
       width: 32
-      height: 13
+      height: 32
     spriteID: 0e0c3ce2543a22746b8baf30b950f677
     spriteBone: []
     spriteOutline: []
@@ -210,16 +210,16 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: CrystalRefinery_2
     originalName: 
-    pivot: {x: 0.5, y: 0}
-    alignment: 7
+    pivot: {x: 0, y: 0}
+    alignment: 6
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
       serializedVersion: 2
       x: 4
-      y: 97
+      y: 84
       width: 32
-      height: 19
+      height: 32
     spriteID: f69d6eb8c63d0834bb667d0a04864f13
     spriteBone: []
     spriteOutline: []
@@ -231,16 +231,16 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: CrystalRefinery_3
     originalName: 
-    pivot: {x: 0.5, y: 0}
-    alignment: 7
+    pivot: {x: 0, y: 0}
+    alignment: 6
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
       serializedVersion: 2
       x: 44
-      y: 97
+      y: 84
       width: 32
-      height: 19
+      height: 32
     spriteID: bf12fd13d470fdf4cb0eb2aa4ee7fbb5
     spriteBone: []
     spriteOutline: []
@@ -252,16 +252,16 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: CrystalRefinery_4
     originalName: 
-    pivot: {x: 0.5, y: 0}
-    alignment: 7
+    pivot: {x: 0, y: 0}
+    alignment: 6
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
       serializedVersion: 2
       x: 44
-      y: 57
+      y: 44
       width: 32
-      height: 19
+      height: 32
     spriteID: a8a9f04590f59c64396242d3c6e93756
     spriteBone: []
     spriteOutline: []
@@ -273,16 +273,16 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   - name: CrystalRefinery_5
     originalName: 
-    pivot: {x: 0.5, y: 0}
-    alignment: 7
+    pivot: {x: 0, y: 0}
+    alignment: 6
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
       serializedVersion: 2
       x: 44
-      y: 17
+      y: 4
       width: 32
-      height: 19
+      height: 32
     spriteID: 0d79ea558cc83cc4695b40f0b9b8fb9d
     spriteBone: []
     spriteOutline: []
@@ -292,19 +292,40 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
-  - name: CrystalRefinery_6
+  - name: CrystalRefinery_7
     originalName: 
-    pivot: {x: 0.5, y: 0}
-    alignment: 7
+    pivot: {x: 0, y: 0}
+    alignment: 6
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
       serializedVersion: 2
-      x: 4
-      y: 17
+      x: 84
+      y: 4
       width: 32
-      height: 19
-    spriteID: 9d822eb55a6e1b54a818d7473a495397
+      height: 32
+    spriteID: d94ca4df98523f644941cfa165e1bb03
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: CrystalRefinery_8
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 6
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 84
+      y: 44
+      width: 32
+      height: 32
+    spriteID: be0239b58a6ac2941bc0885beb606294
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -375,6 +396,24 @@ ScriptedImporter:
         width: 32
         height: 32
       spriteId: a5a5ee6f892d87a449b0b8620689591c
+    - name: Frame_6
+      frameIndex: 6
+      additiveSortOrder: 0
+      cellRect:
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      spriteId: 316c3cab9d715e548a904e86e529e410
+    - name: Frame_7
+      frameIndex: 7
+      additiveSortOrder: 0
+      cellRect:
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      spriteId: a18be1f7b1e4ff346b55269f094c101e
     linkedCells: []
     parentIndex: -1
   platformSettings:

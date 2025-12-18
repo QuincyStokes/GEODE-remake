@@ -1,5 +1,9 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerUIInteraction : MonoBehaviour
 {
@@ -64,10 +68,23 @@ public class PlayerUIInteraction : MonoBehaviour
         {
             HandleInteractableHit(hit);
         }
-        else
+        else if (!IsPointerOverUI())
         {
             HandleEmptySpaceClick();
         }
+    }
+
+    public bool IsPointerOverUI()
+    {
+        var pointerData = new PointerEventData(EventSystem.current)
+        {
+            position = Mouse.current.position.ReadValue()
+        };
+
+        var hits = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointerData, hits);
+
+        return hits.Exists(h => h.module is GraphicRaycaster);
     }
 
     private void HandleInteractableHit(RaycastHit2D hit)

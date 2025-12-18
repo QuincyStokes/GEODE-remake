@@ -1,6 +1,8 @@
+using System;
 using Unity.Multiplayer.Tools.NetStatsMonitor;
 using UnityEngine;
 
+[Serializable]
 public class IdleState : BaseEnemyState
 {
     private float wanderTimer;
@@ -8,7 +10,7 @@ public class IdleState : BaseEnemyState
 
     public override void EnterState(BaseEnemy owner, EnemyStateMachine stateMachine)
     {
-        wanderTimer = Random.Range(owner.wanderTimeMin, owner.wanderTimeMax);
+        wanderTimer = UnityEngine.Random.Range(owner.wanderTimeMin, owner.wanderTimeMax);
         SetNewWanderTarget(owner);
 
         owner.rb.linearVelocity = Vector2.zero;
@@ -32,14 +34,14 @@ public class IdleState : BaseEnemyState
 
         if (DayCycleManager.Instance.IsNighttime())
         {
-            stateMachine.ChangeState(new PathToCoreState());
+            stateMachine.ChangeState(stateMachine.pathToCoreState);
             return;
         }
 
         if (owner.playerTransform != null)
         {
             
-            stateMachine.ChangeState(new PathToPlayer());
+            stateMachine.ChangeState(stateMachine.pathToPlayerState);
             return;
             
         }
@@ -48,7 +50,7 @@ public class IdleState : BaseEnemyState
         wanderTimer -= Time.fixedDeltaTime;
         if (wanderTimer <= 0 || Vector2.Distance(owner.transform.position, wanderTarget) < .2f)
         {
-            wanderTimer = Random.Range(owner.wanderTimeMin, owner.wanderTimeMax);
+            wanderTimer = UnityEngine.Random.Range(owner.wanderTimeMin, owner.wanderTimeMax);
             SetNewWanderTarget(owner);
         }
 
@@ -66,7 +68,7 @@ public class IdleState : BaseEnemyState
     
     private void SetNewWanderTarget(BaseEnemy owner)
     {
-        Vector2 offset = Random.insideUnitCircle * owner.wanderRadius;
+        Vector2 offset = UnityEngine.Random.insideUnitCircle * owner.wanderRadius;
         wanderTarget  = (Vector2)owner.transform.position + offset;
     }
 }
