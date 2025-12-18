@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System; 
 public class EnemyStateMachine
 {
     public BaseEnemyState CurrentState { get; private set;}
@@ -13,6 +13,9 @@ public class EnemyStateMachine
     public BaseEnemyState pathToObstructingState { get; private set; }
     public BaseEnemyState deathState { get; private set; }
     public BaseEnemyState pathToPlayerState { get; private set; }
+
+
+    public event Action<BaseEnemyState> OnStateChanged;
 
     public EnemyStateMachine(
         BaseEnemy owner,
@@ -40,6 +43,7 @@ public class EnemyStateMachine
         CurrentState.ExitState(owner, this);
         PreviousState = CurrentState;
         CurrentState = newState;
+        OnStateChanged?.Invoke(newState);
         CurrentState.EnterState(owner, this);
     }
 

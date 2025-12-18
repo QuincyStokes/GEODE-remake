@@ -16,12 +16,15 @@ public class Hitbox : NetworkBehaviour
     [SerializeField] private Collider2D hitCollider;
     [SerializeField] private SpriteRenderer spriteRenderer;
 
+    public event Action<IDamageable> OnHitSomething;
+
     //really should have an InitializeHitbox function or something
     private void OnTriggerEnter2D(Collider2D collision)
     {
         IDamageable damageable = collision.GetComponentInParent<IDamageable>();
         if (damageable != null)
         {
+            OnHitSomething?.Invoke(damageable);
             foreach (string tag in hittableTags)
             {
                 if (collision.CompareTag(tag))
@@ -39,7 +42,7 @@ public class Hitbox : NetworkBehaviour
                     {
                         damageable.RestoreHealthServerRpc(damage);
                     }
-
+                    
                 }
             }
         }

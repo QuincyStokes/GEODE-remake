@@ -1,13 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using Unity.Netcode;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Animations;
-using UnityEngine.Events;
+#if UNITY_EDITOR
+using TMPro;
+#endif
+
 
 public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable, IExperienceGain, ITrackable
 {
@@ -67,6 +66,10 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
     public float wanderTimeMax = 5f;
     public float aggroRange = 5f;
 
+    [Header("DEBUG")]
+    [SerializeField] private bool debug;
+    [SerializeField] private TMP_Text DEBUGStateText; 
+
 
     //* ----------------- Network Variables ----------- */
     public NetworkVariable<float> MaxHealth { get; set; } = new NetworkVariable<float>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
@@ -118,6 +121,16 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
             deathState: CreateDeathState(),
             pathToPlayerState: CreatePathToPlayerState()
         );
+
+#if UNITY_EDITOR
+        if(debug)
+        {
+            stateMachine.OnStateChanged += DEBUGHandleStateChanged;
+            DEBUGStateText.gameObject.SetActive(true);
+        }
+#else
+        Destroy(DEBUGStateText.gameObject);
+#endif
     }
 
     /// <summary>
@@ -484,6 +497,11 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
         {
             playerTransform = null;
         }
+    }
+
+    private void DEBUGHandleStateChanged(BaseEnemyState bes)
+    {
+        DEBUGStateText.text = bes.GetType().ToString();
     }
 
 }

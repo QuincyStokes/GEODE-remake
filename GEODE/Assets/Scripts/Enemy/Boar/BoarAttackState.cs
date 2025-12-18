@@ -11,6 +11,7 @@ public class BoarAttackState : BaseEnemyState
     private AttackType attackType;
     private float phaseTimer;
     private Vector2 chargeDirection;
+    private EnemyStateMachine stateMachine;
 
     public override void EnterState(BaseEnemy owner, EnemyStateMachine stateMachine)
     {
@@ -21,6 +22,15 @@ public class BoarAttackState : BaseEnemyState
         currentPhase = Phase.Deciding;
         phaseTimer = 0f;
         attackType = AttackType.None;
+
+        //I think this is fine..
+        this.stateMachine = stateMachine;
+
+        if(owner is BoarEnemy)
+        {
+            BoarEnemy be = owner as BoarEnemy;
+            be.chargeAttackHitbox.OnHitSomething += HandleChargeHitSomething;
+        }
     }
 
     public override void UpdateState(BaseEnemy owner, EnemyStateMachine stateMachine)
@@ -33,22 +43,26 @@ public class BoarAttackState : BaseEnemyState
         {
             ///! CAN DO ANIMATIONS THROUGHOUT THESE! 
             case Phase.Deciding:
+                Debug.Log("Boar Deciding");
                 DecideAttackType(owner);
                 break;
 
             case Phase.ChargeWindup:
+                Debug.Log("Boar Charge Windup");
                 // Charge-up animation windup
                 phaseTimer = owner.attackWindupTime;
                 currentPhase = Phase.Charging;
                 break;
 
             case Phase.Charging:
+                Debug.Log("Boar Charging");
                 // Charging is handled in FixedUpdate, we just wait here
                 // (collision detection will trigger transition to ChargeRecovery)
                 break;
 
             case Phase.ChargeRecovery:
-                // Recovery after charge
+                // Recovery after charge   
+                Debug.Log("Boar Charge Recovery");
                 phaseTimer = owner.attackRecoveryTime;
                 currentPhase = Phase.Deciding;
                 // After recovery, decide again or exit
@@ -56,19 +70,22 @@ public class BoarAttackState : BaseEnemyState
                 break;
 
             case Phase.SimpleWindup:
-                // Simple attack windup
+                // Simple attack windup 
+                Debug.Log("Boar Simple Windup");
                 phaseTimer = owner.attackWindupTime;
                 currentPhase = Phase.SimpleExecute;
                 break;
 
             case Phase.SimpleExecute:
                 // Execute simple attack
+                Debug.Log("Boar Simple Execute");
                 owner.Attack();
                 phaseTimer = owner.attackRecoveryTime;
                 currentPhase = Phase.SimpleRecovery;
                 break;
 
             case Phase.SimpleRecovery:
+                Debug.Log("Boar Recovery");
                 // Recovery done: go back to idle
                 stateMachine.ChangeState(stateMachine.idleState);
                 break;
@@ -122,6 +139,14 @@ public class BoarAttackState : BaseEnemyState
         {
             // Out of range, shouldn't be in attack state
             attackType = AttackType.None;
+        }
+    }
+
+    private void HandleChargeHitSomething(IDamageable dmg)
+    {
+        if(currentPhase == Phase.Charging)
+        {
+            currentPhase = Phase.ChargeRecovery;
         }
     }
 }

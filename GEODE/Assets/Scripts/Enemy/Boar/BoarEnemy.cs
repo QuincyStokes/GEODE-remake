@@ -1,13 +1,34 @@
+using System;
 using UnityEngine;
 
 public class BoarEnemy : BaseEnemy
 {
-    [SerializeField] private Hitbox simpleAttackHitbox;
+    //public because state needs access
+    public Hitbox simpleAttackHitbox;
     [SerializeField] private Transform hiboxParent;
-    [SerializeField] private Hitbox chargeAttackHitbox; 
+    public Hitbox chargeAttackHitbox; 
     [SerializeField] private float simpleAttackRange;
 
+    
+
     public float SimpleAttackRange => simpleAttackRange;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        simpleAttackHitbox.OnHitSomething += HandleSimpleAttackHit;
+        chargeAttackHitbox.OnHitSomething += HandleChargeAttackHit;
+    }
+
+    private void HandleSimpleAttackHit(IDamageable damageable)
+    {
+       
+    }
+
+    private void HandleChargeAttackHit(IDamageable damageable)
+    {
+        
+    }
 
     public override void Attack()
     {
