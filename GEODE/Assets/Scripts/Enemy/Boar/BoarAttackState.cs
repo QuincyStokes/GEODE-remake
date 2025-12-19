@@ -1,4 +1,5 @@
 using System;
+using Unity.Netcode.Editor;
 using UnityEngine;
 
 [Serializable]
@@ -12,12 +13,14 @@ public class BoarAttackState : BaseEnemyState
     private float phaseTimer;
     private Vector2 chargeDirection;
     private EnemyStateMachine stateMachine;
+    private BoarEnemy owner;
+    private bool isCharging;
+    private float chargeTime;
+    private float chargeTimeElapsed;
 
     public override void EnterState(BaseEnemy owner, EnemyStateMachine stateMachine)
     {
         owner.rb.linearVelocity = Vector2.zero;
-        owner.animator.ResetTrigger("Attack");
-        owner.animator.SetTrigger("Attack");
 
         currentPhase = Phase.Deciding;
         phaseTimer = 0f;
@@ -25,10 +28,13 @@ public class BoarAttackState : BaseEnemyState
 
         //I think this is fine..
         this.stateMachine = stateMachine;
+       
 
         if(owner is BoarEnemy)
         {
             BoarEnemy be = owner as BoarEnemy;
+            this.owner = be;
+            this.chargeTime = be.chargeTime;
             be.chargeAttackHitbox.OnHitSomething += HandleChargeHitSomething;
         }
     }
@@ -36,7 +42,7 @@ public class BoarAttackState : BaseEnemyState
     public override void UpdateState(BaseEnemy owner, EnemyStateMachine stateMachine)
     {
         phaseTimer -= Time.deltaTime;
-        if (phaseTimer > 0f)
+        if (phaseTimer > 0f || isCharging)
             return;
 
         switch (currentPhase)
@@ -50,19 +56,29 @@ public class BoarAttackState : BaseEnemyState
             case Phase.ChargeWindup:
                 Debug.Log("Boar Charge Windup");
                 // Charge-up animation windup
+                owner.animator.SetTrigger("Windup");
                 phaseTimer = owner.attackWindupTime;
                 currentPhase = Phase.Charging;
+                
+                chargeTimeElapsed = 0f;
                 break;
 
             case Phase.Charging:
                 Debug.Log("Boar Charging");
+                owner.animator.SetBool("Charging", true);
+                this.owner.ChargeAttack();
+                isCharging = true;
+                
                 // Charging is handled in FixedUpdate, we just wait here
                 // (collision detection will trigger transition to ChargeRecovery)
                 break;
 
             case Phase.ChargeRecovery:
-                // Recovery after charge   
+                // Recovery after charge  
+                isCharging = false;
                 Debug.Log("Boar Charge Recovery");
+                owner.animator.SetTrigger("Recover");
+                owner.animator.SetBool("Charging", false);
                 phaseTimer = owner.attackRecoveryTime;
                 currentPhase = Phase.Deciding;
                 // After recovery, decide again or exit
@@ -79,6 +95,7 @@ public class BoarAttackState : BaseEnemyState
             case Phase.SimpleExecute:
                 // Execute simple attack
                 Debug.Log("Boar Simple Execute");
+                owner.animator.SetTrigger("Attack");
                 owner.Attack();
                 phaseTimer = owner.attackRecoveryTime;
                 currentPhase = Phase.SimpleRecovery;
@@ -95,15 +112,26 @@ public class BoarAttackState : BaseEnemyState
     public override void FixedUpdateState(BaseEnemy owner, EnemyStateMachine stateMachine)
     {
         // Handle charge movement
-        if (currentPhase == Phase.Charging)
+        if (isCharging)
         {
-            owner.rb.linearVelocity = chargeDirection * owner.movementSpeed * 2f; // Charge faster than normal movement
+            if(chargeTimeElapsed <= chargeTime)
+            {
+                chargeTimeElapsed += Time.fixedDeltaTime;
+                owner.rb.linearVelocity = chargeDirection * owner.movementSpeed * 2f; // Charge faster than normal movement
+            }
+            else
+            {
+                currentPhase = Phase.ChargeRecovery;
+                isCharging = false;
+            }
         }
     }
 
     public override void ExitState(BaseEnemy owner, EnemyStateMachine stateMachine)
     {
         owner.rb.linearVelocity = Vector2.zero;
+        owner.animator.SetBool("Move", false);
+        owner.animator.SetBool("Charging", false);
     }
 
     private void DecideAttackType(BaseEnemy owner)

@@ -19,6 +19,13 @@ public class Hitbox : NetworkBehaviour
     public event Action<IDamageable> OnHitSomething;
 
     //really should have an InitializeHitbox function or something
+    public void Initialize(float damage, Vector3 direction, bool dropItems)
+    {
+        this.damage = damage;
+        this.sourceDirection = direction;
+        this.dropItems = dropItems;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         IDamageable damageable = collision.GetComponentInParent<IDamageable>();

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class BoarEnemy : BaseEnemy
@@ -8,6 +9,7 @@ public class BoarEnemy : BaseEnemy
     [SerializeField] private Transform hiboxParent;
     public Hitbox chargeAttackHitbox; 
     [SerializeField] private float simpleAttackRange;
+    public float chargeTime;
 
     
 
@@ -18,6 +20,9 @@ public class BoarEnemy : BaseEnemy
         base.Awake();
         simpleAttackHitbox.OnHitSomething += HandleSimpleAttackHit;
         chargeAttackHitbox.OnHitSomething += HandleChargeAttackHit;
+
+        simpleAttackHitbox.DisableCollider();
+        chargeAttackHitbox.DisableCollider();
     }
 
     private void HandleSimpleAttackHit(IDamageable damageable)
@@ -27,7 +32,7 @@ public class BoarEnemy : BaseEnemy
 
     private void HandleChargeAttackHit(IDamageable damageable)
     {
-        
+        chargeAttackHitbox.gameObject.SetActive(false);
     }
 
     public override void Attack()
@@ -37,25 +42,33 @@ public class BoarEnemy : BaseEnemy
             Debug.Log($"[BoarEnemy] could not attack CurrentTarget = {currentTarget}, TargetClosestPoint = {targetClosestPoint}");
             return;
         }
-        //We'll try having the State trigger this attack whenever we're in range to hit something, but here we can do an additional check
-        //to see if we should either do the charge attack or simple attack
         
-        //boar has simpleAttackRange and attackRange. The latter will be the charge attack range
-
-        //Do simple attack
-        if(Vector2.Distance(currentTarget.ObjectTransform.position, transform.position) < simpleAttackRange)
-        {
-            //Initialize and enable little hitbox infront of dude   
-            Vector3 dir = (targetClosestPoint - (Vector2)transform.position).normalized;
-            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-            hiboxParent.transform.localRotation = Quaternion.Euler(0f, 0f, angle);
-        }
-        //Do charge attack
-        else
-        {
-            //Initialzie and enable big area damage hitbox. Nice.
-        }
+        Vector3 dir = (targetClosestPoint - (Vector2)transform.position).normalized;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        hiboxParent.transform.localRotation = Quaternion.Euler(0f, 0f, angle);
+        simpleAttackHitbox.Initialize(attackDamage, transform.position, false);
+        simpleAttackHitbox.gameObject.SetActive(true);
+        StartCoroutine(DisableSimpleHitbox());
     }
+
+    public void ChargeAttack()
+    {
+        //movement handled by the state, we can just do hitbox things
+        Vector3 dir = (targetClosestPoint - (Vector2)transform.position).normalized;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        chargeAttackHitbox.transform.localRotation = Quaternion.Euler(0f, 0f, angle);
+        chargeAttackHitbox.Initialize(attackDamage*4, transform.position, false);
+        chargeAttackHitbox.gameObject.SetActive(true);
+    }
+
+
+    private IEnumerator DisableSimpleHitbox()
+    {
+        yield return new WaitForSeconds(.2f);
+        simpleAttackHitbox.gameObject.SetActive(false);
+    }
+
+   
 
 
     protected override BaseEnemyState CreateIdleState() => new IdleState();

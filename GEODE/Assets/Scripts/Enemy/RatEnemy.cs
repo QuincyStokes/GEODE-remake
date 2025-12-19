@@ -24,10 +24,7 @@ public class RatEnemy : BaseEnemy
 
             //lets use our new little hitbox system
             //set hitbox info, then enable it
-            attackHitbox.damage = attackDamage;
-            attackHitbox.sourceDirection = transform.position;
-            attackHitbox.dropItems = false;
-
+            attackHitbox.Initialize(attackDamage, transform.position, false);
             attackHitbox.gameObject.SetActive(true);
             StartCoroutine(DisableHitbox());
         }
