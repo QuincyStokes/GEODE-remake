@@ -82,7 +82,6 @@ public class BoarAttackState : BaseEnemyState
                 phaseTimer = owner.attackRecoveryTime;
                 currentPhase = Phase.Deciding;
                 // After recovery, decide again or exit
-                stateMachine.ChangeState(stateMachine.idleState);
                 break;
 
             case Phase.SimpleWindup:
@@ -167,6 +166,7 @@ public class BoarAttackState : BaseEnemyState
         {
             // Out of range, shouldn't be in attack state
             attackType = AttackType.None;
+            stateMachine.ChangeState(stateMachine.idleState);
         }
     }
 
@@ -175,6 +175,7 @@ public class BoarAttackState : BaseEnemyState
         if(currentPhase == Phase.Charging)
         {
             currentPhase = Phase.ChargeRecovery;
+            isCharging = false;
         }
     }
 }

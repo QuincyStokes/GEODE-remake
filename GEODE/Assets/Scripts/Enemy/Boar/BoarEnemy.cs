@@ -5,11 +5,15 @@ using UnityEngine;
 public class BoarEnemy : BaseEnemy
 {
     //public because state needs access
+    [Header("Simple Attack")]
+    [SerializeField] private float simpleAttackRange;
     public Hitbox simpleAttackHitbox;
     [SerializeField] private Transform hiboxParent;
+    [Header("Charge Attack")]
     public Hitbox chargeAttackHitbox; 
-    [SerializeField] private float simpleAttackRange;
+    public Hitbox chargeAttackDetectionHitbox;
     public float chargeTime;
+    public float chargeDamageModifier;
 
     
 
@@ -19,10 +23,14 @@ public class BoarEnemy : BaseEnemy
     {
         base.Awake();
         simpleAttackHitbox.OnHitSomething += HandleSimpleAttackHit;
-        chargeAttackHitbox.OnHitSomething += HandleChargeAttackHit;
+        chargeAttackDetectionHitbox.OnHitSomething += HandleChargeAttackHit;
 
         simpleAttackHitbox.DisableCollider();
         chargeAttackHitbox.DisableCollider();
+        chargeAttackDetectionHitbox.DisableCollider();
+
+        simpleAttackHitbox.DisableVisuals();
+        chargeAttackHitbox.DisableVisuals();
     }
 
     private void HandleSimpleAttackHit(IDamageable damageable)
@@ -32,7 +40,13 @@ public class BoarEnemy : BaseEnemy
 
     private void HandleChargeAttackHit(IDamageable damageable)
     {
-        chargeAttackHitbox.gameObject.SetActive(false);
+        //Turn of detection
+        chargeAttackDetectionHitbox.DisableCollider();
+
+        //Enable charge hit
+        chargeAttackHitbox.EnableCollider();
+        chargeAttackHitbox.EnableVisuals();
+        StartCoroutine(DisableChargeHitboxes());
     }
 
     public override void Attack()
@@ -45,9 +59,14 @@ public class BoarEnemy : BaseEnemy
         
         Vector3 dir = (targetClosestPoint - (Vector2)transform.position).normalized;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        
+        //Set hitbox angle
         hiboxParent.transform.localRotation = Quaternion.Euler(0f, 0f, angle);
+
+        //Initialize Simple Hitbox
         simpleAttackHitbox.Initialize(attackDamage, transform.position, false);
-        simpleAttackHitbox.gameObject.SetActive(true);
+        simpleAttackHitbox.EnableCollider();
+        simpleAttackHitbox.EnableVisuals();
         StartCoroutine(DisableSimpleHitbox());
     }
 
@@ -56,16 +75,34 @@ public class BoarEnemy : BaseEnemy
         //movement handled by the state, we can just do hitbox things
         Vector3 dir = (targetClosestPoint - (Vector2)transform.position).normalized;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        chargeAttackHitbox.transform.localRotation = Quaternion.Euler(0f, 0f, angle);
-        chargeAttackHitbox.Initialize(attackDamage*4, transform.position, false);
-        chargeAttackHitbox.gameObject.SetActive(true);
+
+        //Set hitbox angle
+        hiboxParent.transform.localRotation = Quaternion.Euler(0f, 0f, angle);
+
+        //Initilize detection hitbox
+        chargeAttackDetectionHitbox.Initialize(0, transform.position, false);
+        chargeAttackDetectionHitbox.EnableCollider(); //No visuals, simply detect
+
+        //Initialize Damage hitbox
+        chargeAttackHitbox.Initialize(attackDamage * chargeDamageModifier, transform.position, false);
+
+        //Disable triggerd by collision
     }
 
 
     private IEnumerator DisableSimpleHitbox()
     {
         yield return new WaitForSeconds(.2f);
-        simpleAttackHitbox.gameObject.SetActive(false);
+        simpleAttackHitbox.DisableCollider();
+        simpleAttackHitbox.DisableVisuals();
+    }
+
+    private IEnumerator DisableChargeHitboxes()
+    {
+        yield return new WaitForSeconds(.2f);
+
+        chargeAttackHitbox.DisableCollider();
+        chargeAttackHitbox.DisableVisuals();
     }
 
    
