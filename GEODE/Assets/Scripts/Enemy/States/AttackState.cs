@@ -27,7 +27,7 @@ public class AttackState : BaseEnemyState
         switch (currentPhase)
         {
             case Phase.Windup:
-                //!For now this is where we do the "windup" animation, attackRecoveryTime should be the time it takes until the impact frame.
+                //!For now this is where we do the "windup" animation, attackWindupTime should be the time it takes until the impact frame.
                 
                 phaseTimer = owner.attackWindupTime; 
                 currentPhase = Phase.Execute;

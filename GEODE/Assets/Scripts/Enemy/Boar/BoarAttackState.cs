@@ -1,4 +1,5 @@
 using System;
+using NUnit.Framework;
 using Unity.Netcode.Editor;
 using UnityEngine;
 
@@ -8,9 +9,9 @@ public class BoarAttackState : BaseEnemyState
     private enum Phase { Deciding, ChargeWindup, Charging, ChargeRecovery, SimpleWindup, SimpleExecute, SimpleRecovery }
     private enum AttackType { None, SimpleAttack, ChargeAttack }
     
-    private Phase currentPhase;
+    private Phase nextPhase;
     private AttackType attackType;
-    private float phaseTimer;
+    private float currentPhaseTimer;
     private Vector2 chargeDirection;
     private EnemyStateMachine stateMachine;
     private BoarEnemy owner;
@@ -22,8 +23,8 @@ public class BoarAttackState : BaseEnemyState
     {
         owner.rb.linearVelocity = Vector2.zero;
 
-        currentPhase = Phase.Deciding;
-        phaseTimer = 0f;
+        nextPhase = Phase.Deciding;
+        currentPhaseTimer = 0f;
         attackType = AttackType.None;
 
         //I think this is fine..
@@ -41,63 +42,78 @@ public class BoarAttackState : BaseEnemyState
 
     public override void UpdateState(BaseEnemy owner, EnemyStateMachine stateMachine)
     {
-        phaseTimer -= Time.deltaTime;
-        if (phaseTimer > 0f || isCharging)
+        currentPhaseTimer -= Time.deltaTime;
+        if (currentPhaseTimer > 0f || isCharging)
             return;
 
-        switch (currentPhase)
+        //These cases are entered ONCE. A phase sets its next phase, then starts its phase timer.
+            //This is applicable to all phases except for the Charge, where we need to end early if we hit something. But either way, our next phase is Recover
+        switch (nextPhase)
         {
             ///! CAN DO ANIMATIONS THROUGHOUT THESE! 
             case Phase.Deciding:
-                Debug.Log("Boar Deciding");
+
                 DecideAttackType(owner);
+
                 break;
 
             case Phase.ChargeWindup:
-                Debug.Log("Boar Charge Windup");
+
                 // Charge-up animation windup
-                owner.animator.SetTrigger("Windup");
-                phaseTimer = owner.attackWindupTime;
-                currentPhase = Phase.Charging;
-                
+                owner.animator.SetBool("Winding", true);
+                owner.animator.SetBool("Move", false);
+
+                currentPhaseTimer = this.owner.chargeAttackWindupTimer;
+
+                nextPhase = Phase.Charging;
                 chargeTimeElapsed = 0f;
                 break;
 
             case Phase.Charging:
-                Debug.Log("Boar Charging");
                 owner.animator.SetBool("Charging", true);
+                owner.animator.SetBool("Winding", false);
+
                 this.owner.ChargeAttack();
+
                 isCharging = true;
                 
+                nextPhase = Phase.ChargeRecovery; //I think we can do this since no matter what we're going to chargeRecovery next;
+
                 // Charging is handled in FixedUpdate, we just wait here
                 // (collision detection will trigger transition to ChargeRecovery)
                 break;
 
             case Phase.ChargeRecovery:
-                // Recovery after charge  
+
+                //Need to have this here in
                 isCharging = false;
-                Debug.Log("Boar Charge Recovery");
-                owner.animator.SetTrigger("Recover");
+
+                owner.rb.linearVelocity = Vector2.zero;
+
+                owner.animator.SetBool("Recovering", true);
                 owner.animator.SetBool("Charging", false);
-                phaseTimer = owner.attackRecoveryTime;
-                currentPhase = Phase.Deciding;
-                // After recovery, decide again or exit
+
+                currentPhaseTimer = owner.attackRecoveryTime;
+                nextPhase = Phase.Deciding;
+
+                //Can default back to idle?
+
                 break;
 
             case Phase.SimpleWindup:
                 // Simple attack windup 
                 Debug.Log("Boar Simple Windup");
-                phaseTimer = owner.attackWindupTime;
-                currentPhase = Phase.SimpleExecute;
+                currentPhaseTimer = owner.attackWindupTime;
+                owner.animator.SetBool("Winding", true);
+                owner.animator.SetTrigger("Attack");
+                nextPhase = Phase.SimpleExecute;
                 break;
 
             case Phase.SimpleExecute:
                 // Execute simple attack
                 Debug.Log("Boar Simple Execute");
-                owner.animator.SetTrigger("Attack");
-                owner.Attack();
-                phaseTimer = owner.attackRecoveryTime;
-                currentPhase = Phase.SimpleRecovery;
+                currentPhaseTimer = owner.attackRecoveryTime;
+                nextPhase = Phase.SimpleRecovery;
                 break;
 
             case Phase.SimpleRecovery:
@@ -120,8 +136,9 @@ public class BoarAttackState : BaseEnemyState
             }
             else
             {
-                currentPhase = Phase.ChargeRecovery;
+                nextPhase = Phase.ChargeRecovery;
                 isCharging = false;
+
             }
         }
     }
@@ -131,6 +148,8 @@ public class BoarAttackState : BaseEnemyState
         owner.rb.linearVelocity = Vector2.zero;
         owner.animator.SetBool("Move", false);
         owner.animator.SetBool("Charging", false);
+        owner.animator.SetBool("Winding", false);
+        owner.animator.SetBool("Recovering", false);
     }
 
     private void DecideAttackType(BaseEnemy owner)
@@ -138,6 +157,7 @@ public class BoarAttackState : BaseEnemyState
         if (owner.currentTarget == null)
         {
             attackType = AttackType.None;
+            stateMachine.ChangeState(stateMachine.idleState);
             return;
         }
 
@@ -147,20 +167,23 @@ public class BoarAttackState : BaseEnemyState
 
         float distanceToTarget = Vector2.Distance(owner.currentTarget.ObjectTransform.position, owner.transform.position);
 
+        //Reset recovering flag incase we just came from there.
+        owner.animator.SetBool("Recovering", false);
+
         // Simple attack if target is close
-        if (distanceToTarget < boar.SimpleAttackRange)
+        if (distanceToTarget < boar.simpleAttackRange)
         {
             attackType = AttackType.SimpleAttack;
-            currentPhase = Phase.SimpleWindup;
-            phaseTimer = 0f;
+            nextPhase = Phase.SimpleWindup;
+            currentPhaseTimer = 0f;
         }
         // Charge attack if target is further away
-        else if (distanceToTarget < owner.attackRange)
+        else if (distanceToTarget < this.owner.attackRange)
         {
             attackType = AttackType.ChargeAttack;
             chargeDirection = (owner.targetClosestPoint - (Vector2)owner.transform.position).normalized;
-            currentPhase = Phase.ChargeWindup;
-            phaseTimer = 0f;
+            nextPhase = Phase.ChargeWindup;
+            currentPhaseTimer = 0f;
         }
         else
         {
@@ -172,10 +195,12 @@ public class BoarAttackState : BaseEnemyState
 
     private void HandleChargeHitSomething(IDamageable dmg)
     {
-        if(currentPhase == Phase.Charging)
+        if(isCharging)
         {
-            currentPhase = Phase.ChargeRecovery;
+            //DOn't need to handle switching phase to Recover, if we're in charging it should handle itself
             isCharging = false;
+            currentPhaseTimer = 0f;
+            owner.rb.linearVelocity = Vector2.zero;
         }
     }
 }

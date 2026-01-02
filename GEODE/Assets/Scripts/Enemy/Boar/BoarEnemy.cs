@@ -6,18 +6,21 @@ public class BoarEnemy : BaseEnemy
 {
     //public because state needs access
     [Header("Simple Attack")]
-    [SerializeField] private float simpleAttackRange;
+    public float simpleAttackRange;
     public Hitbox simpleAttackHitbox;
+    public float simpleAttackWindupTimer;
+    public float timeUntilImpactFrame;
     [SerializeField] private Transform hiboxParent;
     [Header("Charge Attack")]
     public Hitbox chargeAttackHitbox; 
     public Hitbox chargeAttackDetectionHitbox;
     public float chargeTime;
     public float chargeDamageModifier;
+    public float chargeAttackWindupTimer;
 
     
 
-    public float SimpleAttackRange => simpleAttackRange;
+    public float AttackRange => attackRange;
 
     protected override void Awake()
     {
@@ -40,6 +43,7 @@ public class BoarEnemy : BaseEnemy
 
     private void HandleChargeAttackHit(IDamageable damageable)
     {
+        Debug.Log($"Boar Charge hit {damageable}");
         //Turn of detection
         chargeAttackDetectionHitbox.DisableCollider();
 

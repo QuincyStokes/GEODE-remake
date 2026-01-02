@@ -65,10 +65,6 @@ public class PathToPlayerState : BaseEnemyState
                 stateMachine.ChangeState(stateMachine.attackState);
                 return;
             }
-
         }
-
-       
-
     }
 }
