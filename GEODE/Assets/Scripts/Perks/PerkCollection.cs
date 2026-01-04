@@ -15,12 +15,12 @@ public class PerkCollection : MonoBehaviour
         foreach (PerkData data in perksDatas)
         {
         
-            GameObject perk = Instantiate(pm.perkPrefab);
+            GameObject perk = Instantiate(pm.perkPrefab, transform);
             Perk p = perk.GetComponent<Perk>();
             perks.Add(p);
 
             p.Initialize(data, this);
-            perk.transform.SetParent(transform);
+            //perk.transform.SetParent(transform);
             
             
         }

@@ -446,10 +446,10 @@ MonoBehaviour:
   collisionHitbox: {fileID: 7353230197057809634}
   aggroRadius: {fileID: 4507244449337361817}
   EnemyName: Renthite Boar
-  attackDamage: 15
+  attackDamage: 25
   attackRange: 6
   movementSpeed: 2
-  BASE_MAX_HEALTH: 100
+  BASE_MAX_HEALTH: 150
   BASE_XP_REQUIRED: 100
   enemyCrystalType: 1
   DROPPED_ITEMS: []
@@ -461,7 +461,7 @@ MonoBehaviour:
   knockbackDecay: 0.1
   attackWindupTime: 1
   attackRecoveryTime: 1.5
-  attackCooldown: 5
+  attackCooldown: 2
   wanderRadius: 5
   wanderTimeMin: 2
   wanderTimeMax: 5
@@ -540,13 +540,13 @@ MonoBehaviour:
   UseUnreliableDeltas: 0
   SyncPositionX: 1
   SyncPositionY: 1
-  SyncPositionZ: 1
-  SyncRotAngleX: 1
-  SyncRotAngleY: 1
-  SyncRotAngleZ: 1
+  SyncPositionZ: 0
+  SyncRotAngleX: 0
+  SyncRotAngleY: 0
+  SyncRotAngleZ: 0
   SyncScaleX: 1
   SyncScaleY: 1
-  SyncScaleZ: 1
+  SyncScaleZ: 0
   PositionThreshold: 0.001
   RotAngleThreshold: 0.01
   ScaleThreshold: 0.01
@@ -644,8 +644,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.5195377, y: 0.43479317}
-  m_Size: {x: 2.2223873, y: 0.55360895}
+  m_Offset: {x: -0.5, y: 0.4}
+  m_Size: {x: 1.5, y: 0.5}
   m_Direction: 1
 --- !u!1 &1441058167295692017
 GameObject:

@@ -11,6 +11,7 @@ public abstract class BaseEnemyState
 
     protected Vector2 GetNearestPointOnTarget(BaseEnemy owner)
     {
+        if(owner.currentTarget.ObjectTransform == null) return owner.transform.position;
         var targetT = owner.currentTarget.ObjectTransform;
         var col = owner.currentTarget.CollisionHitbox;
         if (col != null)

@@ -15,14 +15,13 @@ public class BasicAttackTower : BaseTower
     [Header("Animation")]
     [SerializeField] protected Animator animator;
     [SerializeField] protected int framesToWait;
-    public override IEnumerator Fire()
+    public override void TriggerFire()
     {
         animator.SetTrigger("Shoot");
-        //Wait one frame because animation takes 2  frames
-        for(int i = 0; i < framesToWait; i++)
-        {
-            yield return new WaitForEndOfFrame();
-        }
+    }
+
+    public override void Fire()
+    {
         GameObject bolt = Instantiate(projectilePrefab, firePoint.position, tower.transform.rotation);
 
         if(fireSoundId != SoundId.NONE)
@@ -39,7 +38,6 @@ public class BasicAttackTower : BaseTower
         }
 
         bolt.GetComponent<BaseProjectile>().Initialize(strength.Value, (currentTarget.position - firePoint.position).normalized, this, damageType);
-       
     }
 
     public override void OnTriggerEnter2D(Collider2D collision)

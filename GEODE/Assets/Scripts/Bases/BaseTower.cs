@@ -192,13 +192,13 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
                     RotateTowardsTarget();
                     if (Time.time >= nextFireTime && IsRotationComplete()) // 
                     {
-                        StartCoroutine(Fire());
+                        TriggerFire();
                         nextFireTime = Time.time + 1f / speed.Value;
                     }
                 }
                 else if (Time.time >= nextFireTime)
                 {
-                    StartCoroutine(Fire());
+                    TriggerFire();
                     nextFireTime = Time.time + 1f / speed.Value;
                 }
 
@@ -287,7 +287,12 @@ public abstract class BaseTower : BaseObject, IInteractable, IStats, IExperience
         Gizmos.DrawWireSphere(tower.transform.position, size.Value);
     }
 
-    public abstract IEnumerator Fire();
+
+    //all this function will do is trigger the animation for firing
+    public abstract void TriggerFire();
+
+    //this function shall be called by the animation itself
+    public abstract void Fire();
     public abstract void OnTriggerEnter2D(Collider2D collision);
     public abstract void OnTriggerExit2D(Collider2D collision);
 

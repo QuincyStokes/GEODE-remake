@@ -7,14 +7,15 @@ public class AOEBlastTower : BasicAttackTower
 {
 
     //Create a pulse blast at the location of the closest target
-    public override IEnumerator Fire()
+    public override void TriggerFire()
     {
         animator.SetTrigger("Shoot");
         //Wait one frame because animation takes 2  frames
-        for(int i = 0; i < framesToWait; i++)
-        {
-            yield return new WaitForEndOfFrame();
-        }
+       
+    }
+
+    public override void Fire()
+    {
         GameObject bolt = Instantiate(projectilePrefab, GetNearestTarget().position, tower.transform.rotation);
 
         if(fireSoundId != SoundId.NONE)

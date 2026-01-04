@@ -8,15 +8,15 @@ public class AOETower : BaseTower
     [SerializeField] private Animator animator;
     [SerializeField] private int framesToWait;
     ///This tower should basically just deal damage to all targets in range
-    public override IEnumerator Fire()
+    public override void TriggerFire()
     {
         animator.SetTrigger("Shoot");
-        for (int i = 0; i < framesToWait; i++)
-        {
-            yield return new WaitForEndOfFrame();
-        }
-        
-        //Every target within our range
+    }
+
+    public override void Fire()
+    {
+
+        //EVery target in our range;
         foreach(GameObject go in targets)
         {
             //If this gameobject is null, remove it from thelist and continue THIS IS BAD, MODIFYING A COLLECTION WHILE ITERATING IT

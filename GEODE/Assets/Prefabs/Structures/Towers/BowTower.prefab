@@ -209,6 +209,7 @@ GameObject:
   - component: {fileID: 8722046843550349815}
   - component: {fileID: 2233467336963836640}
   - component: {fileID: 6608871021133236429}
+  - component: {fileID: 8487345442662089537}
   m_Layer: 0
   m_Name: Bow
   m_TagString: Untagged
@@ -370,6 +371,18 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   TransitionStateInfoList: []
   m_Animator: {fileID: 2233467336963836640}
+--- !u!114 &8487345442662089537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4543848016171230497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a68c1b1ac64dfb541abe217e7875ef3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5241912323242780402
 GameObject:
   m_ObjectHideFlags: 0
@@ -504,8 +517,6 @@ MonoBehaviour:
     minAmount: 2
     maxAmount: 4
     chance: 100
-    minItemQuality: 0
-    maxItemQuality: 0
   droppedXp: 0
   healthStateSprites: []
   particleSpawnPoint: {fileID: 2052563808128784492}
@@ -526,6 +537,7 @@ MonoBehaviour:
   BASE_SPEED: 0.5
   BASE_STRENGTH: 6
   BASE_SIZE: 4
+  damageType: 0
   rotationSpeed: 250
   rotates: 1
   placeSfxId: 12

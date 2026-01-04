@@ -202,7 +202,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
             s.x = -Mathf.Abs(s.x);
             sr.gameObject.transform.localScale = s;
         }
-        else
+        else if (rb.linearVelocity.x > 0)
         {
             s.x = Mathf.Abs(s.x);
             sr.gameObject.transform.localScale = s;

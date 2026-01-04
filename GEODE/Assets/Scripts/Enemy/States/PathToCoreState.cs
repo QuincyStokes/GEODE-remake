@@ -97,11 +97,13 @@ public class PathToCoreState : BaseEnemyState
         {
             
             // if current target is in range, attack!
-            if (Vector3.Distance(owner.targetClosestPoint, owner.transform.position) <= owner.attackRange)
-            {
+            //if (Vector3.Distance(owner.targetClosestPoint, owner.transform.position) <= owner.attackRange)
+            //{
                 //Switch to attack state\
-                stateMachine.ChangeState(stateMachine.attackState);
-            }
+
+            //no need to check range again
+            stateMachine.ChangeState(stateMachine.attackState);
+            //}
         }
     }
 }

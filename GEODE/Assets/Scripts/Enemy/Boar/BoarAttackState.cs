@@ -6,7 +6,7 @@ using UnityEngine;
 [Serializable]
 public class BoarAttackState : BaseEnemyState
 {
-    private enum Phase { Deciding, ChargeWindup, Charging, ChargeRecovery, SimpleWindup, SimpleExecute, SimpleRecovery }
+    private enum Phase { Deciding, ChargeWindup, Charging, ChargeRecovery, SimpleWindup, SimpleExecute, SimpleRecovery, Exiting }
     private enum AttackType { None, SimpleAttack, ChargeAttack }
     
     private Phase nextPhase;
@@ -21,6 +21,7 @@ public class BoarAttackState : BaseEnemyState
 
     public override void EnterState(BaseEnemy owner, EnemyStateMachine stateMachine)
     {
+        Debug.Log("Boar entered attack state");
         owner.rb.linearVelocity = Vector2.zero;
 
         nextPhase = Phase.Deciding;
@@ -29,6 +30,7 @@ public class BoarAttackState : BaseEnemyState
 
         //I think this is fine..
         this.stateMachine = stateMachine;
+       
        
 
         if(owner is BoarEnemy)
@@ -87,16 +89,14 @@ public class BoarAttackState : BaseEnemyState
 
                 //Need to have this here in
                 isCharging = false;
-
+                this.owner.DisableChargeDetectionHitbox();
                 owner.rb.linearVelocity = Vector2.zero;
 
                 owner.animator.SetBool("Recovering", true);
                 owner.animator.SetBool("Charging", false);
 
                 currentPhaseTimer = owner.attackRecoveryTime;
-                nextPhase = Phase.Deciding;
-
-                //Can default back to idle?
+                nextPhase = Phase.Exiting;
 
                 break;
 
@@ -119,6 +119,10 @@ public class BoarAttackState : BaseEnemyState
             case Phase.SimpleRecovery:
                 Debug.Log("Boar Recovery");
                 // Recovery done: go back to idle
+                nextPhase = Phase.Exiting;
+                break;
+
+            case Phase.Exiting:
                 stateMachine.ChangeState(stateMachine.idleState);
                 break;
         }
@@ -150,6 +154,8 @@ public class BoarAttackState : BaseEnemyState
         owner.animator.SetBool("Charging", false);
         owner.animator.SetBool("Winding", false);
         owner.animator.SetBool("Recovering", false);
+
+        Debug.Log("Boar left attack state");
     }
 
     private void DecideAttackType(BaseEnemy owner)
@@ -161,11 +167,14 @@ public class BoarAttackState : BaseEnemyState
             return;
         }
 
+
+        Debug.Log($"{owner.name} current target is {owner.currentTarget}");
+
         BoarEnemy boar = owner as BoarEnemy;
         if (boar == null)
             return;
 
-        float distanceToTarget = Vector2.Distance(owner.currentTarget.ObjectTransform.position, owner.transform.position);
+        float distanceToTarget = Vector2.Distance(owner.currentTarget.CenterPoint.position, owner.transform.position);
 
         //Reset recovering flag incase we just came from there.
         owner.animator.SetBool("Recovering", false);
@@ -178,18 +187,12 @@ public class BoarAttackState : BaseEnemyState
             currentPhaseTimer = 0f;
         }
         // Charge attack if target is further away
-        else if (distanceToTarget < this.owner.attackRange)
+        else 
         {
             attackType = AttackType.ChargeAttack;
             chargeDirection = (owner.targetClosestPoint - (Vector2)owner.transform.position).normalized;
             nextPhase = Phase.ChargeWindup;
             currentPhaseTimer = 0f;
-        }
-        else
-        {
-            // Out of range, shouldn't be in attack state
-            attackType = AttackType.None;
-            stateMachine.ChangeState(stateMachine.idleState);
         }
     }
 

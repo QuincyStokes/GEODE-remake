@@ -315,19 +315,16 @@ MonoBehaviour:
   movementSpeed: 2
   BASE_MAX_HEALTH: 25
   BASE_XP_REQUIRED: 50
+  enemyCrystalType: 0
   DROPPED_ITEMS:
   - Id: 29
     minAmount: 1
     maxAmount: 1
     chance: 5
-    minItemQuality: 0
-    maxItemQuality: 0
   - Id: 43
     minAmount: 1
     maxAmount: 1
     chance: 1.5
-    minItemQuality: 50
-    maxItemQuality: 75
   idealToolType: 5
   droppedXp: 15
   structureLayerMask:
@@ -341,6 +338,8 @@ MonoBehaviour:
   wanderTimeMin: 2
   wanderTimeMax: 5
   aggroRange: 5
+  debug: 0
+  DEBUGStateText: {fileID: 0}
   coreTransform: {fileID: 0}
   corePosition: {x: 0, y: 0}
   playerTransform: {fileID: 0}
@@ -404,13 +403,13 @@ MonoBehaviour:
   UseUnreliableDeltas: 0
   SyncPositionX: 1
   SyncPositionY: 1
-  SyncPositionZ: 1
-  SyncRotAngleX: 1
-  SyncRotAngleY: 1
-  SyncRotAngleZ: 1
+  SyncPositionZ: 0
+  SyncRotAngleX: 0
+  SyncRotAngleY: 0
+  SyncRotAngleZ: 0
   SyncScaleX: 1
   SyncScaleY: 1
-  SyncScaleZ: 1
+  SyncScaleZ: 0
   PositionThreshold: 0.001
   RotAngleThreshold: 0.01
   ScaleThreshold: 0.01
@@ -632,6 +631,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a761681cb91a0064c88d907e17fdcf9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   tool: 0
   damage: 0
   sourceDirection: {x: 0, y: 0}
@@ -640,6 +640,8 @@ MonoBehaviour:
   - Player
   - Structure
   - EnvironmentObject
+  hitCollider: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!1 &7242331871415919884
 GameObject:
   m_ObjectHideFlags: 0

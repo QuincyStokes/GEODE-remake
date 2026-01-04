@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: GreenBoar
+  m_Controller: {fileID: 9100000, guid: aa65930e25a213d4084c70cc171985ae, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 2e79712e9a3ad584280065868103de75, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 8699e9b752d55974fbe35513c264ef6a, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 8fd61a582c4b73b448255a7ab75af82f, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: fac7689c4417ea74c9af599c7b6a816b, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: b7936f27cb9c29740b740355c85cfc70, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: a230fbbe25baeab45b786a3f56c513fd, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: b66253f8ac0eb5249994b9955b087015, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 4edab68bf0ed39542bea1048d9ca0613, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 5047a953bdafe2f41bf926dbcf8ab7d7, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 0d20f4c22d022304f8686f639dac6931, type: 2}

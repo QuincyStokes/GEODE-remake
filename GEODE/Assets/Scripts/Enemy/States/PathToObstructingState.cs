@@ -13,7 +13,7 @@ public class PathToObstructingState : BaseEnemyState
     public override void EnterState(BaseEnemy owner, EnemyStateMachine stateMachine)
     {
         
-
+        Debug.Log($"{owner.name} entered PathToObstructing state");
         if (!DayCycleManager.Instance.IsNighttime())
         {
             stateMachine.ChangeState(stateMachine.idleState);
@@ -29,6 +29,7 @@ public class PathToObstructingState : BaseEnemyState
     public override void ExitState(BaseEnemy owner, EnemyStateMachine stateMachine)
     {
        owner.animator.SetBool("Move", false);
+       Debug.Log($"{owner.name} left PathToObstructing state");
     }
 
     public override void FixedUpdateState(BaseEnemy owner, EnemyStateMachine stateMachine)
@@ -107,21 +108,21 @@ public class PathToObstructingState : BaseEnemyState
     public override void UpdateState(BaseEnemy owner, EnemyStateMachine stateMachine)
     {
         attackTimer += Time.deltaTime;
+
         Vector2 nearestBlockingPoint = GetNearestPointOnTarget(owner);
         owner.targetClosestPoint = nearestBlockingPoint;
-
-        if (obstructingObject != null && attackTimer >= owner.attackCooldown)
+        float distance = Vector2.Distance(nearestBlockingPoint, owner.transform.position);
+        if (attackTimer >= owner.attackCooldown && distance <= owner.attackRange)
         {
+            
             // if current target is in range, attack!
-            float sqrDist = (owner.targetClosestPoint-(Vector2)owner.transform.position).sqrMagnitude;
-            //Switch to attack state
+            //if (Vector3.Distance(owner.targetClosestPoint, owner.transform.position) <= owner.attackRange)
+            //{
+                //Switch to attack state\
 
-            if (sqrDist <= owner.attackRange * owner.attackRange)
-            {
-                stateMachine.ChangeState(stateMachine.attackState);
-                return;
-            }
-
+            //no need to check range again
+            stateMachine.ChangeState(stateMachine.attackState);
+            //}
         }
 
     }

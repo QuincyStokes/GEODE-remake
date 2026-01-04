@@ -12,7 +12,7 @@ public class IdleState : BaseEnemyState
     {
         wanderTimer = UnityEngine.Random.Range(owner.wanderTimeMin, owner.wanderTimeMax);
         SetNewWanderTarget(owner);
-
+        Debug.Log($"{owner.name} entering idle state.");
         owner.rb.linearVelocity = Vector2.zero;
         owner.animator.SetBool("Move", true);
         if (!DayCycleManager.Instance.IsNighttime())
@@ -24,6 +24,7 @@ public class IdleState : BaseEnemyState
 
     public override void ExitState(BaseEnemy owner, EnemyStateMachine stateMachine)
     {
+        Debug.Log($"{owner.name} exiting idle state.");
         owner.animator.SetBool("Move", false);
         owner.rb.linearVelocity = owner.externalVelocity;
         owner.canAggro = false;

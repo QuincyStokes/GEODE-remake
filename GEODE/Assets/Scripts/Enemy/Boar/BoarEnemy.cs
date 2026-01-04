@@ -109,12 +109,17 @@ public class BoarEnemy : BaseEnemy
         chargeAttackHitbox.DisableVisuals();
     }
 
+    public void DisableChargeDetectionHitbox()
+    {
+        chargeAttackDetectionHitbox.DisableCollider();
+    }
+
    
 
 
     protected override BaseEnemyState CreateIdleState() => new IdleState();
     protected override BaseEnemyState CreateAttackState() => new BoarAttackState();
-    protected override BaseEnemyState CreatePathToCoreState() => new PathToCoreState();
+    protected override BaseEnemyState CreatePathToCoreState() => new BoarPathToCore();
     protected override BaseEnemyState CreatePathToObstructingState() => new PathToObstructingState();
     protected override BaseEnemyState CreateDeathState() => new DeathState();
     protected override BaseEnemyState CreatePathToPlayerState() => new PathToPlayerState();
