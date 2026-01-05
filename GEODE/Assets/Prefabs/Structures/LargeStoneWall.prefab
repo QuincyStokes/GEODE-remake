@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4362482351808134440}
   - component: {fileID: 4120678448555162002}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: CollisionHitbox
   m_TagString: Structure
   m_Icon: {fileID: 0}
@@ -446,8 +446,6 @@ MonoBehaviour:
     minAmount: 4
     maxAmount: 8
     chance: 100
-    minItemQuality: 0
-    maxItemQuality: 0
   droppedXp: 0
   healthStateSprites: []
   particleSpawnPoint: {fileID: 2956023571619908713}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CraftingManager : MonoBehaviour, ITrackable
 {
@@ -13,6 +14,7 @@ public class CraftingManager : MonoBehaviour, ITrackable
     public List<Slot> recipeDisplaySlots;
     public List<CraftingTab> craftingTabs;
     public Slot recipeResultSlot;
+    public RectTransform lowerLeftParent;
     
     public CraftingRecipe currentRecipe;
     public TMP_Text descriptionText;
@@ -98,6 +100,9 @@ public class CraftingManager : MonoBehaviour, ITrackable
 
         recipeResultSlot.SetItem(currentRecipe.results[0].item.Id, currentRecipe.results[0].amount, interactable:false);
         descriptionText.text = currentRecipe.results[0].item.Description;
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(lowerLeftParent);
+
         Debug.Log($"Can Craft {currentRecipe.name}? => {CheckCanCraft(currentRecipe)}");
     }
 

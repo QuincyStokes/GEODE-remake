@@ -59,6 +59,9 @@ public class PlayerInventory : BaseContainer
         }
         if (devMode)
         {
+            AddItemServerRpc(61, 2);
+            AddItemServerRpc(60, 2);
+            AddItemServerRpc(62, 2);
             AddItemServerRpc(1, 20);
             AddItemServerRpc(1, 20);
             AddItemServerRpc(2, 20);

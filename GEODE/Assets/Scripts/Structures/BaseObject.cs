@@ -157,7 +157,7 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
 
 
         //take full damage if hit by the proper weapon.
-        if (info.tool == idealToolType)
+        if (info.tool == idealToolType || info.tool == ToolType.None)
         {
             CurrentHealth.Value -= info.amount;
             OnTakeDamage(info.amount, info.sourceDirection);

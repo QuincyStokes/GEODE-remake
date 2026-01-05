@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1007011471867667494}
   - component: {fileID: 2570471915127480501}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: CollisionHitbox
   m_TagString: Structure
   m_Icon: {fileID: 0}

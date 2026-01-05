@@ -39,13 +39,13 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
 
     [Header("Enemy Stats")]
     public string EnemyName;
-    
     public float attackDamage;
     public float attackRange;
     public float movementSpeed;
     [SerializeField] private int BASE_MAX_HEALTH;
     [SerializeField] private int BASE_XP_REQUIRED;
-    [SerializeField] private DamageType enemyCrystalType;
+    public DamageType enemyCrystalType;
+    [HideInInspector] public bool isBoss = false;
 
     [Header("Drops")]
     [SerializeField] private List<DroppedItem> DROPPED_ITEMS = new List<DroppedItem>();
@@ -325,7 +325,8 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
 
         if (CurrentHealth.Value <= 0)
         {
-            DestroyThisServerRpc(info.dropItems);
+            //animator.SetTrigger("Death");
+            stateMachine.ChangeState(stateMachine.deathState);
             return true;
         }
         else
@@ -372,12 +373,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
             client.PlayerObject.GetComponent<PlayerHealthAndXP>().AddXp(this);
         }
         OnDeath?.Invoke(this);
-        OnSingleTrack?.Invoke(StatTrackType.Kill, EnemyName);
-        if (dropItems)
-        {
-            DropItems();
-        }
-        
+        OnSingleTrack?.Invoke(StatTrackType.Kill, EnemyName);        
         GetComponent<NetworkObject>()?.Despawn();
     }
     

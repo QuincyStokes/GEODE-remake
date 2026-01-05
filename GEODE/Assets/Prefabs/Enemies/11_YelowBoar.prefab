@@ -139,6 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0a434bc7ea7558468e8e91cfb9639c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!1 &492040278970821233
 GameObject:
   m_ObjectHideFlags: 0
@@ -430,7 +431,8 @@ MonoBehaviour:
   movementSpeed: 3
   BASE_MAX_HEALTH: 100
   BASE_XP_REQUIRED: 100
-  enemyCrystalType: 1
+  enemyCrystalType: 2
+  isBoss: 0
   DROPPED_ITEMS: []
   idealToolType: 0
   droppedXp: 100
@@ -696,10 +698,10 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2304
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 1783
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2

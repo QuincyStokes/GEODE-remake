@@ -658,7 +658,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 11.25
+  orthographic size: 6.66
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1767,6 +1767,10 @@ PrefabInstance:
       value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
+      propertyPath: bossSpawnWeight
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: bossSpawns.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -1776,7 +1780,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: forestEnemies.Array.size
-      value: 6
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: maxSpawnDistanceFromPlayer
@@ -1788,11 +1792,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: bossSpawns.Array.data[0].nightNum
-      value: 5
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
+      propertyPath: desertEnemies.Array.data[0].weight
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: desertEnemies.Array.data[1].weight
-      value: 10
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: desertEnemies.Array.data[2].weight
@@ -1800,27 +1808,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: forestEnemies.Array.data[0].weight
-      value: 10
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: forestEnemies.Array.data[1].weight
-      value: 0
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: forestEnemies.Array.data[2].weight
-      value: 0
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: forestEnemies.Array.data[3].weight
-      value: 0
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: forestEnemies.Array.data[4].weight
-      value: 0
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: forestEnemies.Array.data[5].weight
-      value: 10
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: desertEnemies.Array.data[1].enemyId
@@ -1836,19 +1844,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: forestEnemies.Array.data[1].enemyId
-      value: 1
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: forestEnemies.Array.data[2].enemyId
-      value: 2
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: forestEnemies.Array.data[3].enemyId
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: forestEnemies.Array.data[4].enemyId
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: forestEnemies.Array.data[5].enemyId

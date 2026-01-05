@@ -33,7 +33,7 @@ public class IdleState : BaseEnemyState
     public override void FixedUpdateState(BaseEnemy owner, EnemyStateMachine stateMachine)
     {
 
-        if (DayCycleManager.Instance.IsNighttime())
+        if (DayCycleManager.Instance.IsNighttime() || owner.isBoss)
         {
             stateMachine.ChangeState(stateMachine.pathToCoreState);
             return;

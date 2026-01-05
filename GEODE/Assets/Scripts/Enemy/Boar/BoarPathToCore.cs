@@ -25,13 +25,13 @@ public class BoarPathToCore : BaseEnemyState
 
     public override void FixedUpdateState(BaseEnemy owner, EnemyStateMachine stateMachine)
     {
-         if (!DayCycleManager.Instance.IsNighttime())
+        if (!DayCycleManager.Instance.IsNighttime() && !owner.isBoss)
         {
             stateMachine.ChangeState(stateMachine.idleState);
             return;
         }
 
-        //at this point we know its nighttime, so safe to assume below
+        //at this point we know its nighttime (or we're a boss), so safe to assume below
         if (owner.coreTransform == null || owner.currentTarget == null)
         {
             stateMachine.ChangeState(stateMachine.pathToPlayerState);

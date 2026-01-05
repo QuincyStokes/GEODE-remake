@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Netcode;
+using UnityEditor;
 using UnityEngine;
 
 public class EnemySpawningManager : NetworkBehaviour
@@ -14,9 +15,10 @@ public class EnemySpawningManager : NetworkBehaviour
     [SerializeField] private List<EnemySpawnWeight> forestEnemies;
     [SerializeField] private List<EnemySpawnWeight> desertEnemies;
 
+
     [Header("Bosses")]
     [SerializeField] private List<BossSpawnPool> bossSpawns;
-
+    [SerializeField] private int bossSpawnWeight;
 
     [Header("Settings")]
     [SerializeField] private int minSpawnDistanceFromPlayer;
@@ -44,12 +46,16 @@ public class EnemySpawningManager : NetworkBehaviour
     private float halfWidth;
     private Difficulty difficulty;
     private Dictionary<int, List<int>> bossSpawnMap;
+    private Dictionary<DamageType, BiomeType> crystalBiomeMap;
+    private BaseEnemy currentSpawnedBoss;
+    private int lastBossRound;
 
     //* --------- Events ----------- */
     /// <summary>
     /// Event fires when a boss spawns, int passed is the Id of the boss
     /// </summary>
-    public event Action<int> OnBossSpawned;
+    public event Action<BaseEnemy> OnBossSpawned;
+    public event Action OnBossDefeated;
 
     #endregion
 
@@ -84,6 +90,7 @@ public class EnemySpawningManager : NetworkBehaviour
 
         ChangeToDaySettings();
         SeedBossMap();
+        SeedBiomeCrystalMap();
     }
 
     private void OnDisable()
@@ -213,6 +220,80 @@ public class EnemySpawningManager : NetworkBehaviour
        
     }
 
+    [ServerRpc (RequireOwnership = false)]
+    public void SpawnBossServerRpc(int enemyId, Vector3Int pos)
+    {
+        if(EnemyDatabase.Instance == null)
+        {
+            return;
+        }
+        
+        GameObject enemyToSpawn = EnemyDatabase.Instance.GetEnemy(enemyId);
+        if (enemyToSpawn != null)
+        {
+            Debug.Log($"Spawning a {enemyToSpawn.name} at {pos}.");
+            GameObject spawnedEnemy = Instantiate(enemyToSpawn, pos, Quaternion.identity);
+            spawnedEnemy.GetComponent<NetworkObject>().Spawn();
+            
+            BaseEnemy enemy = spawnedEnemy.GetComponent<BaseEnemy>();
+            enemy.isBoss = true;
+
+            // Track enemy through death event - this is our sole tracking mechanism
+            enemy.OnDeath += HandleEnemyDied;
+            enemy.OnDeath += HandleBossDied;
+            currentSpawnedBoss = enemy;
+            //! HERE can maybe pass a modifier depending on amount of players in the world.
+            enemy.InitializeBaseStats(difficulty);
+            enemy.AddLevels(DayCycleManager.Instance.DayNum);
+
+            OnBossSpawned?.Invoke(enemy);
+        }
+        else
+        {
+            Debug.Log($"Error spawning enemy {enemyId}. Check EnemyDatabase and enemy IDs");
+        }
+       
+    }
+
+    private void HandleBossDied(IDamageable damageable)
+    {
+        // add the boss to the spawn pool, 
+        OnBossDefeated?.Invoke();
+        //with the bosses id, we need to access all of the other kinds of bosses. W
+        if(bossSpawnMap.ContainsKey(lastBossRound))
+        {
+            for(int i = 0; i < bossSpawnMap[lastBossRound].Count; i++)
+            {
+                EnemySpawnWeight esw = new();
+                esw.weight = bossSpawnWeight;
+                esw.enemyId = bossSpawnMap[lastBossRound][i];
+                GameObject go = EnemyDatabase.Instance.GetEnemy(esw.enemyId);
+                BaseEnemy be = go.GetComponent<BaseEnemy>();
+                switch(be.enemyCrystalType)
+                {
+                    //! HTHHESE WILL NEED TO CHANGE WHEN NEW BIOMES ARE ADDED
+                    case(DamageType.Renthite):
+                        desertEnemies.Add(esw);
+                        break;
+                    case(DamageType.Gelthite):
+                        forestEnemies.Add(esw);
+                        break;
+                    case(DamageType.Bizite):
+                        forestEnemies.Add(esw);
+                        break;
+                    case(DamageType.Yeedrite):
+                        desertEnemies.Add(esw);
+                        break;
+                    default:
+                        break; //this means if we have a "non-typed" boss, it won't spawn after the boss night. sure.   
+                }
+            }
+        }
+
+        currentSpawnedBoss = null;
+
+    }
+
     private void ChangeToDaySettings()
     {
         currentMaxSpawns = (int)(dayMaxSpawns * dayMaxSpawnsModifier);
@@ -238,6 +319,7 @@ public class EnemySpawningManager : NetworkBehaviour
         {
             List<int> bossSpawnList = bossSpawnMap[DayCycleManager.Instance.DayNum];
             SpawnBoss(bossSpawnList[UnityEngine.Random.Range(0, bossSpawnList.Count)]);
+            lastBossRound = DayCycleManager.Instance.DayNum;
         }
 
         nightSpawnRateModifier *= .9f;
@@ -270,8 +352,8 @@ public class EnemySpawningManager : NetworkBehaviour
         Vector3 corePos = GetCorePos();
         Vector3 spawnPos = (Vector2)corePos + GetSpawnOffset(minSpawnDistanceFromPlayer, maxSpawnDistanceFromPlayer);
 
-        SpawnEnemyServerRpc(id, new Vector3Int((int)spawnPos.x, (int)spawnPos.y));
-        OnBossSpawned?.Invoke(id);
+        SpawnBossServerRpc(id, new Vector3Int((int)spawnPos.x, (int)spawnPos.y));
+        
         
     }
 
@@ -352,6 +434,14 @@ public class EnemySpawningManager : NetworkBehaviour
         {
             bossSpawnMap.Add(bsp.nightNum, bsp.possibleEnemySpawnIds);
         }
+    }
+    internal void SeedBiomeCrystalMap()
+    {
+        crystalBiomeMap = new();
+        crystalBiomeMap.Add(DamageType.Renthite, BiomeType.Desert); //! THIS IS TO CHANGE WHEN THE LAST TWO BIOMES ARE ADDED
+        crystalBiomeMap.Add(DamageType.Gelthite, BiomeType.Forest);
+        crystalBiomeMap.Add(DamageType.Bizite, BiomeType.Forest);  //! TO CHANGE AS WELL
+        crystalBiomeMap.Add(DamageType.Yeedrite, BiomeType.Desert);
     }
 
 
