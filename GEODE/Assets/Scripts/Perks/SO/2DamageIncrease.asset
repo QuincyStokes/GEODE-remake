@@ -16,7 +16,7 @@ MonoBehaviour:
   description: Increases player damage dealt by 25%
   icon: {fileID: 4882302237312609531, guid: d67565ea0f494c14087cdb84193b784a, type: 3}
   statRequirement: 0
-  requirementKey: RedRocky
+  requirementKey: Renthite Rocky
   requirementAmount: 150
   statType: 0
   statIncrease: 0.25

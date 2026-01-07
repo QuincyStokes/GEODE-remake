@@ -30,9 +30,7 @@ public class BasicAttackTower : BaseTower
         }
 
        
-
-        NetworkObject no =bolt.GetComponent<NetworkObject>();
-        if(no != null)
+        if(bolt.TryGetComponent<NetworkObject>(out var no))
         {
             no.Spawn();
         }

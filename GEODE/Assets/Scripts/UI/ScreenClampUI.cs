@@ -8,6 +8,7 @@ public class ScreenClampUI : MonoBehaviour
     {
         rectTrans = GetComponent<RectTransform>();
     }
+    
     private void OnEnable() {
         if(rectTrans==null){
             transform.position = new Vector3(

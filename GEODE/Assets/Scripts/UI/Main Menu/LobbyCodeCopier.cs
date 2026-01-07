@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
-using UnityEditor.PackageManager;
 
 public class LobbyCodeCopier : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {

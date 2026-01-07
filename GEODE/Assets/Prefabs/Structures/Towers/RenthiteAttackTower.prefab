@@ -426,8 +426,12 @@ MonoBehaviour:
   idealToolType: 4
   droppedItems:
   - Id: 1
-    minAmount: 2
-    maxAmount: 4
+    minAmount: 4
+    maxAmount: 8
+    chance: 100
+  - Id: 56
+    minAmount: 1
+    maxAmount: 3
     chance: 100
   droppedXp: 0
   healthStateSprites: []

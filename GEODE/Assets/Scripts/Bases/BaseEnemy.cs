@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
-#if UNITY_EDITOR
+
 using TMPro;
-#endif
+
 
 
 public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable, IExperienceGain, ITrackable
@@ -129,7 +129,8 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
             DEBUGStateText.gameObject.SetActive(true);
         }
 #else
-        Destroy(DEBUGStateText.gameObject);
+        if(DEBUGStateText != null)
+            Destroy(DEBUGStateText.gameObject);
 #endif
     }
 
@@ -156,7 +157,8 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
         
         if (DayCycleManager.Instance != null)
         {
-            DayCycleManager.Instance.becameDay += NewDayStats;
+            //DayCycleManager.Instance.becameDay += NewDayStats; I think this can actually just not be here, it only comes into play leveling up enemies that we're already spawned when day starts, which isn't that important.   
+            //Enemies that spawn still get their stats based on the day num
         }
         if (FlowFieldManager.Instance != null && coreTransform == null && FlowFieldManager.Instance.coreTransform == null)
         {

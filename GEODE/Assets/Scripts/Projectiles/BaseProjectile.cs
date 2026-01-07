@@ -16,6 +16,12 @@ public abstract class BaseProjectile : NetworkBehaviour
     private List<GameObject> hitTargets = new List<GameObject>();
 
 
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        Destroy(gameObject, lifetime);
+    }
+
     //Methods
     public void Initialize(float damageAmount, Vector2 velocity, ITracksHits iHits=null, DamageType dmgType = DamageType.None, bool persistent=false)
     {
@@ -28,7 +34,6 @@ public abstract class BaseProjectile : NetworkBehaviour
         parentTower = iHits;
         damageType = dmgType;
         this.persistent = persistent;
-        Destroy(gameObject, lifetime);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

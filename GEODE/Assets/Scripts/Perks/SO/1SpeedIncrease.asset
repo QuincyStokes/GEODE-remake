@@ -16,7 +16,7 @@ MonoBehaviour:
   description: Increases player speed by 5%
   icon: {fileID: -5682996987474034872, guid: d67565ea0f494c14087cdb84193b784a, type: 3}
   statRequirement: 0
-  requirementKey: YellowRocky
+  requirementKey: Yeedrite Rocky
   requirementAmount: 50
   statType: 1
   statIncrease: 0.05

@@ -12,11 +12,13 @@ public class PathToPlayerState : BaseEnemyState
 
         //not sure how yucky this is..
         owner.currentTarget = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<IDamageable>();
+        owner.playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     public override void ExitState(BaseEnemy owner, EnemyStateMachine stateMachine)
     {
         owner.playerTransform = null;
+        owner.currentTarget = null;
         owner.animator.SetBool("Move", false);
     }
 

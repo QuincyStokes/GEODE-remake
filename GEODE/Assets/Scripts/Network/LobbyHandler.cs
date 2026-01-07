@@ -268,9 +268,7 @@ public class LobbyHandler : MonoBehaviour
                     { KEY_START_GAME, new DataObject(DataObject.VisibilityOptions.Member, relayCode)}
                 }
             });
-            //load the gameplay scene!
-
-
+    
             ConnectionManager.Instance.LobbyCode = joinedLobby.LobbyCode;
             ConnectionManager.Instance.PlayerID = AuthenticationService.Instance.PlayerId;
             ConnectionManager.Instance.PlayerName = AuthenticationService.Instance.PlayerName;

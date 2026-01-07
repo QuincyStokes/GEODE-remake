@@ -458,9 +458,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  BASE_HEALTH: 125
+  BASE_HEALTH: 200
   idealToolType: 4
-  droppedItems: []
+  droppedItems:
+  - Id: 59
+    minAmount: 1
+    maxAmount: 3
+    chance: 100
+  - Id: 1
+    minAmount: 4
+    maxAmount: 8
+    chance: 100
   droppedXp: 0
   healthStateSprites: []
   particleSpawnPoint: {fileID: 2052563808128784492}

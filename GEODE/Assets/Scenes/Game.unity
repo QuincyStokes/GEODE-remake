@@ -1792,7 +1792,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: bossSpawns.Array.data[0].nightNum
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4650286162726344514, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: desertEnemies.Array.data[0].weight

@@ -35,13 +35,21 @@ public class IdleState : BaseEnemyState
 
         if (DayCycleManager.Instance.IsNighttime() || owner.isBoss)
         {
-            stateMachine.ChangeState(stateMachine.pathToCoreState);
-            return;
+            if(owner.coreTransform != null)
+            {
+                stateMachine.ChangeState(stateMachine.pathToCoreState);
+                return;
+            }
+            else
+            {
+                stateMachine.ChangeState(stateMachine.pathToPlayerState);
+                return;
+            }
+            
         }
 
         if (owner.playerTransform != null)
         {
-            
             stateMachine.ChangeState(stateMachine.pathToPlayerState);
             return;
             

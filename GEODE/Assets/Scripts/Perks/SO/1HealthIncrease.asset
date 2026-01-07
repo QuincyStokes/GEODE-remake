@@ -16,7 +16,7 @@ MonoBehaviour:
   description: Increases player health by 20%
   icon: {fileID: -3440942225372457924, guid: d67565ea0f494c14087cdb84193b784a, type: 3}
   statRequirement: 0
-  requirementKey: GreenRocky
+  requirementKey: Gelthite Rocky
   requirementAmount: 50
   statType: 2
   statIncrease: 0.2

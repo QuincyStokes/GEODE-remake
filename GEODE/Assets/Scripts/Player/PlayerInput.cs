@@ -1,8 +1,9 @@
 using System;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInput : MonoBehaviour
+public class PlayerInput : NetworkBehaviour
 {
     [Header("References")]
     [SerializeField] private PlayerInputActionMap playerInputActionMap;
@@ -48,12 +49,15 @@ public class PlayerInput : MonoBehaviour
 
     private void Awake()
     {
+        if(!IsOwner) return;
+
         playerInputActionMap = new PlayerInputActionMap();
         swingCooldownTimer = swingCooldown;
     }
 
     public void EnableInput()
     {
+        if(!IsOwner) return;
         if (playerInputActionMap == null)
         {
             playerInputActionMap = new PlayerInputActionMap();
@@ -96,6 +100,7 @@ public class PlayerInput : MonoBehaviour
 
     public void DisableInput()
     {
+        if(!IsOwner) return;
         if (playerInputActionMap == null)
         {
             return;
@@ -136,6 +141,7 @@ public class PlayerInput : MonoBehaviour
 
     private void Update()
     {
+        if(!IsOwner) return;
         UpdateCooldownTimer();
         UpdateMousePosition();
     }
@@ -155,7 +161,7 @@ public class PlayerInput : MonoBehaviour
 
     private void UpdateMousePosition()
     {
-        mousePos = Camera.main.ScreenToWorldPoint(mouseInput.ReadValue<Vector2>());
+        mousePos = Camera.main.ScreenToWorldPoint(mouseInput.ReadValue<Vector2>()); //something null here
         Vector3Int mousePosInt = new Vector3Int((int)mousePos.x, (int)mousePos.y, 0);
 
         if (mousePosInt != previousMousePosInt && GridManager.Instance != null)

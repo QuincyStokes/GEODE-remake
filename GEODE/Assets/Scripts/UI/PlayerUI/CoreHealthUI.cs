@@ -26,6 +26,7 @@ public class CoreHealthUI : MonoBehaviour
         _hasCoreBeenPlaced = true;
         coreHealthSlider.maxValue = Core.CORE.MaxHealth.Value;
         coreHealthSlider.value = Core.CORE.CurrentHealth.Value;
+        corehealthText.text = $"{Core.CORE.CurrentHealth.Value}/{Core.CORE.MaxHealth.Value}";
     }
 
     private void HandleCoreHealthChanged(float previousValue, float newValue)
@@ -42,7 +43,8 @@ public class CoreHealthUI : MonoBehaviour
 
     private void HandleBecameNight()
     {
-        coreHealthUI.SetActive(true);
+        if(_hasCoreBeenPlaced)
+            coreHealthUI.SetActive(true);
     }
 
 

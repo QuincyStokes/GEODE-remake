@@ -2,6 +2,7 @@ using TMPro;
 using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class TooltipService : MonoBehaviour
 {
@@ -27,8 +28,27 @@ public class TooltipService : MonoBehaviour
     {
         if (currentProvider != null)
         {
-            tooltipRoot.position = ClampVector3(Input.mousePosition, Vector3.zero, new Vector3(_canvas.rect.width*2, _canvas.rect.height*2, 0));
+            Vector2 pos = new Vector2();
+
+            pos.y = rootRect.rect.height/2;
+            
+
+            
+            tooltipRoot.position = Input.mousePosition;
+            
+            if(tooltipRoot.position.x < (_canvas.rect.width/2 * _canvas.transform.localScale.x))
+            {
+                pos.x = rootRect.rect.width/2;
+            }
+            else
+            {
+                pos.x = -rootRect.rect.width/2;
+            }
+
+
+            rootRect.localPosition = pos;
         }
+        //tooltipRoot.position = Input.mousePosition;
     }
 
     public void RequestShow(Slot provider)

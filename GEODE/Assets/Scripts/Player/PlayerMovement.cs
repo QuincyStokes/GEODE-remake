@@ -62,13 +62,17 @@ public class PlayerMovement : NetworkBehaviour, IKnockbackable
 
     private void Awake()
     {
-        rb = GetComponentInChildren<Rigidbody2D>();
-        baseMoveSpeed = moveSpeed;
+        if(!IsOwner) return;
+        
     }
 
     public override void OnNetworkSpawn()
     {
+        
         base.OnNetworkSpawn();
+
+        rb = GetComponentInChildren<Rigidbody2D>();
+        baseMoveSpeed = moveSpeed;
 
         networkDirection.OnValueChanged += OnNetworkDirectionChanged;
         networkVelocity.OnValueChanged += OnNetworkVelocityChanged;
@@ -81,6 +85,7 @@ public class PlayerMovement : NetworkBehaviour, IKnockbackable
 
     private void Start()
     {
+        if(!IsOwner) return;
         if (playerPerkStats != null)
         {
             StartCoroutine(WaitForSpeedPerksAndApply());
@@ -114,6 +119,7 @@ public class PlayerMovement : NetworkBehaviour, IKnockbackable
 
     private void FixedUpdate()
     {
+        if(!IsOwner) return;
         if (movementLocked)
         {
             return;
@@ -199,6 +205,7 @@ public class PlayerMovement : NetworkBehaviour, IKnockbackable
 
     public void LockMovement()
     {
+        if(!IsOwner) return;
         if (movementLocked)
         {
             return;
@@ -243,6 +250,7 @@ public class PlayerMovement : NetworkBehaviour, IKnockbackable
 
     public override void OnDestroy()
     {
+        if(!IsOwner) return;
         base.OnDestroy();
 
         if (playerPerkStats != null)

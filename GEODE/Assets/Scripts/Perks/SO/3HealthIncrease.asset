@@ -18,7 +18,7 @@ MonoBehaviour:
 '
   icon: {fileID: 5379742602428179608, guid: d67565ea0f494c14087cdb84193b784a, type: 3}
   statRequirement: 0
-  requirementKey: GreenRocky
+  requirementKey: Gelthite Rocky
   requirementAmount: 500
   statType: 2
   statIncrease: 1

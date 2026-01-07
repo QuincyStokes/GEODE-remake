@@ -518,7 +518,7 @@ MonoBehaviour:
   hitSoundId: 7
   breakSoundId: 8
   healthStateChangeSoundId: 8
-  objectName: Green Geode
+  objectName: Gelthite Geode
   centerPoint: {fileID: 5222662708037614757}
   description: 
   objectSprite: {fileID: 0}

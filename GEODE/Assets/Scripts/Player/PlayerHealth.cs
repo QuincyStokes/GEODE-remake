@@ -238,7 +238,7 @@ public class PlayerHealthAndXP : NetworkBehaviour, IDamageable, IExperienceGain
     {
         //! Bug: On the client's end, the sprite never fully dissapears on death. Current plan is to instead have a death animation instead, so they dont actually have to dissapear.
         NotifyDeathClientRpc();
-
+        
         if(IsServer)
         {
             PlayerDeathThings();    

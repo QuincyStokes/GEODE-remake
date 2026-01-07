@@ -923,7 +923,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  BASE_HEALTH: 40
+  BASE_HEALTH: 150
   idealToolType: 4
   droppedItems: []
   droppedXp: 0
