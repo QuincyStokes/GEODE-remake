@@ -534,8 +534,8 @@ MonoBehaviour:
   collisionHitbox: {fileID: 2570471915127480501}
   matchingItemId:
     m_InternalValue: -1
-  BASE_SPEED: 0.5
-  BASE_STRENGTH: 6
+  BASE_SPEED: 0.75
+  BASE_STRENGTH: 8
   BASE_SIZE: 4
   damageType: 0
   rotationSpeed: 250

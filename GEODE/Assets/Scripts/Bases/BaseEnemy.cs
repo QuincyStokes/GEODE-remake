@@ -169,7 +169,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
             //coreTransform = FlowFieldManager.Instance.coreTransform;
             SetCorePosition(FlowFieldManager.Instance.coreTransform);
         }
-        OnDeath += SetDeathState;
+        //OnDeath += SetDeathState;
         OnSingleTrack += StatTrackManager.Instance.AddOne;
         OnMultiTrack += StatTrackManager.Instance.AddMultiple;
     }
@@ -180,7 +180,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
 
         DayCycleManager.Instance.becameDay -= NewDayStats;
         FlowFieldManager.Instance.corePlaced -= SetCorePosition;
-        OnDeath -= SetDeathState;
+        //OnDeath -= SetDeathState;
         OnSingleTrack -= StatTrackManager.Instance.AddOne;
         OnMultiTrack -= StatTrackManager.Instance.AddMultiple;
     }
