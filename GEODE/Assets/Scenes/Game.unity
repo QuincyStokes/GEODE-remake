@@ -1556,15 +1556,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: additionalDayOneLength
-      value: 30
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: baseDayLengthInSeconds
-      value: 120
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: baseNightLengthInSeconds
-      value: 60
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 734060754346146433, guid: d2f8a55c1204f854cb80ddbd61959579, type: 3}
       propertyPath: lightGradient.m_ColorSpace

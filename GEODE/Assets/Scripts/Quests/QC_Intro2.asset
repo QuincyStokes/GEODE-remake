@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f87b7e17cf88594cb794d6e51e40a33, type: 3}
+  m_Name: QC_Intro2
+  m_EditorClassIdentifier: 
+  chapterName: Intro 2/2
+  quests:
+  - {fileID: 11400000, guid: 0df12db64a9f3834caed879e11beca05, type: 2}
+  - {fileID: 11400000, guid: c6577785f9698b140b34a4b747e7e4fe, type: 2}
+  - {fileID: 11400000, guid: 101a683648d2e8d449e8bac5f9f19891, type: 2}
+  - {fileID: 11400000, guid: 50dedbb20a06291488b8755f78c1eb77, type: 2}

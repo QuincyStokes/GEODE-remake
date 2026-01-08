@@ -22,6 +22,7 @@ public class PlayerUIInteraction : MonoBehaviour
     public event Action<IUniqueMenu> OnUniqueMenuOpened;
     public event Action OnUniqueMenuClosed;
     public event Action OnInspectionMenuClosed;
+    
 
     private void Start()
     {

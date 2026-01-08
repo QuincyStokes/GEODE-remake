@@ -57,6 +57,7 @@ public class DayCycleManager : NetworkBehaviour
             //Destroy(gameObject);
             return;
         }
+        becameDay += HandleBecameDay;
     }
 
     void Start()
@@ -72,7 +73,7 @@ public class DayCycleManager : NetworkBehaviour
         sunlight.intensity = intensityCurve.Evaluate(0f);
 
         // After the first full cycle, revert to regular day length
-        becameDay += HandleBecameDay;
+        
 
         _worldSizeX = WorldGenManager.Instance?.WorldSizeX ?? 100f;
     }
