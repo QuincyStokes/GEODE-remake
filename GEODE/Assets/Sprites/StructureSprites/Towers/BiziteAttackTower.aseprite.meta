@@ -217,9 +217,9 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 4
-      y: 10
+      y: 8
       width: 28
-      height: 38
+      height: 37
     spriteID: 45fc7d7cd6ef1b64bad1c89cb8493c23
     spriteBone: []
     spriteOutline: []
@@ -258,10 +258,10 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 40
-      y: 61
+      x: 4
+      y: 196
       width: 28
-      height: 38
+      height: 37
     spriteID: cb8c6ea8c6f02e642a842bb2461f97c4
     spriteBone: []
     spriteOutline: []
@@ -280,10 +280,52 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 90
-      y: 5
+      y: 4
       width: 32
       height: 40
     spriteID: 886a067bbc428814cb6fb8b2fa685a2a
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: BiziteAttackTower_5
+    originalName: 
+    pivot: {x: 0.5, y: 0}
+    alignment: 7
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 151
+      width: 28
+      height: 37
+    spriteID: d6da947cd0c7c0e4ea629c0edfbc7a4c
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: BiziteAttackTower_6
+    originalName: 
+    pivot: {x: 0.5, y: 0}
+    alignment: 7
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 106
+      width: 28
+      height: 37
+    spriteID: 3667a9b67f15cd743a3b6e62448a0688
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -314,19 +356,37 @@ ScriptedImporter:
       additiveSortOrder: 0
       cellRect:
         x: 9
-        y: 6
+        y: 4
         width: 28
-        height: 38
+        height: 37
       spriteId: 6a6281b7d04f07f47b3dffd7fb09c0e6
     - name: Frame_2
       frameIndex: 2
       additiveSortOrder: 0
       cellRect:
         x: 9
-        y: 6
+        y: 4
         width: 28
-        height: 38
+        height: 37
       spriteId: 595c552af501e824da814ba1be7459a3
+    - name: Frame_3
+      frameIndex: 3
+      additiveSortOrder: 0
+      cellRect:
+        x: 9
+        y: 4
+        width: 28
+        height: 37
+      spriteId: cf4a3b3fc0123c742a77cec847bccf03
+    - name: Frame_4
+      frameIndex: 4
+      additiveSortOrder: 0
+      cellRect:
+        x: 9
+        y: 4
+        width: 28
+        height: 37
+      spriteId: f1e1d4dfbb34a304a9ac8c787f94362c
     linkedCells: []
     parentIndex: -1
   platformSettings:
@@ -382,4 +442,4 @@ ScriptedImporter:
   secondarySpriteTextures: []
   spritePackingTag: 
   canvasSize: {x: 138, y: 90}
-  previousTextureSize: {x: 128, y: 128}
+  previousTextureSize: {x: 128, y: 256}

@@ -9,7 +9,7 @@ AnimatorOverrideController:
   m_Name: BiziteAttackTower
   m_Controller: {fileID: 9100000, guid: 4cd663d02c4802a40b2ab135abc69d96, type: 2}
   m_Clips:
-  - m_OriginalClip: {fileID: 7400000, guid: 6df684b5b8a165c449ab8fbea670f19d, type: 2}
-    m_OverrideClip: {fileID: 7400000, guid: 5e4140d6c7e116a4a8d94f5beefd7e79, type: 2}
   - m_OriginalClip: {fileID: 7400000, guid: 53f0aeae8cdc1654da5242dd3e0f4abd, type: 2}
-    m_OverrideClip: {fileID: 7400000, guid: 42ada2cf756bf364ba61b4a8e8a91751, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 4b50225dbd5d35d4995ad1ed732efd1c, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 6df684b5b8a165c449ab8fbea670f19d, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: b42c9dcde1c7a7147bbbe5487125641c, type: 2}

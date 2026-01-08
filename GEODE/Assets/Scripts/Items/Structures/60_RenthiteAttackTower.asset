@@ -15,7 +15,8 @@ MonoBehaviour:
   name: Renthite Attack Tower
   description: High damage, high range, slow speed. Shoots a charged renthite particle.
   type: 2
-  icon: {fileID: 2904818261454649106, guid: bfe7ff642c25ae14c856dfeeb0409067, type: 3}
+  subType: 0
+  icon: {fileID: 7619776908920164079, guid: bfe7ff642c25ae14c856dfeeb0409067, type: 3}
   id: 60
   isStackable: 1
   consumeOnUse: 1

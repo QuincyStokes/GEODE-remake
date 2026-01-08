@@ -15,7 +15,8 @@ MonoBehaviour:
   name: Yeedrite Attack Tower
   description: A fast AOE tower, deals low damage to everything in it's range.
   type: 2
-  icon: {fileID: 5651107894671026674, guid: a04f492ea56207b478a938e767d7d631, type: 3}
+  subType: 0
+  icon: {fileID: -7896816272064693867, guid: a04f492ea56207b478a938e767d7d631, type: 3}
   id: 61
   isStackable: 1
   consumeOnUse: 1
