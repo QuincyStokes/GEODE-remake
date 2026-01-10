@@ -447,7 +447,7 @@ MonoBehaviour:
   collisionHitbox: {fileID: 7353230197057809634}
   aggroRadius: {fileID: 4507244449337361817}
   EnemyName: Renthite Boar
-  attackDamage: 25
+  attackDamage: 18
   attackRange: 6
   movementSpeed: 2
   BASE_MAX_HEALTH: 150

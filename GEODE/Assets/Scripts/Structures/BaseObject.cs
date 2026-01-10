@@ -50,7 +50,7 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
     [Header("Private References")]
     [SerializeField] protected SpriteRenderer sr;
     [SerializeField] private Collider2D collisionHitbox;
-
+    [SerializeField] private Animator animator;
     //* ------------------ Internal Use -------------------- */
     [HideInInspector] public NetworkVariable<int> matchingItemId = new NetworkVariable<int>(-1);
     private int healthState = -1;
@@ -170,7 +170,17 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
 
         if (CurrentHealth.Value <= 0)
         {
-            DestroyThisServerRpc(info.dropItems);
+            //If we have an animator, use it's death animation to trigger the destruction. If not, just destroy.
+            if(animator == null)
+            {
+                DestroyThisServerRpc(info.dropItems); 
+            }
+            else
+            {
+                animator.SetTrigger("Death");
+            }
+            
+            
             return true;
         }
         else
@@ -321,6 +331,11 @@ public abstract class BaseObject : NetworkBehaviour, IDamageable
         if(healthStateChangeSoundId != SoundId.NONE)
             AudioManager.Instance.PlayClientRpc(healthStateChangeSoundId, transform.position);
         ParticleService.Instance.PlayClientRpc(destroyParticleEffectType, particleSpawnPoint.position);
-        //TODO here could do lighting changes
+        //TODO  could do lighting changes
+    }
+
+    public void DestroyThis()
+    {
+        DestroyThisServerRpc(true);
     }
 }

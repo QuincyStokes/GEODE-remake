@@ -14,7 +14,7 @@ public class AttackState : BaseEnemyState
         owner.animator.ResetTrigger("Attack");        
         owner.animator.SetTrigger("Attack");          
 
-        currentPhase = Phase.Windup;
+        currentPhase = Phase.Execute;
         phaseTimer   = 0f;        
     }
 
@@ -34,9 +34,6 @@ public class AttackState : BaseEnemyState
                 break;
 
             case Phase.Execute:
-
-                owner.animator.SetTrigger("Attack");
-                
                 phaseTimer = owner.attackRecoveryTime;
                 currentPhase = Phase.Recovery;
                 break;

@@ -17,8 +17,8 @@ public class PathToPlayerState : BaseEnemyState
 
     public override void ExitState(BaseEnemy owner, EnemyStateMachine stateMachine)
     {
-        owner.playerTransform = null;
-        owner.currentTarget = null;
+        ///owner.playerTransform = null;
+        //owner.currentTarget = null;
         owner.animator.SetBool("Move", false);
     }
 

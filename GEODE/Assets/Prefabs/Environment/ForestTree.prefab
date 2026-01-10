@@ -44,6 +44,8 @@ GameObject:
   - component: {fileID: -5205301784457108778}
   - component: {fileID: -1567724308649283714}
   - component: {fileID: 5984336060802938259}
+  - component: {fileID: 1059111971603065208}
+  - component: {fileID: 4157183678752999646}
   m_Layer: 0
   m_Name: ForestTree
   m_TagString: EnvironmentObject
@@ -184,14 +186,10 @@ MonoBehaviour:
     minAmount: 6
     maxAmount: 8
     chance: 100
-    minItemQuality: 0
-    maxItemQuality: 0
   - Id: 24
     minAmount: 0
     maxAmount: 2
     chance: 100
-    minItemQuality: 0
-    maxItemQuality: 0
   droppedXp: 10
   healthStateSprites:
   - {fileID: -3034182424693757178, guid: d2560cf045649bf42b93c85f1e462a98, type: 3}
@@ -209,8 +207,46 @@ MonoBehaviour:
   objectSprite: {fileID: 0}
   sr: {fileID: 0}
   collisionHitbox: {fileID: 9018619495699395412}
+  animator: {fileID: 1059111971603065208}
   matchingItemId:
     m_InternalValue: -1
+--- !u!95 &1059111971603065208
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963850577847330231}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 22100000, guid: c29fabecbe8a04746befb9f89ef48d1a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4157183678752999646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963850577847330231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  TransitionStateInfoList: []
+  m_Animator: {fileID: 1059111971603065208}
 --- !u!1 &1505347995116985693
 GameObject:
   m_ObjectHideFlags: 0

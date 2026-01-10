@@ -426,7 +426,7 @@ MonoBehaviour:
   collisionHitbox: {fileID: 7353230197057809634}
   aggroRadius: {fileID: 4507244449337361817}
   EnemyName: Bizite Boar
-  attackDamage: 15
+  attackDamage: 13
   attackRange: 7
   movementSpeed: 2
   BASE_MAX_HEALTH: 100

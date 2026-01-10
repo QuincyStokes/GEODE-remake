@@ -144,6 +144,7 @@ GameObject:
   - component: {fileID: -1728568318042555414}
   - component: {fileID: -5584132924107409593}
   - component: {fileID: 7529114642573329399}
+  - component: {fileID: 9128065899573468270}
   m_Layer: 0
   m_Name: ForestBoulder1
   m_TagString: EnvironmentObject
@@ -284,8 +285,6 @@ MonoBehaviour:
     minAmount: 3
     maxAmount: 6
     chance: 100
-    minItemQuality: 0
-    maxItemQuality: 0
   droppedXp: 15
   healthStateSprites:
   - {fileID: 785668125594142257, guid: 21120eddd49cac742a493a81bda4f73d, type: 3}
@@ -303,8 +302,31 @@ MonoBehaviour:
   objectSprite: {fileID: 0}
   sr: {fileID: 0}
   collisionHitbox: {fileID: 6556151738904023588}
+  animator: {fileID: 0}
   matchingItemId:
     m_InternalValue: -1
+--- !u!95 &9128065899573468270
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5294732903785832720}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7384950776458695469
 GameObject:
   m_ObjectHideFlags: 0

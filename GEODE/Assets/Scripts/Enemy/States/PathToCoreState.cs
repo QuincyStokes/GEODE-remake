@@ -95,15 +95,8 @@ public class PathToCoreState : BaseEnemyState
         float distance = Vector2.Distance(nearestCorePoint, owner.transform.position);
         if (attackTimer >= owner.attackCooldown && distance <= owner.attackRange)
         {
-            
-            // if current target is in range, attack!
-            //if (Vector3.Distance(owner.targetClosestPoint, owner.transform.position) <= owner.attackRange)
-            //{
-                //Switch to attack state\
-
-            //no need to check range again
             stateMachine.ChangeState(stateMachine.attackState);
-            //}
+
         }
     }
 }

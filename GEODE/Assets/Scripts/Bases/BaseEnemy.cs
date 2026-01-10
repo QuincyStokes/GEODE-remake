@@ -93,12 +93,12 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
 
 
     //*         ---------------------------- INTERNAL ----------------------------
-    [HideInInspector] public Transform coreTransform;
-    [HideInInspector] public Vector2 corePosition;
-    [HideInInspector] public Transform playerTransform;
-    [HideInInspector] public IDamageable currentTarget;
-    [HideInInspector] public Vector2 targetClosestPoint;
-    [HideInInspector] public Vector2 externalVelocity;
+    public Transform coreTransform;
+    public Vector2 corePosition;
+    public Transform playerTransform;
+    public IDamageable currentTarget;
+    public Vector2 targetClosestPoint;
+    public Vector2 externalVelocity;
     private ulong lastAttackerClientId;
 
 
@@ -327,7 +327,7 @@ public abstract class BaseEnemy : NetworkBehaviour, IDamageable, IKnockbackable,
 
         if (CurrentHealth.Value <= 0)
         {
-            //animator.SetTrigger("Death");
+            
             stateMachine.ChangeState(stateMachine.deathState);
             return true;
         }
