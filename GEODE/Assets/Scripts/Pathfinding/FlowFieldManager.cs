@@ -178,18 +178,30 @@ public class FlowFieldManager : NetworkBehaviour
             }
         }
 
-        //now we run BFS
-            Queue<Vector2Int> queue = new Queue<Vector2Int>();
-
+        //mark the Core's 2x2 tiles as walkable for flow field purposes (enemies need to approach them)
+        //and initialize them as goal cells
         Vector2Int centerPosition = new Vector2Int(fieldWidth/2, fieldHeight/2);
-        //initialize goal cell
-        flowField[centerPosition.x, centerPosition.y].integrationCost = 0;
-        //queue.Enqueue(centerPosition);
+        Vector2Int[] coreGoalCells = new Vector2Int[]
+        {
+            new Vector2Int(centerPosition.x, centerPosition.y),         //bottom-left
+            new Vector2Int(centerPosition.x + 1, centerPosition.y),     //bottom-right
+            new Vector2Int(centerPosition.x, centerPosition.y + 1),     //top-left
+            new Vector2Int(centerPosition.x + 1, centerPosition.y + 1)  //top-right
+        };
 
-        //chatgpt says to try this
-        //Vector2Int coreCell = WorldToFlowFieldPositionClamped(new Vector3(corePosition.x, corePosition.y));
-        //flowField[coreCell.x, coreCell.y].integrationCost = 0;
-        queue.Enqueue(centerPosition);
+        //now we run BFS
+        Queue<Vector2Int> queue = new Queue<Vector2Int>();
+
+        //initialize all four Core goal cells
+        foreach(Vector2Int goalCell in coreGoalCells)
+        {
+            if(IsInBounds(goalCell))
+            {
+                flowField[goalCell.x, goalCell.y].isWalkable = true; //mark as walkable so enemies can approach
+                flowField[goalCell.x, goalCell.y].integrationCost = 0;
+                queue.Enqueue(goalCell);
+            }
+        }
 
         //BFS from the goal outward
         while(queue.Count > 0)
