@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MusicData
   musicId: 1
   clips:
-  - {fileID: 8300000, guid: bffc1661f727eba43a816b555d5e2e9f, type: 3}
+  - {fileID: 8300000, guid: ca99202c40d00094c8e386a652388c04, type: 3}
   defaultVolume: 0.1
   amg: {fileID: -5895180641601220540, guid: 089a1120065f0854bb68d7b341999f56, type: 2}

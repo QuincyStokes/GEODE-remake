@@ -35,8 +35,11 @@ public class AudioManager : NetworkBehaviour
 
     //* ----------- Audio Source Pool ----------- */
     [SerializeField] private int srcPoolSize;
-    private AudioSource bgMusicSource;
+    private AudioSource bgMusicSource1;
+    private AudioSource bgMusicSource2;
+    private AudioSource currentBgMusicSource;
     private List<AudioSource> srcPool;
+
 
     //* ----------- Background Music -------------- */
     private Coroutine currentFade;
@@ -81,9 +84,13 @@ public class AudioManager : NetworkBehaviour
 
 
         //Create Background music AudioSource
-        GameObject bgmSource = new();
-        bgmSource.transform.SetParent(transform);
-        bgMusicSource = bgmSource.AddComponent<AudioSource>();
+        GameObject bgmSource1 = new();
+        bgmSource1.transform.SetParent(transform);
+        bgMusicSource1 = bgmSource1.AddComponent<AudioSource>();
+
+        GameObject bgmSource2 = new();
+        bgmSource2.transform.SetParent(transform);
+        bgMusicSource2 = bgmSource2.AddComponent<AudioSource>();
     }
 
     private void InitializeSoundDatabase()
@@ -176,7 +183,7 @@ public class AudioManager : NetworkBehaviour
 
     public void StopMusic()
     {
-        if (bgMusicSource.isPlaying)
+        if (currentBgMusicSource.isPlaying)
         {
             //Stop any other fade or music going on right now.
             if (currentFade != null) { StopCoroutine(currentFade); }
@@ -190,16 +197,16 @@ public class AudioManager : NetworkBehaviour
     private IEnumerator DoStopMusic()
     {
         float elapsed = 0f;
-        float startVolume = bgMusicSource.volume;
+        float startVolume = currentBgMusicSource.volume;
         while (elapsed < fadeTime)
         {
             elapsed += Time.deltaTime;
             float t = 1 - (elapsed / fadeTime);
-            bgMusicSource.volume = t * startVolume;
+            currentBgMusicSource.volume = t * startVolume;
             yield return null;
         }
-        bgMusicSource.volume = 0f;
-        bgMusicSource.Stop();
+        currentBgMusicSource.volume = 0f;
+        currentBgMusicSource.Stop();
     }
 
     private IEnumerator DoMusic(MusicData data)
@@ -207,42 +214,49 @@ public class AudioManager : NetworkBehaviour
         //if there's already music playing, need to fade out
         float elapsed = 0f;
         
-        if (bgMusicSource.isPlaying)
+        if (currentBgMusicSource.isPlaying)
         {
             float startVolume;
-            startVolume = bgMusicSource.volume;
+            startVolume = currentBgMusicSource.volume;
             while (elapsed < fadeTime)
             {
                 elapsed += Time.deltaTime;
                 float t = 1 - (elapsed / fadeTime);
                 
-                bgMusicSource.volume = t * startVolume;
+                currentBgMusicSource.volume = t * startVolume;
                 yield return null;
             }
         }
-        bgMusicSource.outputAudioMixerGroup = data.amg;
-        bgMusicSource.spatialBlend = 0f;
-        bgMusicSource.volume = 0f;
+        currentBgMusicSource.outputAudioMixerGroup = data.amg;
+        currentBgMusicSource.spatialBlend = 0f;
+        currentBgMusicSource.volume = 0f;
         //we're here, which means the previous background music (if there was one) is done playing
         
         //now, Fade in new track
         elapsed = 0f;
         float targetVolume = data.defaultVolume;
         Debug.Log($"Target Volume: {data.defaultVolume}");
-        bgMusicSource.clip = data.clips[UnityEngine.Random.Range(0, data.clips.Length)];
-        if (bgMusicSource.clip == null) yield break;
-        bgMusicSource.Play();
-        currentSongTimer = StartCoroutine(MusicTimer(bgMusicSource.clip));
+        currentBgMusicSource.clip = data.clips[UnityEngine.Random.Range(0, data.clips.Length)];
+        if (currentBgMusicSource.clip == null) yield break;
+        currentBgMusicSource.Play();
+        currentSongTimer = StartCoroutine(MusicTimer(currentBgMusicSource.clip));
         while (elapsed < fadeTime)
         {
             elapsed += Time.deltaTime;
             float t = elapsed / fadeTime;
 
-            bgMusicSource.volume = t * targetVolume;
+            currentBgMusicSource.volume = t * targetVolume;
             yield return null;
         }
-        bgMusicSource.volume = data.defaultVolume;
+        currentBgMusicSource.volume = data.defaultVolume;
     }
+
+    // private IEnumerator DoMusic(MusicData data, float seconds)
+    // {
+    //     float elapsed = 0f;
+
+
+    // }
 
     private IEnumerator MusicTimer(AudioClip clip)
     {
